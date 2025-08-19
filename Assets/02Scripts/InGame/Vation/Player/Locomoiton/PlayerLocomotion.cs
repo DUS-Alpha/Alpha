@@ -1,17 +1,18 @@
+using System;
 using UnityEngine;
 using UnityEngine.Windows;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerLocomotion : MonoBehaviour
 {
-    [Header(" [Ref Component] ")]
+    [Header("[ Ref Component ]")]
     [SerializeField]
     private CharacterController m_characterController;
     [SerializeField]
     private Camera m_mainCamera;
     [Space(10)]
 
-    [Header(" [HandleMove Config] ")]
+    [Header("[ HandleMove Config ]")]
     [SerializeField]
     private float m_walkSpeed = 2f;
     [SerializeField]
@@ -20,14 +21,25 @@ public class PlayerLocomotion : MonoBehaviour
     private float m_speedLerpRate = 10f;
     [Space(10)]
 
-    [Header(" [HandleRotate Config] ")]
+    [Header("[ HandleRotate Config ]")]
     private float m_rotationSmoothTime = 0.2f;
     private float m_currentSmoothVelocityX = 0;
     private float m_currentSmoothVelocityY = 0;
     private float m_currentSmoothVelocityZ = 0;
 
+    [Header("[ Ground ]")]
+    [SerializeField]
+    private LayerMask m_groundMask;
+    [SerializeField] 
+    private float m_groundDistance = 0.25f;
+
+    [Header("[ Jump ]")]
+    [SerializeField]
+    private float m_jumpForce;
+
+    public float CurrentSpeed { get; private set; }
+    public bool IsGround { get; private set; }
     private Vector3 m_moveDirByCamera;
-    public float m_currentSpeed { get; private set; }
 
     private void Awake()
     {
@@ -36,19 +48,47 @@ public class PlayerLocomotion : MonoBehaviour
 
     public void Initialize()
     {
-
+        
     }
 
-    public void HandleMove(Vector3 moveDir, bool isSprint)
+    private void Update()
+    {
+        CheckGround();
+    }
+
+    #region ================================================================================ Movement
+
+    /// <summary>
+    /// Move, Rotate, MoveAni 동시 처리
+    /// </summary>
+    /// <param name="payerCore"></param>
+    /// <returns></returns>
+    public Vector3 LocomotionMovement(PlayerCore payerCore)
+    {
+        PlayerInputHandler _input = payerCore.InputHandler;
+        PlayerAnimationController _aniController = payerCore.AniController;
+
+        Vector3 _moveDir = _input.MoveDir;
+        bool _isSprint = _input.IsSprint;
+        bool _isFly = _input.IsFly;
+
+        HandleMove(_moveDir, _isSprint);
+        HandleRotate(_isFly);
+
+        _aniController.GroundMoveAni(CurrentSpeed);
+        return _moveDir;
+    }
+
+    private void HandleMove(Vector3 moveDir, bool isSprint)
     {
         if (moveDir.magnitude <= 0.1f)
         {
-            m_currentSpeed = 0;
+            CurrentSpeed = 0;
             return;
         }
         float targetSpeed = isSprint ? m_sprintSpeed : m_walkSpeed;
 
-        m_currentSpeed = Mathf.Lerp(m_currentSpeed, targetSpeed, Time.deltaTime * m_speedLerpRate);
+        CurrentSpeed = Mathf.Lerp(CurrentSpeed, targetSpeed, Time.deltaTime * m_speedLerpRate);
 
         // TPS에서 이동 방식중 카메라 앞 기준 이동 방식
         Vector3 _forward = m_mainCamera.transform.forward;
@@ -56,10 +96,10 @@ public class PlayerLocomotion : MonoBehaviour
         Vector3 _right = m_mainCamera.transform.right;
 
         m_moveDirByCamera = (_right * moveDir.x) + (_forward * moveDir.z);
-        m_characterController.Move(m_moveDirByCamera * Time.deltaTime * m_currentSpeed);
+        m_characterController.Move(m_moveDirByCamera * Time.deltaTime * CurrentSpeed);
     }
 
-    public void HandleRotate(bool isFly)
+    private void HandleRotate(bool isFly)
     {
         if (m_moveDirByCamera == Vector3.zero) return;
 
@@ -99,4 +139,21 @@ public class PlayerLocomotion : MonoBehaviour
         else
             transform.rotation = Quaternion.Euler(smoothX, smoothY, smoothZ);
     }
+    #endregion ================================================================================ /Movement
+
+    #region ================================================================================ Ground
+    private void CheckGround()
+    {
+        // m_characterController.center 바닥에서 조금 띄어져있는 상태
+        Vector3 _center = m_characterController.center;
+        float _height = m_characterController.height;
+
+        Vector3 _colliderButtomtr = _center - (Vector3.up * (_height * 0.5f));
+
+        IsGround = Physics.CheckSphere(_colliderButtomtr, m_groundDistance, m_groundMask);
+
+        Debug.DrawLine(_colliderButtomtr, _colliderButtomtr + (Vector3.down * m_groundDistance), Color.red);
+        Debug.Log(IsGround);
+    }
+    #endregion ================================================================================ /Ground
 }

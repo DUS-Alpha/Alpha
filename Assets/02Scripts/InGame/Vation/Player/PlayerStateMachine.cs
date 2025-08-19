@@ -2,20 +2,24 @@ using UnityEngine;
 
 public class PlayerStateMachine : MonoBehaviour
 {
-    private PlayerState m_currentState;
-    void Start()
+    public PlayerState CurrentState { get; private set; }
+    //private PlayerCore m_playerCore;
+
+    public void Initialize(PlayerCore playerCore)
     {
-        
+        //m_playerCore = playerCore;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        CurrentState.Update();
     }
 
-    public void ChangeState(PlayerState newState)
-    { 
-    
+    public void SwitchState(PlayerState newState)
+    {
+        if (newState == CurrentState) return;
+        CurrentState?.Exit();
+        CurrentState = newState;
+        CurrentState.Enter();
     }
 }

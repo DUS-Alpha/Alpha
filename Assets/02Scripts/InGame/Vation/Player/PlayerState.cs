@@ -1,16 +1,20 @@
 using UnityEngine;
 
-public class PlayerState : MonoBehaviour
+public abstract class PlayerState
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    protected PlayerCore m_PlayerCore;
 
-    // Update is called once per frame
-    void Update()
+    public PlayerState(PlayerCore playerCore)
     {
-        
+        m_PlayerCore = playerCore;
+        DebugCurrentState();
     }
+    private void DebugCurrentState()
+    {
+        Debug.Log(GetType().Name);
+    }
+    public abstract void Enter();
+    public abstract void FixedUpdate();
+    public abstract void Update();
+    public abstract void Exit();
 }
