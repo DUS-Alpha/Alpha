@@ -4,6 +4,9 @@ using UnityEngine;
 public class EnemyStateManager : MonoBehaviour
 {
     public IEnemyState CurrentState;
+    
+    //플레이어 타겟
+    public Transform Target;
 
 
     void Start()

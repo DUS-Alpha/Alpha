@@ -18,7 +18,7 @@ public class AttackState : IEnemyState
                    // 필요하면 여기서 초기화 (예: Target을 EnemyStateManager에서 끌어와 연결)
                    // EnemyStateManager에 target이 있다면:
                    // Target = enemy.target
-                   Target = null // ← 지금은 비워둠. 나중에 네가 연결
+                   Target = enemy.Target // ← 지금은 비워둠. 나중에 네가 연결
                };
                _actions.SetBlackboard(bb);
        
@@ -59,8 +59,11 @@ public class AttackState : IEnemyState
                INode SelectorNode = new SelectorNode(
                     new ActionNode(() => _actions.Fire())
                );
-               
-               //셀렉터를 사용하고싶으면 추가 
+
+               INode TestNode = new SequenceNode(
+                   new ActionNode(() => _actions.Approach()),
+                   new ActionNode(() => _actions.IsNearbyPlayer())
+               );
                
         
                
@@ -72,7 +75,7 @@ public class AttackState : IEnemyState
                // });
        
                //생성된 노드를 기반으로 루트가  INode root = new SequenceNode 인 트리를 실행
-               _runner.SetTree(SelectorRoot);
+               _runner.SetTree(TestNode);
                _runner.StartTree();
                
                // 기즈모 컴포넌트도 보스에게 붙여두면 편함

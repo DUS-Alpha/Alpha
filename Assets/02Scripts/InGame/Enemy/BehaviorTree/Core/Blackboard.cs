@@ -25,6 +25,10 @@ public class Blackboard
     {
         Owner = owner;
         OwnerTransform = owner.transform;
+        if (owner.GetComponent<NavMeshAgent>() == null)
+        {
+            Debug.LogWarning("Blackboard could not find NavMeshAgent");
+        }
         Agent = owner.GetComponent<NavMeshAgent>();
     }
 
