@@ -6,22 +6,22 @@ public class PlayerFallState : PlayerLocomotionState
 
     public override void Enter()
     {
-        throw new System.NotImplementedException();
+        
     }
     public override void FixedUpdate()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public override void Update()
     {
-        throw new System.NotImplementedException();
+        m_Locomotion.ApplyGravity();
+        if(m_Locomotion.IsGrounded)
+            m_PlayerCore.SwitchState(new PlayerIdleState(m_PlayerCore));
     }
 
     public override void Exit()
     {
-        throw new System.NotImplementedException();
+       
     }
-
-   
 }

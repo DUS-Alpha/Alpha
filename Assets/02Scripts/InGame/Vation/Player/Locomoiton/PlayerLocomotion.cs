@@ -34,15 +34,18 @@ public class PlayerLocomotion : MonoBehaviour
     [SerializeField] 
     private float m_groundDistance = 0.25f;
 
-    [Header("[ HandleGravity ]")]
+    [Header("[ ApplyGravity ]")]
     [SerializeField]
     private float m_jumpHeight = 5f;
 
     public float CurrentSpeed { get; private set; }
     public bool IsGrounded { get; private set; }
-    private Vector3 m_moveDirByCamera;
+    public Vector3 Velocity => m_velocity;
     private Vector3 m_velocity;
+    private Vector3 m_moveDirByCamera;
     private PlayerCore m_playerCore;
+    private bool m_isJump;
+    private float m_lastGroundTime;
     private void Awake()
     {
         m_characterController = GetComponent<CharacterController>();
@@ -55,7 +58,7 @@ public class PlayerLocomotion : MonoBehaviour
 
     private void Update()
     {
-        CheckGround();
+        
     }
 
     #region ================================================================================ Movement
@@ -67,6 +70,8 @@ public class PlayerLocomotion : MonoBehaviour
     /// <returns></returns>
     public Vector3 LocomotionMovement()
     {
+        CheckGround();
+
         PlayerInputHandler _input = m_playerCore.InputHandler;
         PlayerAnimationController _aniController = m_playerCore.AniController;
 
@@ -150,19 +155,26 @@ public class PlayerLocomotion : MonoBehaviour
         Vector3 _center = m_characterController.center;
         float _height = m_characterController.height;
 
-        Vector3 _colliderButtomtr = _center - (Vector3.up * (_height * 0.5f));
+        Vector3 _colliderButtomtr = transform.position + _center - (Vector3.up * (_height * 0.5f - m_characterController.skinWidth));
 
-        IsGrounded = Physics.CheckSphere(_colliderButtomtr, m_groundDistance, m_groundMask);
+        bool _groundCheck = Physics.CheckSphere(_colliderButtomtr, m_groundDistance, m_groundMask);
+        
+        if(_groundCheck)
+        {
+            m_lastGroundTime = Time.time;
+        }
 
-        Debug.DrawLine(_colliderButtomtr, _colliderButtomtr + (Vector3.down * m_groundDistance), Color.red);
-        Debug.Log(IsGrounded);
-        if(IsGrounded)
+        IsGrounded = (Time.time - m_lastGroundTime) <= 0.1f;
+
+        if (!m_isJump && IsGrounded)
         {
             m_velocity.y = -2f;
         }
 
         // Ground Anim Parameter
         m_playerCore.AniController.SetIsGround(IsGrounded);
+        
+        Debug.DrawLine(_colliderButtomtr, _colliderButtomtr + (Vector3.down * m_groundDistance), Color.red);
     }
     #endregion ================================================================================ /Ground
 
@@ -170,27 +182,32 @@ public class PlayerLocomotion : MonoBehaviour
 
     public void JumpStart()
     {
+        m_isJump = true;
+        IsGrounded = false;
         float _gravity = Physics.gravity.y;
 
         //등가속도운동 적용
         m_velocity.y = Mathf.Sqrt(m_jumpHeight * -2f * _gravity);   // m_jumpHeight = 점프 힘이기도함
         
-        m_playerCore.AniController.JumpAni(true);
-    }
-    public void JumpUpdate()
-    {
-        Vector3 _jumpMove = m_moveDirByCamera * (CurrentSpeed * 0.7f) + m_velocity;
-        m_characterController.Move(_jumpMove * Time.deltaTime);
+        m_playerCore.AniController.JumpAni(m_isJump);
+        m_playerCore.AniController.SetIsGround(IsGrounded);
     }
     public void JumpExit()
     {
-        m_playerCore.AniController.JumpAni(false);
+        m_isJump = false;
+        m_playerCore.AniController.JumpAni(m_isJump);
+        m_playerCore.AniController.SetIsGround(IsGrounded);
     }
-    public void HandleGravity()
+    public void ApplyGravity()
     {
         // 점프 m_velocity적용 후 중력 적용
         m_velocity.y += Physics.gravity.y * Time.deltaTime;
-        m_characterController.Move(m_moveDirByCamera * Time.deltaTime * CurrentSpeed);
+        
+        // 이동 방향과 중력
+        Vector3 _jumpMove = m_moveDirByCamera * (CurrentSpeed * 0.7f) + m_velocity;
+        m_characterController.Move(_jumpMove * Time.deltaTime);
+
+        CheckGround();
     }
     #endregion ================================================================================ /Jump
 }

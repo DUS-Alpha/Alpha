@@ -16,7 +16,11 @@ public class PlayerJumpState : PlayerLocomotionState
 
     public override void Update()
     {
-        m_Locomotion.JumpUpdate();
+        m_Locomotion.ApplyGravity();
+        if (m_Locomotion.Velocity.y <= 0 && !m_Locomotion.IsGrounded)
+        {
+            m_PlayerCore.SwitchState(new PlayerFallState(m_PlayerCore));
+        }
     }
 
     public override void Exit()
