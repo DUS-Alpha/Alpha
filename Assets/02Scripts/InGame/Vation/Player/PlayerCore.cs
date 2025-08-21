@@ -13,7 +13,7 @@ public class PlayerCore : MonoBehaviour
     public PlayerStateMachine StateMachine;
     public PlayerLocomotion Locomotion;
     public PlayerCombat Combat;
-
+    public bool isAction = false;
     private void Awake()
     {
         InputHandler = GetComponent<PlayerInputHandler>();
@@ -26,7 +26,7 @@ public class PlayerCore : MonoBehaviour
 
     public void Initialize()
     {
-        Locomotion.Initialize();
+        Locomotion.Initialize(this);
         Combat.Initialize();
         StateMachine.Initialize(this);
     }

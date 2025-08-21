@@ -1,16 +1,27 @@
 using UnityEngine;
 
-public class PlayerFallState : MonoBehaviour
+public class PlayerFallState : PlayerLocomotionState
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public PlayerFallState(PlayerCore playerCore) : base(playerCore){}
+
+    public override void Enter()
     {
-        
+        throw new System.NotImplementedException();
+    }
+    public override void FixedUpdate()
+    {
+        throw new System.NotImplementedException();
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Update()
     {
-        
+        throw new System.NotImplementedException();
     }
+
+    public override void Exit()
+    {
+        throw new System.NotImplementedException();
+    }
+
+   
 }

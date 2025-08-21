@@ -1,16 +1,26 @@
 using UnityEngine;
 
-public class PlayerJumpState : MonoBehaviour
+public class PlayerJumpState : PlayerLocomotionState
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public PlayerJumpState(PlayerCore playerCore) : base(playerCore){}
+
+    public override void Enter()
+    {
+        m_Locomotion.JumpStart();
+    }
+  
+    public override void FixedUpdate()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Update()
     {
-        
+        m_Locomotion.JumpUpdate();
+    }
+
+    public override void Exit()
+    {
+        m_Locomotion.JumpExit();
     }
 }

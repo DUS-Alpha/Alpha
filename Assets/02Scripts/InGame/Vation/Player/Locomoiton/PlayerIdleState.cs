@@ -18,7 +18,17 @@ public class PlayerIdleState : PlayerLocomotionState
 
     public override void Update()
     {
-       Vector3 _moveDir = m_Locomotion.LocomotionMovement(m_PlayerCore);
+       Vector3 _moveDir = m_Locomotion.LocomotionMovement();
+
+        bool _isJump = m_PlayerCore.InputHandler.IsJump;
+
+        if (_isJump)
+        {
+            if (m_Locomotion.IsGrounded && !m_PlayerCore.isAction)
+            {
+                m_PlayerCore.SwitchState(new PlayerJumpState(m_PlayerCore));
+            }
+        }
 
         if (_moveDir != Vector3.zero)
             m_PlayerCore.SwitchState(new PlayerMoveState(m_PlayerCore));

@@ -14,8 +14,16 @@ public class PlayerAnimationController : MonoBehaviour
     /// Locomotion의 CurrentMoveSpeed 받아오기
     /// </summary>
     /// <param name="moveSpeed"></param>
-    public void GroundMoveAni(float moveSpeed)
+    public void SetGroundMoveAni(float moveSpeed)
     {
         m_animator.SetFloat("MoveSpeed", moveSpeed);
+    }
+    public void SetIsGround(bool isGrounded)
+    {
+        m_animator.SetBool("IsGround", isGrounded);
+    }
+    public void JumpAni(bool isJump)
+    {
+        m_animator.SetBool("IsJump", isJump);
     }
 }

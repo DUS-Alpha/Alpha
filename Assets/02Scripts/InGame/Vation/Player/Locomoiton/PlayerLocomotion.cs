@@ -1,4 +1,5 @@
 using System;
+using Unity.Android.Gradle.Manifest;
 using UnityEngine;
 using UnityEngine.Windows;
 
@@ -33,22 +34,23 @@ public class PlayerLocomotion : MonoBehaviour
     [SerializeField] 
     private float m_groundDistance = 0.25f;
 
-    [Header("[ Jump ]")]
+    [Header("[ HandleGravity ]")]
     [SerializeField]
-    private float m_jumpForce;
+    private float m_jumpHeight = 5f;
 
     public float CurrentSpeed { get; private set; }
-    public bool IsGround { get; private set; }
+    public bool IsGrounded { get; private set; }
     private Vector3 m_moveDirByCamera;
-
+    private Vector3 m_velocity;
+    private PlayerCore m_playerCore;
     private void Awake()
     {
         m_characterController = GetComponent<CharacterController>();
     }
 
-    public void Initialize()
+    public void Initialize(PlayerCore playerCore)
     {
-        
+        m_playerCore = playerCore;
     }
 
     private void Update()
@@ -63,10 +65,10 @@ public class PlayerLocomotion : MonoBehaviour
     /// </summary>
     /// <param name="payerCore"></param>
     /// <returns></returns>
-    public Vector3 LocomotionMovement(PlayerCore payerCore)
+    public Vector3 LocomotionMovement()
     {
-        PlayerInputHandler _input = payerCore.InputHandler;
-        PlayerAnimationController _aniController = payerCore.AniController;
+        PlayerInputHandler _input = m_playerCore.InputHandler;
+        PlayerAnimationController _aniController = m_playerCore.AniController;
 
         Vector3 _moveDir = _input.MoveDir;
         bool _isSprint = _input.IsSprint;
@@ -75,7 +77,7 @@ public class PlayerLocomotion : MonoBehaviour
         HandleMove(_moveDir, _isSprint);
         HandleRotate(_isFly);
 
-        _aniController.GroundMoveAni(CurrentSpeed);
+        _aniController.SetGroundMoveAni(CurrentSpeed);
         return _moveDir;
     }
 
@@ -150,10 +152,45 @@ public class PlayerLocomotion : MonoBehaviour
 
         Vector3 _colliderButtomtr = _center - (Vector3.up * (_height * 0.5f));
 
-        IsGround = Physics.CheckSphere(_colliderButtomtr, m_groundDistance, m_groundMask);
+        IsGrounded = Physics.CheckSphere(_colliderButtomtr, m_groundDistance, m_groundMask);
 
         Debug.DrawLine(_colliderButtomtr, _colliderButtomtr + (Vector3.down * m_groundDistance), Color.red);
-        Debug.Log(IsGround);
+        Debug.Log(IsGrounded);
+        if(IsGrounded)
+        {
+            m_velocity.y = -2f;
+        }
+
+        // Ground Anim Parameter
+        m_playerCore.AniController.SetIsGround(IsGrounded);
     }
     #endregion ================================================================================ /Ground
+
+    #region ================================================================================ Jump
+
+    public void JumpStart()
+    {
+        float _gravity = Physics.gravity.y;
+
+        //등가속도운동 적용
+        m_velocity.y = Mathf.Sqrt(m_jumpHeight * -2f * _gravity);   // m_jumpHeight = 점프 힘이기도함
+        
+        m_playerCore.AniController.JumpAni(true);
+    }
+    public void JumpUpdate()
+    {
+        Vector3 _jumpMove = m_moveDirByCamera * (CurrentSpeed * 0.7f) + m_velocity;
+        m_characterController.Move(_jumpMove * Time.deltaTime);
+    }
+    public void JumpExit()
+    {
+        m_playerCore.AniController.JumpAni(false);
+    }
+    public void HandleGravity()
+    {
+        // 점프 m_velocity적용 후 중력 적용
+        m_velocity.y += Physics.gravity.y * Time.deltaTime;
+        m_characterController.Move(m_moveDirByCamera * Time.deltaTime * CurrentSpeed);
+    }
+    #endregion ================================================================================ /Jump
 }

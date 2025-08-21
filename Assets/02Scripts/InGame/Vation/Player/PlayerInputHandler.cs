@@ -20,6 +20,7 @@ public class PlayerInputHandler : MonoBehaviour
         IsJump = Input.GetKeyDown(KeyCode.Space);
         IsAttack = Input.GetMouseButton(0);
         IsMouseRightDown = Input.GetMouseButtonDown(1);
+        IsFly = Input.GetKeyDown(KeyCode.Q);
     }
 
     private void HandleInputMove()

@@ -1185,6 +1185,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2763090024261597597, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
+      propertyPath: m_jumpHeight
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2763090024261597597, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
       propertyPath: m_mainCamera
       value: 
       objectReference: {fileID: 330585545}
