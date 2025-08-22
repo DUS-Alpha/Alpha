@@ -22,8 +22,18 @@ public class PlayerAnimationController : MonoBehaviour
     {
         m_animator.SetBool("IsGround", isGrounded);
     }
-    public void JumpAni(bool isJump)
+    public void SetJumpAni(bool isJump)
     {
         m_animator.SetBool("IsJump", isJump);
+    }
+    public void SetIsFly(bool isFly, bool isFlyUp)
+    {
+        m_animator.SetBool("IsFly", isFly);
+        m_animator.SetBool("IsFlyUp", isFlyUp);
+    }
+    public void SetFlyMove(float inputX, float inputY)
+    {
+        m_animator.SetFloat("InputX", inputX);
+        m_animator.SetFloat("InputY", inputY);
     }
 }

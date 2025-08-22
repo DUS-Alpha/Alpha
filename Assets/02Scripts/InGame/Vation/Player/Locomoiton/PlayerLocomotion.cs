@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Unity.Android.Gradle.Manifest;
 using UnityEngine;
 using UnityEngine.Windows;
@@ -11,6 +12,9 @@ public class PlayerLocomotion : MonoBehaviour
     private CharacterController m_characterController;
     [SerializeField]
     private Camera m_mainCamera;
+    private LocomotionGroundUtility m_groundUtility;
+    private LocomotionFlyUtility m_FlyUtility;
+
     [Space(10)]
 
     [Header("[ HandleMove Config ]")]
@@ -19,7 +23,13 @@ public class PlayerLocomotion : MonoBehaviour
     [SerializeField]
     private float m_sprintSpeed = 5f;
     [SerializeField]
+    private float m_flySpeed = 4f;
+    [SerializeField]
+    private float m_flySprintSpeed = 7f;
+
+    [SerializeField]
     private float m_speedLerpRate = 10f;
+    private float m_currentSpeed;
     [Space(10)]
 
     [Header("[ HandleRotate Config ]")]
@@ -38,17 +48,21 @@ public class PlayerLocomotion : MonoBehaviour
     [SerializeField]
     private float m_jumpHeight = 5f;
 
-    public float CurrentSpeed { get; private set; }
     public bool IsGrounded { get; private set; }
     public Vector3 Velocity => m_velocity;
     private Vector3 m_velocity;
     private Vector3 m_moveDirByCamera;
     private PlayerCore m_playerCore;
-    private bool m_isJump;
+    private bool m_isJumpKeyDown;
+    private bool m_isFlyUpKey;
     private float m_lastGroundTime;
+    private bool m_isFlyUpStart = false;
+    public bool IsFlyDown { get; private set; }
     private void Awake()
     {
         m_characterController = GetComponent<CharacterController>();
+        m_groundUtility = new LocomotionGroundUtility();
+        m_FlyUtility = new LocomotionFlyUtility();
     }
 
     public void Initialize(PlayerCore playerCore)
@@ -56,95 +70,41 @@ public class PlayerLocomotion : MonoBehaviour
         m_playerCore = playerCore;
     }
 
-    private void Update()
+    private void Start()
     {
         
     }
-
     #region ================================================================================ Movement
-
     /// <summary>
     /// Move, Rotate, MoveAni 동시 처리
     /// </summary>
     /// <param name="payerCore"></param>
     /// <returns></returns>
-    public Vector3 LocomotionMovement()
+    public Vector3 LocomotionGroundMovement()
     {
         CheckGround();
 
-        PlayerInputHandler _input = m_playerCore.InputHandler;
-        PlayerAnimationController _aniController = m_playerCore.AniController;
+        Vector3 _moveDir = m_playerCore.InputHandler.MoveDir;
+        bool _isSprint = m_playerCore.InputHandler.IsSprint;
+        float _targetSpeed = _isSprint ? m_sprintSpeed : m_walkSpeed;
 
-        Vector3 _moveDir = _input.MoveDir;
-        bool _isSprint = _input.IsSprint;
-        bool _isFly = _input.IsFly;
+        HandleMove(_moveDir, _targetSpeed);
+        HandleRotate();
 
-        HandleMove(_moveDir, _isSprint);
-        HandleRotate(_isFly);
-
-        _aniController.SetGroundMoveAni(CurrentSpeed);
+        m_playerCore.AniController.SetGroundMoveAni(m_currentSpeed);
         return _moveDir;
     }
 
-    private void HandleMove(Vector3 moveDir, bool isSprint)
+    // TODO : FlyMove와 리팩토링
+    private void HandleMove(Vector3 moveDir, float targetSpeed)
     {
-        if (moveDir.magnitude <= 0.1f)
-        {
-            CurrentSpeed = 0;
-            return;
-        }
-        float targetSpeed = isSprint ? m_sprintSpeed : m_walkSpeed;
-
-        CurrentSpeed = Mathf.Lerp(CurrentSpeed, targetSpeed, Time.deltaTime * m_speedLerpRate);
-
-        // TPS에서 이동 방식중 카메라 앞 기준 이동 방식
-        Vector3 _forward = m_mainCamera.transform.forward;
-        _forward.y = 0f;    // 이동 시 위를 보고 이동 키 누를시 y값으로 인해 위로 이동되기에 0처리
-        Vector3 _right = m_mainCamera.transform.right;
-
-        m_moveDirByCamera = (_right * moveDir.x) + (_forward * moveDir.z);
-        m_characterController.Move(m_moveDirByCamera * Time.deltaTime * CurrentSpeed);
+       m_currentSpeed = m_groundUtility.HandleMove(moveDir, targetSpeed, m_characterController);
     }
 
-    private void HandleRotate(bool isFly)
+    // FlyRotate와 리팩토링
+    private void HandleRotate()
     {
-        if (m_moveDirByCamera == Vector3.zero) return;
-
-        Quaternion _targetRot = Quaternion.LookRotation(m_moveDirByCamera);
-
-        Vector3 _targetEuler = _targetRot.eulerAngles;
-        Vector3 _currentEuler = transform.eulerAngles;
-
-        // 각 축의 각도변화 Smooth 적용 (부드러운 회전)
-        float smoothX = Mathf.SmoothDampAngle
-                        (
-                        _currentEuler.x, 
-                        _targetEuler.x, 
-                        ref m_currentSmoothVelocityX, 
-                        m_rotationSmoothTime
-                        );
-
-        float smoothY = Mathf.SmoothDampAngle
-                        (
-                        _currentEuler.y, 
-                        _targetEuler.y,
-                        ref m_currentSmoothVelocityY, 
-                        m_rotationSmoothTime
-                        );
-
-        float smoothZ = Mathf.SmoothDampAngle
-                        (
-                        _currentEuler.z, 
-                        _targetEuler.z,
-                        ref m_currentSmoothVelocityZ, 
-                        m_rotationSmoothTime
-                        );
-
-        // 땅에서는 Y축의 각도만 사용하여 회전 적용, Fly상태에서는 전체 축 사용
-        if(!isFly)
-            transform.rotation = Quaternion.Euler(0f, smoothY, 0f);
-        else
-            transform.rotation = Quaternion.Euler(smoothX, smoothY, smoothZ);
+        m_groundUtility.HandleRotate(this.gameObject);
     }
     #endregion ================================================================================ /Movement
 
@@ -166,7 +126,7 @@ public class PlayerLocomotion : MonoBehaviour
 
         IsGrounded = (Time.time - m_lastGroundTime) <= 0.1f;
 
-        if (!m_isJump && IsGrounded)
+        if (!m_isJumpKeyDown && IsGrounded)
         {
             m_velocity.y = -2f;
         }
@@ -179,35 +139,144 @@ public class PlayerLocomotion : MonoBehaviour
     #endregion ================================================================================ /Ground
 
     #region ================================================================================ Jump
-
-    public void JumpStart()
-    {
-        m_isJump = true;
-        IsGrounded = false;
-        float _gravity = Physics.gravity.y;
-
-        //등가속도운동 적용
-        m_velocity.y = Mathf.Sqrt(m_jumpHeight * -2f * _gravity);   // m_jumpHeight = 점프 힘이기도함
-        
-        m_playerCore.AniController.JumpAni(m_isJump);
-        m_playerCore.AniController.SetIsGround(IsGrounded);
-    }
-    public void JumpExit()
-    {
-        m_isJump = false;
-        m_playerCore.AniController.JumpAni(m_isJump);
-        m_playerCore.AniController.SetIsGround(IsGrounded);
-    }
     public void ApplyGravity()
     {
         // 점프 m_velocity적용 후 중력 적용
         m_velocity.y += Physics.gravity.y * Time.deltaTime;
-        
+
         // 이동 방향과 중력
-        Vector3 _jumpMove = m_moveDirByCamera * (CurrentSpeed * 0.7f) + m_velocity;
+        Vector3 _jumpMove = m_moveDirByCamera * (m_currentSpeed * 0.7f) + m_velocity;
         m_characterController.Move(_jumpMove * Time.deltaTime);
 
         CheckGround();
     }
+    public void JumpStart()
+    {
+        m_isJumpKeyDown = true;
+        IsGrounded = false;
+        float _gravity = Physics.gravity.y;
+
+        //등가속도운동 적용 (노션 참고)
+        m_velocity.y = Mathf.Sqrt(m_jumpHeight * -2f * _gravity);   // m_jumpHeight = 점프 힘이기도함
+        
+        m_playerCore.AniController.SetJumpAni(m_isJumpKeyDown);
+        m_playerCore.AniController.SetIsGround(IsGrounded);
+    }
+    public void JumpExit()
+    {
+        m_isJumpKeyDown = false;
+        m_playerCore.AniController.SetJumpAni(m_isJumpKeyDown);
+        m_playerCore.AniController.SetIsGround(IsGrounded);
+    }
+
     #endregion ================================================================================ /Jump
+
+    #region ================================================================================ Fly
+    public void ApplyAntiGravity()
+    {
+        float _acceleration = 1.5f; //가속도
+        m_velocity.y += _acceleration * Time.deltaTime;
+
+        // 이동 방향과 중력
+        Vector3 _flyMove = m_moveDirByCamera + m_velocity;
+        m_characterController.Move(_flyMove * Time.deltaTime);
+    }
+    public void FlyStart()
+    {
+        float _startDistance = 9f;  // 이동거리
+        float _acceleration = 1.5f; //가속도
+
+        // 등가속
+        m_velocity.y = Mathf.Sqrt(_startDistance * 2f * _acceleration); 
+
+        Vector3 _moveDir = m_playerCore.InputHandler.MoveDir;
+        FlyAni(_moveDir, true, true);
+    }
+
+    /// <summary>
+    /// FlyMove, FlyRotate, FlyMoveAni 동시 처리
+    /// </summary>
+    /// <param name="payerCore"></param>
+    /// <returns></returns>
+    public Vector3 LocomotionFlyMovement()
+    {
+        Vector3 _moveDir = m_playerCore.InputHandler.MoveDir;
+        bool _isSprint = m_playerCore.InputHandler.IsSprint;
+        float _targetSpeed = _isSprint ? m_sprintSpeed : m_walkSpeed;
+        bool _isFlyUp = m_playerCore.InputHandler.IsFlyUp;
+        bool _isFlyDown = m_playerCore.InputHandler.IsFlyDown;
+
+        if(_isFlyDown)
+        {
+            IsFlyDown = true;
+        }
+        else if(IsFlyDown && _isFlyUp)
+        {
+            IsFlyDown = false;
+            FlyStart();
+        }
+        
+        FlyAni(_moveDir, !_isFlyDown, _isFlyUp);
+
+        if(IsFlyDown)
+        {
+            ApplyGravity();
+            return _moveDir;
+        }
+
+        if (!_isFlyUp) m_isFlyUpStart = false;
+
+        if (_isFlyUp && !m_isFlyUpStart)
+        {
+            StartCoroutine(EnableFlyUpAfterDelay(0.4f));
+        }
+
+        // 애니메이션에 맞추어 조금 늦게 올라가게
+        else if (_isFlyUp && m_isFlyUpStart)
+        {
+            HandleFlyUp();
+        }
+
+        /*HandleFlyMove(_moveDir, _targetSpeed);
+        HandleFlyRotate();*/
+
+        return _moveDir;
+    }
+    private IEnumerator EnableFlyUpAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        m_isFlyUpStart = true;
+    }
+    private void HandleFlyUp()
+    {
+        ApplyAntiGravity();
+    }
+    // TODO : FlyMove와 리팩토링
+    private void HandleFlyMove(Vector3 moveDir, float targetSpeed)
+    {
+        m_currentSpeed = m_FlyUtility.HandleFlyMove(moveDir, targetSpeed, m_characterController);
+    }
+
+    // FlyRotate와 리팩토링
+    private void HandleFlyRotate()
+    {
+        m_FlyUtility.HandleRotate(this.gameObject);
+    }
+
+    public void FlyExit()
+    {
+        Vector3 _moveDir = m_playerCore.InputHandler.MoveDir;
+        m_isFlyUpStart = false;
+
+        FlyAni(_moveDir, false, false);
+    }
+    public void FlyAni(Vector3 moveDir, bool isFly,bool isFlyUp)
+    {
+        PlayerAnimationController _ani = m_playerCore.AniController;
+
+        _ani.SetIsFly(isFly, isFlyUp);
+        _ani.SetFlyMove(m_moveDirByCamera.x, m_moveDirByCamera.z);
+    }
+
+    #endregion ================================================================================ /Fly
 }
