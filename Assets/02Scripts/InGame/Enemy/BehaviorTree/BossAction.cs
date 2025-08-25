@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(BossLocomotionExecutor))]
 public class BossActions : MonoBehaviour
 {
     public Blackboard BB { get; private set; }

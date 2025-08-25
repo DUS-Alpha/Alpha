@@ -3,7 +3,9 @@
 using UnityEngine;
 
 public class BossLocomotionExecutor : MonoBehaviour {
-    public Transform target; public Animator animator;
+    [Tooltip("[ Player ]")]
+    public Transform target; 
+    public Animator animator;
     public float rotSpeed = 12f, approachSpeed=3.2f, retreatSpeed=3.0f, orbitSideSpeed=3.0f, orbitFwdGain=2.0f;
     static readonly int MoveX = Animator.StringToHash("MoveX");
     static readonly int MoveZ = Animator.StringToHash("MoveZ");

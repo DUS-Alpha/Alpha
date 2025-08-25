@@ -674,6 +674,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4558015056839110330, guid: 4a96c1b699c6b8441bd59a01b9e3f58c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 860718928}
+    - targetCorrespondingSourceObject: {fileID: 4558015056839110330, guid: 4a96c1b699c6b8441bd59a01b9e3f58c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 860718929}
   m_SourcePrefab: {fileID: 100100000, guid: 4a96c1b699c6b8441bd59a01b9e3f58c, type: 3}
 --- !u!1 &860718922 stripped
 GameObject:
@@ -753,6 +756,25 @@ MonoBehaviour:
   movementSpeedRatio: 2
   movementSpeed: 2
   switchingClip: 0
+--- !u!114 &860718929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 860718922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc44f63ab8e63e84fa3fc116f07a79a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 243624064}
+  animator: {fileID: 860718925}
+  rotSpeed: 12
+  approachSpeed: 3.2
+  retreatSpeed: 3
+  orbitSideSpeed: 3
+  orbitFwdGain: 2
 --- !u!1 &1099631706
 GameObject:
   m_ObjectHideFlags: 0

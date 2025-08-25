@@ -1,5 +1,6 @@
 using UnityEngine;
 
+// 테스트 로거
 public class Logger : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
