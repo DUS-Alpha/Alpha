@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Unity.Android.Gradle.Manifest;
 using UnityEngine;
 using UnityEngine.Windows;
@@ -6,49 +7,72 @@ using UnityEngine.Windows;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerLocomotion : MonoBehaviour
 {
+    private PlayerCore m_playerCore;
+    private LocomotionGroundUtility m_groundUtility;
+    private LocomotionFlyUtility m_flyUtility;
+    private GravityUtility m_gravityUtility;
+
     [Header("[ Ref Component ]")]
     [SerializeField]
     private CharacterController m_characterController;
     [SerializeField]
     private Camera m_mainCamera;
+
     [Space(10)]
 
-    [Header("[ HandleMove Config ]")]
+    [Header("[ HandleMove ]")]
     [SerializeField]
     private float m_walkSpeed = 2f;
     [SerializeField]
     private float m_sprintSpeed = 5f;
     [SerializeField]
+    private float m_flySpeed = 4f;
+    [SerializeField]
+    private float m_flySprintSpeed = 8f;
+    [SerializeField]
     private float m_speedLerpRate = 10f;
+    private float m_currentSpeed;
     [Space(10)]
 
-    [Header("[ HandleRotate Config ]")]
+    [Header("[ HandleRotate ]")]
     private float m_rotationSmoothTime = 0.2f;
-    private float m_currentSmoothVelocityX = 0;
-    private float m_currentSmoothVelocityY = 0;
-    private float m_currentSmoothVelocityZ = 0;
 
     [Header("[ Ground ]")]
     [SerializeField]
     private LayerMask m_groundMask;
-    [SerializeField] 
+    [SerializeField]
     private float m_groundDistance = 0.25f;
+    public bool IsGrounded { get; private set; }
 
-    [Header("[ ApplyGravity ]")]
+    [Header("[ Jump ]")]
     [SerializeField]
     private float m_jumpHeight = 5f;
 
-    public float CurrentSpeed { get; private set; }
-    public bool IsGrounded { get; private set; }
+    [Header("[ Gravity ]")]
+    [SerializeField]
+    private float m_baseGravity = -9.8f;
+    [SerializeField]
+    private float m_flyingGravity = -0.5f;
+    [SerializeField]
+    private float m_antiGravity = 1.5f;
+
+
     public Vector3 Velocity => m_velocity;
     private Vector3 m_velocity;
+
     private Vector3 m_moveDirByCamera;
-    private PlayerCore m_playerCore;
-    private bool m_isJump;
+    
+    private bool m_isJumpKeyDown;
     private float m_lastGroundTime;
+    private bool m_isFlying;
+    public bool IsFlyOff { get; private set; }
+    
     private void Awake()
     {
         m_characterController = GetComponent<CharacterController>();
+        m_groundUtility = new LocomotionGroundUtility();
+        m_flyUtility = new LocomotionFlyUtility();
+        m_gravityUtility = new GravityUtility();
     }
 
     public void Initialize(PlayerCore playerCore)
@@ -56,95 +80,38 @@ public class PlayerLocomotion : MonoBehaviour
         m_playerCore = playerCore;
     }
 
-    private void Update()
-    {
-        
-    }
-
     #region ================================================================================ Movement
-
     /// <summary>
     /// Move, Rotate, MoveAni 동시 처리
     /// </summary>
     /// <param name="payerCore"></param>
     /// <returns></returns>
-    public Vector3 LocomotionMovement()
+    public Vector3 LocomotionGroundMovement()
     {
-        CheckGround();
+        Vector3 _moveDir = m_playerCore.InputHandler.MoveDir;
+        bool _isSprint = m_playerCore.InputHandler.IsSprint;
+        float _targetSpeed = _isSprint ? m_sprintSpeed : m_walkSpeed;
 
-        PlayerInputHandler _input = m_playerCore.InputHandler;
-        PlayerAnimationController _aniController = m_playerCore.AniController;
+        HandleMove(_moveDir, _targetSpeed);
+        HandleRotate();
+        ApplyGravity();
 
-        Vector3 _moveDir = _input.MoveDir;
-        bool _isSprint = _input.IsSprint;
-        bool _isFly = _input.IsFly;
-
-        HandleMove(_moveDir, _isSprint);
-        HandleRotate(_isFly);
-
-        _aniController.SetGroundMoveAni(CurrentSpeed);
+        m_playerCore.AniController.SetGroundMoveAni(m_currentSpeed);
+        
         return _moveDir;
     }
 
-    private void HandleMove(Vector3 moveDir, bool isSprint)
+    // TODO : FlyMove와 리팩토링
+    private void HandleMove(Vector3 moveDir, float targetSpeed)
     {
-        if (moveDir.magnitude <= 0.1f)
-        {
-            CurrentSpeed = 0;
-            return;
-        }
-        float targetSpeed = isSprint ? m_sprintSpeed : m_walkSpeed;
-
-        CurrentSpeed = Mathf.Lerp(CurrentSpeed, targetSpeed, Time.deltaTime * m_speedLerpRate);
-
-        // TPS에서 이동 방식중 카메라 앞 기준 이동 방식
-        Vector3 _forward = m_mainCamera.transform.forward;
-        _forward.y = 0f;    // 이동 시 위를 보고 이동 키 누를시 y값으로 인해 위로 이동되기에 0처리
-        Vector3 _right = m_mainCamera.transform.right;
-
-        m_moveDirByCamera = (_right * moveDir.x) + (_forward * moveDir.z);
-        m_characterController.Move(m_moveDirByCamera * Time.deltaTime * CurrentSpeed);
+        m_currentSpeed = m_groundUtility.HandleMove(moveDir, targetSpeed, m_speedLerpRate, m_characterController);
+        m_moveDirByCamera = m_groundUtility.GetMovieDir();
     }
 
-    private void HandleRotate(bool isFly)
+    // FlyRotate와 리팩토링
+    private void HandleRotate()
     {
-        if (m_moveDirByCamera == Vector3.zero) return;
-
-        Quaternion _targetRot = Quaternion.LookRotation(m_moveDirByCamera);
-
-        Vector3 _targetEuler = _targetRot.eulerAngles;
-        Vector3 _currentEuler = transform.eulerAngles;
-
-        // 각 축의 각도변화 Smooth 적용 (부드러운 회전)
-        float smoothX = Mathf.SmoothDampAngle
-                        (
-                        _currentEuler.x, 
-                        _targetEuler.x, 
-                        ref m_currentSmoothVelocityX, 
-                        m_rotationSmoothTime
-                        );
-
-        float smoothY = Mathf.SmoothDampAngle
-                        (
-                        _currentEuler.y, 
-                        _targetEuler.y,
-                        ref m_currentSmoothVelocityY, 
-                        m_rotationSmoothTime
-                        );
-
-        float smoothZ = Mathf.SmoothDampAngle
-                        (
-                        _currentEuler.z, 
-                        _targetEuler.z,
-                        ref m_currentSmoothVelocityZ, 
-                        m_rotationSmoothTime
-                        );
-
-        // 땅에서는 Y축의 각도만 사용하여 회전 적용, Fly상태에서는 전체 축 사용
-        if(!isFly)
-            transform.rotation = Quaternion.Euler(0f, smoothY, 0f);
-        else
-            transform.rotation = Quaternion.Euler(smoothX, smoothY, smoothZ);
+        m_groundUtility.HandleRotate(this.gameObject, m_rotationSmoothTime);
     }
     #endregion ================================================================================ /Movement
 
@@ -158,56 +125,135 @@ public class PlayerLocomotion : MonoBehaviour
         Vector3 _colliderButtomtr = transform.position + _center - (Vector3.up * (_height * 0.5f - m_characterController.skinWidth));
 
         bool _groundCheck = Physics.CheckSphere(_colliderButtomtr, m_groundDistance, m_groundMask);
-        
-        if(_groundCheck)
+
+        if (_groundCheck)
         {
             m_lastGroundTime = Time.time;
         }
 
         IsGrounded = (Time.time - m_lastGroundTime) <= 0.1f;
 
-        if (!m_isJump && IsGrounded)
+        if (!m_isJumpKeyDown && IsGrounded && !m_isFlying)
         {
             m_velocity.y = -2f;
         }
-
         // Ground Anim Parameter
         m_playerCore.AniController.SetIsGround(IsGrounded);
-        
+
         Debug.DrawLine(_colliderButtomtr, _colliderButtomtr + (Vector3.down * m_groundDistance), Color.red);
     }
     #endregion ================================================================================ /Ground
 
     #region ================================================================================ Jump
-
+    
     public void JumpStart()
     {
-        m_isJump = true;
+        m_isJumpKeyDown = true;
         IsGrounded = false;
-        float _gravity = Physics.gravity.y;
 
-        //등가속도운동 적용
-        m_velocity.y = Mathf.Sqrt(m_jumpHeight * -2f * _gravity);   // m_jumpHeight = 점프 힘이기도함
-        
-        m_playerCore.AniController.JumpAni(m_isJump);
+        //등가속도운동 적용 (노션 참고)
+        m_velocity.y = Mathf.Sqrt(m_jumpHeight * -2f * m_baseGravity);   // m_jumpHeight = 점프 힘이기도함
+
+        m_playerCore.AniController.SetJumpAni(m_isJumpKeyDown);
         m_playerCore.AniController.SetIsGround(IsGrounded);
     }
     public void JumpExit()
     {
-        m_isJump = false;
-        m_playerCore.AniController.JumpAni(m_isJump);
+        m_isJumpKeyDown = false;
+        m_playerCore.AniController.SetJumpAni(m_isJumpKeyDown);
         m_playerCore.AniController.SetIsGround(IsGrounded);
     }
+
+    #endregion ================================================================================ /Jump
+
+    #region ================================================================================ Gravtiy
+    // TODO : 중복 내용이기에 재사용성으로 전환
     public void ApplyGravity()
     {
-        // 점프 m_velocity적용 후 중력 적용
-        m_velocity.y += Physics.gravity.y * Time.deltaTime;
-        
-        // 이동 방향과 중력
-        Vector3 _jumpMove = m_moveDirByCamera * (CurrentSpeed * 0.7f) + m_velocity;
-        m_characterController.Move(_jumpMove * Time.deltaTime);
-
+        m_velocity = m_gravityUtility.ApplyGravity(m_baseGravity, m_currentSpeed, m_moveDirByCamera, m_velocity, m_characterController);
         CheckGround();
     }
-    #endregion ================================================================================ /Jump
+    public void ApplyAntiGravity()
+    {
+        m_velocity = m_gravityUtility.ApplyAntiGravity(m_antiGravity, m_currentSpeed, m_moveDirByCamera, m_velocity, m_characterController);
+        CheckGround();
+    }
+    public void ApplyFlyGravity()
+    {
+        m_velocity = m_gravityUtility.ApplyAntiGravity(m_flyingGravity, m_currentSpeed, m_moveDirByCamera, m_velocity, m_characterController);
+    }
+    #endregion ================================================================================ /Gravtiy
+
+    #region ================================================================================ Fly
+
+    public void FlyUpStart()
+    {
+        float _startDistance = 9f;  // 이동거리
+
+        IsGrounded = false;
+        m_isFlying = true;
+
+        bool _isFlyUpStart = m_playerCore.InputHandler.IsFlyUp;
+        // 등가속
+        m_velocity.y = Mathf.Sqrt(_startDistance * 2f * m_antiGravity);
+
+        m_playerCore.AniController.SetIsFly(m_isFlying, _isFlyUpStart);
+    }
+    public void FlyUp()
+    {
+        ApplyAntiGravity();
+    }
+
+    public void FlyUpExit()
+    {
+        m_playerCore.AniController.SetIsFly(m_isFlying, false);
+    }
+
+    /// <summary>
+    /// FlyMove, FlyRotate, FlyMoveAni 동시 처리
+    /// </summary>
+    /// <param name="payerCore"></param>
+    /// <returns></returns>
+    public Vector3 LocomotionFlyMovement()
+    {
+        Vector3 _moveDir = m_playerCore.InputHandler.MoveDir;
+        bool _isSprint = m_playerCore.InputHandler.IsSprint;
+        float _targetSpeed = _isSprint ? m_flySprintSpeed : m_flySpeed;
+        bool _isFlyOff = m_playerCore.InputHandler.IsFlyOff;
+        m_isFlying = !_isFlyOff;
+
+        // Move & Rotate
+        HandleFlyMove(_moveDir, _targetSpeed);
+        HandleFlyRotate(_moveDir);
+
+        // ApplyGravity
+        //ApplyFlyGravity();
+
+        // Ani
+        m_playerCore.AniController.SetFlyMoveAni(_moveDir.x, _moveDir.z);
+        
+        return _moveDir;
+    }
+
+    // TODO : FlyMove와 리팩토링
+    private void HandleFlyMove(Vector3 moveDir, float targetSpeed)
+    {
+        m_currentSpeed = m_groundUtility.HandleMove(moveDir, targetSpeed, m_speedLerpRate, m_characterController);
+        
+        m_moveDirByCamera = m_groundUtility.GetMovieDir();
+    }
+    // TODO : FlyMove와 리팩토링
+
+    // FlyRotate와 리팩토링
+    private void HandleFlyRotate(Vector3 moveDir)
+    {
+        m_flyUtility.HandleRotate(this.gameObject, m_mainCamera, moveDir, m_rotationSmoothTime);
+    }
+
+    public void FlyExit()
+    {
+        bool _isFlyUp = m_playerCore.InputHandler.IsFlyUp;
+        m_playerCore.AniController.SetIsFly(m_isFlying, _isFlyUp);
+    }
+    #endregion ================================================================================ /Fly
 }

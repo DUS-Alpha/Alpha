@@ -18,9 +18,10 @@ public class PlayerIdleState : PlayerLocomotionState
 
     public override void Update()
     {
-       Vector3 _moveDir = m_Locomotion.LocomotionMovement();
+       Vector3 _moveDir = m_Locomotion.LocomotionGroundMovement();
 
         bool _isJump = m_PlayerCore.InputHandler.IsJump;
+        bool _isFly = m_PlayerCore.InputHandler.IsFly;
 
         if (_isJump)
         {
@@ -29,8 +30,11 @@ public class PlayerIdleState : PlayerLocomotionState
                 m_PlayerCore.SwitchState(new PlayerJumpState(m_PlayerCore));
             }
         }
-
-        if (_moveDir != Vector3.zero)
+        else if(_isFly)
+        {
+            m_PlayerCore.SwitchState(new PlayerFlyUpStartState(m_PlayerCore));
+        }
+        else if (_moveDir != Vector3.zero)
             m_PlayerCore.SwitchState(new PlayerMoveState(m_PlayerCore));
     }
 

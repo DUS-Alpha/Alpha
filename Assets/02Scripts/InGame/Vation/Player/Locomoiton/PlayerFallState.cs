@@ -15,8 +15,14 @@ public class PlayerFallState : PlayerLocomotionState
 
     public override void Update()
     {
+        bool _isFly = m_PlayerCore.InputHandler.IsFly;
+
         m_Locomotion.ApplyGravity();
-        if(m_Locomotion.IsGrounded)
+        if (_isFly)
+        {
+            m_PlayerCore.SwitchState(new PlayerFlyUpStartState(m_PlayerCore));
+        }
+        else if (m_Locomotion.IsGrounded)
             m_PlayerCore.SwitchState(new PlayerIdleState(m_PlayerCore));
     }
 
