@@ -671,6 +671,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4558015056839110330, guid: 4a96c1b699c6b8441bd59a01b9e3f58c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 860718927}
+    - targetCorrespondingSourceObject: {fileID: 4558015056839110330, guid: 4a96c1b699c6b8441bd59a01b9e3f58c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 860718928}
   m_SourcePrefab: {fileID: 100100000, guid: 4a96c1b699c6b8441bd59a01b9e3f58c, type: 3}
 --- !u!1 &860718922 stripped
 GameObject:
@@ -729,6 +732,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Target: {fileID: 651792947}
+--- !u!114 &860718928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 860718922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e023b8049b77a3449ef2bcb3b7ea509, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dbgMagazineEmpty: 0
+  dbgUnderHeavyFire: 0
+  ShootRange: 18
+  OptimalRange: 14
+  TooCloseRange: 6
+  searchBoundary: 6
+  movementSpeedRatio: 2
+  movementSpeed: 2
+  switchingClip: 0
 --- !u!1 &1099631706
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,12 +4,14 @@ public class AttackState : IEnemyState
 {
     private BehaviorTreeRunner _runner;
     private BossActions _actions;
+    private CombatMover _combatMover;
     
     public void EnterState(EnemyStateManager enemy)
     {
          // 러너/액션 컴포넌트 확보(없으면 자동 추가)
          _runner  = enemy.GetComponent<BehaviorTreeRunner>() ?? enemy.gameObject.AddComponent<BehaviorTreeRunner>();
          _actions = enemy.GetComponent<BossActions>()       ?? enemy.gameObject.AddComponent<BossActions>();
+         _combatMover = enemy.GetComponent<CombatMover>()       ?? enemy.gameObject.AddComponent<CombatMover>();
 
                
                // ★ 추가: 블랙보드 생성 및 기본 연결
@@ -18,9 +20,10 @@ public class AttackState : IEnemyState
                    // 필요하면 여기서 초기화 (예: Target을 EnemyStateManager에서 끌어와 연결)
                    // EnemyStateManager에 target이 있다면:
                    // Target = enemy.target
-                   Target = enemy.Target // ← 지금은 비워둠. 나중에 네가 연결
+                   Target = enemy.Target, // ← 지금은 비워둠. 나중에 네가 연결
                };
                _actions.SetBlackboard(bb);
+        
        
                // ★ 최소 골격 트리 (나중에 함수만 바꿔끼우면 됨)
                // 예: D에서 보여준 유틸 노드 감싸기 버전으로 교체
@@ -42,7 +45,8 @@ public class AttackState : IEnemyState
                );
 
                //IsMagazineEmpty가 true면 aim 하고 false면 fire 하기
-               INode SelectorRoot = new SelectorNode(
+               INode SelectorRoot = 
+                   new SelectorNode(
                    new DebugWrap("Empty→Aim", new SequenceNode(
                        new ConditionNode(() => _actions.IsMagazineEmpty()),
                        new ActionNode(() => _actions.Aim()),
@@ -52,7 +56,7 @@ public class AttackState : IEnemyState
                        new ConditionNode(() => !_actions.dbgMagazineEmpty),
                        new ActionNode(() => _actions.Fire()),
                        new ActionNode(() => _actions.Approach())
-                   ))
+                   )) 
                );
 
         
@@ -60,9 +64,9 @@ public class AttackState : IEnemyState
                     new ActionNode(() => _actions.Fire())
                );
 
-               INode TestNode = new SequenceNode(
-                   new ActionNode(() => _actions.Approach()),
-                   new ActionNode(() => _actions.IsNearbyPlayer())
+               INode TestNode =
+                   new SequenceNode(
+                   new ActionNode(() => _combatMover.CombatMove(bb.Target))
                );
                
         
