@@ -26,12 +26,14 @@ public class PlayerAnimationController : MonoBehaviour
     {
         m_animator.SetBool("IsJump", isJump);
     }
-    public void SetIsFly(bool isFly, bool isFlyUp)
+
+    public void SetIsFly(bool isFly, bool isFlyUpStart)
     {
         m_animator.SetBool("IsFly", isFly);
-        m_animator.SetBool("IsFlyUp", isFlyUp);
+        m_animator.SetBool("IsFlyUp", isFlyUpStart);
     }
-    public void SetFlyMove(float inputX, float inputY)
+    
+    public void SetFlyMoveAni(float inputX, float inputY)
     {
         m_animator.SetFloat("InputX", inputX);
         m_animator.SetFloat("InputY", inputY);

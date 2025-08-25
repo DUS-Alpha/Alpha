@@ -9,7 +9,7 @@ public class PlayerInputHandler : MonoBehaviour
     public bool IsMouseRightDown { get; private set; }
     public bool IsFly { get; private set; }
     public bool IsFlyUp { get; private set; }
-    public bool IsFlyDown { get; private set; }
+    public bool IsFlyOff { get; private set; }
     public bool IsDodge { get; private set; }
     public bool IsSkill1 { get; private set; }
 
@@ -24,7 +24,7 @@ public class PlayerInputHandler : MonoBehaviour
         IsMouseRightDown = Input.GetMouseButtonDown(1);
         IsFly = Input.GetKeyDown(KeyCode.Q);
         IsFlyUp = Input.GetKey(KeyCode.Q);
-        IsFlyDown = Input.GetKeyDown(KeyCode.E);
+        IsFlyOff = Input.GetKeyDown(KeyCode.E);
     }
 
     private void HandleInputMove()

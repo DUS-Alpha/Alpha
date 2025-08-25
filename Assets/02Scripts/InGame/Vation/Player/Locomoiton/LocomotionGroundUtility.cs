@@ -4,10 +4,9 @@ public class LocomotionGroundUtility
 {
     // Move Config
     private float m_currentSpeed;
-    private float m_speedLerpRate = 10f;
 
     // Rotate Config
-    private float m_rotationSmoothTime = 0.2f;
+    //private float m_rotationSmoothTime = 0.2f;
     private float m_currentSmoothVelocityX = 0;
     private float m_currentSmoothVelocityY = 0;
     private float m_currentSmoothVelocityZ = 0;
@@ -16,16 +15,20 @@ public class LocomotionGroundUtility
     public Vector3 Velocity => m_velocity;
     private Vector3 m_velocity;
     private Vector3 m_moveDirByCamera;
-    public float HandleMove(Vector3 moveDir,float targetSpeed, CharacterController characterController)
+    public Vector3 GetMovieDir()
+    {
+        return m_moveDirByCamera;
+    }
+
+    public float HandleMove(Vector3 moveDir,float targetSpeed, float speedLerpRate, CharacterController characterController)
     {
         Camera cam = Camera.main;
-        float _targetSpeed = targetSpeed;
         if (moveDir.magnitude <= 0.1f)
         {
-            _targetSpeed = 0;
+            targetSpeed = 0;
         }
-        
-        m_currentSpeed = Mathf.Lerp(m_currentSpeed, _targetSpeed, Time.deltaTime * m_speedLerpRate);
+
+        m_currentSpeed = Mathf.Lerp(m_currentSpeed, targetSpeed, Time.deltaTime * speedLerpRate);    // m_speedLerpRate : 전환 시간
 
         // TPS에서 이동 방식중 카메라 앞 기준 이동 방식
         Vector3 _forward = cam.transform.forward;
@@ -38,7 +41,7 @@ public class LocomotionGroundUtility
     }
 
     // FlyRotate와 리팩토링
-    public void HandleRotate(GameObject gameObject)
+    public void HandleRotate(GameObject gameObject, float rotationSmoothTime)
     {
         if (m_moveDirByCamera == Vector3.zero) return;
 
@@ -53,7 +56,7 @@ public class LocomotionGroundUtility
                         _currentEuler.x,
                         _targetEuler.x,
                         ref m_currentSmoothVelocityX,
-                        m_rotationSmoothTime
+                        rotationSmoothTime
                         );
 
         float smoothY = Mathf.SmoothDampAngle
@@ -61,7 +64,7 @@ public class LocomotionGroundUtility
                         _currentEuler.y,
                         _targetEuler.y,
                         ref m_currentSmoothVelocityY,
-                        m_rotationSmoothTime
+                        rotationSmoothTime
                         );
 
         float smoothZ = Mathf.SmoothDampAngle
@@ -69,7 +72,7 @@ public class LocomotionGroundUtility
                         _currentEuler.z,
                         _targetEuler.z,
                         ref m_currentSmoothVelocityZ,
-                        m_rotationSmoothTime
+                        rotationSmoothTime
                         );
 
         // 땅에서는 Y축의 각도만 사용하여 회전 적용, Fly상태에서는 전체 축 사용

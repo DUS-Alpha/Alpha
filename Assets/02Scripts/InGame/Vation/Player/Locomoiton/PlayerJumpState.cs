@@ -25,7 +25,7 @@ public class PlayerJumpState : PlayerLocomotionState
         }
         else if (_isFly)
         {
-            m_PlayerCore.SwitchState(new PlayerFlyState(m_PlayerCore));
+            m_PlayerCore.SwitchState(new PlayerFlyUpStartState(m_PlayerCore));
         }
     }
 

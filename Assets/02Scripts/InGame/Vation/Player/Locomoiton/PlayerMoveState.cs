@@ -35,7 +35,7 @@ public class PlayerMoveState : PlayerLocomotionState
         }
         else if (_isFly)
         {
-            m_PlayerCore.SwitchState(new PlayerFlyState(m_PlayerCore));
+            m_PlayerCore.SwitchState(new PlayerFlyUpStartState(m_PlayerCore));
         }
         else if (_moveDir == Vector3.zero)
             m_PlayerCore.SwitchState(new PlayerIdleState(m_PlayerCore));

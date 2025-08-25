@@ -4,10 +4,9 @@ public class LocomotionFlyUtility
 {
     // Move Config
     private float m_currentSpeed;
-    private float m_speedLerpRate = 10f;
 
     // Rotate Config
-    private float m_rotationSmoothTime = 0.2f;
+    //private float m_rotationSmoothTime = 0.2f;
     private float m_currentSmoothVelocityX = 0;
     private float m_currentSmoothVelocityY = 0;
     private float m_currentSmoothVelocityZ = 0;
@@ -16,27 +15,20 @@ public class LocomotionFlyUtility
     public Vector3 Velocity => m_velocity;
     private Vector3 m_velocity;
     private Vector3 m_moveDirByCamera;
-
-    public void HandleFlyUp(CharacterController characterController)
+    public Vector3 GetMovieDir()
     {
-
+        return m_moveDirByCamera;
     }
 
-    public void HandleFlyDown(CharacterController characterController)
-    {
-
-    }
-
-    public float HandleFlyMove(Vector3 moveDir, float targetSpeed, CharacterController characterController)
+    public float HandleMove(Vector3 moveDir, float targetSpeed, float speedLerpRate, CharacterController characterController)
     {
         Camera cam = Camera.main;
-        float _targetSpeed = targetSpeed;
         if (moveDir.magnitude <= 0.1f)
         {
-            _targetSpeed = 0;
+            targetSpeed = 0;
         }
 
-        m_currentSpeed = Mathf.Lerp(m_currentSpeed, _targetSpeed, Time.deltaTime * m_speedLerpRate);
+        m_currentSpeed = Mathf.Lerp(m_currentSpeed, targetSpeed, Time.deltaTime * speedLerpRate);    // m_speedLerpRate : 전환 시간
 
         // TPS에서 이동 방식중 카메라 앞 기준 이동 방식
         Vector3 _forward = cam.transform.forward;
@@ -47,47 +39,42 @@ public class LocomotionFlyUtility
         characterController.Move(m_moveDirByCamera * Time.deltaTime * m_currentSpeed);
         return m_currentSpeed;
     }
-    
 
     // FlyRotate와 리팩토링
-    public void HandleRotate(GameObject gameObject)
+    public void HandleRotate(GameObject gameObject, Camera mainCamera, Vector3 moveDir, float rotationSmoothTime)
     {
-        if (m_moveDirByCamera == Vector3.zero) return;
+        if (moveDir == Vector3.zero) return;
+        
+        Vector3 forward = mainCamera.transform.forward;
+        forward.y = 0f; // 지상에서는 수평만 유지
+        forward.Normalize();
 
-        // 앞과 뒤로의 이동 시 카메라 기준으로 회전
-        // 좌우는 회전x
+        Quaternion targetRot = Quaternion.LookRotation(forward);
+        Vector3 targetEuler = targetRot.eulerAngles;
+        Vector3 currentEuler = gameObject.transform.eulerAngles;
 
-        /*Quaternion _targetRot = Quaternion.LookRotation(m_moveDirByCamera);
+        float smoothX = Mathf.SmoothDampAngle(
+            currentEuler.x,
+            targetEuler.x,
+            ref m_currentSmoothVelocityX,
+            rotationSmoothTime
+        );
 
-        Vector3 _targetEuler = _targetRot.eulerAngles;
-        Vector3 _currentEuler = gameObject.transform.eulerAngles;
+        float smoothY = Mathf.SmoothDampAngle(
+            currentEuler.y,
+            targetEuler.y,
+            ref m_currentSmoothVelocityY,
+            rotationSmoothTime
+        );
 
-        // 각 축의 각도변화 Smooth 적용 (부드러운 회전)
-        float smoothX = Mathf.SmoothDampAngle
-                        (
-                        _currentEuler.x,
-                        _targetEuler.x,
-                        ref m_currentSmoothVelocityX,
-                        m_rotationSmoothTime
-                        );
-
-        float smoothY = Mathf.SmoothDampAngle
-                        (
-                        _currentEuler.y,
-                        _targetEuler.y,
-                        ref m_currentSmoothVelocityY,
-                        m_rotationSmoothTime
-                        );
-
-        float smoothZ = Mathf.SmoothDampAngle
-                        (
-                        _currentEuler.z,
-                        _targetEuler.z,
-                        ref m_currentSmoothVelocityZ,
-                        m_rotationSmoothTime
-                        );
-
-        // 땅에서는 Y축의 각도만 사용하여 회전 적용, Fly상태에서는 전체 축 사용
-        gameObject.transform.rotation = Quaternion.Euler(smoothX, smoothY, smoothZ);*/
+        float smoothZ = Mathf.SmoothDampAngle(
+            currentEuler.z,
+            targetEuler.z,
+            ref m_currentSmoothVelocityZ,
+            rotationSmoothTime
+        );
+        
+        gameObject.transform.rotation = Quaternion.Euler(0f, smoothY, 0f);
     }
+
 }
