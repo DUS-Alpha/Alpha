@@ -37,36 +37,36 @@ public class AttackState : IEnemyState
                // );
                
                //노드 시퀀스 생성
-               INode root = new SequenceNode(
-                   //필요시 데코레이터로 감싸서 추가하기
-                   new DebugWrap("Approach", new ActionNode(() => _actions.Approach())),
-                   new DebugWrap("Aim",      new ActionNode(() => _actions.Aim())),
-                   new DebugWrap("Fire",     new ActionNode(() => _actions.Fire()))
-               );
-
-               //IsMagazineEmpty가 true면 aim 하고 false면 fire 하기
-               INode SelectorRoot = 
-                   new SelectorNode(
-                   new DebugWrap("Empty→Aim", new SequenceNode(
-                       new ConditionNode(() => _actions.IsMagazineEmpty()),
-                       new ActionNode(() => _actions.Aim()),
-                       new ActionNode(() => _actions.Fire())
-                   )),
-                   new DebugWrap("NotEmpty→Fire", new SequenceNode(
-                       new ConditionNode(() => !_actions.dbgMagazineEmpty),
-                       new ActionNode(() => _actions.Fire()),
-                       new ActionNode(() => _actions.Approach())
-                   )) 
-               );
-
-        
-               INode SelectorNode = new SelectorNode(
-                    new ActionNode(() => _actions.Fire())
-               );
+               // INode root = new SequenceNode(
+               //     //필요시 데코레이터로 감싸서 추가하기
+               //     new DebugWrap("Approach", new ActionNode(() => _actions.Approach())),
+               //     new DebugWrap("Aim",      new ActionNode(() => _actions.Aim())),
+               //     new DebugWrap("Fire",     new ActionNode(() => _actions.Fire()))
+               // );
+               //
+               // //IsMagazineEmpty가 true면 aim 하고 false면 fire 하기
+               // INode SelectorRoot = 
+               //     new SelectorNode(
+               //     new DebugWrap("Empty→Aim", new SequenceNode(
+               //         new ConditionNode(() => _actions.IsMagazineEmpty()),
+               //         new ActionNode(() => _actions.Aim()),
+               //         new ActionNode(() => _actions.Fire())
+               //     )),
+               //     new DebugWrap("NotEmpty→Fire", new SequenceNode(
+               //         new ConditionNode(() => !_actions.dbgMagazineEmpty),
+               //         new ActionNode(() => _actions.Fire()),
+               //         new ActionNode(() => _actions.Approach())
+               //     )) 
+               // );
+               //
+               //
+               // INode SelectorNode = new SelectorNode(
+               //      new ActionNode(() => _actions.Fire())
+               // );
 
                INode TestNode =
                    new SequenceNode(
-                   new ActionNode(() => _combatMover.CombatMove(bb.Target))
+                   new ActionNode(() => _actions.DirectorTick())
                );
                
         

@@ -673,10 +673,22 @@ PrefabInstance:
       addedObject: {fileID: 860718927}
     - targetCorrespondingSourceObject: {fileID: 4558015056839110330, guid: 4a96c1b699c6b8441bd59a01b9e3f58c, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 860718928}
+      addedObject: {fileID: 860718934}
     - targetCorrespondingSourceObject: {fileID: 4558015056839110330, guid: 4a96c1b699c6b8441bd59a01b9e3f58c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 860718929}
+    - targetCorrespondingSourceObject: {fileID: 4558015056839110330, guid: 4a96c1b699c6b8441bd59a01b9e3f58c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 860718930}
+    - targetCorrespondingSourceObject: {fileID: 4558015056839110330, guid: 4a96c1b699c6b8441bd59a01b9e3f58c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 860718931}
+    - targetCorrespondingSourceObject: {fileID: 4558015056839110330, guid: 4a96c1b699c6b8441bd59a01b9e3f58c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 860718933}
+    - targetCorrespondingSourceObject: {fileID: 4558015056839110330, guid: 4a96c1b699c6b8441bd59a01b9e3f58c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 860718932}
   m_SourcePrefab: {fileID: 100100000, guid: 4a96c1b699c6b8441bd59a01b9e3f58c, type: 3}
 --- !u!1 &860718922 stripped
 GameObject:
@@ -735,27 +747,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Target: {fileID: 651792947}
---- !u!114 &860718928
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 860718922}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e023b8049b77a3449ef2bcb3b7ea509, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dbgMagazineEmpty: 0
-  dbgUnderHeavyFire: 0
-  ShootRange: 18
-  OptimalRange: 14
-  TooCloseRange: 6
-  searchBoundary: 6
-  movementSpeedRatio: 2
-  movementSpeed: 2
-  switchingClip: 0
 --- !u!114 &860718929
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -775,6 +766,96 @@ MonoBehaviour:
   retreatSpeed: 3
   orbitSideSpeed: 3
   orbitFwdGain: 2
+--- !u!114 &860718930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 860718922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b327356cc31ee4245932b674acfdfcb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  policy:
+    idealRadius: 2
+    wApproach: 1
+    wOrbit: 2
+    wRetreat: 1
+    holdTimeRange: {x: 0.6, y: 1.2}
+    spontaneousChangePerSec: 0
+  exec: {fileID: 0}
+--- !u!114 &860718931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 860718922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e7af4a3432d2bf4885d729345e690fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  combatMover: {fileID: 860718930}
+  animator: {fileID: 860718925}
+  stance: {fileID: 860718933}
+  attacks: {fileID: 860718932}
+  idleHold: {x: 0.3, y: 0.6}
+  recover: {x: 0.2, y: 0.5}
+  phase: 0
+  phaseTimer: 0
+--- !u!114 &860718932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 860718922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e96421e387eb8e48a93a5b9c44880a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triggers:
+  - Kick
+--- !u!114 &860718933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 860718922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9efe411a9328e7f41871e6cc00306ac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cfg:
+    countRange: {x: 2, y: 5}
+    timeRange: {x: 0.6, y: 1.2}
+    attackChancePerStance: 0.35
+    attackImmediatelyIfZeroStance: 1
+  stanceLeft: 0
+  stanceTimer: 0
+--- !u!114 &860718934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 860718922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e023b8049b77a3449ef2bcb3b7ea509, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShootRange: 10
+  OptimalRange: 7
+  TooCloseRange: 4
+  director: {fileID: 0}
 --- !u!1 &1099631706
 GameObject:
   m_ObjectHideFlags: 0
