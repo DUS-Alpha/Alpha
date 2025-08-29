@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class PlayerIdleState : PlayerLocomotionState
+public class PlayerIdleState : PlayerState
 {
-    // playerCore ºÎ¸ğ»ı¼ºÀÚ »ı¼º, ÇÃ·¹ÀÌ¾îÀÇ ÄÄÆ÷³ÍÆ® ÇÏ³ª·Î ¾²´Â
-    // m_PlayerCore, m_Locomotion »ç¿ëÇÏ¸éµÊ
+    // playerCore ë¶€ëª¨ìƒì„±ì ìƒì„±, í”Œë ˆì´ì–´ì˜ ì»´í¬ë„ŒíŠ¸ í•˜ë‚˜ë¡œ ì“°ëŠ”
+    // m_PlayerCore, m_Locomotion ì‚¬ìš©í•˜ë©´ë¨
     public PlayerIdleState(PlayerCore playerCore) : base(playerCore) {}
 
     public override void Enter()
@@ -22,6 +22,7 @@ public class PlayerIdleState : PlayerLocomotionState
 
         bool _isJump = m_PlayerCore.InputHandler.IsJump;
         bool _isFly = m_PlayerCore.InputHandler.IsFly;
+        bool _isAttack = m_PlayerCore.InputHandler.IsAttack;
 
         if (_isJump)
         {
@@ -30,12 +31,20 @@ public class PlayerIdleState : PlayerLocomotionState
                 m_PlayerCore.SwitchState(new PlayerJumpState(m_PlayerCore));
             }
         }
-        else if(_isFly)
+        else if (_isFly)
         {
             m_PlayerCore.SwitchState(new PlayerFlyUpStartState(m_PlayerCore));
         }
         else if (_moveDir != Vector3.zero)
             m_PlayerCore.SwitchState(new PlayerMoveState(m_PlayerCore));
+        else if(m_Combat.IsWeaponChange())
+        {
+            m_PlayerCore.SwitchState(new PlayerWeaponChangeState(m_PlayerCore));
+        }
+        else if(_isAttack)
+        {
+            m_PlayerCore.SwitchState(new PlayerAttackState(m_PlayerCore));
+        }
     }
 
     public override void Exit()

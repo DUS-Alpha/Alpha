@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerFlyUpStartState : PlayerLocomotionState
+public class PlayerFlyUpStartState : PlayerState
 {
     public PlayerFlyUpStartState(PlayerCore playerCore) : base(playerCore){}
     private float m_delay;

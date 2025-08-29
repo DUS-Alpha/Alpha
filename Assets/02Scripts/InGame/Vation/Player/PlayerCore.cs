@@ -1,6 +1,10 @@
 using UnityEngine;
 using UnityEngine.Playables;
 
+[RequireComponent(typeof(PlayerAnimationController))]
+[RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(PlayerInventorySystem))]
+[RequireComponent(typeof(PlayerEquipmentSystem))]
 [RequireComponent(typeof(PlayerInputHandler))]
 [RequireComponent(typeof(PlayerStateMachine))]
 [RequireComponent(typeof(PlayerLocomotion))]
@@ -8,26 +12,34 @@ using UnityEngine.Playables;
 public class PlayerCore : MonoBehaviour
 {
     [Header(" [ Ref Component ] ")]
+    public GameObject player;
     public PlayerInputHandler InputHandler;
     public PlayerAnimationController AniController;
     public PlayerStateMachine StateMachine;
     public PlayerLocomotion Locomotion;
     public PlayerCombat Combat;
+    public CharacterController PlayerCharacterController;
+    public PlayerEquipmentSystem EquipmentSystem;
+    public PlayerInventorySystem InventorySystem;
     public bool isAction = false;
+
     private void Awake()
     {
         InputHandler = GetComponent<PlayerInputHandler>();
-        AniController = GetComponentInChildren<PlayerAnimationController>();
+        AniController = GetComponent<PlayerAnimationController>();
         Locomotion = GetComponent<PlayerLocomotion>();
         Combat = GetComponent<PlayerCombat>();
+        PlayerCharacterController = GetComponent<CharacterController>();
         StateMachine = GetComponent<PlayerStateMachine>();
+        EquipmentSystem = GetComponent<PlayerEquipmentSystem>();
+        InventorySystem = GetComponent<PlayerInventorySystem>();
         Initialize();
     }
 
     public void Initialize()
     {
         Locomotion.Initialize(this);
-        Combat.Initialize();
+        Combat.Initialize(this);
         StateMachine.Initialize(this);
     }
 
@@ -41,18 +53,4 @@ public class PlayerCore : MonoBehaviour
         StateMachine.SwitchState(playerState);
     }
 
-    /*private void MovementModules()
-    {
-        Vector3 _moveDir = InputHandler.MoveDir;
-        bool _isSprint = InputHandler.IsSprint;
-        bool _isFly = InputHandler.IsFly;
-        float _currentMoveSpeed = Locomotion.m_currentSpeed;
-
-        // Locomotion
-        Locomotion.HandleMove(_moveDir, _isSprint);
-        Locomotion.HandleRotate(_isFly);
-
-        // Animation
-        AniController.GroundMoveAni(_currentMoveSpeed);
-    }*/
 }

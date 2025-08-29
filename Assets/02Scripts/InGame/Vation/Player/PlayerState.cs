@@ -3,10 +3,14 @@ using UnityEngine;
 public abstract class PlayerState
 {
     protected PlayerCore m_PlayerCore;
+    protected PlayerLocomotion m_Locomotion;
+    protected PlayerCombat m_Combat;
 
     public PlayerState(PlayerCore playerCore)
     {
         m_PlayerCore = playerCore;
+        m_Locomotion = playerCore.Locomotion;
+        m_Combat = playerCore.Combat;
         DebugCurrentState();
     }
     private void DebugCurrentState()

@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class PlayerMoveState : PlayerLocomotionState
+public class PlayerMoveState : PlayerState
 {
-    public PlayerMoveState(PlayerCore playerCore) : base(playerCore) {}
+    public PlayerMoveState(PlayerCore playerCore) : base(playerCore){}
 
     public override void Enter()
     {
@@ -25,6 +25,7 @@ public class PlayerMoveState : PlayerLocomotionState
 
         bool _isJump = m_PlayerCore.InputHandler.IsJump;
         bool _isFly = m_PlayerCore.InputHandler.IsFly;
+        bool _isAttack = m_PlayerCore.InputHandler.IsAttack;
 
         if (_isJump)
         {
@@ -33,11 +34,19 @@ public class PlayerMoveState : PlayerLocomotionState
                 m_PlayerCore.SwitchState(new PlayerJumpState(m_PlayerCore));
             }
         }
+        else if (m_Combat.IsWeaponChange())
+        {
+            m_PlayerCore.SwitchState(new PlayerWeaponChangeState(m_PlayerCore));
+        }
         else if (_isFly)
         {
             m_PlayerCore.SwitchState(new PlayerFlyUpStartState(m_PlayerCore));
         }
         else if (_moveDir == Vector3.zero)
             m_PlayerCore.SwitchState(new PlayerIdleState(m_PlayerCore));
+        else if (_isAttack)
+        {
+            m_PlayerCore.SwitchState(new PlayerAttackState(m_PlayerCore));
+        }
     }
 }

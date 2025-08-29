@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerJumpState : PlayerLocomotionState
+public class PlayerJumpState : PlayerState
 {
     public PlayerJumpState(PlayerCore playerCore) : base(playerCore){}
 

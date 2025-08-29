@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerFlyState : PlayerLocomotionState
+public class PlayerFlyState : PlayerState
 {
     public PlayerFlyState(PlayerCore playerCore) : base(playerCore) { }
     public override void Enter()
@@ -23,8 +23,11 @@ public class PlayerFlyState : PlayerLocomotionState
             m_PlayerCore.SwitchState(new PlayerFlyUpStartState(m_PlayerCore));
         else if (_isFlyOff)
             m_PlayerCore.SwitchState(new PlayerFallState(m_PlayerCore));
-        
-        // TODO : Áß·Â Àû¿ë ½Ã Idle ÀüÈ¯ Ã³¸®(¾Ö´Ï¸ŞÀÌ¼Ç Ã³¸® ¹ÌÈíÇØ¼­ ÇöÀç´Â Àû¿ëx)
+        else if (m_Combat.IsWeaponChange())
+        {
+            m_PlayerCore.SwitchState(new PlayerWeaponChangeState(m_PlayerCore));
+        }
+        // TODO : ì¤‘ë ¥ ì ìš© ì‹œ Idle ì „í™˜ ì²˜ë¦¬(ì• ë‹ˆë©”ì´ì…˜ ì²˜ë¦¬ ë¯¸í¡í•´ì„œ í˜„ì¬ëŠ” ì ìš©x)
     }
 
     public override void Exit()
