@@ -5,35 +5,28 @@ public class PlayerCombat : MonoBehaviour
 {
     private PlayerCore m_playerCore;
     private CharacterController m_characterController;
-    private PlayerInventorySystem m_InventorySystem;
-    private int m_currentWeaponNum;
+
+    public bool IsAttack { get; private set; }
+    public int CurrentWeaponNum { get; private set; }
+    private int m_swapWeaponNum;
     public void Initialize(PlayerCore playerCore)
     {
         m_playerCore = playerCore;
         m_characterController = m_playerCore.PlayerCharacterController;
-        m_currentWeaponNum = 1;
+
     }
 
-    public bool IsWeaponChange()
+    private void Start()
     {
-        bool _IsWeaponSwap = m_playerCore.InputHandler.IsWeaponSwap;
-        
-        return _IsWeaponSwap;
+        m_playerCore.CheckInputAction += CheckInput;
+        CurrentWeaponNum = 0;
+    }
+    public void CheckInput()
+    {
+        IsAttack = m_playerCore.InputHandler.IsAttack;
+        m_swapWeaponNum = m_playerCore.InputHandler.SwapWeaponNum;
     }
 
-    public void EnterWeaponChange()
-    {
-        int _swapWeapnNum = m_playerCore.InputHandler.SwapWeaponNum;
-        if (m_currentWeaponNum == _swapWeapnNum) return;
-        m_currentWeaponNum = _swapWeapnNum;
-        m_playerCore.AniController.ChangeWeaponAni(true);
-        m_playerCore.AniController.SetWeaponIDAni(m_currentWeaponNum);
-    }
-
-    public void ExitWeaponChange()
-    {
-        
-    }
 
     // TODO : 전략패턴
     public void Attack(bool isAttack)
@@ -42,6 +35,20 @@ public class PlayerCombat : MonoBehaviour
         // TODO : Melee일 때 앞으로 살짝 이동이 필요할듯?
         m_playerCore.AniController.AttackAni(isAttack);
         
+    }
+
+    public void Aiming()
+    {
+
+    }
+
+    public void SwapWeapon(Weapon weapon)
+    {
+        if (m_swapWeaponNum == CurrentWeaponNum) return;
+        CurrentWeaponNum = m_swapWeaponNum;
+
+        m_playerCore.EquipmentManager.SwapWeapon(weapon);
+        m_playerCore.AniController.SwapWeaponAni(CurrentWeaponNum);
     }
 
     public void OnAnimatorMove()

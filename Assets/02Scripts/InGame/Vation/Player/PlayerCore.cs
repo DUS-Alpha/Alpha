@@ -1,10 +1,11 @@
+using System;
 using UnityEngine;
 using UnityEngine.Playables;
 
+[RequireComponent(typeof(PlayerEquipmentManager))]
+[RequireComponent(typeof(PlayerInventoryManager))]
 [RequireComponent(typeof(PlayerAnimationController))]
 [RequireComponent(typeof(CharacterController))]
-[RequireComponent(typeof(PlayerInventorySystem))]
-[RequireComponent(typeof(PlayerEquipmentSystem))]
 [RequireComponent(typeof(PlayerInputHandler))]
 [RequireComponent(typeof(PlayerStateMachine))]
 [RequireComponent(typeof(PlayerLocomotion))]
@@ -19,9 +20,9 @@ public class PlayerCore : MonoBehaviour
     public PlayerLocomotion Locomotion;
     public PlayerCombat Combat;
     public CharacterController PlayerCharacterController;
-    public PlayerEquipmentSystem EquipmentSystem;
-    public PlayerInventorySystem InventorySystem;
-    public bool isAction = false;
+    public PlayerInventoryManager InventorySystem;
+    public PlayerEquipmentManager EquipmentManager;
+    public event Action CheckInputAction;
 
     private void Awake()
     {
@@ -31,8 +32,8 @@ public class PlayerCore : MonoBehaviour
         Combat = GetComponent<PlayerCombat>();
         PlayerCharacterController = GetComponent<CharacterController>();
         StateMachine = GetComponent<PlayerStateMachine>();
-        EquipmentSystem = GetComponent<PlayerEquipmentSystem>();
-        InventorySystem = GetComponent<PlayerInventorySystem>();
+        InventorySystem = GetComponent<PlayerInventoryManager>();
+        EquipmentManager = GetComponent<PlayerEquipmentManager>();
         Initialize();
     }
 
@@ -41,6 +42,7 @@ public class PlayerCore : MonoBehaviour
         Locomotion.Initialize(this);
         Combat.Initialize(this);
         StateMachine.Initialize(this);
+        InventorySystem.Initialize(this);
     }
 
     void Start()
@@ -51,6 +53,12 @@ public class PlayerCore : MonoBehaviour
     public void SwitchState(PlayerState playerState)
     {
         StateMachine.SwitchState(playerState);
+    }
+    
+    private void Update()
+    {
+        CheckInputAction?.Invoke();
+        //Combat.SwapWeapon();
     }
 
 }

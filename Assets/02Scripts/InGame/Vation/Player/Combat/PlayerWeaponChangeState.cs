@@ -9,7 +9,7 @@ public class PlayerWeaponChangeState : PlayerState
     public override void Enter()
     {
         m_nextChangeTime = Time.time + 0.1f;
-        m_Combat.EnterWeaponChange();
+        //m_Combat.EnterWeaponChange();
     }
 
     public override void FixedUpdate()

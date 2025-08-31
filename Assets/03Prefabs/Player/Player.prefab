@@ -78,9 +78,10 @@ GameObject:
   - component: {fileID: 5076560712957535269}
   - component: {fileID: 2763090024261597597}
   - component: {fileID: 587818568328244339}
+  - component: {fileID: 3030138016098574427}
   - component: {fileID: 8652837559477405220}
+  - component: {fileID: 3862750911873532425}
   - component: {fileID: 1772671772424122226}
-  - component: {fileID: 3522533398887189164}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -189,7 +190,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 620d992d61d242e48acf49f865e5f1db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_mainCamera: {fileID: 0}
   m_walkSpeed: 0
   m_sprintSpeed: 0
   m_flySpeed: 4
@@ -200,7 +200,6 @@ MonoBehaviour:
     m_Bits: 0
   m_groundDistance: 0.25
   m_jumpHeight: 5
-  m_baseGravity: -9.8
   m_flyingGravity: -0.5
   m_antiGravity: 1.5
 --- !u!114 &587818568328244339
@@ -215,6 +214,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2d790ccf400ffe438d6e6e013801bc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3030138016098574427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7144277684283177295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fd95b7872cf37845914faa83c15b96d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_animator: {fileID: 0}
 --- !u!114 &8652837559477405220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,9 +246,19 @@ MonoBehaviour:
   Locomotion: {fileID: 0}
   Combat: {fileID: 0}
   PlayerCharacterController: {fileID: 0}
-  EquipmentSystem: {fileID: 0}
   InventorySystem: {fileID: 0}
-  isAction: 0
+--- !u!114 &3862750911873532425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7144277684283177295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 867c963cc7e03914597600c3b625527d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1772671772424122226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249,19 +271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ae31bdfad5f59a4083517ac993e61cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentWeaponList: []
---- !u!114 &3522533398887189164
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7144277684283177295}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5a4a574d0aeb904c9dd86df81fa74b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  SaveItemList: []
 --- !u!1001 &9001811528378249515
 PrefabInstance:
   m_ObjectHideFlags: 0

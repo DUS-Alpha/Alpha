@@ -30,9 +30,9 @@ public class PlayerAnimationController : MonoBehaviour
         m_animator.SetBool("IsJump", isJump);
     }
 
-    public void SetIsFlyAni(bool isFly, bool isFlyUpStart)
+    public void SetIsFlyAni(bool isFlying, bool isFlyUpStart)
     {
-        m_animator.SetBool("IsFly", isFly);
+        m_animator.SetBool("IsFlying", isFlying);
         m_animator.SetBool("IsFlyUp", isFlyUpStart);
     }
     
@@ -43,14 +43,10 @@ public class PlayerAnimationController : MonoBehaviour
     }
     #endregion ================================================================================ /Locomotion
 
-    public void ChangeWeaponAni(bool isChange)
+    public void SwapWeaponAni(int weaponNum)
     {
-        m_animator.SetTrigger("WeaponChange");
-        m_animator.SetBool("IsWeaponChange", isChange);
-    }
-    public void SetWeaponIDAni(int weaponID)
-    {
-        m_animator.SetInteger("WeaponID", weaponID);
+        m_animator.SetInteger("WeaponType", weaponNum);
+        //m_animator.SetBool("IsWeaponChange", isChange);
     }
 
     // TODO : 포지션값 받아오는 함수 따로 만들지 고민

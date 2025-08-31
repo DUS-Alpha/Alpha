@@ -7,17 +7,16 @@ public class PlayerInputHandler : MonoBehaviour
     public bool IsJump { get; private set; }
     public bool IsAttack { get; private set; }
     public bool IsMouseRightDown { get; private set; }
-    public bool IsFly { get; private set; }
     public bool IsFlyUp { get; private set; }
     public bool IsFlyOff { get; private set; }
-    public int SwapWeaponNum { get; private set; } = 1;
+    public int SwapWeaponNum { get; private set; } = 0;
     public bool IsDodge { get; private set; }
     public bool IsSkill1 { get; private set; }
 
     public bool IsWeaponSwap;
     private void Start()
     {
-        SwapWeaponNum = 1;
+        SwapWeaponNum = 0;
     }
     // Update is called once per frame
     void Update()
@@ -27,7 +26,6 @@ public class PlayerInputHandler : MonoBehaviour
         IsJump = Input.GetKeyDown(KeyCode.Space);
         IsAttack = Input.GetMouseButton(0);
         IsMouseRightDown = Input.GetMouseButtonDown(1);
-        IsFly = Input.GetKeyDown(KeyCode.Q);
         IsFlyUp = Input.GetKey(KeyCode.Q);
         IsFlyOff = Input.GetKeyDown(KeyCode.E);
         ChangeNum();
@@ -52,6 +50,8 @@ public class PlayerInputHandler : MonoBehaviour
             }
         }
     }
+
+
     private void HandleInputMove()
     {
         MoveDir = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
