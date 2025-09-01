@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// 실제 장비(모델)를 플레이어에 장착하거나 교체, 해제
+
 public class PlayerEquipmentManager : MonoBehaviour
 {
     private Dictionary<EquipmentSlot, Equipment> equippedItems = new Dictionary<EquipmentSlot, Equipment>();

@@ -13,14 +13,15 @@ MonoBehaviour:
   m_Name: FFSwordData
   m_EditorClassIdentifier: 
   Description: FinalFantasy
+  ItemPrefab: {fileID: 2061332541191704801, guid: ae9adfd88c9b51c4ba9c4a5a3b194afa, type: 3}
   ID: 10
   Name: FFSword
   Icon: {fileID: 0}
-  Rating: 
+  Rating: Normal
   Slot: 5
   UsageLevel: 0
   Weight: 0
   Durability: 0
-  Type: 0
+  WeaponType: 0
   AttackDamage: 10
   AttackDelay: 0

@@ -13,7 +13,8 @@ public class PlayerInputHandler : MonoBehaviour
     public bool IsDodge { get; private set; }
     public bool IsSkill1 { get; private set; }
 
-    public bool IsWeaponSwap;
+    public bool IsWeaponSwap { get; private set; }
+    public bool IsInventory { get; private set; }
     private void Start()
     {
         SwapWeaponNum = 0;
@@ -28,6 +29,7 @@ public class PlayerInputHandler : MonoBehaviour
         IsMouseRightDown = Input.GetMouseButtonDown(1);
         IsFlyUp = Input.GetKey(KeyCode.Q);
         IsFlyOff = Input.GetKeyDown(KeyCode.E);
+        IsInventory = Input.GetKeyDown(KeyCode.I);
         ChangeNum();
     }
     private void ChangeNum()

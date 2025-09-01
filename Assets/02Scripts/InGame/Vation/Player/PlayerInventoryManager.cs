@@ -8,6 +8,7 @@ public class PlayerInventoryManager : MonoBehaviour
     public static PlayerInventoryManager Instance { get; private set; }
 
     private PlayerCore m_playerCore;
+    private bool m_isInventory;
 
     // 선언시의 new는 Awake호출전 사용 가능
     public List<Item> SaveItemList = new List<Item>();
@@ -29,7 +30,14 @@ public class PlayerInventoryManager : MonoBehaviour
     {
 
     }
-
+    public void CheckInput()
+    {
+        bool _isInventory = m_playerCore.InputHandler.IsInventory;
+        if(_isInventory)
+        {
+            m_isInventory = !m_isInventory;
+        }
+    }
     public void AddItem(Item item)
     {
         SaveItemList.Add(item);
