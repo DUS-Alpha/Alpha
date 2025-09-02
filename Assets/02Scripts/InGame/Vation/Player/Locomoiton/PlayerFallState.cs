@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerFallState : PlayerLocomotionState
+public class PlayerFallState : PlayerState
 {
     public PlayerFallState(PlayerCore playerCore) : base(playerCore){}
 
@@ -15,10 +15,8 @@ public class PlayerFallState : PlayerLocomotionState
 
     public override void Update()
     {
-        bool _isFly = m_PlayerCore.InputHandler.IsFly;
-
         m_Locomotion.ApplyGravity();
-        if (_isFly)
+        if (m_Locomotion.IsFlyUp)
         {
             m_PlayerCore.SwitchState(new PlayerFlyUpStartState(m_PlayerCore));
         }

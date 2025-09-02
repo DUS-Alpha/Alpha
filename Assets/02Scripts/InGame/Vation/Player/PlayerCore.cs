@@ -1,6 +1,11 @@
+using System;
 using UnityEngine;
 using UnityEngine.Playables;
 
+[RequireComponent(typeof(PlayerEquipmentManager))]
+[RequireComponent(typeof(PlayerInventoryManager))]
+[RequireComponent(typeof(PlayerAnimationController))]
+[RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(PlayerInputHandler))]
 [RequireComponent(typeof(PlayerStateMachine))]
 [RequireComponent(typeof(PlayerLocomotion))]
@@ -8,27 +13,36 @@ using UnityEngine.Playables;
 public class PlayerCore : MonoBehaviour
 {
     [Header(" [ Ref Component ] ")]
+    public GameObject player;
     public PlayerInputHandler InputHandler;
     public PlayerAnimationController AniController;
     public PlayerStateMachine StateMachine;
     public PlayerLocomotion Locomotion;
     public PlayerCombat Combat;
-    public bool isAction = false;
+    public CharacterController PlayerCharacterController;
+    public PlayerInventoryManager InventorySystem;
+    public PlayerEquipmentManager EquipmentManager;
+    public event Action CheckInputAction;
+
     private void Awake()
     {
         InputHandler = GetComponent<PlayerInputHandler>();
-        AniController = GetComponentInChildren<PlayerAnimationController>();
+        AniController = GetComponent<PlayerAnimationController>();
         Locomotion = GetComponent<PlayerLocomotion>();
         Combat = GetComponent<PlayerCombat>();
+        PlayerCharacterController = GetComponent<CharacterController>();
         StateMachine = GetComponent<PlayerStateMachine>();
+        InventorySystem = GetComponent<PlayerInventoryManager>();
+        EquipmentManager = GetComponent<PlayerEquipmentManager>();
         Initialize();
     }
 
     public void Initialize()
     {
         Locomotion.Initialize(this);
-        Combat.Initialize();
+        Combat.Initialize(this);
         StateMachine.Initialize(this);
+        InventorySystem.Initialize(this);
     }
 
     void Start()
@@ -40,19 +54,11 @@ public class PlayerCore : MonoBehaviour
     {
         StateMachine.SwitchState(playerState);
     }
-
-    /*private void MovementModules()
+    
+    private void Update()
     {
-        Vector3 _moveDir = InputHandler.MoveDir;
-        bool _isSprint = InputHandler.IsSprint;
-        bool _isFly = InputHandler.IsFly;
-        float _currentMoveSpeed = Locomotion.m_currentSpeed;
+        CheckInputAction?.Invoke();
+        //Combat.SwapWeapon();
+    }
 
-        // Locomotion
-        Locomotion.HandleMove(_moveDir, _isSprint);
-        Locomotion.HandleRotate(_isFly);
-
-        // Animation
-        AniController.GroundMoveAni(_currentMoveSpeed);
-    }*/
 }

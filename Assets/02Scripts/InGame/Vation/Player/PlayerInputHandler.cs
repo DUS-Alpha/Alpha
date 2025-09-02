@@ -7,13 +7,18 @@ public class PlayerInputHandler : MonoBehaviour
     public bool IsJump { get; private set; }
     public bool IsAttack { get; private set; }
     public bool IsMouseRightDown { get; private set; }
-    public bool IsFly { get; private set; }
     public bool IsFlyUp { get; private set; }
     public bool IsFlyOff { get; private set; }
+    public int SwapWeaponNum { get; private set; } = 0;
     public bool IsDodge { get; private set; }
     public bool IsSkill1 { get; private set; }
 
-    public int SwapWeaponNum { get; private set; }
+    public bool IsWeaponSwap { get; private set; }
+    public bool IsInventory { get; private set; }
+    private void Start()
+    {
+        SwapWeaponNum = 0;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -22,17 +27,39 @@ public class PlayerInputHandler : MonoBehaviour
         IsJump = Input.GetKeyDown(KeyCode.Space);
         IsAttack = Input.GetMouseButton(0);
         IsMouseRightDown = Input.GetMouseButtonDown(1);
-        IsFly = Input.GetKeyDown(KeyCode.Q);
         IsFlyUp = Input.GetKey(KeyCode.Q);
         IsFlyOff = Input.GetKeyDown(KeyCode.E);
+        IsInventory = Input.GetKeyDown(KeyCode.I);
+        ChangeNum();
     }
+    private void ChangeNum()
+    {
+        IsWeaponSwap = Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Alpha3);
+
+        if(IsWeaponSwap)
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                SwapWeaponNum = 1;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                SwapWeaponNum = 2;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                SwapWeaponNum = 3;
+            }
+        }
+    }
+
 
     private void HandleInputMove()
     {
         MoveDir = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 
-        // Á¶ÀÌ½ºÆ½ °°Àº ´©¸£´Â ¹Î°¨µµ¸¦ ÁöÄÑÁÖ±â À§ÇØ 0~1±îÁö´Â ±âº» GetAxis°ªÀ¸·ÎÇÏµÇ
-        // Èû(¹Î°¨µµ) 1ÀÌ»óÀÏ ¶§ (Áï,´ë°¢¼±·çÆ®2, °ÅÀÇ Á¶ÀÌ½ºÆ½ ´ë°¢¼± Ç®·Î ¿òÁ÷ÀÎ »óÅÂ) º¯°æÇØÁÜ / Å°º¸µå °°Àº ¹öÆ° ¹æ½ÄÀº ÇÊ¿ä¾øÀ½
+        // ì¡°ì´ìŠ¤í‹± ê°™ì€ ëˆ„ë¥´ëŠ” ë¯¼ê°ë„ë¥¼ ì§€ì¼œì£¼ê¸° ìœ„í•´ 0~1ê¹Œì§€ëŠ” ê¸°ë³¸ GetAxisê°’ìœ¼ë¡œí•˜ë˜
+        // íž˜(ë¯¼ê°ë„) 1ì´ìƒì¼ ë•Œ (ì¦‰,ëŒ€ê°ì„ ë£¨íŠ¸2, ê±°ì˜ ì¡°ì´ìŠ¤í‹± ëŒ€ê°ì„  í’€ë¡œ ì›€ì§ì¸ ìƒíƒœ) ë³€ê²½í•´ì¤Œ / í‚¤ë³´ë“œ ê°™ì€ ë²„íŠ¼ ë°©ì‹ì€ í•„ìš”ì—†ìŒ
         if (MoveDir.magnitude >= 1) MoveDir.Normalize();
     }
 }

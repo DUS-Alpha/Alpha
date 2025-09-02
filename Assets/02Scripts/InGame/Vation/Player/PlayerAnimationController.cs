@@ -1,24 +1,27 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Animator))]
 public class PlayerAnimationController : MonoBehaviour
 {
     [SerializeField]
     private Animator m_animator;
-
+    public Vector3 RootMotionPos { get; private set; }
+    public Quaternion RootMotionRot { get; private set; }
+    public bool IsRootMotion { get; private set; }
     private void Awake()
     {
         m_animator = GetComponent<Animator>();
     }
-
+    #region ================================================================================ Locomotion
     /// <summary>
-    /// Locomotion�� CurrentMoveSpeed �޾ƿ���
+    /// Locomotion의 CurrentMoveSpeed 받아오기
     /// </summary>
     /// <param name="moveSpeed"></param>
     public void SetGroundMoveAni(float moveSpeed)
     {
         m_animator.SetFloat("MoveSpeed", moveSpeed);
     }
-    public void SetIsGround(bool isGrounded)
+    public void SetIsGroundAni(bool isGrounded)
     {
         m_animator.SetBool("IsGround", isGrounded);
     }
@@ -27,9 +30,9 @@ public class PlayerAnimationController : MonoBehaviour
         m_animator.SetBool("IsJump", isJump);
     }
 
-    public void SetIsFly(bool isFly, bool isFlyUpStart)
+    public void SetIsFlyAni(bool isFlying, bool isFlyUpStart)
     {
-        m_animator.SetBool("IsFly", isFly);
+        m_animator.SetBool("IsFlying", isFlying);
         m_animator.SetBool("IsFlyUp", isFlyUpStart);
     }
     
@@ -37,5 +40,29 @@ public class PlayerAnimationController : MonoBehaviour
     {
         m_animator.SetFloat("InputX", inputX);
         m_animator.SetFloat("InputY", inputY);
+    }
+    #endregion ================================================================================ /Locomotion
+
+    public void SwapWeaponAni(int weaponNum)
+    {
+        m_animator.SetInteger("WeaponType", weaponNum);
+        //m_animator.SetBool("IsWeaponChange", isChange);
+    }
+
+    // TODO : 포지션값 받아오는 함수 따로 만들지 고민
+    public void AttackAni(bool isAttack)
+    {
+        IsRootMotion = isAttack;
+        m_animator.applyRootMotion = isAttack;
+        m_animator.SetBool("IsAttack", isAttack);
+    }
+
+    public void UpdateAnimatorTransformValue()
+    {
+        if(m_animator.applyRootMotion)
+        {
+            RootMotionPos = m_animator.deltaPosition;
+            RootMotionRot = m_animator.deltaRotation;
+        }
     }
 }

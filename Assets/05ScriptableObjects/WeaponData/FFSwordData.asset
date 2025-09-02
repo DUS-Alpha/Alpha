@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e37e9f5191e35d4e841b3e146b5355d, type: 3}
+  m_Name: FFSwordData
+  m_EditorClassIdentifier: 
+  Description: FinalFantasy
+  ItemPrefab: {fileID: 2061332541191704801, guid: ae9adfd88c9b51c4ba9c4a5a3b194afa, type: 3}
+  ID: 10
+  Name: FFSword
+  Icon: {fileID: 0}
+  Rating: Normal
+  Slot: 5
+  UsageLevel: 0
+  Weight: 0
+  Durability: 0
+  WeaponType: 0
+  AttackDamage: 10
+  AttackDelay: 0

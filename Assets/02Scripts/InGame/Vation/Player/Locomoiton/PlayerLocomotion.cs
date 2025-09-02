@@ -1,24 +1,17 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Unity.Android.Gradle.Manifest;
 using UnityEngine;
 using UnityEngine.Windows;
 
-[RequireComponent(typeof(CharacterController))]
 public class PlayerLocomotion : MonoBehaviour
 {
     private PlayerCore m_playerCore;
-    private LocomotionGroundUtility m_groundUtility;
-    private LocomotionFlyUtility m_flyUtility;
-    private GravityUtility m_gravityUtility;
-
-    [Header("[ Ref Component ]")]
-    [SerializeField]
     private CharacterController m_characterController;
-    [SerializeField]
-    private Camera m_mainCamera;
+    private LocomotionUtility m_locoUtility;
 
-    [Space(10)]
+    //[Header("[ Ref Component ]")]
 
     [Header("[ HandleMove ]")]
     [SerializeField]
@@ -34,9 +27,6 @@ public class PlayerLocomotion : MonoBehaviour
     private float m_currentSpeed;
     [Space(10)]
 
-    [Header("[ HandleRotate ]")]
-    private float m_rotationSmoothTime = 0.2f;
-
     [Header("[ Ground ]")]
     [SerializeField]
     private LayerMask m_groundMask;
@@ -49,76 +39,107 @@ public class PlayerLocomotion : MonoBehaviour
     private float m_jumpHeight = 5f;
 
     [Header("[ Gravity ]")]
-    [SerializeField]
-    private float m_baseGravity = -9.8f;
+    public float BaseGravity { get; private set; } = -9.8f;
     [SerializeField]
     private float m_flyingGravity = -0.5f;
     [SerializeField]
     private float m_antiGravity = 1.5f;
 
-
-    public Vector3 Velocity => m_velocity;
+    public Vector3 Velocity => m_velocity;  //.yÍ∞í Î≥ÄÍ≤ΩÏù¥ publicÏúºÎ°úÎäî Ïù¥ÏÉÅÌïòÍ≤å ÏïàÎê® Í∑∏ÎûòÏÑú Ïó∞Í≤∞
     private Vector3 m_velocity;
 
     private Vector3 m_moveDirByCamera;
     
-    private bool m_isJumpKeyDown;
     private float m_lastGroundTime;
-    private bool m_isFlying;
+
+    public Vector3 MoveDir { get; private set; }
+    public bool IsSprint { get; private set; }
+    public bool IsJump { get; private set; }
+    public bool CanFlyUp { get; private set; }
+    public bool IsFlying { get; private set; }
+    public bool IsFlyUp { get; private set; }
     public bool IsFlyOff { get; private set; }
-    
+   
     private void Awake()
     {
-        m_characterController = GetComponent<CharacterController>();
-        m_groundUtility = new LocomotionGroundUtility();
-        m_flyUtility = new LocomotionFlyUtility();
-        m_gravityUtility = new GravityUtility();
+        m_locoUtility = new LocomotionUtility();
     }
 
     public void Initialize(PlayerCore playerCore)
     {
         m_playerCore = playerCore;
+        m_characterController = m_playerCore.PlayerCharacterController;
+    }
+    private void Start()
+    {
+        m_playerCore.CheckInputAction += CheckInput;
     }
 
+    public void CheckInput()
+    {
+        MoveDir = m_playerCore.InputHandler.MoveDir;
+        IsSprint = m_playerCore.InputHandler.IsSprint;
+        IsFlyUp = m_playerCore.InputHandler.IsFlyUp;
+        IsFlyOff = m_playerCore.InputHandler.IsFlyOff;
+        bool _isJump = m_playerCore.InputHandler.IsJump;
+
+        if (_isJump && IsGrounded)
+        {
+            IsJump = true;
+        }
+
+        if (IsFlyUp)
+        {
+            IsFlying = true;
+        }
+        else if (IsFlyOff)
+        {
+            IsFlying = false;
+        }
+    }
     #region ================================================================================ Movement
+
     /// <summary>
-    /// Move, Rotate, MoveAni µøΩ√ √≥∏Æ
+    /// Move, Rotate, MoveAni ÎèôÏãú Ï≤òÎ¶¨
     /// </summary>
     /// <param name="payerCore"></param>
     /// <returns></returns>
-    public Vector3 LocomotionGroundMovement()
+    public void Movement()
     {
-        Vector3 _moveDir = m_playerCore.InputHandler.MoveDir;
-        bool _isSprint = m_playerCore.InputHandler.IsSprint;
-        float _targetSpeed = _isSprint ? m_sprintSpeed : m_walkSpeed;
+        float _targetSpeed = IsSprint ? m_sprintSpeed : m_walkSpeed;
 
-        HandleMove(_moveDir, _targetSpeed);
-        HandleRotate();
-        ApplyGravity();
+        HandleMove(MoveDir, _targetSpeed);
+        HandleRotate(MoveDir, IsFlying);
 
-        m_playerCore.AniController.SetGroundMoveAni(m_currentSpeed);
-        
-        return _moveDir;
+        if (IsFlying)
+        {
+            m_playerCore.AniController.SetFlyMoveAni(MoveDir.x, MoveDir.z);
+        }
+        else
+        {
+            ApplyGravity();
+            m_playerCore.AniController.SetGroundMoveAni(m_currentSpeed);
+        }
     }
 
-    // TODO : FlyMoveøÕ ∏Æ∆—≈‰∏µ
+    // TODO : FlyMoveÏôÄ Î¶¨Ìå©ÌÜ†ÎßÅ
     private void HandleMove(Vector3 moveDir, float targetSpeed)
     {
-        m_currentSpeed = m_groundUtility.HandleMove(moveDir, targetSpeed, m_speedLerpRate, m_characterController);
-        m_moveDirByCamera = m_groundUtility.GetMovieDir();
+        m_currentSpeed = m_locoUtility.HandleMove(moveDir, targetSpeed, m_speedLerpRate, m_characterController);
+        m_moveDirByCamera = m_locoUtility.GetMovieDir();
     }
 
-    // FlyRotateøÕ ∏Æ∆—≈‰∏µ
-    private void HandleRotate()
+    // FlyRotateÏôÄ Î¶¨Ìå©ÌÜ†ÎßÅ
+    private void HandleRotate(Vector3 moveDir, bool isCurrentFlying)
     {
-        m_groundUtility.HandleRotate(this.gameObject, m_rotationSmoothTime);
+        m_locoUtility.HandleRotate(this.gameObject, moveDir, isCurrentFlying);
     }
     #endregion ================================================================================ /Movement
 
     #region ================================================================================ Ground
     private void CheckGround()
     {
-        // m_characterController.center πŸ¥⁄ø°º≠ ¡∂±› ∂ÁæÓ¡Æ¿÷¥¬ ªÛ≈¬
+        // m_characterController.center Î∞îÎã•ÏóêÏÑú Ï°∞Í∏à ÎùÑÏñ¥Ï†∏ÏûàÎäî ÏÉÅÌÉú
         Vector3 _center = m_characterController.center;
         float _height = m_characterController.height;
 
@@ -133,127 +154,76 @@ public class PlayerLocomotion : MonoBehaviour
 
         IsGrounded = (Time.time - m_lastGroundTime) <= 0.1f;
 
-        if (!m_isJumpKeyDown && IsGrounded && !m_isFlying)
+        if (!IsJump && IsGrounded && !IsFlying)
         {
             m_velocity.y = -2f;
         }
+
         // Ground Anim Parameter
-        m_playerCore.AniController.SetIsGround(IsGrounded);
+        m_playerCore.AniController.SetIsGroundAni(IsGrounded);
 
         Debug.DrawLine(_colliderButtomtr, _colliderButtomtr + (Vector3.down * m_groundDistance), Color.red);
     }
     #endregion ================================================================================ /Ground
 
     #region ================================================================================ Jump
-    
     public void JumpStart()
     {
-        m_isJumpKeyDown = true;
         IsGrounded = false;
+        IsJump = true;
+        //Îì±Í∞ÄÏÜçÎèÑÏö¥Îèô Ï†ÅÏö© (ÎÖ∏ÏÖò Ï∞∏Í≥†)
+        m_velocity.y = Mathf.Sqrt(m_jumpHeight * -2f * BaseGravity);   // m_jumpHeight = Ï†êÌîÑ ÌûòÏù¥Í∏∞ÎèÑÌï®
 
-        //µÓ∞°º”µµøÓµø ¿˚øÎ (≥Îº« ¬¸∞Ì)
-        m_velocity.y = Mathf.Sqrt(m_jumpHeight * -2f * m_baseGravity);   // m_jumpHeight = ¡°«¡ »˚¿Ã±‚µµ«‘
-
-        m_playerCore.AniController.SetJumpAni(m_isJumpKeyDown);
-        m_playerCore.AniController.SetIsGround(IsGrounded);
+        m_playerCore.AniController.SetJumpAni(IsJump);
+        m_playerCore.AniController.SetIsGroundAni(IsGrounded);
     }
     public void JumpExit()
     {
-        m_isJumpKeyDown = false;
-        m_playerCore.AniController.SetJumpAni(m_isJumpKeyDown);
-        m_playerCore.AniController.SetIsGround(IsGrounded);
+        IsJump = false;
+        m_playerCore.AniController.SetJumpAni(IsJump);
+        m_playerCore.AniController.SetIsGroundAni(IsGrounded);
     }
 
     #endregion ================================================================================ /Jump
 
     #region ================================================================================ Gravtiy
-    // TODO : ¡ﬂ∫π ≥ªøÎ¿Ã±‚ø° ¿ÁªÁøÎº∫¿∏∑Œ ¿¸»Ø
+    // TODO : Ï§ëÎ≥µ ÎÇ¥Ïö©Ïù¥Í∏∞Ïóê Ïû¨ÏÇ¨Ïö©ÏÑ±ÏúºÎ°ú Ï†ÑÌôò
     public void ApplyGravity()
     {
-        m_velocity = m_gravityUtility.ApplyGravity(m_baseGravity, m_currentSpeed, m_moveDirByCamera, m_velocity, m_characterController);
+        if(IsFlyUp)
+            m_velocity = m_locoUtility.ApplyGravity(m_antiGravity, m_currentSpeed, m_moveDirByCamera, m_velocity, m_characterController);
+        else if(!IsFlying)
+            m_velocity = m_locoUtility.ApplyGravity(BaseGravity, m_currentSpeed, m_moveDirByCamera, m_velocity, m_characterController);
         CheckGround();
-    }
-    public void ApplyAntiGravity()
-    {
-        m_velocity = m_gravityUtility.ApplyAntiGravity(m_antiGravity, m_currentSpeed, m_moveDirByCamera, m_velocity, m_characterController);
-        CheckGround();
-    }
-    public void ApplyFlyGravity()
-    {
-        m_velocity = m_gravityUtility.ApplyAntiGravity(m_flyingGravity, m_currentSpeed, m_moveDirByCamera, m_velocity, m_characterController);
     }
     #endregion ================================================================================ /Gravtiy
 
     #region ================================================================================ Fly
-
     public void FlyUpStart()
     {
-        float _startDistance = 9f;  // ¿Ãµø∞≈∏Æ
+        float _startDistance = 9f;  // Ïù¥ÎèôÍ±∞Î¶¨
 
         IsGrounded = false;
-        m_isFlying = true;
+        IsFlying = true;
 
         bool _isFlyUpStart = m_playerCore.InputHandler.IsFlyUp;
-        // µÓ∞°º”
+        // Îì±Í∞ÄÏÜç
         m_velocity.y = Mathf.Sqrt(_startDistance * 2f * m_antiGravity);
 
-        m_playerCore.AniController.SetIsFly(m_isFlying, _isFlyUpStart);
+        m_playerCore.AniController.SetIsFlyAni(IsFlying, _isFlyUpStart);
+        StartCoroutine(FlyUpDelayCoroutine(0.4f));
     }
-    public void FlyUp()
+
+    // Ïï†ÎãàÎ©îÏù¥ÏÖò Î™®ÏÖò ÏûêÏó∞Ïä§ÎüΩÍ≤åÌïòÍ∏∞ ÏúÑÌï¥
+    private IEnumerator FlyUpDelayCoroutine(float delayTime)
     {
-        ApplyAntiGravity();
+        yield return new WaitForSeconds(delayTime);
+        CanFlyUp = true;
     }
-
-    public void FlyUpExit()
-    {
-        m_playerCore.AniController.SetIsFly(m_isFlying, false);
-    }
-
-    /// <summary>
-    /// FlyMove, FlyRotate, FlyMoveAni µøΩ√ √≥∏Æ
-    /// </summary>
-    /// <param name="payerCore"></param>
-    /// <returns></returns>
-    public Vector3 LocomotionFlyMovement()
-    {
-        Vector3 _moveDir = m_playerCore.InputHandler.MoveDir;
-        bool _isSprint = m_playerCore.InputHandler.IsSprint;
-        float _targetSpeed = _isSprint ? m_flySprintSpeed : m_flySpeed;
-        bool _isFlyOff = m_playerCore.InputHandler.IsFlyOff;
-        m_isFlying = !_isFlyOff;
-
-        // Move & Rotate
-        HandleFlyMove(_moveDir, _targetSpeed);
-        HandleFlyRotate(_moveDir);
-
-        // ApplyGravity
-        //ApplyFlyGravity();
-
-        // Ani
-        m_playerCore.AniController.SetFlyMoveAni(_moveDir.x, _moveDir.z);
-        
-        return _moveDir;
-    }
-
-    // TODO : FlyMoveøÕ ∏Æ∆—≈‰∏µ
-    private void HandleFlyMove(Vector3 moveDir, float targetSpeed)
-    {
-        m_currentSpeed = m_groundUtility.HandleMove(moveDir, targetSpeed, m_speedLerpRate, m_characterController);
-        
-        m_moveDirByCamera = m_groundUtility.GetMovieDir();
-    }
-    // TODO : FlyMoveøÕ ∏Æ∆—≈‰∏µ
-
-    // FlyRotateøÕ ∏Æ∆—≈‰∏µ
-    private void HandleFlyRotate(Vector3 moveDir)
-    {
-        m_flyUtility.HandleRotate(this.gameObject, m_mainCamera, moveDir, m_rotationSmoothTime);
-    }
-
     public void FlyExit()
     {
-        bool _isFlyUp = m_playerCore.InputHandler.IsFlyUp;
-        m_playerCore.AniController.SetIsFly(m_isFlying, _isFlyUp);
+        CanFlyUp = false;
+        m_playerCore.AniController.SetIsFlyAni(IsFlying, IsFlyUp);
     }
     #endregion ================================================================================ /Fly
 }
