@@ -1,16 +1,29 @@
 using UnityEngine;
+using Combat;
 
 public class AttackSelector : MonoBehaviour
 {
-    // [Header("공격 트리거들 (지금은 랜덤)")]
-    public string[] triggers;
+    public string[] FarTriggers;
+    public string[] MidTriggers;
+    public string[] CloseTriggers;
 
-    // 지금은 랜덤 → 나중에 이 함수를 가중치 버전으로 교체
-    public int PickIndexRandom()
+    // range → 해당 배열
+    private string[] GetArray(CombatRange range)
     {
-        if (triggers == null || triggers.Length == 0) return -1;
-        return Random.Range(0, triggers.Length);
+        switch (range)
+        {
+            case CombatRange.Far:   return FarTriggers;
+            case CombatRange.Mid:   return MidTriggers;
+            case CombatRange.Close: return CloseTriggers;
+        }
+        return null;
     }
-
-    public string GetTrigger(int idx) => triggers[idx];
+    
+    // (권장) 인덱스 말고 문자열을 바로 뽑는 편의 함수
+    public string PickTriggerRandom(CombatRange range)
+    {
+        var arr = GetArray(range);
+        if (arr == null || arr.Length == 0) return null;
+        return arr[Random.Range(0, arr.Length)];
+    }
 }

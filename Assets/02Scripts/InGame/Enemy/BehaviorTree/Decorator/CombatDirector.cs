@@ -1,4 +1,5 @@
 using UnityEngine;
+using Combat;
 
 public class CombatDirector : MonoBehaviour
 {
@@ -17,10 +18,14 @@ public class CombatDirector : MonoBehaviour
     public Vector2 idleHold = new(0.3f, 0.6f);
     public Vector2 recover  = new(0.2f, 0.5f);
 
-    enum Phase { MoveLoop, IdleHold, Attack, Recover }
+    enum m_Phase { MoveLoop, IdleHold, Attack, Recover }
+
     
+
     [SerializeField]
-    Phase phase = Phase.MoveLoop;
+    CombatRange m_RagneState = CombatRange.Close;
+    [SerializeField]
+     m_Phase mPhase = m_Phase.MoveLoop;
     [SerializeField]
     float phaseTimer;
     [SerializeField]
@@ -34,6 +39,11 @@ public class CombatDirector : MonoBehaviour
         animator.SetFloat(MoveX, 0f, damp, Time.deltaTime);
         animator.SetFloat(MoveZ, 0f, damp, Time.deltaTime);
     }
+    
+    /// <summary>
+    /// 초기화 함수 
+    /// </summary>
+    /// <param name="a"></param>
     public void Bind(BossActions a)
     {
         actions = a;
@@ -48,12 +58,12 @@ public class CombatDirector : MonoBehaviour
     {
         if (actions.BB == null || actions.BB.Target == null) return NodeState.Failure;
 
-        switch (phase)
+        switch (mPhase)
         {
-            case Phase.MoveLoop: DoMoveLoop(); break;
-            case Phase.IdleHold: DoIdleHold(); break;
-            case Phase.Attack:   DoAttack();   break;
-            case Phase.Recover:  DoRecover();  break;
+            case m_Phase.MoveLoop: DoMoveLoop(); break;
+            case m_Phase.IdleHold: DoIdleHold(); break;
+            case m_Phase.Attack:   DoAttack();   break;
+            case m_Phase.Recover:  DoRecover();  break;
         }
         return NodeState.Running;
     }
@@ -65,7 +75,7 @@ public class CombatDirector : MonoBehaviour
 
         if (wantAttackNow || stance.IsCycleFinished)
         {
-            phase = Phase.IdleHold;
+            mPhase = m_Phase.IdleHold;
             phaseTimer = Random.Range(idleHold.x, idleHold.y);
             return;
         }
@@ -79,19 +89,19 @@ public class CombatDirector : MonoBehaviour
         phaseTimer -= Time.deltaTime;
         if (phaseTimer <= 0f)
         {
-            
-            phase = Phase.Attack;
+            mPhase = m_Phase.Attack;
             StartAttack();
         }
     }
 
+    //어택 중이 아닐때를 위한 함수 
     void DoAttack()
     {
         ZeroLocomotion();
         
         if (!attackRunning)
         {
-            phase = Phase.Recover;
+            mPhase = m_Phase.Recover;
             phaseTimer = Random.Range(recover.x, recover.y);
         }
     }
@@ -105,31 +115,47 @@ public class CombatDirector : MonoBehaviour
         if (phaseTimer <= 0f)
         {
             stance.ResetCycle();
-            phase = Phase.MoveLoop;
+            mPhase = m_Phase.MoveLoop;
         }
     }
+  
 
+    // 반환형 버전만 남기기 (기존 void SearchRange()는 삭제 or 이름 변경)
+    CombatRange SearchRange()
+    {
+        float sqr   = (actions.BB.Target.position - transform.position).sqrMagnitude;
+        float close2 = actions.CloseRange * actions.CloseRange;
+        float far2   = actions.FarRange   * actions.FarRange;
+
+        if (sqr > far2)   return m_RagneState = CombatRange.Far;
+        if (sqr < close2) return m_RagneState = CombatRange.Close;
+        return m_RagneState = CombatRange.Mid;
+    }
+
+   // StartAttack 교체
     void StartAttack()
     {
-        
         ZeroLocomotion();
-        
-        // 지금은 랜덤, 나중에 가중치 함수로 교체
-        int idx = attacks.PickIndexRandom();
-        if (idx < 0)
-        {
-            print("start 어택이 실행 중이나 1보다 작아서 다시 loop로 돌아감");
-            stance.ResetCycle(); 
-            phase = Phase.MoveLoop; return;
-        }
 
-        string trigger = attacks.GetTrigger(idx);
-        Debug.Log("애니메이션 트리거 : " + trigger);
-        animator.ResetTrigger(trigger);
-        animator.SetTrigger(trigger);
-        attackRunning = true; // 애니 이벤트에서 false로 풀기
+        SearchRange();                      // ✅ 바로 범위 얻기
         
+        string trig = attacks.PickTriggerRandom(m_RagneState);   // AttackSelector가 거리별 배열에서 랜덤 반환
+
+        if (string.IsNullOrEmpty(trig))
+        {
+            Debug.LogWarning($"[CombatDirector] {m_RagneState} 범위 트리거가 없음 → 루프 복귀");
+            stance.ResetCycle();
+            mPhase = m_Phase.MoveLoop;
+            return;
+        }
+        print(trig);
+
+        //애니메이션 넣고  테스트 해보기 
+        animator.ResetTrigger(trig);
+        animator.SetTrigger(trig);
+        attackRunning = true; // 애니 이벤트에서 해제
     }
+
 
     // 애니 이벤트에서 호출
     public void OnAnimationFinished_Attack() => attackRunning = false;

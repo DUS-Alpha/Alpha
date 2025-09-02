@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 
 [RequireComponent(typeof(CombatDirector))]
@@ -8,9 +9,9 @@ using UnityEngine;
 public class BossActions : MonoBehaviour
 {
     public Blackboard BB { get; private set; }
-    public float ShootRange = 10f;
-    public float OptimalRange = 7;
-    public float TooCloseRange = 4f;
+    public float FarRange = 20f;
+    public float MidRange = 15f;
+    public float CloseRange = 8f;
 
     public void SetBlackboard(Blackboard bb) => BB = bb;
 

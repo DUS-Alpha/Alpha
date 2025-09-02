@@ -13,11 +13,7 @@ public class Blackboard
     public Transform OwnerTransform; // 보스 Transform
     public Transform Target;         // 현재 타깃(플레이어 등)
     public NavMeshAgent Agent;       // 이동 에이전트(있으면)
-
-    // 임시/계산용 데이터들 (원하면 자유롭게 사용)
-    public Vector3 CachedPosition;
-    public Vector3 DesiredCover;
-
+    
     // (선행 예비) 쿨다운 키 공유용 — 지금은 쓰지 않아도 됨
     private readonly Dictionary<string, float> _cooldowns = new();
 

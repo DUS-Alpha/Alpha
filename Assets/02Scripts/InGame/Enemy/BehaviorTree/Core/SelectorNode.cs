@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class SelectorNode : INode
 {
     private readonly List<INode> _children = new();
-    private int _currentIndex = 0; // ★ 진행상태 기억
+    private int m_currentIndex = 0; // ★ 진행상태 기억
 
     public SelectorNode(params INode[] children)
     {
@@ -14,28 +14,28 @@ public class SelectorNode : INode
 
     public NodeState Evaluate()
     {
-        while (_currentIndex < _children.Count)
+        while (m_currentIndex < _children.Count)
         {
-            var s = _children[_currentIndex].Evaluate();
+            var s = _children[m_currentIndex].Evaluate();
             switch (s)
             {
                 case NodeState.Failure:
-                    _currentIndex++;      // 다음 후보로
+                    m_currentIndex++;      // 다음 후보로
                     continue;
                 case NodeState.Running:
                     return NodeState.Running;
                 case NodeState.Success:
-                    _currentIndex = 0;    // 성공했으면 다음 틱엔 처음부터
+                    m_currentIndex = 0;    // 성공했으면 다음 틱엔 처음부터
                     return NodeState.Success;
             }
         }
-        _currentIndex = 0;
+        m_currentIndex = 0;
         return NodeState.Failure;
     }
 
     public void Reset()
     {
-        _currentIndex = 0;
+        m_currentIndex = 0;
         foreach (var c in _children) c.Reset();
     }
 }
