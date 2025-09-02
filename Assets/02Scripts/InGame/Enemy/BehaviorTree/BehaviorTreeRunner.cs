@@ -41,6 +41,5 @@ public class BehaviorTreeRunner : MonoBehaviour
         // 매 프레임 트리 실행
         // (_tree.Tick() → 내부적으로 _root.Evaluate() 호출)
         _tree.Tick();
-      
     }
 }

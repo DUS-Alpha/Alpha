@@ -18,6 +18,7 @@ public class EnemyStateManager : MonoBehaviour
         // EnemyStateManager는 단순히 "IdleState다" 정도만 알고,
         // IdleState 내부에서 어떤 동작(조건 체크, 전환 로직)을 하는지는 모름
         TransitionToState(new IdleState());
+        
     }
 
     private void Update()
@@ -42,7 +43,6 @@ public class EnemyStateManager : MonoBehaviour
         // 새로운 상태의 초기화들 타겟등  활성화 되는것들을하는것 
         // this는 자기 자신를 받는것 위에서 새로운  스테이트를 받으므로 새로 받은 state의  EnterState가 실행될것 
         CurrentState.EnterState(this);
-
         
         // 어떤 상태로 전환됐는지 로그
         print($"TransitionToState   + {newState}");

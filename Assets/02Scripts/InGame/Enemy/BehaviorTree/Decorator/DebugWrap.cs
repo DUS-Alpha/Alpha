@@ -1,5 +1,6 @@
 using UnityEngine;
 
+//노드 디버그용으로 사용 어떤 노드인지 확인하기 위해 
 public class DebugWrap : INode
 {
     private readonly INode _child;
