@@ -6,9 +6,9 @@ using UnityEngine;
 public class BossDebugGizmos : MonoBehaviour
 {
     public BossActions actions;
-    public Color FarColor = new Color(0.2f, 0.7f, 1f, 0.4f);
     public Color MidColor = new Color(0.2f, 1f, 0.4f, 0.4f);
     public Color CloseColor = new Color(1f, 0.3f, 0.3f, 0.4f);
+    public Color StopColor = Color.magenta;
     public Color lineColor = Color.yellow;
 
     private void OnDrawGizmos()
@@ -17,9 +17,9 @@ public class BossDebugGizmos : MonoBehaviour
         if (!actions) return;
 
         // 원 그리기
-        DrawCircle(transform.position, actions.FarRange, FarColor);
         DrawCircle(transform.position, actions.MidRange, MidColor);
         DrawCircle(transform.position, actions.CloseRange, CloseColor);
+        DrawCircle(actions.BB.Target.position, actions.StopRange, StopColor);
 
         // 타깃 방향선
         if (actions.BB != null && actions.BB.Target)

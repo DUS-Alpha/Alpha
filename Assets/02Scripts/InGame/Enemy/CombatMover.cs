@@ -31,7 +31,7 @@ public class CombatMover : MonoBehaviour {
         // 정책으로 모드 결정 → 실행기에서 실제 이동 처리
         var mode = policy.Decide(transform.position, target);
         
-        exec.Tick(mode, policy.idealRadius, Time.deltaTime);
+        exec.Tick(mode,policy.idealRadius ,Time.deltaTime);
 
         // 이동은 지속행동이므로 항상 Running 유지
         return NodeState.Running;

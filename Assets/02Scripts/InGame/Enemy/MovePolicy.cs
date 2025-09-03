@@ -6,8 +6,8 @@ public enum MoveMode { Approach, Orbit, Retreat }
 [System.Serializable]
 public class MovePolicy
 {
-    
-    public float idealRadius = 4f;
+    //적정거리
+    public float idealRadius = 3f;
     // ─────────────────────────────────────────────────────
     // 랜덤 정책 설정값 (인스펙터에서 조절)
     // ─────────────────────────────────────────────────────
@@ -29,6 +29,14 @@ public class MovePolicy
     [Tooltip("유지 시간 도중에도, 초당 이 확률로 가끔 즉흥 전환(0=안함)")]
     [Range(0f, 1f)] public float spontaneousChangePerSec = 0.0f;
 
+    public bool  IsTooClose = false;          // 붙음 감지 플래그
+    public float retreatExitDist = 5f;      // 여기까지 벌어지면 후퇴 종료(절대값)
+    public bool  useDeltaFromIdeal = true;    // true면 idealRadius + delta 방식
+    public float retreatExitDelta = 0.6f;     // idealRadius + Δ로 종료 거리 결정
+    public float forcedRetreatMinTime = 0.20f; // 최소 후퇴 유지 시간(핑퐁 방지)
+        
+    // 내부 타이머
+    float _forceRetreatTimer = 0f;
     // 내부 상태
     MoveMode _current = MoveMode.Orbit; // 시작 기본값
     float _holdTimer = 0f;
@@ -41,37 +49,71 @@ public class MovePolicy
     public MoveMode Decide(Vector3 self, Transform target)
     {
         float dt = Time.deltaTime;
+        if (!target) return _current;
 
-        // 1) 유지 시간 소모
+        // 거리 (수평만 쓰고 싶으면 y=0 평탄화)
+        float dis = Vector3.Distance(self, target.position);
+
+        // 종료 기준 거리 계산
+        float exitDist = useDeltaFromIdeal ? (idealRadius + retreatExitDelta)
+            : retreatExitDist;
+
+        // ── A) "찍힘" 상태 유지 중이면: 무조건 Retreat 고정 ──
+        if (IsTooClose)
+        {
+            _forceRetreatTimer -= dt;
+
+            // 충분히 벌어졌고 + 최소 유지시간 지났으면 해제
+            if (dis >= exitDist && _forceRetreatTimer <= 0f)
+            {
+                IsTooClose = false;
+                _holdTimer = 0f;             // 다음 프레임에 자연스럽게 새 모드 뽑도록
+            }
+            else
+            {
+                _current = MoveMode.Retreat; // 아직은 계속 후퇴
+                return _current;
+            }
+        }
+
+        // ── B) 아직 안 찍혔는데, 임계선 안으로 들어오면 '한 번 찍기' ──
+        if (dis <= idealRadius)              // 원하는 임계선(예: 3m)
+        {
+            IsTooClose = true;
+            _forceRetreatTimer = Mathf.Max(_forceRetreatTimer, forcedRetreatMinTime);
+            _current = MoveMode.Retreat;     // 즉시 후퇴 시작
+            return _current;
+        }
+
+        // ── C) 위 두 조건에 안 걸리면 기존 랜덤 정책 ──
         _holdTimer -= dt;
 
-        // 2) 유지 시간 중에도 아주 가끔 즉흥 전환 허용(선택)
         if (_holdTimer > 0f && spontaneousChangePerSec > 0f)
         {
-            // 초당 p 확률 → 프레임당 대략 (p * dt) 확률
             if (Random.value < spontaneousChangePerSec * dt)
             {
-                RerollMode(); // 즉흥 전환
-                // 유지 시간을 새로 배정
+                RerollMode();
                 _holdTimer = Random.Range(holdTimeRange.x, holdTimeRange.y);
                 return _current;
             }
         }
 
-        // 3) 유지 시간이 끝났으면 새 모드 뽑기
         if (_holdTimer <= 0f)
         {
             RerollMode();
             _holdTimer = Random.Range(holdTimeRange.x, holdTimeRange.y);
         }
 
-        // 4) 현재 모드 유지
         return _current;
     }
+
 
     // 가중치 기반 룰렛 뽑기
     void RerollMode()
     {
+        //플레이어와 적의 거리가 3(idealRadius) 아래면  무조건 후퇴를 뽑게 하기 
+      
+        
         float a = Mathf.Max(0f, wApproach);
         float o = Mathf.Max(0f, wOrbit);
         float r = Mathf.Max(0f, wRetreat);

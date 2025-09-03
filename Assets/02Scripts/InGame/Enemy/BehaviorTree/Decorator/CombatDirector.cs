@@ -19,10 +19,7 @@ public class CombatDirector : MonoBehaviour
     public Vector2 recover  = new(0.2f, 0.5f);
 
     enum m_Phase { MoveLoop, IdleHold, Attack, Recover }
-
-    [SerializeField] private string locomotionTriggers = "Sprint"; // 스프린트시
-    [SerializeField] float sprintDuration = 1.2f; // 뛰는 동안 
-
+    
     
 
     [SerializeField]
@@ -70,9 +67,30 @@ public class CombatDirector : MonoBehaviour
         }
         return NodeState.Running;
     }
+    
+    // 반환형 버전만 남기기 (기존 void SearchRange()는 삭제 or 이름 변경)
+    CombatRange SearchRange()
+    {
+        float dis= Vector3.Distance(transform.position, actions.BB.Target.position);
+        //clsoe 사거리과 작거나 같으면 
+        if (dis <= actions.CloseRange)
+        {
+            return CombatRange.Close;
+        }
+        //close 사거리보단 크고 mid 사거리와 작거나 같으면
+        if (dis > actions.CloseRange && dis <= actions.MidRange)
+        {
+            return CombatRange.Mid;
+        }
+
+        
+        return CombatRange.Far;
+    }
 
     void DoMoveLoop()
     {
+      
+        
         // 반환값: 이번 프레임에서 공격으로 넘어갈지
         bool wantAttackNow = stance.TickAndApply(combatMover, actions.BB.Target);
 
@@ -80,11 +98,9 @@ public class CombatDirector : MonoBehaviour
         {
             mPhase = m_Phase.IdleHold;
             phaseTimer = Random.Range(idleHold.x, idleHold.y);
-            return;
         }
     }
-
-
+    
     void DoIdleHold()
     {
         ZeroLocomotion();
@@ -96,11 +112,23 @@ public class CombatDirector : MonoBehaviour
             StartAttack();
         }
     }
-
+    
     //어택 중이 아닐때를 위한 함수 
     void DoAttack()
     {
         ZeroLocomotion();
+        m_RagneState=SearchRange();
+
+        // Sprint 패턴 실행 중
+        if (animator.GetBool("Sprint"))
+        {
+            // 일정 거리 이내 들어오면 Sprint 종료
+            if (m_RagneState != CombatRange.Far)
+            {
+                animator.SetBool("Sprint", false);
+                attackRunning = false;
+            }
+        }
         
         if (!attackRunning)
         {
@@ -122,25 +150,14 @@ public class CombatDirector : MonoBehaviour
         }
     }
   
-
-    // 반환형 버전만 남기기 (기존 void SearchRange()는 삭제 or 이름 변경)
-    CombatRange SearchRange()
-    {
-        float sqr   = (actions.BB.Target.position - transform.position).sqrMagnitude;
-        float close2 = actions.CloseRange * actions.CloseRange;
-        float far2   = actions.FarRange   * actions.FarRange;
-
-        if (sqr > far2)   return m_RagneState = CombatRange.Far;
-        if (sqr < close2) return m_RagneState = CombatRange.Close;
-        return m_RagneState = CombatRange.Mid;
-    }
+    
 
    // StartAttack 교체
     void StartAttack()
     {
         ZeroLocomotion();
 
-        SearchRange();                      // ✅ 바로 범위 얻기
+        m_RagneState=SearchRange();                      // ✅ 바로 범위 얻기
         
         string trig = attacks.PickTriggerRandom(m_RagneState);   // AttackSelector가 거리별 배열에서 랜덤 반환
 
@@ -151,16 +168,14 @@ public class CombatDirector : MonoBehaviour
             mPhase = m_Phase.MoveLoop;
             return;
         }
-
-        //로코모션 트리거와 같으면 ?
-        if (trig == locomotionTriggers)
+        // Sprint 패턴일 경우
+        if (trig == "Sprint")
         {
-            // 애니메이션은 실행하
-            animator.SetTrigger(trig);
-            //이동 루프 유지(IdleHold에서 Attack으로 바꿨던 걸 되돌림)
-            mPhase = m_Phase.MoveLoop;
+            animator.SetBool("Sprint", true);  // 루프 재생
+            attackRunning = true;
+            return;
         }
-
+     
         //애니메이션 넣고  테스트 해보기 
         animator.ResetTrigger(trig);
         animator.SetTrigger(trig);

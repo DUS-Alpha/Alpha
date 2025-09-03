@@ -9,10 +9,11 @@ using UnityEngine.Serialization;
 public class BossActions : MonoBehaviour
 {
     public Blackboard BB { get; private set; }
-    public float FarRange = 20f;
-    public float MidRange = 15f;
-    public float CloseRange = 8f;
+    public float MidRange = 10f;
+    public float CloseRange = 5f;
+    public float StopRange = 3f;
 
+    
     public void SetBlackboard(Blackboard bb) => BB = bb;
 
     public CombatDirector director;
