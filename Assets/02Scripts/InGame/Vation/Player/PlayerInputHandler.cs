@@ -30,9 +30,9 @@ public class PlayerInputHandler : MonoBehaviour
         IsFlyUp = Input.GetKey(KeyCode.Q);
         IsFlyOff = Input.GetKeyDown(KeyCode.E);
         IsInventory = Input.GetKeyDown(KeyCode.I);
-        ChangeNum();
+        WeaponSwapNum();
     }
-    private void ChangeNum()
+    private void WeaponSwapNum()
     {
         IsWeaponSwap = Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Alpha3);
 

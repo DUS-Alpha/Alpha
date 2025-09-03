@@ -1,24 +1,22 @@
 using UnityEngine;
 
-public enum EquipmentSlot
+public enum ApplicableSlots
 {
     Head,
     Chest,
-    Legs,
-    Feet,
+    Feets,
     Hands,
-    Weapon,
-    Shield,
-    Accessory1,
-    Accessory2
+    MeleeWeapon,
+    RifleWeapon,
+    SniperWeapon
 }
 
 [CreateAssetMenu(fileName = "EquipmentData", menuName = "Scriptable Objects/EquipmentData")]
 public abstract  class EquipmentData : ItemData
 {
     [Header("[ Equipment Info ]"), Space(10)]
-    public EquipmentSlot Slot;
-    public int UsageLevel;   // 착용 레벨
+    public ApplicableSlots ApplicableSlot; // 적용 슬롯
+    public int UsageLevel;      // 착용 레벨
     public float Weight;
     [Tooltip("내구성")]
     public float Durability;

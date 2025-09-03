@@ -9,6 +9,6 @@ public class PlayerInventorySaveData
     public PlayerInventorySaveData(List<Item> itemList)
     {
         foreach (var item in itemList)
-            ItemIDList.Add(item.m_Data.ID);
+            ItemIDList.Add(item.Data.ID);
     }
 }

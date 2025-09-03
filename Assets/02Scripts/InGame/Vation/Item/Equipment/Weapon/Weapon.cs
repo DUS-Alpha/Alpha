@@ -1,16 +1,21 @@
 using UnityEngine;
 
-public class Weapon : Equipment
+public class Weapon : Equipment, IAttack
 {
-    public WeaponData WeaponData => m_Data as WeaponData;
+    public WeaponData WeaponData => (Data as WeaponData);
+
+    public virtual void Attack(GameObject target)
+    {
+        
+    }
 
     public override void Equip(GameObject user)
     {
         // 무기 장착 로직
     }
 
-    public void Attack(GameObject target)
+    public override void Unequip(GameObject user)
     {
-        // WeaponData.Damage 참조하여 공격 처리
+        
     }
 }

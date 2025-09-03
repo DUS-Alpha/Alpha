@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2276240756379730992}
+  - component: {fileID: -4013593719905353998}
   m_Layer: 0
   m_Name: MAC_SciFiSniperRifle
   m_TagString: Untagged
@@ -24,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4092560987667714750}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.000000029802312, y: -0.00000003306194, z: 0.000000028405328, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -32,6 +33,20 @@ Transform:
   - {fileID: 4619416489484486938}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-4013593719905353998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4092560987667714750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bff9eabd18ea82d41b50874d5a92d024, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Data: {fileID: 11400000, guid: 668efbbda99a44d4f90cf8a7a3277e3a, type: 2}
+  RangeType: 2
 --- !u!1001 &6624732537821349802
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -46,15 +61,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2014430605032181424, guid: ed884912bb2d8f34bb20bbf879b4e87d, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.14999992
+      value: 0.13
       objectReference: {fileID: 0}
     - target: {fileID: 2014430605032181424, guid: ed884912bb2d8f34bb20bbf879b4e87d, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.15000005
+      value: 0.13
       objectReference: {fileID: 0}
     - target: {fileID: 2014430605032181424, guid: ed884912bb2d8f34bb20bbf879b4e87d, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.15000011
+      value: 0.13
       objectReference: {fileID: 0}
     - target: {fileID: 2014430605032181424, guid: ed884912bb2d8f34bb20bbf879b4e87d, type: 3}
       propertyPath: m_LocalPosition.x

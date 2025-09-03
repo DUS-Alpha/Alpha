@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 
@@ -7,7 +8,8 @@ public class PlayerCombat : MonoBehaviour
     private CharacterController m_characterController;
 
     public bool IsAttack { get; private set; }
-    public int CurrentWeaponNum { get; private set; }
+    public bool IsWeaponSwap { get; private set; }
+    public int m_currentWeaponNum;
     private int m_swapWeaponNum;
     public void Initialize(PlayerCore playerCore)
     {
@@ -19,7 +21,7 @@ public class PlayerCombat : MonoBehaviour
     private void Start()
     {
         m_playerCore.CheckInputAction += CheckInput;
-        CurrentWeaponNum = 0;
+        m_currentWeaponNum = 0;
     }
     public void CheckInput()
     {
@@ -42,13 +44,16 @@ public class PlayerCombat : MonoBehaviour
 
     }
 
-    public void SwapWeapon(Weapon weapon)
+    // 현재는 단순 Holder만 OnOff
+    public void SwapWeapon()
     {
-        if (m_swapWeaponNum == CurrentWeaponNum) return;
-        CurrentWeaponNum = m_swapWeaponNum;
+        if (m_swapWeaponNum == m_currentWeaponNum) return;
+        if (IsWeaponSwap) return;
 
-        m_playerCore.EquipmentManager.SwapWeapon(weapon);
-        m_playerCore.AniController.SwapWeaponAni(CurrentWeaponNum);
+        m_currentWeaponNum = m_swapWeaponNum;
+
+        m_playerCore.EquipmentController.SwapWeapon(m_currentWeaponNum);
+        m_playerCore.AniController.SwapWeaponAni(m_currentWeaponNum);
     }
 
     public void OnAnimatorMove()

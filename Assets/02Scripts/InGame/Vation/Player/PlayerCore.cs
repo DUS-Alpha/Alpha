@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Playables;
 
-[RequireComponent(typeof(PlayerEquipmentManager))]
+[RequireComponent(typeof(PlayerEquipmentController))]
 [RequireComponent(typeof(PlayerInventoryManager))]
 [RequireComponent(typeof(PlayerAnimationController))]
 [RequireComponent(typeof(CharacterController))]
@@ -20,8 +20,8 @@ public class PlayerCore : MonoBehaviour
     public PlayerLocomotion Locomotion;
     public PlayerCombat Combat;
     public CharacterController PlayerCharacterController;
-    public PlayerInventoryManager InventorySystem;
-    public PlayerEquipmentManager EquipmentManager;
+    public PlayerInventoryManager InventoryManager;
+    public PlayerEquipmentController EquipmentController;
     public event Action CheckInputAction;
 
     private void Awake()
@@ -32,8 +32,8 @@ public class PlayerCore : MonoBehaviour
         Combat = GetComponent<PlayerCombat>();
         PlayerCharacterController = GetComponent<CharacterController>();
         StateMachine = GetComponent<PlayerStateMachine>();
-        InventorySystem = GetComponent<PlayerInventoryManager>();
-        EquipmentManager = GetComponent<PlayerEquipmentManager>();
+        InventoryManager = GetComponent<PlayerInventoryManager>();
+        EquipmentController = GetComponent<PlayerEquipmentController>();
         Initialize();
     }
 
@@ -42,7 +42,7 @@ public class PlayerCore : MonoBehaviour
         Locomotion.Initialize(this);
         Combat.Initialize(this);
         StateMachine.Initialize(this);
-        InventorySystem.Initialize(this);
+        InventoryManager.Initialize(this);
     }
 
     void Start()
@@ -58,7 +58,6 @@ public class PlayerCore : MonoBehaviour
     private void Update()
     {
         CheckInputAction?.Invoke();
-        //Combat.SwapWeapon();
+        Combat.SwapWeapon();
     }
-
 }

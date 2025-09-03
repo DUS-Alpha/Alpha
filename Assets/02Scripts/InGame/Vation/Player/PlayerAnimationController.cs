@@ -45,7 +45,7 @@ public class PlayerAnimationController : MonoBehaviour
 
     public void SwapWeaponAni(int weaponNum)
     {
-        m_animator.SetInteger("WeaponType", weaponNum);
+        m_animator.SetInteger("WeaponTypes", weaponNum);
         //m_animator.SetBool("IsWeaponChange", isChange);
     }
 
