@@ -20,6 +20,9 @@ public class CombatDirector : MonoBehaviour
 
     enum m_Phase { MoveLoop, IdleHold, Attack, Recover }
 
+    [SerializeField] private string locomotionTriggers = "Sprint"; // 스프린트시
+    [SerializeField] float sprintDuration = 1.2f; // 뛰는 동안 
+
     
 
     [SerializeField]
@@ -148,7 +151,15 @@ public class CombatDirector : MonoBehaviour
             mPhase = m_Phase.MoveLoop;
             return;
         }
-        print(trig);
+
+        //로코모션 트리거와 같으면 ?
+        if (trig == locomotionTriggers)
+        {
+            // 애니메이션은 실행하
+            animator.SetTrigger(trig);
+            //이동 루프 유지(IdleHold에서 Attack으로 바꿨던 걸 되돌림)
+            mPhase = m_Phase.MoveLoop;
+        }
 
         //애니메이션 넣고  테스트 해보기 
         animator.ResetTrigger(trig);

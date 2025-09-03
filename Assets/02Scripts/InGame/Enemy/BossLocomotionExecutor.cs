@@ -6,6 +6,10 @@ public class BossLocomotionExecutor : MonoBehaviour {
     public Transform target; // 보스가 따라갈/응시 할 대상(대부분은 플레이어가 될것 )
     public Animator animator;
 
+    [Header("Sprint")]
+    public float sprintSpeedMul = 1.8f;
+    float sprintTimer;
+    
     [Header("이동 및 회전 파라미터")] 
     
     public float rotSpeed = 12f; //회전 속도 
@@ -21,6 +25,7 @@ public class BossLocomotionExecutor : MonoBehaviour {
     // 좌/우 스트레이프 방향(+1:오른쪽, -1:왼쪽), 주기적 전환용 타이머
     float sideSign = 1f, sideTimer;
 
+    
     /// <summary>
     /// 선택된 MoveMode에 맞춰 실제 이동/회전/애니 파라미터를 업데이트한다.
     /// CombatMover에서 매 프레임 호출해주는 진입점.
