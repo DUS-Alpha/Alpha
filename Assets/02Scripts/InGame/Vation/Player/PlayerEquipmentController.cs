@@ -14,8 +14,20 @@ public class PlayerEquipmentController : MonoBehaviour
     private Transform m_handHolderTr;
     [SerializeField]
     private Transform m_feetHolderTr;
-    [SerializeField]
-    private Transform[] m_weaponHolderTr = new Transform[4];    // InputKey값과 동일하게하기 위해 0인덱스 Null
+    //InputKey값과 동일하게하기 위해 HandHolder추가
+    // TODO : 메모리 공간 최적화
+    [Tooltip("모델 RightAttach 0:Hand, 1:Melee, 2:Rifle, 3:Sniper"),SerializeField]  
+    private Transform[] m_weaponHolderTr = new Transform[4];
+
+    public void InitializeModule()
+    {
+        
+    }
+
+    public void InitializeEvents(IPlayerEvents events)
+    {
+        events.SwapWeaponAction += SwapWeapon;
+    }
 
     private void Awake()
     {
@@ -34,11 +46,6 @@ public class PlayerEquipmentController : MonoBehaviour
     private void Start()
     {
         SwapWeapon(0);
-    }
-
-    public void InventoryAddItemEquip(Equipment equipment)
-    {
-
     }
 
     public void EquipItem(Equipment equipment)

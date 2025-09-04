@@ -7,7 +7,8 @@ using UnityEngine.Windows;
 
 public class PlayerLocomotion : MonoBehaviour
 {
-    private PlayerCore m_playerCore;
+    private PlayerInputHandler m_InputHandler;
+    private PlayerAnimationController m_animationController;
     private CharacterController m_characterController;
     private LocomotionUtility m_locoUtility;
 
@@ -65,23 +66,29 @@ public class PlayerLocomotion : MonoBehaviour
         m_locoUtility = new LocomotionUtility();
     }
 
-    public void Initialize(PlayerCore playerCore)
+    public void InitializeModule(PlayerInputHandler inputHandler,PlayerAnimationController animationController ,CharacterController characterController)
     {
-        m_playerCore = playerCore;
-        m_characterController = m_playerCore.PlayerCharacterController;
+        m_InputHandler = inputHandler;
+        m_animationController = animationController;
+        m_characterController = characterController;
     }
+    public void InitializeEvents(IPlayerEvents events)
+    {
+        events.CheckInputAction += CheckInput;
+    }
+
     private void Start()
     {
-        m_playerCore.CheckInputAction += CheckInput;
+        
     }
 
     public void CheckInput()
     {
-        MoveDir = m_playerCore.InputHandler.MoveDir;
-        IsSprint = m_playerCore.InputHandler.IsSprint;
-        IsFlyUp = m_playerCore.InputHandler.IsFlyUp;
-        IsFlyOff = m_playerCore.InputHandler.IsFlyOff;
-        bool _isJump = m_playerCore.InputHandler.IsJump;
+        MoveDir = m_InputHandler.MoveDir;
+        IsSprint = m_InputHandler.IsSprint;
+        IsFlyUp = m_InputHandler.IsFlyUp;
+        IsFlyOff = m_InputHandler.IsFlyOff;
+        bool _isJump = m_InputHandler.IsJump;
 
         if (_isJump && IsGrounded)
         {
@@ -113,12 +120,12 @@ public class PlayerLocomotion : MonoBehaviour
 
         if (IsFlying)
         {
-            m_playerCore.AniController.SetFlyMoveAni(MoveDir.x, MoveDir.z);
+            m_animationController.SetFlyMoveAni(MoveDir.x, MoveDir.z);
         }
         else
         {
             ApplyGravity();
-            m_playerCore.AniController.SetGroundMoveAni(m_currentSpeed);
+            m_animationController.SetGroundMoveAni(m_currentSpeed);
         }
     }
 
@@ -160,7 +167,7 @@ public class PlayerLocomotion : MonoBehaviour
         }
 
         // Ground Anim Parameter
-        m_playerCore.AniController.SetIsGroundAni(IsGrounded);
+        m_animationController.SetIsGroundAni(IsGrounded);
 
         Debug.DrawLine(_colliderButtomtr, _colliderButtomtr + (Vector3.down * m_groundDistance), Color.red);
     }
@@ -174,14 +181,14 @@ public class PlayerLocomotion : MonoBehaviour
         //등가속도운동 적용 (노션 참고)
         m_velocity.y = Mathf.Sqrt(m_jumpHeight * -2f * BaseGravity);   // m_jumpHeight = 점프 힘이기도함
 
-        m_playerCore.AniController.SetJumpAni(IsJump);
-        m_playerCore.AniController.SetIsGroundAni(IsGrounded);
+        m_animationController.SetJumpAni(IsJump);
+        m_animationController.SetIsGroundAni(IsGrounded);
     }
     public void JumpExit()
     {
         IsJump = false;
-        m_playerCore.AniController.SetJumpAni(IsJump);
-        m_playerCore.AniController.SetIsGroundAni(IsGrounded);
+        m_animationController.SetJumpAni(IsJump);
+        m_animationController.SetIsGroundAni(IsGrounded);
     }
 
     #endregion ================================================================================ /Jump
@@ -206,11 +213,11 @@ public class PlayerLocomotion : MonoBehaviour
         IsGrounded = false;
         IsFlying = true;
 
-        bool _isFlyUpStart = m_playerCore.InputHandler.IsFlyUp;
+        bool _isFlyUpStart = m_InputHandler.IsFlyUp;
         // 등가속
         m_velocity.y = Mathf.Sqrt(_startDistance * 2f * m_antiGravity);
 
-        m_playerCore.AniController.SetIsFlyAni(IsFlying, _isFlyUpStart);
+        m_animationController.SetIsFlyAni(IsFlying, _isFlyUpStart);
         StartCoroutine(FlyUpDelayCoroutine(0.4f));
     }
 
@@ -223,7 +230,7 @@ public class PlayerLocomotion : MonoBehaviour
     public void FlyExit()
     {
         CanFlyUp = false;
-        m_playerCore.AniController.SetIsFlyAni(IsFlying, IsFlyUp);
+        m_animationController.SetIsFlyAni(IsFlying, IsFlyUp);
     }
     #endregion ================================================================================ /Fly
 }

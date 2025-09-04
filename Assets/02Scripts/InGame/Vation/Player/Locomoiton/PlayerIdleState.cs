@@ -18,7 +18,8 @@ public class PlayerIdleState : PlayerState
 
     public override void Update()
     {
-       m_Locomotion.Movement();
+        m_Locomotion.Movement();
+        m_Combat.SwapWeapon();
 
         if (m_Locomotion.IsJump)
         {
@@ -33,11 +34,7 @@ public class PlayerIdleState : PlayerState
         }
         else if (m_Locomotion.MoveDir != Vector3.zero)
             m_PlayerCore.SwitchState(new PlayerMoveState(m_PlayerCore));
-        /*else if(m_Combat.IsWeaponChange())
-        {
-            m_PlayerCore.SwitchState(new PlayerWeaponChangeState(m_PlayerCore));
-        }*/
-        else if(m_Combat.IsAttack)
+        else if (m_Combat.IsAttack)
         {
             m_PlayerCore.SwitchState(new PlayerAttackState(m_PlayerCore));
         }

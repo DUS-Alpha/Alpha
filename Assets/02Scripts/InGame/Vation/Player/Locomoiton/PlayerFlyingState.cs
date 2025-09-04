@@ -15,6 +15,7 @@ public class PlayerFlyingState : PlayerState
     public override void Update()
     {
         m_Locomotion.Movement();
+        m_Combat.SwapWeapon();
 
         if (m_Locomotion.IsFlyUp)
             m_PlayerCore.SwitchState(new PlayerFlyUpStartState(m_PlayerCore));

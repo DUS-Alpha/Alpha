@@ -10,7 +10,7 @@ using UnityEngine.Playables;
 [RequireComponent(typeof(PlayerStateMachine))]
 [RequireComponent(typeof(PlayerLocomotion))]
 [RequireComponent(typeof(PlayerCombat))]
-public class PlayerCore : MonoBehaviour
+public class PlayerCore : MonoBehaviour, IPlayerEvents
 {
     [Header(" [ Ref Component ] ")]
     public GameObject player;
@@ -22,7 +22,10 @@ public class PlayerCore : MonoBehaviour
     public CharacterController PlayerCharacterController;
     public PlayerInventoryManager InventoryManager;
     public PlayerEquipmentController EquipmentController;
+
+    public bool IsAction;
     public event Action CheckInputAction;
+    public event Action<int> SwapWeaponAction;
 
     private void Awake()
     {
@@ -35,19 +38,36 @@ public class PlayerCore : MonoBehaviour
         InventoryManager = GetComponent<PlayerInventoryManager>();
         EquipmentController = GetComponent<PlayerEquipmentController>();
         Initialize();
+        InitializeEvents();
     }
 
-    public void Initialize()
+    // TODO : 각 모듈의 경우 필요한 PlayerCore대신 필요한 모듈 매개변수만 받도록 수정
+    // 이유 : PlayerCore를 통채로 넘기면 불필요한 것까지 받아 너무 큰단위의 메모리 공간 사용 발생
+    private void Initialize()
     {
-        Locomotion.Initialize(this);
-        Combat.Initialize(this);
+        Locomotion.InitializeModule(InputHandler, AniController, PlayerCharacterController);
+        Combat.InitializeModule(InputHandler, AniController, PlayerCharacterController);
         StateMachine.Initialize(this);
         InventoryManager.Initialize(this);
+        EquipmentController.InitializeModule();
+    }
+
+    /// <summary>
+    /// 옵저버 패턴을 위한 전달(IPlayerEvents)
+    /// </summary>
+    public void InitializeEvents()
+    {
+        Locomotion.InitializeEvents(this);
+        EquipmentController.InitializeEvents(this);
+        AniController.InitializeEvents(this);
+        Combat.InitializeEvents(this);
     }
 
     void Start()
     {
         SwitchState(new PlayerIdleState(this));
+
+        Combat.SetSwapAction(SwapWeaponAction);
     }
 
     public void SwitchState(PlayerState playerState)
@@ -58,6 +78,5 @@ public class PlayerCore : MonoBehaviour
     private void Update()
     {
         CheckInputAction?.Invoke();
-        Combat.SwapWeapon();
     }
 }

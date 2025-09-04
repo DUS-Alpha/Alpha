@@ -22,7 +22,7 @@ public class PlayerMoveState : PlayerState
     public override void Update()
     {
         m_Locomotion.Movement();
-
+        m_Combat.SwapWeapon();
 
         if (m_Locomotion.IsJump)
         {
