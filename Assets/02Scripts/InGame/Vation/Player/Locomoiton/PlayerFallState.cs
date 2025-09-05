@@ -18,10 +18,10 @@ public class PlayerFallState : PlayerState
         m_Locomotion.ApplyGravity();
         if (m_Locomotion.IsFlyUp)
         {
-            m_PlayerCore.SwitchState(new PlayerFlyUpStartState(m_PlayerCore));
+            m_PlayerCore.SwitchLocomotionState(LocomotionState.FlyStartUp);
         }
         else if (m_Locomotion.IsGrounded)
-            m_PlayerCore.SwitchState(new PlayerIdleState(m_PlayerCore));
+            m_PlayerCore.SwitchLocomotionState(LocomotionState.Idle);
     }
 
     public override void Exit()

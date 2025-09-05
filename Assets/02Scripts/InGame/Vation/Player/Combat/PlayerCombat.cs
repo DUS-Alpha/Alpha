@@ -6,11 +6,15 @@ using static UnityEngine.InputSystem.DefaultInputActions;
 
 public class PlayerCombat : MonoBehaviour
 {
+    // Ref Component
     private PlayerInputHandler m_inputHandler;
     private CharacterController m_characterController;
     private PlayerAnimationController m_animationController;
+
     private Action<int> m_swapActions;
 
+    // Locomotion 상태 제어를 위해
+    public bool IsAction;
     public bool IsAttack { get; private set; }
     public bool IsWeaponSwap { get; private set; }
     public int m_currentWeaponNum;
@@ -42,7 +46,6 @@ public class PlayerCombat : MonoBehaviour
         m_swapWeaponNum = m_inputHandler.SwapWeaponNum;
     }
 
-
     // TODO : 전략패턴
     public void Attack(bool isAttack)
     {
@@ -70,8 +73,6 @@ public class PlayerCombat : MonoBehaviour
 
         // 각 모듈의 액션들 처리
         m_swapActions?.Invoke(m_swapWeaponNum);
-
-        // IsWeaponSwap 처리하기
     }
 
     public void OnAnimatorMove()

@@ -22,24 +22,19 @@ public class PlayerMoveState : PlayerState
     public override void Update()
     {
         m_Locomotion.Movement();
-        m_Combat.SwapWeapon();
 
         if (m_Locomotion.IsJump)
         {
             if (m_Locomotion.IsGrounded)
             {
-                m_PlayerCore.SwitchState(new PlayerJumpState(m_PlayerCore));
+                m_PlayerCore.SwitchLocomotionState(LocomotionState.Jump);
             }
         }
         else if (m_Locomotion.IsFlyUp)
         {
-            m_PlayerCore.SwitchState(new PlayerFlyUpStartState(m_PlayerCore));
+            m_PlayerCore.SwitchLocomotionState(LocomotionState.FlyStartUp);
         }
         else if (m_Locomotion.MoveDir == Vector3.zero)
-            m_PlayerCore.SwitchState(new PlayerIdleState(m_PlayerCore));
-        else if (m_Combat.IsAttack)
-        {
-            m_PlayerCore.SwitchState(new PlayerAttackState(m_PlayerCore));
-        }
+            m_PlayerCore.SwitchLocomotionState(LocomotionState.Idle);
     }
 }

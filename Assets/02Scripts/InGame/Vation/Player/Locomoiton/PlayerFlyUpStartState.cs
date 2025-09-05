@@ -24,7 +24,7 @@ public class PlayerFlyUpStartState : PlayerState
         
         if(!m_Locomotion.IsFlyUp)
         {
-            m_PlayerCore.SwitchState(new PlayerFlyingState(m_PlayerCore));
+            m_PlayerCore.SwitchLocomotionState(LocomotionState.Flying);
         }
     }
 

@@ -19,7 +19,7 @@ public class PlayerAttackState : PlayerState
 
         if(!_isAttack)
         {
-            m_PlayerCore.SwitchState(new PlayerIdleState(m_PlayerCore));
+            m_PlayerCore.SwitchLocomotionState(LocomotionState.Idle);
         }
         else
             m_Combat.Attack(_isAttack);

@@ -23,7 +23,6 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
     public PlayerInventoryManager InventoryManager;
     public PlayerEquipmentController EquipmentController;
 
-    public bool IsAction;
     public event Action CheckInputAction;
     public event Action<int> SwapWeaponAction;
 
@@ -65,16 +64,18 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
 
     void Start()
     {
-        SwitchState(new PlayerIdleState(this));
-
         Combat.SetSwapAction(SwapWeaponAction);
     }
 
-    public void SwitchState(PlayerState playerState)
+    public void SwitchLocomotionState(LocomotionState newLocoState)
     {
-        StateMachine.SwitchState(playerState);
+        StateMachine.SwitchLocomotionState(newLocoState);
     }
-    
+    public void SwitchCombatState(CombatState newCombatState)
+    {
+        StateMachine.SwitchCombatState(newCombatState);
+    }
+
     private void Update()
     {
         CheckInputAction?.Invoke();

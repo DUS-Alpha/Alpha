@@ -46,13 +46,14 @@ public class PlayerLocomotion : MonoBehaviour
     [SerializeField]
     private float m_antiGravity = 1.5f;
 
+    // Combat 상태 제어를 위해
+    public bool IsAction;
     public Vector3 Velocity => m_velocity;  //.y값 변경이 public으로는 이상하게 안됨 그래서 연결
     private Vector3 m_velocity;
 
     private Vector3 m_moveDirByCamera;
     
     private float m_lastGroundTime;
-
     public Vector3 MoveDir { get; private set; }
     public bool IsSprint { get; private set; }
     public bool IsJump { get; private set; }

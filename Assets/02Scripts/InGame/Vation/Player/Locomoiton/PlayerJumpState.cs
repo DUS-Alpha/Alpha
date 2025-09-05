@@ -20,11 +20,11 @@ public class PlayerJumpState : PlayerState
 
         if (m_Locomotion.Velocity.y <= 0 && !m_Locomotion.IsGrounded)
         {
-            m_PlayerCore.SwitchState(new PlayerFallState(m_PlayerCore));
+            m_PlayerCore.SwitchLocomotionState(LocomotionState.Fall);
         }
         else if (m_Locomotion.IsFlyUp)
         {
-            m_PlayerCore.SwitchState(new PlayerFlyUpStartState(m_PlayerCore));
+            m_PlayerCore.SwitchLocomotionState(LocomotionState.FlyStartUp);
         }
     }
 

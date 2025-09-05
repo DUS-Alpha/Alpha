@@ -509,7 +509,7 @@ GameObject:
   m_Component:
   - component: {fileID: 297425650}
   m_Layer: 0
-  m_Name: "TODO \uBB34\uAE30 \uACF5\uACA9\uC5D0 \uB300\uD55C \uCC98\uB9AC"
+  m_Name: TODO Combat FSM
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
