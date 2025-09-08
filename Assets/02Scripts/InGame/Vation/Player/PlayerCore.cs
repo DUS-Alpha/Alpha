@@ -23,9 +23,9 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
     public PlayerInventoryManager InventoryManager;
     public PlayerEquipmentController EquipmentController;
 
+    // IPlayerEvents에서 옵저버 패턴을 통해서 다른 클래스에서 받아옴
     public event Action CheckInputAction;
     public event Action<int> SwapWeaponAction;
-
     private void Awake()
     {
         InputHandler = GetComponent<PlayerInputHandler>();

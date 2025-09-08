@@ -1,8 +1,8 @@
 using System;
 using System.Linq;
+using System.Security.Claims;
 using UnityEngine;
 using static UnityEngine.InputSystem.DefaultInputActions;
-
 
 public class PlayerCombat : MonoBehaviour
 {
@@ -16,8 +16,9 @@ public class PlayerCombat : MonoBehaviour
     // Locomotion 상태 제어를 위해
     public bool IsAction;
     public bool IsAttack { get; private set; }
-    public bool IsWeaponSwap { get; private set; }
-    public int m_currentWeaponNum;
+    public bool IsAim { get; private set; }
+    public bool IsWeaponSwap => m_swapWeaponNum != CurrentWeaponNum && m_swapWeaponNum != 0;
+    public int CurrentWeaponNum { get; private set; }
     private int m_swapWeaponNum;
 
     public void InitializeModule(PlayerInputHandler inputHandler, PlayerAnimationController animationController, CharacterController characterController)
@@ -31,6 +32,11 @@ public class PlayerCombat : MonoBehaviour
     {
         events.CheckInputAction += CheckInput;
     }
+
+    /// <summary>
+    /// PlayerCore에서 옵저버패턴으로 받은 Swap관련된 Action을 Combat에서 관리
+    /// </summary>
+    /// <param name="swapAction"></param>
     public void SetSwapAction(Action<int> swapAction)
     {
         m_swapActions = swapAction;
@@ -38,14 +44,25 @@ public class PlayerCombat : MonoBehaviour
 
     private void Start()
     {
-        m_currentWeaponNum = 0;
+        CurrentWeaponNum = 0;
     }
     public void CheckInput()
     {
         IsAttack = m_inputHandler.IsAttack;
         m_swapWeaponNum = m_inputHandler.SwapWeaponNum;
-    }
 
+        if (CurrentWeaponNum == 2)
+        {
+            IsAim = m_inputHandler.IsAim;
+        }
+        else if (CurrentWeaponNum == 3)
+        {
+            if (m_inputHandler.IsSniperScope)
+            {
+                IsAim = !IsAim;
+            }
+        }
+    }
     // TODO : 전략패턴
     public void Attack(bool isAttack)
     {
@@ -61,19 +78,15 @@ public class PlayerCombat : MonoBehaviour
 
     /// <summary>
     /// 현재는 단순 Holder만 OnOff
-    /// 상태를 가지는것이 아닌 애니메이터 Layer로 관리 (특정 동작 제외 모든 상태에서 진행이 되도록)
     /// </summary>
     public void SwapWeapon()
     {
-        if (m_swapWeaponNum == m_currentWeaponNum) return;
-        //if (IsWeaponSwap) return;
-
-        //IsWeaponSwap = true;
-        m_currentWeaponNum = m_swapWeaponNum;
+        CurrentWeaponNum = m_swapWeaponNum;
 
         // 각 모듈의 액션들 처리
         m_swapActions?.Invoke(m_swapWeaponNum);
     }
+
 
     public void OnAnimatorMove()
     {

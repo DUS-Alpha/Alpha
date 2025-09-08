@@ -22,7 +22,7 @@ MonoBehaviour:
   ApplicableSlot: 5
   UsageLevel: 0
   Weight: 0
-  Durability: 0
+  Durability: 100
   WeaponType: 2
   AttackDamage: 10
   AttackDelay: 0.2

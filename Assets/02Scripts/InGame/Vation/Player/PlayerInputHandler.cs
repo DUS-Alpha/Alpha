@@ -15,6 +15,7 @@ public class PlayerInputHandler : MonoBehaviour
     public bool IsAttack { get; private set; }
     public int SwapWeaponNum { get; private set; } = 0;
     public bool IsAim { get; private set; }
+    public bool IsSniperScope { get; private set; }
     public bool IsWeaponSwap { get; private set; }
     public bool IsReload { get; private set; }
     public bool IsDodge { get; private set; }
@@ -59,9 +60,11 @@ public class PlayerInputHandler : MonoBehaviour
     private void CombatInput()
     {
         IsAttack = Input.GetMouseButton(0);
-        IsAim = Input.GetMouseButton(1);
+       
         IsReload = Input.GetKeyDown(KeyCode.R);
         WeaponSwapNum();
+        IsAim = Input.GetMouseButton(1);
+        IsSniperScope = Input.GetMouseButtonDown(1);
     }
 
     private void WeaponSwapNum()
@@ -82,6 +85,10 @@ public class PlayerInputHandler : MonoBehaviour
             {
                 SwapWeaponNum = 3;
             }
+        }
+        else
+        {
+            SwapWeaponNum = 0;
         }
     }
 }

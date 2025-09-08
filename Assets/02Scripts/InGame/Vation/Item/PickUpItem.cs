@@ -33,7 +33,6 @@ public class PickUpItem : MonoBehaviour
             Debug.Log(other.name);
             Item _itemInstance = CreateItem(m_itemData);
             PlayerInventoryManager _playerInventoryManager = other.GetComponent<PlayerInventoryManager>();
-            Debug.Log($"other: {other.name}, parent: {other.transform.root.name}");
             _playerInventoryManager.AddItem(_itemInstance);
             Destroy(gameObject); // 월드에서 제거
         }

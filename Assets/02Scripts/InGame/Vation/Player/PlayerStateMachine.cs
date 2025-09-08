@@ -78,7 +78,7 @@ public class PlayerStateMachine : MonoBehaviour
     private void Update()
     {
         m_currentLocoState.Update();
-        //m_currentCombatState?.Update();
+        m_currentCombatState?.Update();
     }
 
     public void SwitchLocomotionState(LocomotionState newLocoState)

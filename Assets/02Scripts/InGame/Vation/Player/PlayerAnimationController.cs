@@ -1,5 +1,9 @@
 using UnityEngine;
 
+
+// 현재 애니메이터 레이는 전신을 사용하는 Base와 병렬로 사용되는 UpperBody레이어로 구성
+// 전신에는 Combat 지상공격
+// 그 외 원거리 공격 및 Fly하면서의 Melee 공격들은 UpperBody 병행처리
 [RequireComponent(typeof(Animator))]
 public class PlayerAnimationController : MonoBehaviour
 {
@@ -53,16 +57,6 @@ public class PlayerAnimationController : MonoBehaviour
     {
         m_animator.SetTrigger("SwapWeapon");
         
-        if(weaponNum == 1)
-        {
-            m_animator.SetBool("IsMelee", true);
-            m_animator.SetBool("IsRange", false);
-        }
-        else
-        {
-            m_animator.SetBool("IsRange", true);
-            m_animator.SetBool("IsMelee", false);
-        }
         m_animator.SetInteger("WeaponNum", weaponNum);
     }
 
