@@ -63,9 +63,10 @@ public class PlayerStateMachine : MonoBehaviour
         m_combatStateCreateDic = new Dictionary<CombatState, Func<PlayerState>>
         {
             {CombatState.CombatIdle, () => new PlayerCombatIdleState(m_playerCore)},
+            {CombatState.Attack, () => new PlayerAttackState(m_playerCore)},
             {CombatState.Aim, () => new PlayerAimState(m_playerCore)},
-            {CombatState.Reload, () => new PlayerReloadState(m_playerCore)},
-            {CombatState.Swap, () => new PlayerSwapWeaponState(m_playerCore)}
+            {CombatState.Swap, () => new PlayerSwapWeaponState(m_playerCore)},
+            {CombatState.Reload, () => new PlayerReloadState(m_playerCore)}
         };
     }
 
@@ -77,8 +78,13 @@ public class PlayerStateMachine : MonoBehaviour
 
     private void Update()
     {
+        //if(!m_playerCore.Combat.IsCombatProgressing)
         m_currentLocoState.Update();
-        m_currentCombatState?.Update();
+        Debug.Log("Loco : " + CurrentLocoState);
+
+        //if(!m_playerCore.Locomotion.IsLocoProgressing)
+        m_currentCombatState.Update();
+        Debug.Log("Combat : " + CurrentCombatState);
     }
 
     public void SwitchLocomotionState(LocomotionState newLocoState)

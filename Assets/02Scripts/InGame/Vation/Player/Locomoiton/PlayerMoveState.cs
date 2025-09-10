@@ -21,7 +21,9 @@ public class PlayerMoveState : PlayerState
 
     public override void Update()
     {
-        m_Locomotion.Movement();
+        if (m_Combat.IsCombatProgressing) return;
+
+        m_Locomotion.Movement(m_Combat.IsAim);
 
         if (m_Locomotion.IsJump)
         {

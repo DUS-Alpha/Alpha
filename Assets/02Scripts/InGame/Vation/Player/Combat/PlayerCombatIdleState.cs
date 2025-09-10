@@ -16,12 +16,9 @@ public class PlayerCombatIdleState : PlayerState
 
     public override void Update()
     {
-        if (m_Combat.CurrentWeaponNum > 1)
+        if (m_Combat.IsAim)
         {
-            if (m_Combat.IsAim)
-            {
-                m_PlayerCore.SwitchCombatState(CombatState.Aim);
-            }
+            m_PlayerCore.SwitchCombatState(CombatState.Aim);
         }
         else if(m_Combat.IsAttack)
         {

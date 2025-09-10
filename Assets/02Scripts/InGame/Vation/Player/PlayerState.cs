@@ -15,7 +15,7 @@ public abstract class PlayerState
     }
     private void DebugCurrentState()
     {
-        Debug.Log(GetType().Name);
+        //Debug.Log(GetType().Name);
     }
     public abstract void Enter();
     public abstract void FixedUpdate();

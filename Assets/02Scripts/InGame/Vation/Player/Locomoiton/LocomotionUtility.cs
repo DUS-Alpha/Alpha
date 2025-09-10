@@ -22,7 +22,7 @@ public class LocomotionUtility
         return m_moveDirByCamera;
     }
 
-    public float HandleMove(Vector3 moveDir,float targetSpeed, float speedLerpRate, CharacterController characterController)
+    public float HandleMove(Vector3 moveDir, float targetSpeed, float speedLerpRate, CharacterController characterController)
     {
         Camera cam = Camera.main;
 
@@ -43,20 +43,38 @@ public class LocomotionUtility
         return m_currentSpeed;
     }
 
-    // FlyRotate와 리팩토링
-    public void HandleRotate(GameObject gameObject, Vector3 moveDir, bool isFly)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="gameObject"></param>
+    /// <param name="moveDir"></param>
+    /// <param name="isAim"> true시 카메라 정면 방향으로 실시간 회전 </param>
+    public void HandleRotate(GameObject gameObject, Vector3 moveDir, bool isAim)
     {
         Camera cam = Camera.main;
 
-        if (moveDir == Vector3.zero) return;
+        //if (moveDir == Vector3.zero) return;
 
         Vector3 _dir;
 
-        if(!isFly) _dir = m_moveDirByCamera;
-        else _dir = cam.transform.forward;
-        
+        if (!isAim)
+        {
+            if (moveDir != Vector3.zero)
+                _dir = m_moveDirByCamera; // 이동 입력 있을 때는 이동 방향
+            else
+                _dir = gameObject.transform.forward; // 입력 없으면 현재 바라보는 방향 유지
+        }
+        else
+        {
+            _dir = cam.transform.forward; // Aim 중에는 카메라 forward
+        }
+
         _dir.y = 0f;
-        Quaternion _targetRot = Quaternion.LookRotation(_dir);
+        Quaternion _targetRot;
+        if (_dir != Vector3.zero)
+            _targetRot = Quaternion.LookRotation(_dir);
+        else
+            _targetRot = Quaternion.identity;
 
         Vector3 _targetEuler = _targetRot.eulerAngles;
         Vector3 _currentEuler = gameObject.transform.eulerAngles;
@@ -91,6 +109,7 @@ public class LocomotionUtility
 
         // Fly 시 회전 값 계산 제대로하기
     }
+
     #endregion ================================================================================ /Movment
 
     #region ================================================================================ Gravity

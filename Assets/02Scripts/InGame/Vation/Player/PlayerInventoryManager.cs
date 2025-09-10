@@ -47,7 +47,8 @@ public class PlayerInventoryManager : MonoBehaviour
     public void AddItem(Item item)
     {
         SaveItemList.Add(item);
-        Debug.Log($"아이템 획득: {item.Data.Name}");
+        // TODO : Debug 삭제예정
+        //Debug.Log($"아이템 획득: {item.Data.Name}");
 
         // 아이템 타입 확인
         // 장비 슬롯 빈공간일 시 장착 여부

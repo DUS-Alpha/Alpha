@@ -5,23 +5,23 @@ using UnityEngine.Playables;
 [RequireComponent(typeof(PlayerEquipmentController))]
 [RequireComponent(typeof(PlayerInventoryManager))]
 [RequireComponent(typeof(PlayerAnimationController))]
-[RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(PlayerInputHandler))]
 [RequireComponent(typeof(PlayerStateMachine))]
 [RequireComponent(typeof(PlayerLocomotion))]
 [RequireComponent(typeof(PlayerCombat))]
 public class PlayerCore : MonoBehaviour, IPlayerEvents
 {
+    public GameObject PlayerObj { get; private set; }
+    public PlayerInputHandler InputHandler { get; private set; }
+    public PlayerAnimationController AniController { get; private set; }
+    public PlayerStateMachine StateMachine { get; private set; }
+    public PlayerLocomotion Locomotion { get; private set; }
+    public PlayerCombat Combat { get; private set; }
+    public PlayerInventoryManager InventoryManager { get; private set; }
+    public PlayerEquipmentController EquipmentController { get; private set; }
+
     [Header(" [ Ref Component ] ")]
-    public GameObject player;
-    public PlayerInputHandler InputHandler;
-    public PlayerAnimationController AniController;
-    public PlayerStateMachine StateMachine;
-    public PlayerLocomotion Locomotion;
-    public PlayerCombat Combat;
-    public CharacterController PlayerCharacterController;
-    public PlayerInventoryManager InventoryManager;
-    public PlayerEquipmentController EquipmentController;
+    public PlayerCameraManger CameraManger;
 
     // IPlayerEvents에서 옵저버 패턴을 통해서 다른 클래스에서 받아옴
     public event Action CheckInputAction;
@@ -32,7 +32,6 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
         AniController = GetComponent<PlayerAnimationController>();
         Locomotion = GetComponent<PlayerLocomotion>();
         Combat = GetComponent<PlayerCombat>();
-        PlayerCharacterController = GetComponent<CharacterController>();
         StateMachine = GetComponent<PlayerStateMachine>();
         InventoryManager = GetComponent<PlayerInventoryManager>();
         EquipmentController = GetComponent<PlayerEquipmentController>();
@@ -44,8 +43,8 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
     // 이유 : PlayerCore를 통채로 넘기면 불필요한 것까지 받아 너무 큰단위의 메모리 공간 사용 발생
     private void Initialize()
     {
-        Locomotion.InitializeModule(InputHandler, AniController, PlayerCharacterController);
-        Combat.InitializeModule(InputHandler, AniController, PlayerCharacterController);
+        Locomotion.InitializeModule(InputHandler, AniController);
+        Combat.InitializeModule(InputHandler, AniController, CameraManger);
         StateMachine.Initialize(this);
         InventoryManager.Initialize(this);
         EquipmentController.InitializeModule();

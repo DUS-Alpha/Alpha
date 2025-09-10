@@ -499,37 +499,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8503921140304466475, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
   m_PrefabInstance: {fileID: 1917136550}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &297425649
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 297425650}
-  m_Layer: 0
-  m_Name: TODO Combat FSM
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &297425650
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 297425649}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.0821593, y: 2.673421, z: -0.13366194}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &328851381
 GameObject:
   m_ObjectHideFlags: 0
@@ -692,7 +661,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.122966126, y: 0.01141831, z: -0.0014148976, w: 0.9923442}
+  m_LocalRotation: {x: 0.12296622, y: 0.011353266, z: -0.0014068377, w: 0.9923449}
   m_LocalPosition: {x: 0.51989603, y: 1.6790044, z: -3.2664306}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1478,7 +1447,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 683386815}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.122966126, y: 0.01141831, z: -0.0014148975, w: 0.9923442}
+  m_LocalRotation: {x: 0.122966215, y: 0.011353266, z: -0.0014068376, w: 0.9923449}
   m_LocalPosition: {x: 0.51989603, y: 1.6790044, z: -3.2664306}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2044,6 +2013,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1158215046}
   m_CullTransparentMesh: 1
+--- !u!1 &1250573225
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1250573226}
+  m_Layer: 0
+  m_Name: "HFSM\uC73C\uB85C \uC815\uB9AC \uD544\uC694"
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1250573226
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1250573225}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.8722916, y: 1.1444544, z: 1.5876131}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1268051202
 GameObject:
   m_ObjectHideFlags: 0
@@ -2810,6 +2810,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 8652837559477405220, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
+      propertyPath: CameraManger
+      value: 
+      objectReference: {fileID: 1718246663}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3306,4 +3310,4 @@ SceneRoots:
   - {fileID: 1376092439}
   - {fileID: 619988100}
   - {fileID: 1830437600}
-  - {fileID: 297425650}
+  - {fileID: 1250573226}

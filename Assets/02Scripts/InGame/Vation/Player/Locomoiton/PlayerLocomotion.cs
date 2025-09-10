@@ -1,18 +1,15 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.Android.Gradle.Manifest;
-using UnityEngine;
-using UnityEngine.Windows;
+using System.Collections.Generic;using UnityEngine;
 
+[RequireComponent(typeof(CharacterController))]
 public class PlayerLocomotion : MonoBehaviour
 {
+    //[Header("[ Ref Component ]")]
     private PlayerInputHandler m_InputHandler;
     private PlayerAnimationController m_animationController;
     private CharacterController m_characterController;
     private LocomotionUtility m_locoUtility;
-
-    //[Header("[ Ref Component ]")]
 
     [Header("[ HandleMove ]")]
     [SerializeField]
@@ -47,7 +44,7 @@ public class PlayerLocomotion : MonoBehaviour
     private float m_antiGravity = 1.5f;
 
     // Combat 상태 제어를 위해
-    public bool IsAction;
+    public bool IsLocoProgressing;
     public Vector3 Velocity => m_velocity;  //.y값 변경이 public으로는 이상하게 안됨 그래서 연결
     private Vector3 m_velocity;
 
@@ -65,22 +62,22 @@ public class PlayerLocomotion : MonoBehaviour
     private void Awake()
     {
         m_locoUtility = new LocomotionUtility();
+        m_characterController = GetComponent<CharacterController>();
     }
 
-    public void InitializeModule(PlayerInputHandler inputHandler,PlayerAnimationController animationController ,CharacterController characterController)
+    public void InitializeModule(PlayerInputHandler inputHandler,PlayerAnimationController animationController)
     {
         m_InputHandler = inputHandler;
         m_animationController = animationController;
-        m_characterController = characterController;
     }
     public void InitializeEvents(IPlayerEvents events)
     {
         events.CheckInputAction += CheckInput;
     }
 
-    private void Start()
+    public void SetIsLocoProgressing(bool isProgressing)
     {
-        
+        IsLocoProgressing = isProgressing;
     }
 
     public void CheckInput()
@@ -112,16 +109,19 @@ public class PlayerLocomotion : MonoBehaviour
     /// </summary>
     /// <param name="payerCore"></param>
     /// <returns></returns>
-    public void Movement()
+    public void Movement(bool isAim = false)
     {
-        float _targetSpeed = IsSprint ? m_sprintSpeed : m_walkSpeed;
+        bool _isImmediatelyRot = IsFlying || isAim; // 카메라 정면 방향으로 즉시 회전되도록 적용
+
+        float _targetSpeed = IsSprint ? (!isAim? m_sprintSpeed : m_walkSpeed) : m_walkSpeed;
+        
 
         HandleMove(MoveDir, _targetSpeed);
-        HandleRotate(MoveDir, IsFlying);
+        HandleRotate(MoveDir, _isImmediatelyRot);
 
-        if (IsFlying)
+        if (_isImmediatelyRot)
         {
-            m_animationController.SetFlyMoveAni(MoveDir.x, MoveDir.z);
+            m_animationController.SetAimMoveAni(MoveDir.x, MoveDir.z, isAim);
         }
         else
         {
@@ -184,12 +184,14 @@ public class PlayerLocomotion : MonoBehaviour
 
         m_animationController.SetJumpAni(IsJump);
         m_animationController.SetIsGroundAni(IsGrounded);
+        SetIsLocoProgressing(true);
     }
     public void JumpExit()
     {
         IsJump = false;
         m_animationController.SetJumpAni(IsJump);
         m_animationController.SetIsGroundAni(IsGrounded);
+        SetIsLocoProgressing(false);
     }
 
     #endregion ================================================================================ /Jump
@@ -234,4 +236,21 @@ public class PlayerLocomotion : MonoBehaviour
         m_animationController.SetIsFlyAni(IsFlying, IsFlyUp);
     }
     #endregion ================================================================================ /Fly
+
+    public void OnAnimatorMove()
+    {
+        // Combat 공격 시 RootMotion에 대한 애니메이션 포지션값은 모델만 움직이고 실제 오브젝트포지션은 변경안되기에 이를 오브젝트에 적용
+        if (m_animationController.IsRootMotion)
+        {
+            m_animationController.UpdateAnimatorTransformValue();
+
+            // Animator가 계산한 이동량을 가져와서 CharacterController에 적용
+            Vector3 _deltaPosition = m_animationController.RootMotionPos;
+
+            //_deltaPosition.y = m_playerCore.Locomotion.BaseGravity * Time.deltaTime; // 중력 보정 (필요 시)
+
+            m_characterController.Move(_deltaPosition);
+            m_characterController.transform.rotation *= m_animationController.RootMotionRot;
+        }
+    }
 }

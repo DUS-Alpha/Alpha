@@ -13,8 +13,8 @@ public class PlayerFlyingState : PlayerState
     }
 
     public override void Update()
-    {
-        m_Locomotion.Movement();
+    { 
+        m_Locomotion.Movement(m_Combat.IsAim);
 
         if (m_Locomotion.IsFlyUp)
             m_PlayerCore.SwitchLocomotionState(LocomotionState.FlyStartUp);

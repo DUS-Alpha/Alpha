@@ -62,7 +62,7 @@ public class PlayerEquipmentController : MonoBehaviour
         CreateEquipment(equipment);
 
         equipment.Equip(gameObject);
-        Debug.Log($"{equipment.EquipData.Name} 장착 완료");
+        //Debug.Log($"{equipment.EquipData.Name} 장착 완료");
     }
 
     public void UnequipItem(ApplicableSlots slot)
