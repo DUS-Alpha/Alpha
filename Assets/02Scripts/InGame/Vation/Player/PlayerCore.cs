@@ -70,13 +70,14 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
     {
         StateMachine.SwitchLocomotionState(newLocoState);
     }
-    public void SwitchCombatState(CombatState newCombatState)
+    public void SwitchCombatState(CombatState newLocoState)
     {
-        StateMachine.SwitchCombatState(newCombatState);
+        StateMachine.SwitchCombatState(newLocoState);
     }
 
     private void Update()
     {
         CheckInputAction?.Invoke();
+
     }
 }
