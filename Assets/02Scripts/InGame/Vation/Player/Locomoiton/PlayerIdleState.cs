@@ -18,23 +18,24 @@ public class PlayerIdleState : PlayerState
 
     public override void Update()
     {
-        if (m_Combat.IsCombatProgressing) return;
-
         m_Locomotion.Movement(m_Combat.IsAim);
 
+
+
+        // Locomotion Switch State
         if (m_Locomotion.IsJump)
         {
             if (m_Locomotion.IsGrounded)
             {
-                m_PlayerCore.SwitchLocomotionState(LocomotionState.Jump);
+                m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Jump);
             }
         }
         else if (m_Locomotion.IsFlyUp)
         {
-            m_PlayerCore.SwitchLocomotionState(LocomotionState.FlyStartUp);
+            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.FlyUp);
         }
         else if (m_Locomotion.MoveDir != Vector3.zero)
-            m_PlayerCore.SwitchLocomotionState(LocomotionState.Move);
+            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Move);
     }
 
     public override void Exit()

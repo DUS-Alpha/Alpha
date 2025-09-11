@@ -7,9 +7,9 @@ public class PlayerAttackState : PlayerState
 
     public override void Enter()
     {
-        if (m_Combat.CurrentWeaponNum == 1)
+        /*if (m_Combat.CurrentWeaponNum == 1)
             m_Combat.SetIsAllBodyAction(true);
-        else m_Combat.SetIsAllBodyAction(false);
+        else m_Combat.SetIsAllBodyAction(false);*/
     }
     public override void FixedUpdate()
     {
@@ -18,9 +18,9 @@ public class PlayerAttackState : PlayerState
 
     public override void Update()
     {
-        m_Combat.Attack(m_Combat.IsAttack);
+        //m_Combat.Attack(m_Combat.IsAttack);
 
-        if(m_Combat.IsCombatProgressing)
+       /* if(m_Combat.IsCombatProgressing)
         {
             bool _isTag = m_PlayerCore.AniController.CheckComboAnimation();
 
@@ -34,18 +34,18 @@ public class PlayerAttackState : PlayerState
             // 콤보가 끝났을 때만 Idle 전환
             if (m_isCombo && !_isTag)
             {
-                m_PlayerCore.SwitchCombatState(CombatState.CombatIdle);
+                //m_PlayerCore.SwitchCombatState(CombatState.CombatIdle);
             }
         }
         else
         {
-            if(!m_Combat.IsAttack) m_PlayerCore.SwitchCombatState(CombatState.CombatIdle);
-        }
+            //if(!m_Combat.IsAttack) m_PlayerCore.SwitchCombatState(CombatState.CombatIdle);
+        }*/
     }
     public override void Exit()
     {
-        m_Combat.SetIsAllBodyAction(false);
+       /* m_Combat.SetIsAllBodyAction(false);
         m_Combat.Attack(false);
-        if (m_Combat.CurrentWeaponNum > 1) m_Combat.Aiming(false);
+        if (m_Combat.CurrentWeaponNum > 1) m_Combat.Aiming(false);*/
     }
 }

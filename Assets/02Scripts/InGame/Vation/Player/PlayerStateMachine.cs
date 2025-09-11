@@ -2,113 +2,88 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum LocomotionState
-{
-    None,
-    Idle,
-    Move,
-    Jump,
-    Fall,
-    FlyStartUp,
-    Flying
-}
+// 평소: LocomotionState가 Base인 상태에서 + CombatFlagsState 처리
+// 특정 상황(스킬, 공격, 회피): CombatFullState 활성화 → LocomotionState를 잠시 무시하고 Combat 전권
 
-public enum CombatState
-{
-    None,
-    CombatIdle,
-    Aim,
-    Attack,
-    Swap,
-    Reload
-}
-
-// 하나의 상태머신에서 Locomotion, Combat 병렬로 실행
-// 애니메이션 Layer관리와 함께 구조적 관리가 수월
+// Locomotion, CombatFullState, CombatFlags의 Lock/Unlock을 단순 Boolean으로 관리
+// 입력 처리 시 CanMove / CanUseCombat 확인
 public class PlayerStateMachine : MonoBehaviour
 {
-    // Locomotion
     private PlayerCore m_playerCore;
-    private PlayerState m_currentLocoState;
-    private Dictionary<LocomotionState, Func<PlayerState>> m_locomotionStateCreateDic;  // 일반 new로 작성시 재사용으로되는거지만 이렇게작성 시 새 상태를 받게되는것
-    public LocomotionState CurrentLocoState { get; private set; }
-    //public LocomotionState PrevLocoState { get; private set; }    // TODO : 차후에 필요할 시 적용
 
-    // Combat
-    private PlayerState m_currentCombatState;
-    private Dictionary<CombatState, Func<PlayerState>> m_combatStateCreateDic;
-    public CombatState CurrentCombatState { get; private set; }
-    //public CombatState PrevCombatState { get; private set; }
+    private PlayerState m_locoState;
+    private PlayerState m_combatFullState;
 
-    private void Awake()
-    {
+    private CombatFlagsController m_combatFlagsController;
 
-    }
-    public void Initialize(PlayerCore playerCore)
+    // TODO : 상호작용이나 체력관련한 Flags도 추가 예정
+
+    private LocomotionStateType m_locoType;
+    private CombatFullStateType m_CombatFullType;
+
+
+    // 딕셔너리 초기화시 value값에 new 생성자를 하면 Key에 대한 Value는 이미 new로 처음 생성된 인스턴스를 재사용한것.
+    // Func타입으로 함수로 new 생성자 처리 시 새 인스턴스
+    private Dictionary<LocomotionStateType, Func<PlayerState>> m_locomotionStateCreateDic;
+    private Dictionary<CombatFullStateType, Func<PlayerState>> m_combatStateCreateDic;
+
+    private bool m_locomotionLocked;
+    private bool m_combatLocked;
+    public void LockLocomotion(bool value) => m_locomotionLocked = value;
+    public void LockCombat(bool value) => m_combatLocked = value;
+    public bool CanMove => !m_locomotionLocked && m_combatFlagsController.CurrentFlags == 0;
+    public bool CanUseCombat => !m_combatLocked;
+
+    public void InitializeMoudle(PlayerCore playerCore)
     {
         m_playerCore = playerCore;
-
-        m_locomotionStateCreateDic = new Dictionary<LocomotionState, Func<PlayerState>>
+        m_combatFlagsController = playerCore.CombatFlagsController;
+        m_locomotionStateCreateDic = new Dictionary<LocomotionStateType, Func<PlayerState>>
         { 
             // 일반 new로 작성시 상태가 현재 Dic 선언시에 객체로 저장이 되어져 그저 해당 상태를 재사용하는꼴임
             // Func을 통한 함수로써 객체를 만든다의 방식은 완전한 새로운 객체를 생성해내는 것
-            {LocomotionState.Idle, ()=> new PlayerIdleState(m_playerCore) }, 
-            {LocomotionState.Move, ()=> new PlayerMoveState(m_playerCore) },
-            {LocomotionState.Jump, () => new PlayerJumpState(m_playerCore) },
-            {LocomotionState.Fall, () => new PlayerFallState(m_playerCore) },
-            {LocomotionState.FlyStartUp, () => new PlayerFlyUpStartState(m_playerCore) },
-            {LocomotionState.Flying, () => new PlayerFlyingState(m_playerCore) },
-        };
-
-        m_combatStateCreateDic = new Dictionary<CombatState, Func<PlayerState>>
-        {
-            {CombatState.CombatIdle, () => new PlayerCombatIdleState(m_playerCore)},
-            {CombatState.Attack, () => new PlayerAttackState(m_playerCore)},
-            {CombatState.Aim, () => new PlayerAimState(m_playerCore)},
-            {CombatState.Swap, () => new PlayerSwapWeaponState(m_playerCore)},
-            {CombatState.Reload, () => new PlayerReloadState(m_playerCore)}
+            {LocomotionStateType.Idle, ()=> new PlayerIdleState(m_playerCore) },
+            {LocomotionStateType.Move, ()=> new PlayerMoveState(m_playerCore) },
+            {LocomotionStateType.Jump, () => new PlayerJumpState(m_playerCore) },
+            {LocomotionStateType.Fall, () => new PlayerFallState(m_playerCore) },
+            {LocomotionStateType.FlyUp, () => new PlayerFlyUpState(m_playerCore) },
+            {LocomotionStateType.Flying, () => new PlayerFlyingState(m_playerCore) },
         };
     }
 
     private void Start()
     {
-        SwitchLocomotionState(LocomotionState.Idle);
-        SwitchCombatState(CombatState.CombatIdle);
+        SwitchLocomotionState(LocomotionStateType.Idle);
     }
 
     private void Update()
     {
-        //if(!m_playerCore.Combat.IsCombatProgressing)
-        m_currentLocoState.Update();
-        Debug.Log("Loco : " + CurrentLocoState);
+        m_locoState.Update();
 
-        //if(!m_playerCore.Locomotion.IsLocoProgressing)
-        m_currentCombatState.Update();
-        Debug.Log("Combat : " + CurrentCombatState);
+        //m_combatFullState.Update();
     }
 
-    public void SwitchLocomotionState(LocomotionState newLocoState)
+    public void SwitchLocomotionState(LocomotionStateType newState)
     {
-        if (newLocoState == CurrentLocoState) return;
-        Func<PlayerState> _newState = m_locomotionStateCreateDic[newLocoState];
-        m_currentLocoState?.Exit();
+        if (newState == m_locoType) return;
+        Func<PlayerState> _newState = m_locomotionStateCreateDic[newState];
+        m_locoState?.Exit();
 
-        m_currentLocoState = _newState();
-        CurrentLocoState = newLocoState;
+        m_locoState = _newState();
+        m_locoType = newState;
 
-        m_currentLocoState.Enter();
+        m_locoState.Enter();
     }
 
-    public void SwitchCombatState(CombatState newCombatState)
+    public void SwitchCombatFullState(CombatFullStateType newState)
     {
-        if (newCombatState == CurrentCombatState) return;
-        Func<PlayerState> _newState = m_combatStateCreateDic[newCombatState];
-        m_currentCombatState?.Exit();
+        if (newState == m_CombatFullType) return;
+        Func<PlayerState> _newState = m_combatStateCreateDic[newState];
+        m_combatFullState?.Exit();
 
-        m_currentCombatState = _newState();
-        CurrentCombatState = newCombatState;
+        m_combatFullState = _newState();
+        m_CombatFullType = newState;
 
-        m_currentCombatState.Enter();
+        m_combatFullState.Enter();
     }
-
 }

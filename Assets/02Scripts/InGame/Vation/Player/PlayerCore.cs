@@ -19,6 +19,7 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
     public PlayerCombat Combat { get; private set; }
     public PlayerInventoryManager InventoryManager { get; private set; }
     public PlayerEquipmentController EquipmentController { get; private set; }
+    public CombatFlagsController CombatFlagsController { get; private set; } = new CombatFlagsController();
 
     [Header(" [ Ref Component ] ")]
     public PlayerCameraManger CameraManger;
@@ -26,6 +27,7 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
     // IPlayerEvents에서 옵저버 패턴을 통해서 다른 클래스에서 받아옴
     public event Action CheckInputAction;
     public event Action<int> SwapWeaponAction;
+
     private void Awake()
     {
         InputHandler = GetComponent<PlayerInputHandler>();
@@ -35,19 +37,20 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
         StateMachine = GetComponent<PlayerStateMachine>();
         InventoryManager = GetComponent<PlayerInventoryManager>();
         EquipmentController = GetComponent<PlayerEquipmentController>();
-        Initialize();
+        InitializeModule();
         InitializeEvents();
     }
 
     // TODO : 각 모듈의 경우 필요한 PlayerCore대신 필요한 모듈 매개변수만 받도록 수정
     // 이유 : PlayerCore를 통채로 넘기면 불필요한 것까지 받아 너무 큰단위의 메모리 공간 사용 발생
-    private void Initialize()
+    private void InitializeModule()
     {
-        Locomotion.InitializeModule(InputHandler, AniController);
-        Combat.InitializeModule(InputHandler, AniController, CameraManger);
-        StateMachine.Initialize(this);
-        InventoryManager.Initialize(this);
+        StateMachine.InitializeMoudle(this);
+        InventoryManager.InitializeModule(this);
         EquipmentController.InitializeModule();
+        InputHandler.InitializeModule(StateMachine);
+        Locomotion.InitializeModule(InputHandler, AniController);
+        Combat.InitializeModule(InputHandler, CombatFlagsController, AniController);
     }
 
     /// <summary>
@@ -61,18 +64,20 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
         Combat.InitializeEvents(this);
     }
 
-    void Start()
+    private void Start()
     {
+        SwapWeaponAction(0);
+
         Combat.SetSwapAction(SwapWeaponAction);
     }
 
-    public void SwitchLocomotionState(LocomotionState newLocoState)
+    public void SwitchLocomotionState(LocomotionStateType newState)
     {
-        StateMachine.SwitchLocomotionState(newLocoState);
+        StateMachine.SwitchLocomotionState(newState);
     }
-    public void SwitchCombatState(CombatState newCombatState)
+    public void SwitchCombatFullState(CombatFullStateType newState)
     {
-        StateMachine.SwitchCombatState(newCombatState);
+        StateMachine.SwitchCombatFullState(newState);
     }
 
     private void Update()

@@ -19,7 +19,7 @@ public class PlayerAnimationController : MonoBehaviour
     }
     public void InitializeEvents(IPlayerEvents events)
     {
-        events.SwapWeaponAction += SwapWeaponAni;
+        //events.SwapWeaponAction += SwapWeaponAni;
     }
 
     #region ================================================================================ Locomotion
@@ -40,13 +40,11 @@ public class PlayerAnimationController : MonoBehaviour
         m_animator.SetBool("IsJump", isJump);
         //m_animator.SetTrigger("Jump");
     }
-
     public void SetIsFlyAni(bool isFlying, bool isFlyUpStart)
     {
         m_animator.SetBool("IsFlying", isFlying);
         m_animator.SetBool("IsFlyUp", isFlyUpStart);
     }
-    
     /// <summary>
     /// Fly와 공격형태일때 사용됨
     /// </summary>
@@ -65,27 +63,38 @@ public class PlayerAnimationController : MonoBehaviour
         m_animator.SetFloat("InputX", inputX, dampTime, Time.deltaTime);
         m_animator.SetFloat("InputY", inputY, dampTime, Time.deltaTime);
     }
+
     #endregion ================================================================================ /Locomotion
 
+
     #region ================================================================================ Combat
-    public void SwapWeaponAni(int weaponNum)
+    public void UpdateCombatFlagsAnimations(CombatFlagsStateTpye CurrentCombatFlagsState)
     {
-        m_animator.SetTrigger("SwapWeapon");
-        
-        m_animator.SetInteger("WeaponNum", weaponNum);
-    }
-    public void AimAni(bool isAim)
-    {
-        m_animator.SetBool("IsAim", isAim);
+        var flags = CurrentCombatFlagsState;
+
+        // Aim 파라미터
+        m_animator.SetBool("IsAim", flags.HasFlag(CombatFlagsStateTpye.Aim));
+
+        // Reload 파라미터
+        if (flags.HasFlag(CombatFlagsStateTpye.Reload))
+        {
+            m_animator.SetTrigger("Reload");
+        }
+        else if(flags.HasFlag(CombatFlagsStateTpye.RangeShoot))
+        {
+            m_animator.SetTrigger("RangeShoot");
+        }
+        else if (flags.HasFlag(CombatFlagsStateTpye.SwapWeapon))
+        {
+            m_animator.SetTrigger("SwapWeapon");
+        }
+
+        //m_animator.SetInteger("CombatFullState", (int)CombatFullSM.CurrentStateType);
     }
 
-    // TODO : 포지션값 받아오는 함수 따로 만들지 고민
-    public void AttackAni(bool isAttack, bool isAllBody)
+    public void CombatFullAni()
     {
-        IsRootMotion = isAllBody;
-        m_animator.applyRootMotion = isAllBody;
 
-        m_animator.SetBool("IsAttack", isAttack);
     }
     #endregion ================================================================================ /Combat
     /// <summary>

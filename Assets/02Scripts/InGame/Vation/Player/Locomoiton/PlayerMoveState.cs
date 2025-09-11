@@ -21,11 +21,11 @@ public class PlayerMoveState : PlayerState
 
     public override void Update()
     {
-        if (m_Combat.IsCombatProgressing) return;
+        //if (m_Combat.IsCombatProgressing) return;
 
         m_Locomotion.Movement(m_Combat.IsAim);
 
-        if (m_Locomotion.IsJump)
+        /*if (m_Locomotion.IsJump)
         {
             if (m_Locomotion.IsGrounded)
             {
@@ -37,6 +37,6 @@ public class PlayerMoveState : PlayerState
             m_PlayerCore.SwitchLocomotionState(LocomotionState.FlyStartUp);
         }
         else if (m_Locomotion.MoveDir == Vector3.zero)
-            m_PlayerCore.SwitchLocomotionState(LocomotionState.Idle);
+            m_PlayerCore.SwitchLocomotionState(LocomotionState.Idle);*/
     }
 }

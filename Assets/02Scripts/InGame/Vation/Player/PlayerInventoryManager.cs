@@ -22,7 +22,7 @@ public class PlayerInventoryManager : MonoBehaviour
     {
 
     }
-    public void Initialize(PlayerCore playerCore)
+    public void InitializeModule(PlayerCore playerCore)
     {
         m_playerCore = playerCore;
     }

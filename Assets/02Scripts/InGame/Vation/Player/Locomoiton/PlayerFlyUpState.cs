@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerFlyUpStartState : PlayerState
+public class PlayerFlyUpState : PlayerState
 {
-    public PlayerFlyUpStartState(PlayerCore playerCore) : base(playerCore){}
+    public PlayerFlyUpState(PlayerCore playerCore) : base(playerCore){}
     
     public override void Enter()
     {
@@ -24,7 +24,7 @@ public class PlayerFlyUpStartState : PlayerState
         
         if(!m_Locomotion.IsFlyUp)
         {
-            m_PlayerCore.SwitchLocomotionState(LocomotionState.Flying);
+            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Flying);
         }
     }
 

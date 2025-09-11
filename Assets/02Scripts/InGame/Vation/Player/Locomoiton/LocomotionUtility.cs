@@ -48,8 +48,8 @@ public class LocomotionUtility
     /// </summary>
     /// <param name="gameObject"></param>
     /// <param name="moveDir"></param>
-    /// <param name="isAim"> true시 카메라 정면 방향으로 실시간 회전 </param>
-    public void HandleRotate(GameObject gameObject, Vector3 moveDir, bool isAim)
+    /// <param name="isImmediatelyRot"> true시 카메라 정면 방향으로 즉시 회전 </param>
+    public void HandleRotate(GameObject gameObject, Vector3 moveDir, bool isImmediatelyRot)
     {
         Camera cam = Camera.main;
 
@@ -57,7 +57,7 @@ public class LocomotionUtility
 
         Vector3 _dir;
 
-        if (!isAim)
+        if (!isImmediatelyRot)
         {
             if (moveDir != Vector3.zero)
                 _dir = m_moveDirByCamera; // 이동 입력 있을 때는 이동 방향
@@ -68,8 +68,8 @@ public class LocomotionUtility
         {
             _dir = cam.transform.forward; // Aim 중에는 카메라 forward
         }
-
         _dir.y = 0f;
+
         Quaternion _targetRot;
         if (_dir != Vector3.zero)
             _targetRot = Quaternion.LookRotation(_dir);

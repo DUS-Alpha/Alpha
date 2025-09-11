@@ -18,14 +18,14 @@ public class PlayerJumpState : PlayerState
     {
         m_Locomotion.ApplyGravity();
 
-        if (m_Locomotion.Velocity.y <= 0 && !m_Locomotion.IsGrounded)
+        /*if (m_Locomotion.Velocity.y <= 0 && !m_Locomotion.IsGrounded)
         {
             m_PlayerCore.SwitchLocomotionState(LocomotionState.Fall);
         }
         else if (m_Locomotion.IsFlyUp)
         {
             m_PlayerCore.SwitchLocomotionState(LocomotionState.FlyStartUp);
-        }
+        }*/
     }
 
     public override void Exit()

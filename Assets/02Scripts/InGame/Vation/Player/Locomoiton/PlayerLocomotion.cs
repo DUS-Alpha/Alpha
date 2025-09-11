@@ -115,8 +115,8 @@ public class PlayerLocomotion : MonoBehaviour
 
         float _targetSpeed = IsSprint ? (!isAim? m_sprintSpeed : m_walkSpeed) : m_walkSpeed;
         
-
         HandleMove(MoveDir, _targetSpeed);
+
         HandleRotate(MoveDir, _isImmediatelyRot);
 
         if (_isImmediatelyRot)

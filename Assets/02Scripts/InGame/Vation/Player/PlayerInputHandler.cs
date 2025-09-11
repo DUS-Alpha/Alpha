@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class PlayerInputHandler : MonoBehaviour
 {
+    private PlayerStateMachine m_stateMachine;
+
     //  TODO : new InpuSystem 전환할지 고려
     #region ==================== LocomotionInput
     public Vector3 MoveDir { get; private set; }
@@ -23,9 +25,15 @@ public class PlayerInputHandler : MonoBehaviour
     #endregion ==================== /CombatInput
 
     #region ==================== ETC
+    private bool m_isLocomotionLock;
+    private bool m_isCombatLock;
     public bool IsInventory { get; private set; }
     #endregion ==================== /ETC
 
+    public void InitializeModule(PlayerStateMachine stateMachine)
+    {
+        m_stateMachine = stateMachine;
+    }
 
     private void Start()
     {
@@ -42,6 +50,16 @@ public class PlayerInputHandler : MonoBehaviour
 
     private void LocomotionInput()
     {
+        if(!m_stateMachine.CanMove)
+        {
+            MoveDir = Vector3.zero;
+            IsSprint = false;
+            IsJump = false;
+            IsFlyUp = false;
+            IsFlyOff = false;
+            return;
+        }
+
         HandleInputMove();
         IsSprint = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
         IsJump = Input.GetKeyDown(KeyCode.Space);
@@ -59,8 +77,18 @@ public class PlayerInputHandler : MonoBehaviour
 
     private void CombatInput()
     {
+        if(!m_stateMachine.CanUseCombat)
+        {
+            IsAttack = false;
+            IsReload = false;
+            IsAim = false;
+            IsSniperScope = false;
+            IsWeaponSwap = false;
+            SwapWeaponNum = 0;
+            return;
+        }
+
         IsAttack = Input.GetMouseButton(0);
-       
         IsReload = Input.GetKeyDown(KeyCode.R);
         WeaponSwapNum();
         IsAim = Input.GetMouseButton(1);
@@ -69,8 +97,8 @@ public class PlayerInputHandler : MonoBehaviour
 
     private void WeaponSwapNum()
     {
-        IsWeaponSwap = Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Alpha3);
-
+        IsWeaponSwap = (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Alpha3));
+        
         if(IsWeaponSwap)
         {
             if (Input.GetKeyDown(KeyCode.Alpha1))
