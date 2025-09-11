@@ -1,3 +1,4 @@
+/*
 using UnityEngine;
 
 //지역변수는 _
@@ -66,7 +67,7 @@ public class AttackState : IEnemyState
 
                INode TestNode =
                    new SequenceNode(
-                   new ActionNode(() => m_actions.DirectorTick())
+                   
                );
                
         
@@ -103,3 +104,4 @@ public class AttackState : IEnemyState
         Debug.Log("Exit AttackState (BT stopped)");
     }
 }
+*/

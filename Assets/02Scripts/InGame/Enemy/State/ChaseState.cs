@@ -11,7 +11,7 @@ public class ChaseState : IEnemyState
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            enemy.TransitionToState(new AttackState());
+            /*enemy.TransitionToState(new AttackState());*/
         }
     }
 

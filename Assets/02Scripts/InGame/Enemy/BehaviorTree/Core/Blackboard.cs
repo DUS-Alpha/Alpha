@@ -28,14 +28,5 @@ public class Blackboard
         Agent = owner.GetComponent<NavMeshAgent>();
     }
 
-    // === 쿨다운 헬퍼 (지금 단계에선 미사용이지만, 추후 편하게 쓰라고 준비만) ===
-    public bool IsOnCooldown(string key)
-    {
-        if (!_cooldowns.TryGetValue(key, out var until)) return false;
-        return Time.time < until;
-    }
-    public void StartCooldown(string key, float seconds)
-    {
-        _cooldowns[key] = Time.time + seconds;
-    }
+   
 }
