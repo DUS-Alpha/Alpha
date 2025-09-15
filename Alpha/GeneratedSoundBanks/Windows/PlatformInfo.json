@@ -1,16 +1,16 @@
 {
  "PlatformInfo": {
   "Platform": {
-   "Name": "Mac",
-   "BasePlatform": "Mac",
+   "Name": "Android",
+   "BasePlatform": "Android",
    "Generator": "2024.1.7.8863"
   },
   "RootPaths": {
-   "ProjectRoot": "../../../../Alpha",
-   "SourceFilesRoot": "../../../../Alpha/.cache",
+   "ProjectRoot": "../..",
+   "SourceFilesRoot": "../../.cache",
    "SoundBanksRoot": ".",
    "ExternalSourcesInputFile": "",
-   "ExternalSourcesOutputRoot": "../../../../Alpha/GeneratedSoundBanks/Mac"
+   "ExternalSourcesOutputRoot": "../Android"
   },
   "DefaultAlign": "16",
   "Settings": {
@@ -33,6 +33,6 @@
    "PrintObjectPath": "true",
    "PrintObjectColor": "true"
   },
-  "FileHash": "{D0C8BD1C-0AFC-9C50-9680-62857D9640F2}"
+  "FileHash": "{4EC19684-D2B6-089D-749B-21BF712E960B}"
  }
 }

@@ -1,16 +1,16 @@
 {
  "PlatformInfo": {
   "Platform": {
-   "Name": "Mac",
-   "BasePlatform": "Mac",
+   "Name": "Windows",
+   "BasePlatform": "Windows",
    "Generator": "2024.1.7.8863"
   },
   "RootPaths": {
-   "ProjectRoot": "../../../../Alpha",
-   "SourceFilesRoot": "../../../../Alpha/.cache",
+   "ProjectRoot": "../..",
+   "SourceFilesRoot": "../../.cache",
    "SoundBanksRoot": ".",
    "ExternalSourcesInputFile": "",
-   "ExternalSourcesOutputRoot": "../../../../Alpha/GeneratedSoundBanks/Mac"
+   "ExternalSourcesOutputRoot": "../Windows"
   },
   "DefaultAlign": "16",
   "Settings": {
@@ -33,6 +33,6 @@
    "PrintObjectPath": "true",
    "PrintObjectColor": "true"
   },
-  "FileHash": "{D0C8BD1C-0AFC-9C50-9680-62857D9640F2}"
+  "FileHash": "{F48D80CB-3A3B-4A64-BD25-C7EC2FBBDFD7}"
  }
 }
