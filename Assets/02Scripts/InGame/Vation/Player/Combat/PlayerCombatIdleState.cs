@@ -1,7 +1,11 @@
 using UnityEngine;
 
-public class PlayerCombatIdleState : PlayerState
+public class PlayerCombatIdleState : PlayerCombatState
 {
+    protected override InputLocoLockType m_LockOnEnter => InputLocoLockType.None;
+
+    protected override InputLocoLockType m_LockOnExit => InputLocoLockType.None;
+
     public PlayerCombatIdleState(PlayerCore playerCore) : base(playerCore){}
 
     public override void Enter()
@@ -16,6 +20,8 @@ public class PlayerCombatIdleState : PlayerState
 
     public override void Update()
     {
+        if (m_Combat.IsSwapWeapon) m_PlayerCore.SwitchCombatState(CombatStateType.SwapWeapon);
+
         /*if (m_Combat.IsAim)
         {
             m_PlayerCore.SwitchCombatState(CombatFlagsState.Aiming);

@@ -27,7 +27,7 @@ public class PlayerAnimationController : MonoBehaviour
     /// Locomotion의 CurrentMoveSpeed 받아오기
     /// </summary>
     /// <param name="moveSpeed"></param>
-    public void SetGroundMoveAni(float moveSpeed)
+    public void MoveAni(float moveSpeed)
     {
         m_animator.SetFloat("MoveSpeed", moveSpeed);
     }
@@ -35,66 +35,58 @@ public class PlayerAnimationController : MonoBehaviour
     {
         m_animator.SetBool("IsGround", isGrounded);
     }
-    public void SetJumpAni(bool isJump)
+
+    public void JumpAni()
     {
-        m_animator.SetBool("IsJump", isJump);
-        //m_animator.SetTrigger("Jump");
+        m_animator.SetTrigger("Jump");
     }
-    public void SetIsFlyAni(bool isFlying, bool isFlyUpStart)
+    public void FlyAni(bool isFlying, bool isFlyUpStart)
     {
         m_animator.SetBool("IsFlying", isFlying);
         m_animator.SetBool("IsFlyUp", isFlyUpStart);
     }
     /// <summary>
-    /// Fly와 공격형태일때 사용됨
+    /// Fly와 Aim일때 사용됨
     /// </summary>
     /// <param name="inputX"></param>
     /// <param name="inputY"></param>
-    public void SetAimMoveAni(float inputX, float inputY, bool isAim)
+    public void DirMoveAni(float inputX, float inputY)
     {
-        if (isAim && !m_animator.GetBool("IsGround"))
-        {
-            if (inputY > 0) inputY = 0;
-        }
-
         // 값이 바로 전환되는 것을 부드럽게 변환
         float dampTime = 0.1f;
 
         m_animator.SetFloat("InputX", inputX, dampTime, Time.deltaTime);
         m_animator.SetFloat("InputY", inputY, dampTime, Time.deltaTime);
     }
-
     #endregion ================================================================================ /Locomotion
 
 
-    #region ================================================================================ Combat
-    public void UpdateCombatFlagsAnimations(CombatFlagsStateTpye CurrentCombatFlagsState)
+    #region ================================================================================ CombatFlags
+    public void AimAni(bool isAim)
     {
-        var flags = CurrentCombatFlagsState;
-
-        // Aim 파라미터
-        m_animator.SetBool("IsAim", flags.HasFlag(CombatFlagsStateTpye.Aim));
-
-        // Reload 파라미터
-        if (flags.HasFlag(CombatFlagsStateTpye.Reload))
-        {
-            m_animator.SetTrigger("Reload");
-        }
-        else if(flags.HasFlag(CombatFlagsStateTpye.RangeShoot))
-        {
-            m_animator.SetTrigger("RangeShoot");
-        }
-        else if (flags.HasFlag(CombatFlagsStateTpye.SwapWeapon))
-        {
-            m_animator.SetTrigger("SwapWeapon");
-        }
-
-        //m_animator.SetInteger("CombatFullState", (int)CombatFullSM.CurrentStateType);
+        m_animator.SetBool("IsAim",isAim);
+    }
+    public void SwapWeaponAni(int currentNum)
+    {
+        m_animator.SetInteger("WeaponNum", currentNum);
+        m_animator.SetTrigger("SwapWeapon");
+    }
+    public void ReloadAni()
+    {
+        m_animator.SetTrigger("Reload");
+    }
+    public void MeleeAttackAni(bool isAttack)
+    {
+        m_animator.SetBool("IsAttack", isAttack);
+    }
+    public void RangeShootingAni()
+    {
+        m_animator.SetTrigger("RangeShooting");
     }
 
-    public void CombatFullAni()
+    public void CombatFullAni(int value)
     {
-
+        m_animator.SetLayerWeight(4, value);
     }
     #endregion ================================================================================ /Combat
     /// <summary>

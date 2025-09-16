@@ -1,12 +1,17 @@
 using UnityEngine;
 using UnityEngine.Windows;
-public class PlayerAttackState : PlayerState
+public class PlayerAttackState : PlayerCombatState
 {
     public PlayerAttackState(PlayerCore playerCore) : base(playerCore){}
     private bool m_isCombo;
 
+    protected override InputLocoLockType m_LockOnEnter => throw new System.NotImplementedException();
+
+    protected override InputLocoLockType m_LockOnExit => throw new System.NotImplementedException();
+
     public override void Enter()
     {
+        base.Enter();
         /*if (m_Combat.CurrentWeaponNum == 1)
             m_Combat.SetIsAllBodyAction(true);
         else m_Combat.SetIsAllBodyAction(false);*/
@@ -44,6 +49,7 @@ public class PlayerAttackState : PlayerState
     }
     public override void Exit()
     {
+        base.Exit();
        /* m_Combat.SetIsAllBodyAction(false);
         m_Combat.Attack(false);
         if (m_Combat.CurrentWeaponNum > 1) m_Combat.Aiming(false);*/

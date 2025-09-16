@@ -6,7 +6,7 @@ public class LocomotionUtility
     private float m_currentSpeed;
 
     // Rotate Config
-    private float m_rotationSmoothTime = 0.2f;
+    private float m_rotationSmoothTime = 0.1f;
     private float m_currentSmoothVelocityX = 0;
     private float m_currentSmoothVelocityY = 0;
     private float m_currentSmoothVelocityZ = 0;

@@ -2,27 +2,27 @@ using UnityEngine;
 
 public class CombatFlagsController
 {
-    public CombatFlagsStateTpye CurrentFlags => m_currentFlags;
-    private CombatFlagsStateTpye m_currentFlags;
-    private CombatFlagsStateTpye m_triggerFlagsNextFrame;   // Trigger 파라미터 애니메이션은 1프레임 시간 잠깐줬다가 바로 삭제(삭제는 필요하지만 애니메이터 파라미터값 받아지는 시간 필요하기에)
+    /*public SubFlagsStateTpye CurrentFlags => m_currentFlags;
+    private SubFlagsStateTpye m_currentFlags;
+    private SubFlagsStateTpye m_triggerFlagsNextFrame;   // Trigger 파라미터 애니메이션은 1프레임 시간 잠깐줬다가 바로 삭제(삭제는 필요하지만 애니메이터 파라미터값 받아지는 시간 필요하기에)
 
     // TODO : 우선 CombatFlags들 단수개로만 존재하도록 설정 향후 복수개도 가능하게
-    private CombatFlagsStateTpye m_exclusiveFlags =
-         CombatFlagsStateTpye.Aim
-        | CombatFlagsStateTpye.Reload
-        | CombatFlagsStateTpye.SwapWeapon
-        | CombatFlagsStateTpye.RangeShoot;
+    private SubFlagsStateTpye m_exclusiveFlags =
+         SubFlagsStateTpye.Aim
+        | SubFlagsStateTpye.Reload
+        | SubFlagsStateTpye.SwapWeapon
+        | SubFlagsStateTpye.RangeShoot;
 
-    private bool IsTrigger(CombatFlagsStateTpye flag) =>
-        flag == CombatFlagsStateTpye.Reload ||
-        flag == CombatFlagsStateTpye.SwapWeapon ||
-        flag == CombatFlagsStateTpye.RangeShoot;
+    private bool IsTrigger(SubFlagsStateTpye flag) =>
+        flag == SubFlagsStateTpye.Reload ||
+        flag == SubFlagsStateTpye.SwapWeapon ||
+        flag == SubFlagsStateTpye.RangeShoot;
 
     /// <summary>
     /// 애니메이터 파라미터가 Trigger는 추가후 바로 제거됨
     /// </summary>
     /// <param name="flags"></param>
-    public void AddFlag(CombatFlagsStateTpye flag)
+    public void AddFlag(SubFlagsStateTpye flag)
     {
         // 1. 단독 Flags사용을 위한 기존 Exclusive Flags 모두 제거
         if ((m_exclusiveFlags & flag) != 0)
@@ -42,12 +42,12 @@ public class CombatFlagsController
         }
     }
 
-    public void RemoveFlag(CombatFlagsStateTpye flag)
+    public void RemoveFlag(SubFlagsStateTpye flag)
     {
         m_currentFlags &= ~flag;
     }
-    public bool HasFlag(CombatFlagsStateTpye flag) => m_currentFlags.HasFlag(flag);
-    public void ClearCombatFlags() => m_currentFlags = CombatFlagsStateTpye.None;
+    public bool HasFlag(SubFlagsStateTpye flag) => m_currentFlags.HasFlag(flag);
+    public void ClearCombatFlags() => m_currentFlags = SubFlagsStateTpye.None;
 
     public void TriggerClear()
     {
@@ -55,5 +55,5 @@ public class CombatFlagsController
         m_currentFlags &= ~m_triggerFlagsNextFrame;
 
         m_triggerFlagsNextFrame = 0; // 다음 프레임 제거
-    }
+    }*/
 }

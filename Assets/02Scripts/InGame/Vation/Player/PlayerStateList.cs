@@ -1,6 +1,9 @@
 using System;
 using UnityEngine;
 
+// 최상위 FSM과 서브 FSM으로 관리
+
+// Locomotion : 이동/기본 조작
 public enum LocomotionStateType
 {
     None,
@@ -9,14 +12,30 @@ public enum LocomotionStateType
     Jump,
     Fall,
     Landing,
+    Dodge,
     FlyUp,
     Flying,
-    Die
+    Die,
 }
 
-// Flags enum 형태는 비트연산 처리 필요
+// Combat : 전투
+// 주로 UpperBody 레이어 사용
+public enum CombatStateType
+{
+    None,
+    Idle,
+    Aim,
+    RangeShooting,
+    SwapWeapon,
+    Reload,
+    MeleeAttack_All,
+    MeleeSkill_All,
+    RangeSkill_All,
+}
+
+/*// Flags enum 형태는 비트연산 처리 필요
 [Flags]
-public enum CombatFlagsStateTpye
+public enum SubFlagsStateTpye
 {
     None = 0,
     Aim = 1 << 0,
@@ -24,12 +43,4 @@ public enum CombatFlagsStateTpye
     SwapWeapon = 1 << 2,
     Reload = 1 << 3,
 }
-
-public enum CombatFullStateType
-{
-    None,
-    MeleeAttack,
-    Dodge,
-    RangeSkill,
-    MeleeSkill
-}
+*/

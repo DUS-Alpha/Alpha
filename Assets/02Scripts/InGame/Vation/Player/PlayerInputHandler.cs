@@ -1,26 +1,29 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerInputHandler : MonoBehaviour
 {
-    private PlayerStateMachine m_stateMachine;
+    private PlayerCombat m_combat;
+    private InputLockedFlagsController<InputLocoLockType> m_inputLockedFlags;
+    private InputLockedFlagsController<InputCombatLockType> m_inputCombatFlags;
 
     //  TODO : new InpuSystem 전환할지 고려
     #region ==================== LocomotionInput
     public Vector3 MoveDir { get; private set; }
-    public bool IsSprint { get; private set; }
+    public bool IsDodge { get; private set; }
     public bool IsJump { get; private set; }
     public bool IsFlyUp { get; private set; }
     public bool IsFlyOff { get; private set; }
     #endregion ==================== /LocomotionInput
 
     #region ==================== CombatInput
-    public bool IsAttack { get; private set; }
+    public bool IsMeleeAttack { get; private set; }
+    public bool IsRangeShooting { get; private set; }
     public int SwapWeaponNum { get; private set; } = 0;
     public bool IsAim { get; private set; }
     public bool IsSniperScope { get; private set; }
     public bool IsWeaponSwap { get; private set; }
     public bool IsReload { get; private set; }
-    public bool IsDodge { get; private set; }
     public bool IsSkill1 { get; private set; }
     #endregion ==================== /CombatInput
 
@@ -28,11 +31,14 @@ public class PlayerInputHandler : MonoBehaviour
     private bool m_isLocomotionLock;
     private bool m_isCombatLock;
     public bool IsInventory { get; private set; }
+
     #endregion ==================== /ETC
 
-    public void InitializeModule(PlayerStateMachine stateMachine)
+    public void InitializeModule(PlayerCombat playerCombat, InputLockedFlagsController<InputLocoLockType> inputLocoflags, InputLockedFlagsController<InputCombatLockType> inputCombatflags)
     {
-        m_stateMachine = stateMachine;
+        m_combat = playerCombat;
+        m_inputLockedFlags = inputLocoflags;
+        m_inputCombatFlags = inputCombatflags;
     }
 
     private void Start()
@@ -50,21 +56,25 @@ public class PlayerInputHandler : MonoBehaviour
 
     private void LocomotionInput()
     {
-        if(!m_stateMachine.CanMove)
+        if (m_inputLockedFlags.HasFlag(InputLocoLockType.All))
         {
-            MoveDir = Vector3.zero;
-            IsSprint = false;
             IsJump = false;
+            IsDodge = false;
             IsFlyUp = false;
             IsFlyOff = false;
+            MoveDir = Vector3.zero;
             return;
         }
 
         HandleInputMove();
-        IsSprint = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
-        IsJump = Input.GetKeyDown(KeyCode.Space);
-        IsFlyUp = Input.GetKey(KeyCode.Q);
-        IsFlyOff = Input.GetKeyDown(KeyCode.E);
+
+        IsJump = !m_inputLockedFlags.HasFlag(InputLocoLockType.Jump)
+            && Input.GetKeyDown(KeyCode.Space);
+        IsFlyUp = !m_inputLockedFlags.HasFlag(InputLocoLockType.FlyUp)
+            && Input.GetKey(KeyCode.Q);
+        IsFlyOff = !m_inputLockedFlags.HasFlag(InputLocoLockType.FlyOff) && Input.GetKeyDown(KeyCode.E);
+        IsDodge = !m_inputLockedFlags.HasFlag(InputLocoLockType.Dodge) 
+            && (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift));
     }
     private void HandleInputMove()
     {
@@ -73,26 +83,46 @@ public class PlayerInputHandler : MonoBehaviour
         // 조이스틱 같은 누르는 민감도를 지켜주기 위해 0~1까지는 기본 GetAxis값으로하되
         // 힘(민감도) 1이상일 때 (즉,대각선루트2, 거의 조이스틱 대각선 풀로 움직인 상태) 변경해줌 / 키보드 같은 버튼 방식은 필요없음
         if (MoveDir.magnitude >= 1) MoveDir.Normalize();
+
+        if (m_inputLockedFlags.HasFlag(InputLocoLockType.Move))
+        {
+            MoveDir = Vector3.zero;
+        }
     }
 
     private void CombatInput()
     {
-        if(!m_stateMachine.CanUseCombat)
+        if(m_inputCombatFlags.HasFlag(InputCombatLockType.All))
         {
-            IsAttack = false;
-            IsReload = false;
+            IsMeleeAttack = false;
+            IsRangeShooting = false;
             IsAim = false;
-            IsSniperScope = false;
-            IsWeaponSwap = false;
+            IsReload = false;
             SwapWeaponNum = 0;
+            IsSniperScope = false;
             return;
         }
-
-        IsAttack = Input.GetMouseButton(0);
-        IsReload = Input.GetKeyDown(KeyCode.R);
         WeaponSwapNum();
-        IsAim = Input.GetMouseButton(1);
+
+        bool _isAttack = Input.GetMouseButton(0);
+        switch (m_combat.CurrentWeaponNum)
+        {
+            case 1:
+                IsMeleeAttack = m_inputCombatFlags.HasFlag(InputCombatLockType.MeleeAttack) && _isAttack;
+                break;
+            case 2:
+            case 3:
+                IsRangeShooting = m_inputCombatFlags.HasFlag(InputCombatLockType.RangeShooting) && _isAttack;
+                break;
+
+        }
+
+        IsAim = m_inputCombatFlags.HasFlag(InputCombatLockType.Aim) && Input.GetMouseButton(1);
+        IsReload = m_inputCombatFlags.HasFlag(InputCombatLockType.Reload) && Input.GetKeyDown(KeyCode.R);
         IsSniperScope = Input.GetMouseButtonDown(1);
+        
+
+        
     }
 
     private void WeaponSwapNum()

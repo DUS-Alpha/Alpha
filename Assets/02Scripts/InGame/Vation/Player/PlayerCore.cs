@@ -6,11 +6,13 @@ using UnityEngine.Playables;
 [RequireComponent(typeof(PlayerInventoryManager))]
 [RequireComponent(typeof(PlayerAnimationController))]
 [RequireComponent(typeof(PlayerInputHandler))]
-[RequireComponent(typeof(PlayerStateMachine))]
 [RequireComponent(typeof(PlayerLocomotion))]
 [RequireComponent(typeof(PlayerCombat))]
 public class PlayerCore : MonoBehaviour, IPlayerEvents
 {
+    [Header(" [ Ref Component ] ")]
+    public PlayerCameraManger CameraManger;
+
     public GameObject PlayerObj { get; private set; }
     public PlayerInputHandler InputHandler { get; private set; }
     public PlayerAnimationController AniController { get; private set; }
@@ -19,11 +21,8 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
     public PlayerCombat Combat { get; private set; }
     public PlayerInventoryManager InventoryManager { get; private set; }
     public PlayerEquipmentController EquipmentController { get; private set; }
-    public CombatFlagsController CombatFlagsController { get; private set; } = new CombatFlagsController();
-
-    [Header(" [ Ref Component ] ")]
-    public PlayerCameraManger CameraManger;
-
+    public InputLockedFlagsController<InputLocoLockType> LocomotionFlagsController { get; private set; } = new InputLockedFlagsController<InputLocoLockType>();
+    public InputLockedFlagsController<InputCombatLockType> CombatFlagsController { get; private set; } = new InputLockedFlagsController<InputCombatLockType>();
     // IPlayerEvents에서 옵저버 패턴을 통해서 다른 클래스에서 받아옴
     public event Action CheckInputAction;
     public event Action<int> SwapWeaponAction;
@@ -34,9 +33,10 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
         AniController = GetComponent<PlayerAnimationController>();
         Locomotion = GetComponent<PlayerLocomotion>();
         Combat = GetComponent<PlayerCombat>();
-        StateMachine = GetComponent<PlayerStateMachine>();
         InventoryManager = GetComponent<PlayerInventoryManager>();
         EquipmentController = GetComponent<PlayerEquipmentController>();
+
+        StateMachine = new PlayerStateMachine();
         InitializeModule();
         InitializeEvents();
     }
@@ -48,9 +48,9 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
         StateMachine.InitializeMoudle(this);
         InventoryManager.InitializeModule(this);
         EquipmentController.InitializeModule();
-        InputHandler.InitializeModule(StateMachine);
+        InputHandler.InitializeModule(Combat, LocomotionFlagsController, CombatFlagsController);
         Locomotion.InitializeModule(InputHandler, AniController);
-        Combat.InitializeModule(InputHandler, CombatFlagsController, AniController);
+        Combat.InitializeModule(InputHandler, LocomotionFlagsController, AniController);
     }
 
     /// <summary>
@@ -67,7 +67,8 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
     private void Start()
     {
         SwapWeaponAction(0);
-
+        SwitchLocomotionState(LocomotionStateType.Idle);
+        SwitchCombatState(CombatStateType.Idle);
         Combat.SetSwapAction(SwapWeaponAction);
     }
 
@@ -75,13 +76,14 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
     {
         StateMachine.SwitchLocomotionState(newState);
     }
-    public void SwitchCombatFullState(CombatFullStateType newState)
+    public void SwitchCombatState(CombatStateType newState)
     {
-        StateMachine.SwitchCombatFullState(newState);
+        StateMachine.SwitchCombatState(newState);
     }
 
     private void Update()
     {
+        StateMachine.Update();
         CheckInputAction?.Invoke();
     }
 }

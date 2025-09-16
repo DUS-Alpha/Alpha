@@ -1,11 +1,15 @@
 using UnityEngine;
 
-public class PlayerFlyingState : PlayerState
+public class PlayerFlyingState : PlayerLocomotionState
 {
+    protected override InputCombatLockType m_LockOnEnter => InputCombatLockType.MeleeAttack | InputCombatLockType.Skill;
+
+    protected override InputCombatLockType m_LockOnExit => InputCombatLockType.MeleeAttack | InputCombatLockType.Skill;
+
     public PlayerFlyingState(PlayerCore playerCore) : base(playerCore) { }
     public override void Enter()
     {
-
+        base.Enter();
     }
     public override void FixedUpdate()
     {
@@ -14,18 +18,19 @@ public class PlayerFlyingState : PlayerState
 
     public override void Update()
     { 
-        m_Locomotion.Movement(m_Combat.IsAim);
+        m_Locomotion.Movement();
 
-        /*if (m_Locomotion.IsFlyUp)
-            m_PlayerCore.SwitchLocomotionState(LocomotionState.FlyStartUp);
+        if (m_Locomotion.IsFlyUp)
+            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.FlyUp);
         else if (m_Locomotion.IsFlyOff)
-            m_PlayerCore.SwitchLocomotionState(LocomotionState.Fall);*/
+            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Fall);
         // TODO : 중력 적용 시 Idle 전환 처리(애니메이션 처리 미흡해서 현재는 적용x)
     }
 
     public override void Exit()
     {
-        m_Locomotion.FlyExit();
+        base.Exit();
+        m_Locomotion.FlyingExit();
     }
 
 

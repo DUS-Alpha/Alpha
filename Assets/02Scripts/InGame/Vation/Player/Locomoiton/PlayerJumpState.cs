@@ -1,11 +1,16 @@
 using UnityEngine;
 
-public class PlayerJumpState : PlayerState
+public class PlayerJumpState : PlayerLocomotionState
 {
+    protected override InputCombatLockType m_LockOnEnter => InputCombatLockType.Skill | InputCombatLockType.MeleeAttack;
+
+    protected override InputCombatLockType m_LockOnExit => InputCombatLockType.Skill | InputCombatLockType.MeleeAttack;
+
     public PlayerJumpState(PlayerCore playerCore) : base(playerCore){}
 
     public override void Enter()
     {
+        base.Enter();
         m_Locomotion.JumpStart();
     }
   
@@ -17,19 +22,16 @@ public class PlayerJumpState : PlayerState
     public override void Update()
     {
         m_Locomotion.ApplyGravity();
-
-        /*if (m_Locomotion.Velocity.y <= 0 && !m_Locomotion.IsGrounded)
+        m_Locomotion.AirMovement();
+        if (m_Locomotion.Velocity.y <= 0 && !m_Locomotion.IsGrounded)
         {
-            m_PlayerCore.SwitchLocomotionState(LocomotionState.Fall);
+            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Fall);
         }
-        else if (m_Locomotion.IsFlyUp)
-        {
-            m_PlayerCore.SwitchLocomotionState(LocomotionState.FlyStartUp);
-        }*/
     }
 
     public override void Exit()
     {
+        base.Exit();
         m_Locomotion.JumpExit();
     }
 }
