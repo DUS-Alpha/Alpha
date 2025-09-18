@@ -2,5 +2,5 @@ using UnityEngine;
 
 public interface IAttack
 {
-    void Attack(GameObject target);
+    void Attack(bool isAttackInput, PlayerAnimationController anim);
 }

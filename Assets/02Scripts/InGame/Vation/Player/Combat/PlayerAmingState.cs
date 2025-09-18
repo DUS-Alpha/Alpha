@@ -10,6 +10,7 @@ public class PlayerAmingState : PlayerCombatState
     public override void Enter()
     {
         base.Enter();
+        m_Combat.Aming(true);
     }
 
     public override void FixedUpdate()
@@ -22,11 +23,21 @@ public class PlayerAmingState : PlayerCombatState
         // TODO : Combat에서 처리
         if (m_Locomotion.IsJump || m_Locomotion.IsDodge || m_Locomotion.IsFlyUp)
         {
+            m_Combat.Aming(false);
             m_PlayerCore.SwitchCombatState(CombatStateType.Idle);
         }
-        else if(m_Combat.IsMeleeAttack || m_Combat.IsRangeShooting)
+        else if (m_Combat.IsRangeShooting)
         {
-            m_PlayerCore.SwitchCombatState(CombatStateType.MeleeAttack_All);
+            m_PlayerCore.SwitchCombatState(CombatStateType.RangeShooting);
+        }
+        else if (m_Combat.IsAim)
+        {
+            m_Combat.Aming(m_Combat.IsAim);
+        }
+        else if (!m_Combat.IsAim)
+        {
+            m_Combat.Aming(false);
+            m_PlayerCore.SwitchCombatState(CombatStateType.Idle);
         }
     }
     public override void Exit()

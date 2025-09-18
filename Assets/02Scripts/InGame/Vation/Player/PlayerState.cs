@@ -13,7 +13,7 @@ public abstract class PlayerState
         m_Combat = playerCore.Combat;
         //DebugCurrentState();
     }
-    private void DebugCurrentState()
+    public void DebugCurrentState()
     {
         Debug.Log(GetType().Name);
     }

@@ -14,11 +14,15 @@ public class PlayerEquipmentController : MonoBehaviour
     private Transform m_handHolderTr;
     [SerializeField]
     private Transform m_feetHolderTr;
-    //InputKey값과 동일하게하기 위해 HandHolder추가
-    // TODO : 메모리 공간 최적화
+
     [Tooltip("모델 RightAttach 0:Hand, 1:Melee, 2:Rifle, 3:Sniper"),SerializeField]  
     private Transform[] m_weaponHolderTr = new Transform[4];
 
+    // TODO m_currentEquippedItemDic 차후로 관리
+    public Weapon[] Weapons => m_weapons;
+    private Weapon[] m_weapons = new Weapon[4];
+
+    
     public void InitializeModule()
     {
         
@@ -48,6 +52,10 @@ public class PlayerEquipmentController : MonoBehaviour
         SwapWeapon(0);
     }
 
+    /// <summary>
+    /// 장비 장착
+    /// </summary>
+    /// <param name="equipment"></param>
     public void EquipItem(Equipment equipment)
     {
         ApplicableSlots _slot = equipment.EquipData.ApplicableSlot;
@@ -63,6 +71,20 @@ public class PlayerEquipmentController : MonoBehaviour
 
         equipment.Equip(gameObject);
         //Debug.Log($"{equipment.EquipData.Name} 장착 완료");
+
+        // 현재 장착된 무기 저장(Combat에서 각 무기에 따른 처리)
+        switch (_slot)
+        {
+            case ApplicableSlots.MeleeWeapon:
+                m_weapons[1] = equipment as Weapon;
+                break;
+            case ApplicableSlots.RifleWeapon:
+                m_weapons[2] = equipment as Weapon;
+                break;
+            case ApplicableSlots.SniperWeapon:
+                m_weapons[3] = equipment as Weapon;
+                break;
+        }
     }
 
     public void UnequipItem(ApplicableSlots slot)
@@ -105,8 +127,8 @@ public class PlayerEquipmentController : MonoBehaviour
     
     public void CreateEquipment(Equipment equipment)
     {
-        Transform _parents = m_holderTrDic[equipment.EquipData.ApplicableSlot];
-         Instantiate(equipment.Data.ItemPrefab, _parents);
+        Transform _parentHolder = m_holderTrDic[equipment.EquipData.ApplicableSlot];
+         Instantiate(equipment.Data.ItemPrefab, _parentHolder);
     }
     public void RemoveEquipment(ApplicableSlots slot)
     {

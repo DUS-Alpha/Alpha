@@ -431,15 +431,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 620d992d61d242e48acf49f865e5f1db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_baseSpeed: 5
+  m_baseSpeed: 3
   m_flySpeed: 4
-  m_flySprintSpeed: 8
   m_speedLerpRate: 10
   m_groundMask:
     serializedVersion: 2
     m_Bits: 64
   m_groundDistance: 0.25
-  m_jumpHeight: 3
+  m_jumpHeight: 2
   m_flyingGravity: -1.5
   m_antiGravity: 1.5
   IsLocoProgressing: 0

@@ -108,21 +108,18 @@ public class PlayerInputHandler : MonoBehaviour
         switch (m_combat.CurrentWeaponNum)
         {
             case 1:
-                IsMeleeAttack = m_inputCombatFlags.HasFlag(InputCombatLockType.MeleeAttack) && _isAttack;
+                IsMeleeAttack = !m_inputCombatFlags.HasFlag(InputCombatLockType.MeleeAttack) && _isAttack;
                 break;
             case 2:
             case 3:
-                IsRangeShooting = m_inputCombatFlags.HasFlag(InputCombatLockType.RangeShooting) && _isAttack;
+                IsRangeShooting = !m_inputCombatFlags.HasFlag(InputCombatLockType.RangeShooting) && _isAttack;
                 break;
 
         }
 
-        IsAim = m_inputCombatFlags.HasFlag(InputCombatLockType.Aim) && Input.GetMouseButton(1);
-        IsReload = m_inputCombatFlags.HasFlag(InputCombatLockType.Reload) && Input.GetKeyDown(KeyCode.R);
+        IsAim = (!m_inputCombatFlags.HasFlag(InputCombatLockType.Aim) && Input.GetMouseButton(1)) || IsRangeShooting;
+        IsReload = !m_inputCombatFlags.HasFlag(InputCombatLockType.Reload) && Input.GetKeyDown(KeyCode.R);
         IsSniperScope = Input.GetMouseButtonDown(1);
-        
-
-        
     }
 
     private void WeaponSwapNum()

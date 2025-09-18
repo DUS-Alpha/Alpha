@@ -50,7 +50,7 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
         EquipmentController.InitializeModule();
         InputHandler.InitializeModule(Combat, LocomotionFlagsController, CombatFlagsController);
         Locomotion.InitializeModule(InputHandler, AniController);
-        Combat.InitializeModule(InputHandler, LocomotionFlagsController, AniController);
+        Combat.InitializeModule(CameraManger, InputHandler, AniController, EquipmentController.Weapons);
     }
 
     /// <summary>

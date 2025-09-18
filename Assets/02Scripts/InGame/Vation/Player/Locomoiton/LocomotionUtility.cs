@@ -53,8 +53,6 @@ public class LocomotionUtility
     {
         Camera cam = Camera.main;
 
-        //if (moveDir == Vector3.zero) return;
-
         Vector3 _dir;
 
         if (!isImmediatelyRot)
@@ -78,6 +76,9 @@ public class LocomotionUtility
 
         Vector3 _targetEuler = _targetRot.eulerAngles;
         Vector3 _currentEuler = gameObject.transform.eulerAngles;
+
+        
+
 
         // 각 축의 각도변화 Smooth 적용 (부드러운 회전)
         float smoothX = Mathf.SmoothDampAngle
@@ -105,6 +106,7 @@ public class LocomotionUtility
                         );
 
         // 땅에서는 Y축의 각도만 사용하여 회전 적용, Fly상태에서는 전체 축 사용
+
         gameObject.transform.rotation = Quaternion.Euler(0f, smoothY, 0f);
 
         // Fly 시 회전 값 계산 제대로하기

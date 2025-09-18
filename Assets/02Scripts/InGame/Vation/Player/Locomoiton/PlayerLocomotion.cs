@@ -17,9 +17,9 @@ public class PlayerLocomotion : MonoBehaviour
     [SerializeField]
     private float m_baseSpeed = 3f;     // 기본적으로 달리게끔
     [SerializeField]
-    private float m_flySpeed = 4f;
+    private float m_aimSpeed = 1.5f;
     [SerializeField]
-    private float m_flySprintSpeed = 8f;
+    private float m_flySpeed = 5f;
     [SerializeField]
     private float m_speedLerpRate = 10f;
     private float m_currentSpeed;
@@ -55,6 +55,7 @@ public class PlayerLocomotion : MonoBehaviour
     private Vector3 m_airMove;   // Jump/Fall 시 XZ 이동 전용
     // Input
     public Vector3 MoveDir { get; private set; }
+    private bool m_isAim;
     public bool IsJump { get; private set; }
     public bool IsDodge { get; private set; }
     public bool IsFlying { get; private set; }
@@ -83,9 +84,9 @@ public class PlayerLocomotion : MonoBehaviour
         IsFlyUp = m_InputHandler.IsFlyUp;
         IsFlyOff = m_InputHandler.IsFlyOff;
         IsDodge = m_InputHandler.IsDodge;
+        m_isAim = m_InputHandler.IsAim;
 
         bool _isJump = m_InputHandler.IsJump;
-        bool _isAim = m_InputHandler.IsAim;
 
         if (_isJump && IsGrounded)
         {
@@ -101,7 +102,7 @@ public class PlayerLocomotion : MonoBehaviour
             IsFlying = false;
         }
 
-        IsImmediatelyRot = IsFlying || _isAim;
+        IsImmediatelyRot = IsFlying || m_isAim;
 
     }
     #region ================================================================================ Movement
@@ -115,12 +116,7 @@ public class PlayerLocomotion : MonoBehaviour
     {
         bool _isImmediatelyRot = IsImmediatelyRot; // 카메라 정면 방향으로 즉시 회전되도록 적용
 
-        //float _targetSpeed = IsSprint ? (!isAim? m_sprintSpeed : m_walkSpeed) : m_walkSpeed;
-        float _targetSpeed = m_baseSpeed;
-
-        HandleMove(MoveDir, _targetSpeed);
-
-        HandleRotate(MoveDir, _isImmediatelyRot);
+        float _targetSpeed = m_isAim ? m_aimSpeed : m_baseSpeed;
 
         if (_isImmediatelyRot)
         {
@@ -130,6 +126,9 @@ public class PlayerLocomotion : MonoBehaviour
         {
             m_animationController.MoveAni(m_currentSpeed);
         }
+
+        HandleRotate(MoveDir, _isImmediatelyRot);
+        HandleMove(MoveDir, _targetSpeed);
     }
 
     // TODO : FlyMove와 리팩토링
@@ -190,6 +189,9 @@ public class PlayerLocomotion : MonoBehaviour
 
         m_animationController.JumpAni();
         m_animationController.SetIsGroundAni(IsGrounded);
+
+        if (m_airMove != Vector3.zero)
+            gameObject.transform.rotation = Quaternion.LookRotation(m_airMove);
     }
     public void JumpExit()
     {
@@ -204,7 +206,10 @@ public class PlayerLocomotion : MonoBehaviour
         Vector3 move = m_airMove;   // XZ 고정값
         move.y = m_velocity.y;      // y축 중력
 
+        // 점프일때는 바로 회전하지 않으면 다른 방향 바라본 상태로 점프가됨
+
         m_characterController.Move(move * Time.deltaTime);
+
     }
     #endregion ================================================================================ /Jump
 

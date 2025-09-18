@@ -11,7 +11,7 @@ public class PlayerAnimationController : MonoBehaviour
     private Animator m_animator;
     public Vector3 RootMotionPos { get; private set; }
     public Quaternion RootMotionRot { get; private set; }
-    public bool IsRootMotion { get; private set; }
+    public bool IsRootMotion => m_animator.applyRootMotion;
     public bool IsPlayAni {  get; private set; }
     private void Awake()
     {
@@ -62,6 +62,10 @@ public class PlayerAnimationController : MonoBehaviour
 
 
     #region ================================================================================ CombatFlags
+    public void SetAnimatorWeight(float value)
+    {
+
+    }
     public void AimAni(bool isAim)
     {
         m_animator.SetBool("IsAim",isAim);
@@ -71,24 +75,27 @@ public class PlayerAnimationController : MonoBehaviour
         m_animator.SetInteger("WeaponNum", currentNum);
         m_animator.SetTrigger("SwapWeapon");
     }
-    public void ReloadAni()
-    {
-        m_animator.SetTrigger("Reload");
-    }
     public void MeleeAttackAni(bool isAttack)
     {
-        m_animator.SetBool("IsAttack", isAttack);
+        m_animator.SetBool("IsMeleeAttack", isAttack);
     }
     public void RangeShootingAni()
     {
         m_animator.SetTrigger("RangeShooting");
     }
-
-    public void CombatFullAni(int value)
+    public void SkillAni()
     {
-        m_animator.SetLayerWeight(4, value);
+
     }
-    #endregion ================================================================================ /Combat
+    public void ReloadAni()
+    {
+        m_animator.SetTrigger("Reload");
+    }
+
+    public void SetApplyRootMotion(bool isRoot)
+    {
+        m_animator.applyRootMotion = isRoot;
+    }
     /// <summary>
     /// 현재 상태가 Combo 태그를 가진 애니메이션인지 체크
     /// Input의 IsAttack이 false가 되더라도 해당 애니메이션이 끝나야 상태가 변환이 되도록하기 위한 체크
@@ -96,15 +103,17 @@ public class PlayerAnimationController : MonoBehaviour
     /// <returns></returns>
     public bool CheckComboAnimation()
     {
-        return m_animator.GetCurrentAnimatorStateInfo(0).IsTag("Combo");
+        return m_animator.GetCurrentAnimatorStateInfo(3).IsTag("Combo");
     }
 
     public void UpdateAnimatorTransformValue()
     {
-        if(m_animator.applyRootMotion)
+        if (m_animator.applyRootMotion)
         {
             RootMotionPos = m_animator.deltaPosition;
             RootMotionRot = m_animator.deltaRotation;
         }
     }
+    #endregion ================================================================================ /Combat
+
 }

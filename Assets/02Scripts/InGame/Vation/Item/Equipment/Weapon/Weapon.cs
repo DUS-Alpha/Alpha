@@ -4,7 +4,7 @@ public class Weapon : Equipment, IAttack
 {
     public WeaponData WeaponData => (Data as WeaponData);
 
-    public virtual void Attack(GameObject target)
+    public virtual void Attack(bool isAttackInput, PlayerAnimationController anim)
     {
         
     }
@@ -17,5 +17,9 @@ public class Weapon : Equipment, IAttack
     public override void Unequip(GameObject user)
     {
         
+    }
+    public virtual bool IsInAction(PlayerAnimationController anim)
+    {
+        return false;
     }
 }

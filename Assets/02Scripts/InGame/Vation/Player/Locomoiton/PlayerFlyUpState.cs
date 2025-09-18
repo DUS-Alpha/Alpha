@@ -26,11 +26,12 @@ public class PlayerFlyUpState : PlayerLocomotionState
 
     public override void Update()
     {
-        // 애니메이션 모션 자연스럽게하기 위해
+        // 애니메이션 모션 자연스럽게하기 위해 딜레이
         delayT += Time.deltaTime;
 
         if (delayT < 0.4f) return;
 
+        // TODO 애니메이션 모션 이후 힘적용 초반 발사 느낌으로
         if (m_Locomotion.IsFlyUp)
             m_Locomotion.AntiGravity();
         else if(!m_Locomotion.IsFlyUp)

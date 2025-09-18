@@ -3,18 +3,37 @@ using UnityEngine.Windows;
 public class PlayerAttackState : PlayerCombatState
 {
     public PlayerAttackState(PlayerCore playerCore) : base(playerCore){}
-    private bool m_isCombo;
+    protected override InputLocoLockType m_LockOnEnter
+    {
+        get
+        {
+            if (m_Combat.CurrentWeaponNum == 1) return InputLocoLockType.All;
+            else return InputLocoLockType.None;
+        }
+    }
 
-    protected override InputLocoLockType m_LockOnEnter => throw new System.NotImplementedException();
-
-    protected override InputLocoLockType m_LockOnExit => throw new System.NotImplementedException();
+    protected override InputLocoLockType m_LockOnExit
+    {
+        get
+        {
+            if (m_Combat.CurrentWeaponNum == 1) return InputLocoLockType.All;
+            else return InputLocoLockType.None;
+        }
+    }
+    private bool m_isMelee;
+    private bool m_isRange;
 
     public override void Enter()
     {
         base.Enter();
-        /*if (m_Combat.CurrentWeaponNum == 1)
-            m_Combat.SetIsAllBodyAction(true);
-        else m_Combat.SetIsAllBodyAction(false);*/
+        if (m_Combat.CurrentWeaponNum == 1) m_isMelee = true;
+        else
+        {
+            m_isRange = true;
+        }
+        // 무기 Swap시 마다 스나이퍼 같은 총의 경우 바로 발사를 하면 안되기에 계속 현재 무기값으로
+        m_Combat.SetNextAttackDelay(m_Combat.CurrentWeapon.WeaponData.AttackDelay);
+        m_Combat.AttackRootMotion(m_isMelee);
     }
     public override void FixedUpdate()
     {
@@ -23,35 +42,41 @@ public class PlayerAttackState : PlayerCombatState
 
     public override void Update()
     {
-        //m_Combat.Attack(m_Combat.IsAttack);
+        var _weapon = m_Combat.CurrentWeapon;
 
-       /* if(m_Combat.IsCombatProgressing)
+        if (_weapon == null)
         {
-            bool _isTag = m_PlayerCore.AniController.CheckComboAnimation();
+            m_PlayerCore.SwitchCombatState(CombatStateType.Idle);
+            return;
+        }
+        
+        m_Combat.Attack();
+        m_Combat.Aming(m_Combat.IsAim);
 
-            // 콤보 시작 지점 기록
-            if (!m_isCombo && _isTag)
+        if (m_Combat.IsSwapWeapon)
+        {
+            m_PlayerCore.SwitchCombatState(CombatStateType.SwapWeapon);
+        }
+        // 공격이 끝났으면 Idle로
+        else if (!_weapon.IsInAction(m_PlayerCore.AniController))
+        {
+            // TODO 딜레이 조금 줄지 고민
+            if (m_isRange && m_Combat.IsAim)
             {
-                m_isCombo = true;
-                return;
+                m_PlayerCore.SwitchCombatState(CombatStateType.Aim);
             }
-
-            // 콤보가 끝났을 때만 Idle 전환
-            if (m_isCombo && !_isTag)
+            else
             {
-                //m_PlayerCore.SwitchCombatState(CombatState.CombatIdle);
+                m_PlayerCore.SwitchCombatState(CombatStateType.Idle);
             }
         }
-        else
-        {
-            //if(!m_Combat.IsAttack) m_PlayerCore.SwitchCombatState(CombatState.CombatIdle);
-        }*/
+
+        
     }
+
     public override void Exit()
     {
         base.Exit();
-       /* m_Combat.SetIsAllBodyAction(false);
-        m_Combat.Attack(false);
-        if (m_Combat.CurrentWeaponNum > 1) m_Combat.Aiming(false);*/
+        m_Combat.AttackRootMotion(false);
     }
 }

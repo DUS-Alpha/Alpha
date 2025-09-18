@@ -10,7 +10,7 @@ public class PlayerCombatIdleState : PlayerCombatState
 
     public override void Enter()
     {
-        
+        base.Enter();
     }
 
     public override void FixedUpdate()
@@ -21,24 +21,18 @@ public class PlayerCombatIdleState : PlayerCombatState
     public override void Update()
     {
         if (m_Combat.IsSwapWeapon) m_PlayerCore.SwitchCombatState(CombatStateType.SwapWeapon);
-
-        /*if (m_Combat.IsAim)
+        else if (m_Combat.IsMeleeAttack)    // 우선은 같은 Attack으로 넘어가지만 향후를 위해 구분
         {
-            m_PlayerCore.SwitchCombatState(CombatFlagsState.Aiming);
+            m_PlayerCore.SwitchCombatState(CombatStateType.MeleeAttack_All);
         }
-        else if(m_Combat.IsAttack)
+        else if (m_Combat.IsRangeShooting || m_Combat.IsAim)
         {
-            if (m_Combat.CurrentWeaponNum > 1)
-            {
-                m_PlayerCore.SwitchCombatState(CombatFlagsState.Aiming);
-            }
-            //else m_PlayerCore.SwitchCombatState(CombatState.Attack);
-        } 
-        else if (m_Combat.IsWeaponSwap) m_PlayerCore.SwitchCombatState(CombatFlagsState.Swap);*/
+            m_PlayerCore.SwitchCombatState(CombatStateType.Aim);
+        }
     }
 
     public override void Exit()
     {
-        
+        base.Exit();
     }
 }
