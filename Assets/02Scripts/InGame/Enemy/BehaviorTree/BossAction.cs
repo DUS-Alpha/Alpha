@@ -7,62 +7,97 @@ using Random = UnityEngine.Random;
 
 public class BossActions : MonoBehaviour
 {
-    public Blackboard BB { get; private set; }
-    public float MidRange = 10f;
-    public float CloseRange = 5f;
-    public float StopRange = 3f; // 플레이어에게 접근 할 수 있는 최소 거리 
-    public float currentTime = 2; //현재 타이머
-    [SerializeField]private float m_Timer = 2; // 몇초동안 움직일 껀지 
-    [SerializeField]private bool m_isRun = false;  //패턴을 실행했나 ?
-
-    [SerializeField]public float m_TestHp = 100;
-    
-    public enum CombatRange
+    // ■ A. 외부 참조 / 기본 제어
+    [SerializeField] private BehaviorTreeRunner m_treeRunner;   // 죽음 처리용 (BT 제어)
+    public bool IsDead
     {
-        Close,
-        Middle,
-        Far
+        get { return m_TestHp <= 0f; }
     }
+    public Blackboard BB { get; private set; }                  // 블랙보드 (타깃/위치 등 공유 상태)
+    public void SetBlackboard(Blackboard bb) => BB = bb; // 함수 필요 
+    public Animator animator;                                   // 보스 애니메이터
+    public GameObject Dolly;                                    // 돌리 액션 제어용 오브젝트
+    public Transform ReadyPos;                                  // 격돌 준비 위치
+    public GameObject PatternPos;                               // 특수 패턴/격돌 포지션
     
-    [SerializeField]private CombatRange m_range = CombatRange.Far;
-    
-    public Animator animator;
-    
-    const float StopRadius = 3f;// 플레이어에게 접근 할 수 있는 최소 거리 
-    float stopSqr = StopRadius * StopRadius;
-    
-    // 필드
-    [SerializeField]private bool _attackStarted; // 공격 시작했는지
-    
-    [SerializeField] float faceTurnSpeed = 7f;    // 회전 보간,자연스럽게 회전하기 
-    
-    
-    public void SetBlackboard(Blackboard bb) => BB = bb;
-    
-    [SerializeField]float m_AnswerTimer = 2; // m_AnswerTimer초에 가깝게 누를 수 있도록하기 격돌타이머
-    [SerializeField]float m_Window      = 0.25f;  // 허용 오차(±초)
+    // ■ B. 전투 / 거리 관련
+    public float MidRange = 10f;        // 중거리 기준
+    public float CloseRange = 5f;       // 근거리 기준
+    public float StopRange = 3f;        // 더 이상 접근하지 않는 최소 거리
+    const float StopRadius = 3f;        // 플레이어 접근 최소 거리(상수)
+    float stopSqr = StopRadius * StopRadius;  // StopRadius 제곱 (거리 비교용)
+
+    public enum CombatRange { Close, Middle, Far }  // 전투 거리 구분
+    [SerializeField] private CombatRange m_range = CombatRange.Far;
+
+    // ■ C. 이동 / 타이머
+    public float currentTime = 2;           // 현재 이동 타이머
+    [SerializeField] private float m_Timer = 2;    // 이동 유지 시간(초)
+    [SerializeField] float faceTurnSpeed = 7f;     // 회전 속도 (보간)
+    public bool Isarrived = false;                 // 준비 위치 도착 여부
+
+    // ■ D. 패턴 / 특수 상태
+    [SerializeField] private bool m_isRun = false; // 특수 패턴 이미 실행 여부
+    [SerializeField] public float m_TestHp = 100;  // 테스트용 HP
+    [SerializeField] private bool _attackStarted;  // 공격 애니메이션 시작 여부
+    private bool IsSpeicalPattern = false;         // 특수 패턴 실행 여부
+
+    // ■ E. 게이트 (QTE) 관련
+    [SerializeField] private float gateWindowDuration = 2f; // QTE 윈도우 지속 시간
+    [SerializeField] private float gateWindowDeadline;      // 윈도우 마감 시각
+    private bool gateWindowActive;                          // 윈도우 활성 여부
+    public bool GateOpen { get; private set; }              // 게이트 성공 여부
+
+    [SerializeField] float m_AnswerTimer = 2;   // 입력 타이밍 목표값 (격돌 타이머)
+    [SerializeField] float m_Window = 0.25f;    // 입력 허용 오차(±초)
+
+    // ■ F. 패턴 카운터 / 내부 상태
+    public int SuccessCount;     // 격돌 패턴 성공 횟수
+    public int FailureCount;     // 격돌 패턴 실패 횟수
+    public int _resolvedCount;   // 패턴 처리 횟수
+
+    bool m_Started;              // 내부: 패턴 시작 여부
+    int m_Index;                 // 내부: 진행 인덱스
+    float m_NextTime;            // 내부: 다음 동작 시간
+
+    // ■ G. 테스트 / 임시
+    public List<GameObject> TestGaks;   // 테스트용 객체 리스트
+
 
     
-    public List<GameObject> TestGaks;
 
+    // 1) 죽음 조건을 액션으로 (Success=죽음, Failure=생존)
+    public NodeState CheckDeathCondition()
+    {
+        return IsDead ? NodeState.Success : NodeState.Failure;
+    }
 
-    public int SuccessCount; // 격돌 패턴 횟수 카운팅
+    // 2) 죽음 정리(이동/연출 끄기 등)
+    public NodeState CleanupOnDeath()
+    {
+        animator.SetBool(AnimID.DoWalk, false);
+        if (PatternPos) PatternPos.SetActive(false);
+        if (Dolly) Dolly.SetActive(false);
+        // Rigidbody/NavMeshAgent 쓰면 여기서 정지 처리
+        return NodeState.Success;
+    }
 
-    public int FailureCount;
+    // 3) 죽음 애니메이션 트리거
+    public NodeState PlayDieAnim()
+    {
+        animator.ResetTrigger("Die");
+        animator.SetTrigger("Die");
+        // 애니 이벤트로 후처리할 거면 Running으로 두고 완료 시 Success로 바꿔도 됨
+        return NodeState.Success;
+    }
 
-    public int _resolvedCount;
-    // 격돌 내부 상태
-    bool  m_Started;
-    int   m_Index;
-    float m_NextTime;
-    
-    //Zone키는 함수
-    public bool GateOpen { get; private set; }
-
-    //특수 패턴을 했나 안했나 ?
-    private bool IsSpeicalPattern = false;
-    //격돌 진입 포지션 
-    public GameObject PatternPos;
+    // 4) BT 중지
+    public NodeState StopTreeAction()
+    {
+        if (m_treeRunner) m_treeRunner.StopTree();
+        
+        return NodeState.Success;
+    }
 
     //움직이는 노드
     public NodeState Move()
@@ -100,9 +135,6 @@ public class BossActions : MonoBehaviour
             
             return NodeState.Success;
         }
-        
-        
-       
         return NodeState.Running;
     }
 
@@ -124,195 +156,65 @@ public class BossActions : MonoBehaviour
         return NodeState.Success;
     }
     
+    // BossActions.cs (일부)
 
-    #region 근거리패턴
+    /// <summary>
+    /// 범위와 애니메이션 인덱스를 받아서 공격을 실행하는 공통 함수
+    /// </summary>
+    private NodeState PlayAttack(CombatRange needRange, int animId, bool triggerSubPatternOnFar = false)
+    {
+        if (m_range != needRange)
+            return NodeState.Failure;
+
+        // [시작 블록] ─ 한 번만 실행
+        if (!_attackStarted)
+        {
+            Initanitriger(animId);
+            _attackStarted = true;
+            return NodeState.Running;
+        }
+
+        // [진행 블록] ─ 매 틱 실행 (여기에 둬야 함!)
+        if (triggerSubPatternOnFar)
+        {
+            float dis = Vector3.Distance(BB.Target.position, BB.OwnerTransform.position);
+            if (dis < StopRange)
+                animator.SetTrigger(AnimID.DoSubPatterm);
+        }
+        
+        // 애니가 끝났는지 확인
+        if (animator.GetInteger(AnimID.Pattern) != 0)
+            return NodeState.Running;
+
+        _attackStarted = false;
+        return NodeState.Success;
+    }
+
+// ──────────────────────────────────────────────
+// 이하 개별 액션들은 단순히 공통 함수 호출만
+// ──────────────────────────────────────────────
+
     public NodeState CloseRangeAttack1()
-    {
-        if (m_range != CombatRange.Close)
-        {
-            return NodeState.Failure;
-        }
-        int picked = (int)AnimID.ClosePatternList[0]; //선택된 애니메이션 실행값
-        
-        // 처음 한 번만 시작
-        if (!_attackStarted)
-        {
-            Initanitriger(picked);
-            animator.SetTrigger(AnimID.DoSubPatterm);   // 시작!
-            return NodeState.Running;
-        }
+        => PlayAttack(CombatRange.Close, (int)AnimID.ClosePatternList[0]);
 
-        // 진행 중이면 계속 대기
-        if (animator.GetInteger(AnimID.Pattern) != 0)   // 아직 종료 신호(0) 아님
-            return NodeState.Running;
-        
-        //공격 했으니까 다시 초기화 
-        _attackStarted = false;
-        print($"애니메이션 실행 : {picked}");
-        
-        
-        return NodeState.Success;
-    }
-    //뒤로 열심히 빼기
     public NodeState CloseRangeAttack2()
-    {
-        if (m_range != CombatRange.Close)
-        {
-            return NodeState.Failure;
-        }
-        int picked = (int)AnimID.ClosePatternList[1]; //선택된 애니메이션 실행값
-        
-        
-        // 처음 한 번만 시작
-        if (!_attackStarted)
-        {
-            Initanitriger(picked);
-            animator.SetTrigger(AnimID.DoSubPatterm);   // 시작!
-            return NodeState.Running;
-        }
-     
+        => PlayAttack(CombatRange.Close, (int)AnimID.ClosePatternList[1]);
 
-        // 진행 중이면 계속 대기
-        if (animator.GetInteger(AnimID.Pattern) != 0)   // 아직 종료 신호(0) 아님
-            return NodeState.Running;
-        
-        
-        //공격 했으니까 다시 초기화 
-        _attackStarted = false;
-        print($"애니메이션 실행 : {picked}");
-      
-        
-        return NodeState.Success;
-    }
-    
-
-    #endregion
-
-    #region 중거리패턴
     public NodeState MidRangeAttack1()
-    {
-       
-        if (m_range != CombatRange.Middle)
-        {
-            return NodeState.Failure;
-        }
-        
-        int picked = (int)AnimID.MiddlePatternList[0]; //선택된 애니메이션 실행값
-        
-        // 처음 한 번만 시작
-        if (!_attackStarted)
-        {
-            Initanitriger(picked);
-            animator.SetTrigger(AnimID.DoSubPatterm);   // 시작!
-            return NodeState.Running;
-        }
+        => PlayAttack(CombatRange.Middle, (int)AnimID.MiddlePatternList[0]);
 
-        // 진행 중이면 계속 대기
-        if (animator.GetInteger(AnimID.Pattern) != 0)   // 아직 종료 신호(0) 아님
-            return NodeState.Running;
-        
-        //공격 했으니까 다시 초기화 
-        _attackStarted = false;
-        print($"애니메이션 실행 : {picked}");
-        
-    
-        
-        return NodeState.Success;
-    }
     public NodeState MidRangeAttack2()
-    {
-       
-        if (m_range != CombatRange.Middle)
-        {
-            return NodeState.Failure;
-        }
-        
-        int picked = (int)AnimID.MiddlePatternList[1]; //선택된 애니메이션 실행값
-        
-        // 처음 한 번만 시작
-        if (!_attackStarted)
-        {
-            Initanitriger(picked);
-            animator.SetTrigger(AnimID.DoSubPatterm);   // 시작!
-            return NodeState.Running;
-        }
-
-        // 진행 중이면 계속 대기
-        if (animator.GetInteger(AnimID.Pattern) != 0)   // 아직 종료 신호(0) 아님
-            return NodeState.Running;
-        
-        //공격 했으니까 다시 초기화 
-        _attackStarted = false;
-        print($"애니메이션 실행 : {picked}");
-    
-        
-        return NodeState.Success;
-    }
-    
-    #endregion
-
-    #region 원거리패턴
+        => PlayAttack(CombatRange.Middle, (int)AnimID.MiddlePatternList[1]);
 
     public NodeState FarRangeAttack1()
-    {
-        
-        if (m_range != CombatRange.Far)
-        {
-            return NodeState.Failure;
-        }
-        
-        int picked = (int)AnimID.FarPatternList[0]; //선택된 애니메이션 실행값
-        var dis= Vector3.Distance(BB.Target.position, BB.OwnerTransform.position);
-        // 처음 한 번만 시작
-        if (!_attackStarted)
-        {
-            Initanitriger(picked);
-            return NodeState.Running;
-        }
+        => PlayAttack(CombatRange.Far, (int)AnimID.FarPatternList[0], triggerSubPatternOnFar: true);
 
-        //특정 거리 미만일때 다음 연계 애니메이션을 실행하도록 만들자 
-        if (dis < StopRange) {animator.SetTrigger(AnimID.DoSubPatterm);}
-        
-        // 진행 중이면 계속 대기
-        if (animator.GetInteger(AnimID.Pattern) != 0)   // 아직 종료 신호(0) 아님
-            return NodeState.Running;
-        
-        //공격 했으니까 다시 초기화 
-        _attackStarted = false;
-        
-        return NodeState.Success;
-    }
-    
     public NodeState FarRangeAttack2()
-    {
-        
-        if (m_range != CombatRange.Far)
-        {
-            return NodeState.Failure;
-        }
-        
-        int picked = (int)AnimID.FarPatternList[1]; //선택된 애니메이션 실행값
-        
-        // 처음 한 번만 시작
-        if (!_attackStarted)
-        {
-            Initanitriger(picked);
-            return NodeState.Running;
-        }
-        // 진행 중이면 계속 대기
-        if (animator.GetInteger(AnimID.Pattern) != 0)   // 아직 종료 신호(0) 아님
-            return NodeState.Running;
-        
-        //공격 했으니까 다시 초기화 
-        _attackStarted = false;
-        print($"애니메이션 실행 : {picked}");
-        return NodeState.Success;
-    }
-
-    #endregion
+        => PlayAttack(CombatRange.Far, (int)AnimID.FarPatternList[1]);
+    
 
     #region 특수 패턴
-    
+  
     public void QTESuccessAddOne()
     {
         SuccessCount++;
@@ -328,15 +230,121 @@ public class BossActions : MonoBehaviour
 
     public void OpenSpecialGate()    // ← 이벤트가 호출
     {
+        // Zone에서 G가 눌렸을 때 호출됨
+        if (!gateWindowActive)
+        {
+            print("안들어왔음");
+            return; // 윈도우 아닐 때 누른 건 무시
+        }
+        
         GateOpen = true;
         // 장판 비주얼 끄고 싶으면 여기서: if (PatternPos) PatternPos.SetActive(false);
     }
-
-    public NodeState ResetSpecialGate()
+    
+    // 1) 윈도우 시작: 장판을 켜고, 2초 타이머 오픈
+    public NodeState StartGateWindow()
     {
         GateOpen = false;
+        gateWindowActive = true;
+        gateWindowDeadline = Time.time + gateWindowDuration;
+        if (PatternPos) PatternPos.SetActive(true); // 장판 ON
         return NodeState.Success;
     }
+    
+    // 2) 게이트 대기(성공/실패 판정 포함)
+    //   - GateOpen==true → 성공(장판 끄고 윈도우 종료)
+    //   - 시간 초과 → 실패(장판 끄고 윈도우 종료)
+    public NodeState WaitGateOrTimeout()
+    {
+        if (GateOpen)
+        {
+            // 성공 진입
+            gateWindowActive = false;
+            if (PatternPos) PatternPos.SetActive(false); // 장판 OFF
+            Debug.Log("Gate success within time window.");
+            return NodeState.Success;
+        }
+
+        if (Time.time >= gateWindowDeadline)
+        {
+            // 실패(시간 초과)
+            gateWindowActive = false;
+            if (PatternPos) PatternPos.SetActive(false); // 장판 OFF
+            Debug.Log("Gate failed: no input within time window.");
+            // 필요한 실패 카운팅/패널티가 있으면 여기서
+            FailureCount++;
+            _resolvedCount++;
+            return NodeState.Failure;
+        }
+
+        return NodeState.Running;
+    }
+    
+    public NodeState OnGateFailed()
+    {
+        // 예: 실패 연출(애니메이션 트리거 등)
+        // animator.SetTrigger("FailTaunt");
+        Debug.Log("Special gate failed → fallback behavior.");
+        // 필요하면 상태 초기화, 쿨다운 설정 등 추가
+        return NodeState.Success; // 셀렉터의 실패 브랜치를 성공으로 마무리
+    }
+    
+
+    public void TrueArrived()
+    {
+        Isarrived = true;
+    }
+
+    /*
+     * 특별 패턴(격돌)을 진입하기전 조건을 확인
+     * 격돌에 필요한 체력 이하가 됐는가?,시전을 했는가 ?
+     * 보스가 격돌을 시전하기 위해 저장된 위치로 이동
+     * 그 후 격돌 준비 자세를 실행
+     */
+    public NodeState ConditionPattern()
+    {
+        if (m_isRun)
+        {
+            print("패턴이 이미 한번 실행했음");
+            return NodeState.Failure;
+        }
+        if (m_TestHp > 50) // 패턴 테스트 hp 나중에 수정
+        {
+            print("패턴 조건 안맞음");
+            return NodeState.Failure;
+        }
+
+        // 1) ReadyPos 쪽으로 바라보며 이동
+        Vector3 toReady = ReadyPos.position - BB.OwnerTransform.position;
+        toReady.y = 0f;
+        if (toReady.sqrMagnitude > 0.0001f)
+        {
+            var look = Quaternion.LookRotation(toReady.normalized, Vector3.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, look, Time.deltaTime * faceTurnSpeed);
+        }
+
+        animator.SetBool(AnimID.DoWalk, true);
+
+        // 2) 도착 후: PatternPos 쪽으로 정렬 → 정지 → 플레이어(타깃) 주시
+        // 2) 도착 후: 플레이어(타깃)만 바라보기 → 각도 수렴 시 Success
+        if (Isarrived)
+        {
+            animator.SetBool(AnimID.DoWalk, false);
+
+            Transform target = BB.Target; // 타깃 참조
+            if (target != null)
+            {
+                transform.LookAt(target);
+            }
+
+            // 충분히 플레이어를 보게 되었으면 성공
+            return NodeState.Success;
+        }
+
+        return NodeState.Running;
+    }
+
+
     public NodeState ShowPatternPos()      // 선택: 장판 켜기용
     {
         if (PatternPos) PatternPos.SetActive(true);
@@ -473,6 +481,13 @@ public class BossActions : MonoBehaviour
         _attackStarted = true;
         animator.ResetTrigger(AnimID.DoSubPatterm); // 잔여 트리거 제거
         animator.SetInteger(AnimID.Pattern, picked);     // 이번 패턴 지정
+    }
+
+    public NodeState SetFalseDolly()
+    {
+        Dolly.SetActive(false);
+        m_isRun = true;
+        return NodeState.Success;
     }
 
 

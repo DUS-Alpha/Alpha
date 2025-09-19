@@ -12,19 +12,19 @@ public class BehaviorTreeRunner : MonoBehaviour
         _tree = new BehaviorTree(root); // 외부에서 넘겨준 root를 여기 보관
     }
 
-    // 빌더를 넘겨두고 StartTree() 시점에 만들고 싶을 때 사용
+    /*// 빌더를 넘겨두고 StartTree() 시점에 만들고 싶을 때 사용
     public void SetBuilder(Func<INode> builder)
     {
         _builder = builder;
-    }
+    }*/
 
     public void StartTree()
     {
-        if (_tree == null)
+        /*if (_tree == null)
         {
             if (_builder != null) _tree = new BehaviorTree(_builder());
             else _tree = new BehaviorTree(new ActionNode(() => NodeState.Success)); // 기본 더미
-        }
+        }*/
         /*_tree.Reset();*/ 
         // (_tree.Reset() → 내부적으로 _root.Reset() 호출)
         IsRunning = true;

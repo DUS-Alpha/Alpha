@@ -11,6 +11,8 @@ public class PatternStartZone : MonoBehaviour
     
     public bool inside = false; // 안쪽으로 들어왔는지 확인하는 변수
 
+    [SerializeField] private GameObject DollyGroups;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(playerTag))
@@ -23,7 +25,7 @@ public class PatternStartZone : MonoBehaviour
     {
         if (other.CompareTag(playerTag))
         {
-            inside = true;
+            inside = false;
         }
     }
 
@@ -32,6 +34,7 @@ public class PatternStartZone : MonoBehaviour
     {
         if (Input.GetKeyDown(startKey))
         {
+            DollyGroups.SetActive(true);
             onStart?.Invoke();
         }
     }
