@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class PlayerJumpState : PlayerLocomotionState
 {
-    protected override InputCombatLockType m_LockOnEnter => InputCombatLockType.Skill | InputCombatLockType.Attack;
+    protected override InputCombatLockType m_LockOnEnter => InputCombatLockType.All;
 
-    protected override InputCombatLockType m_LockOnExit => InputCombatLockType.Skill | InputCombatLockType.Attack;
+    protected override InputCombatLockType m_LockOnExit => InputCombatLockType.All;
 
     public PlayerJumpState(PlayerCore playerCore) : base(playerCore){}
 

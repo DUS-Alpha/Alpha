@@ -192,6 +192,8 @@ public class PlayerLocomotion : MonoBehaviour
 
         if (m_airMove != Vector3.zero)
             gameObject.transform.rotation = Quaternion.LookRotation(m_airMove);
+
+        
     }
     public void JumpExit()
     {
@@ -221,6 +223,7 @@ public class PlayerLocomotion : MonoBehaviour
     }
     public void AntiGravity()
     {
+        m_airMove = Vector3.zero;
         m_velocity = m_locoUtility.ApplyGravity(m_antiGravity, m_currentSpeed, Vector3.zero, m_velocity, m_characterController);
     }
 
@@ -230,13 +233,11 @@ public class PlayerLocomotion : MonoBehaviour
     public void FlyUpStart()
     {
         float _startDistance = 9f;  // 이동거리
-
         IsGrounded = false;
 
         // 등가속
         SetVelocityY(Mathf.Sqrt(_startDistance * 2f * m_antiGravity));
-        m_animationController.SetAnimatorWeight(2,1);
-        m_animationController.SetAnimatorWeight(3, 1);
+        
         m_animationController.FlyAni(IsFlying, IsFlyUp);
     }
     public void FlyUpExit()

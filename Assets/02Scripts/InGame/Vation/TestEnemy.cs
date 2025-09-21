@@ -8,8 +8,13 @@ public class TestEnemy : MonoBehaviour, IDamageable
         if (m_hp > 0)
         {
             m_hp -= damageMassage.damage;
+            Debug.Log($"Enmey HP : {m_hp}");
         }
-        Debug.Log($"Enmey HP : {m_hp}");
+
+        if(m_hp <= 0)
+        {
+            Debug.Log("Die");
+        }
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
