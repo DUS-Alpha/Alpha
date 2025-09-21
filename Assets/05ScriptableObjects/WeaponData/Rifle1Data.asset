@@ -25,4 +25,4 @@ MonoBehaviour:
   Durability: 100
   WeaponType: 2
   AttackDamage: 10
-  AttackDelay: 0.2
+  AttackDelay: 0.1

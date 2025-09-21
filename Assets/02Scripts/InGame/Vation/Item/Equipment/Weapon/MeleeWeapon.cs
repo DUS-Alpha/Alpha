@@ -3,26 +3,14 @@ using UnityEngine;
 public class MeleeWeapon : Weapon
 {
     private bool m_isCombo;
-
     public override void Attack(bool isAttackInput, PlayerAnimationController anim)
     {
-        bool isTag = anim.CheckComboAnimation();
-        if (isAttackInput)
-        {
-            if (!m_isCombo && isTag)
-            {
-                m_isCombo = true;
-                return;
-            }
-            anim.MeleeAttackAni(true);
-        }
-        else
-        {
-            anim.MeleeAttackAni(false);
-        }
+        m_isCombo = isAttackInput;
+        if (isAttackInput) anim.MeleeAttackAni(true);
+        else anim.MeleeAttackAni(false);
 
-        if (m_isCombo && !isTag)
-            m_isCombo = false;
+        // Audio
+
     }
     public override void Unequip(GameObject user)
     {
@@ -30,7 +18,7 @@ public class MeleeWeapon : Weapon
     }
     public override bool IsInAction(PlayerAnimationController anim)
     {
-        return m_isCombo || anim.CheckComboAnimation();
+        return m_isCombo;
     }
 
 }

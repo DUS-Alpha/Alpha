@@ -17,6 +17,8 @@ public class PlayerStateMachine
     // Combat
     public CombatStateType CurrentCombat => m_currentCombatType;
     private CombatStateType m_currentCombatType;
+    public CombatStateType m_prevCombatType { get; private set; }
+    public CombatStateType PrevCombatType => m_prevCombatType;
     private PlayerState m_combatState;
 
     // 딕셔너리 초기화시 value값에 new 생성자를 하면 Key에 대한 Value는 이미 new로 처음 생성된 인스턴스를 재사용한것.
@@ -46,8 +48,7 @@ public class PlayerStateMachine
             { CombatStateType.Idle, ()=>  new PlayerCombatIdleState(m_playerCore) },
             { CombatStateType.Aim, ()=>  new PlayerAmingState(m_playerCore) },
             {CombatStateType.SwapWeapon, ()=> new PlayerSwapWeaponState(m_playerCore) },
-            { CombatStateType.MeleeAttack_All, ()=>  new PlayerAttackState(m_playerCore) },
-            { CombatStateType.RangeShooting, ()=>  new PlayerAttackState(m_playerCore) },
+            { CombatStateType.Attack, ()=>  new PlayerAttackState(m_playerCore) },
             { CombatStateType.Reload, ()=>  new PlayerReloadState(m_playerCore) }
         };
     }
@@ -77,6 +78,7 @@ public class PlayerStateMachine
         Func<PlayerState> _newState = m_combatStateCreateDic[newState];
         m_combatState?.Exit();
 
+        m_prevCombatType = CurrentCombat;
         m_combatState = _newState();
         m_currentCombatType = newState;
 

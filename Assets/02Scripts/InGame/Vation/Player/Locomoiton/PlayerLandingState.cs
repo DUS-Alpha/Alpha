@@ -13,6 +13,7 @@ public class PlayerLandingState : PlayerLocomotionState
     {
         base.Enter();
         m_delayT = 0;
+        m_Locomotion.EnterLanding();
     }
     public override void FixedUpdate()
     {

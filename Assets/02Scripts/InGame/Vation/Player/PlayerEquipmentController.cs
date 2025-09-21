@@ -66,23 +66,23 @@ public class PlayerEquipmentController : MonoBehaviour
         // _slot키값의 equippedItems공간에 아이템(Equipment) 저장
         m_currentEquippedItemDic[_slot] = equipment;
 
-        // 실제 무기 생성
-        CreateEquipment(equipment);
+        // 실제 무기 생성(실제 무기의 Equipment를 가져와야함 그래야 참조가됨)
+        Equipment _equipment = CreateEquipment(equipment);
 
-        equipment.Equip(gameObject);
+        _equipment.Equip(gameObject);
         //Debug.Log($"{equipment.EquipData.Name} 장착 완료");
 
         // 현재 장착된 무기 저장(Combat에서 각 무기에 따른 처리)
         switch (_slot)
         {
             case ApplicableSlots.MeleeWeapon:
-                m_weapons[1] = equipment as Weapon;
+                m_weapons[1] = _equipment as Weapon;
                 break;
             case ApplicableSlots.RifleWeapon:
-                m_weapons[2] = equipment as Weapon;
+                m_weapons[2] = _equipment as Weapon;
                 break;
             case ApplicableSlots.SniperWeapon:
-                m_weapons[3] = equipment as Weapon;
+                m_weapons[3] = _equipment as Weapon;
                 break;
         }
     }
@@ -125,10 +125,12 @@ public class PlayerEquipmentController : MonoBehaviour
         EquipItem(weapon);*/
     }
     
-    public void CreateEquipment(Equipment equipment)
+    public Equipment CreateEquipment(Equipment equipment)
     {
         Transform _parentHolder = m_holderTrDic[equipment.EquipData.ApplicableSlot];
-         Instantiate(equipment.Data.ItemPrefab, _parentHolder);
+        GameObject item = Instantiate(equipment.Data.ItemPrefab, _parentHolder);
+        Equipment equip = item.GetComponent<Equipment>();
+        return equip;
     }
     public void RemoveEquipment(ApplicableSlots slot)
     {

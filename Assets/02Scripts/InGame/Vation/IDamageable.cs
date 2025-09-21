@@ -8,7 +8,7 @@ public interface IDamageable
 public struct DamageMassage
 {
     public GameObject Damager;
-    public float Amount;
+    public float damage;
 
     public Vector3 HitPoint;
     public Vector3 HitNormal;

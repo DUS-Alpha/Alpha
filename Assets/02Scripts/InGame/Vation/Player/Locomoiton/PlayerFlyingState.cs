@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class PlayerFlyingState : PlayerLocomotionState
 {
-    protected override InputCombatLockType m_LockOnEnter => InputCombatLockType.MeleeAttack | InputCombatLockType.Skill;
+    protected override InputCombatLockType m_LockOnEnter => InputCombatLockType.Skill;
 
-    protected override InputCombatLockType m_LockOnExit => InputCombatLockType.MeleeAttack | InputCombatLockType.Skill;
+    protected override InputCombatLockType m_LockOnExit => InputCombatLockType.Skill;
 
     public PlayerFlyingState(PlayerCore playerCore) : base(playerCore) { }
     public override void Enter()

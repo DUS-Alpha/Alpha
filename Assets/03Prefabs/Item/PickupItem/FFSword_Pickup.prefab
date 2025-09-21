@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4269880921995487836}
   - component: {fileID: 1408262135106670046}
+  - component: {fileID: 3606900730581064647}
   m_Layer: 0
   m_Name: FFSword_Pickup
   m_TagString: Untagged
@@ -25,14 +26,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 328329606891254430}
   serializedVersion: 2
-  m_LocalRotation: {x: 1, y: -0.00000008948838, z: 0.000000044587047, w: 0.0000004768371}
+  m_LocalRotation: {x: -1, y: 0, z: 0, w: 0}
   m_LocalPosition: {x: 0.86, y: 1.05, z: 3.14}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3307821817290388646}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -180, y: 0, z: 0}
 --- !u!114 &1408262135106670046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46,6 +47,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_item: {fileID: 1873811238811255495, guid: ae9adfd88c9b51c4ba9c4a5a3b194afa, type: 3}
+--- !u!65 &3606900730581064647
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 328329606891254430}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1.48, z: 1}
+  m_Center: {x: 0, y: 0.6, z: 0}
 --- !u!1001 &3057107520395678541
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -94,10 +116,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -3181019916655454300, guid: e0af3db494cbb534d8287cc9d42b4bdf, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 8fd0499face734f41beb1602419fc018, type: 2}
     - target: {fileID: 919132149155446097, guid: e0af3db494cbb534d8287cc9d42b4bdf, type: 3}
       propertyPath: m_Name
       value: Sword
       objectReference: {fileID: 0}
+    - target: {fileID: 1424115377693174300, guid: e0af3db494cbb534d8287cc9d42b4bdf, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 8fd0499face734f41beb1602419fc018, type: 2}
+    - target: {fileID: 1437383527470813881, guid: e0af3db494cbb534d8287cc9d42b4bdf, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 8fd0499face734f41beb1602419fc018, type: 2}
+    - target: {fileID: 2021668168946749828, guid: e0af3db494cbb534d8287cc9d42b4bdf, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 8fd0499face734f41beb1602419fc018, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

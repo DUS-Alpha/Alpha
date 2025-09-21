@@ -24,8 +24,7 @@ public class PlayerSwapWeaponState : PlayerCombatState
 
     public override void Update()
     {
-        m_delayT += Time.deltaTime;
-        if(m_delayT >= 0.1f)
+        if(!m_Combat.IsAction)
         {
             m_PlayerCore.SwitchCombatState(CombatStateType.Idle);
         }
@@ -33,5 +32,6 @@ public class PlayerSwapWeaponState : PlayerCombatState
     public override void Exit()
     {
         base.Exit();
+        m_Combat.ExitSwapWeapon();
     }
 }

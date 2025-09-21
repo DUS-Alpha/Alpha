@@ -47,6 +47,7 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
     {
         StateMachine.InitializeMoudle(this);
         InventoryManager.InitializeModule(this);
+        AniController.InitializeModule(Combat);
         EquipmentController.InitializeModule();
         InputHandler.InitializeModule(Combat, LocomotionFlagsController, CombatFlagsController);
         Locomotion.InitializeModule(InputHandler, AniController);

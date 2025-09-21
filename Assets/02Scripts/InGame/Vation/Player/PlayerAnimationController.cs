@@ -8,14 +8,29 @@ using UnityEngine;
 public class PlayerAnimationController : MonoBehaviour
 {
     [SerializeField]
-    private Animator m_animator;
+    public Animator m_animator;
     public Vector3 RootMotionPos { get; private set; }
     public Quaternion RootMotionRot { get; private set; }
     public bool IsRootMotion => m_animator.applyRootMotion;
     public bool IsPlayAni {  get; private set; }
+    private PlayerCombat m_combat;
     private void Awake()
     {
         m_animator = GetComponent<Animator>();
+    }
+    private void Start()
+    {
+        SetAnimatorWeight(1,0);
+        SetAnimatorWeight(2, 0);
+        SetAnimatorWeight(3, 0);
+        SetAnimatorWeight(4, 0);
+        SetAnimatorWeight(5, 0);
+        SetAnimatorWeight(6, 0);
+    }
+
+    public void InitializeModule(PlayerCombat combat)
+    {
+        m_combat = combat;
     }
     public void InitializeEvents(IPlayerEvents events)
     {
@@ -52,8 +67,12 @@ public class PlayerAnimationController : MonoBehaviour
     /// <param name="inputY"></param>
     public void DirMoveAni(float inputX, float inputY)
     {
-        // 값이 바로 전환되는 것을 부드럽게 변환
-        float dampTime = 0.1f;
+        /*if (m_combat.IsAim)
+        {
+            inputY = 0;
+        }*/
+            // 값이 바로 전환되는 것을 부드럽게 변환
+            float dampTime = 0.1f;
 
         m_animator.SetFloat("InputX", inputX, dampTime, Time.deltaTime);
         m_animator.SetFloat("InputY", inputY, dampTime, Time.deltaTime);
@@ -62,9 +81,9 @@ public class PlayerAnimationController : MonoBehaviour
 
 
     #region ================================================================================ CombatFlags
-    public void SetAnimatorWeight(float value)
+    public void SetAnimatorWeight(int index,float value)
     {
-
+        m_animator.SetLayerWeight(index, value);
     }
     public void AimAni(bool isAim)
     {
@@ -101,9 +120,9 @@ public class PlayerAnimationController : MonoBehaviour
     /// Input의 IsAttack이 false가 되더라도 해당 애니메이션이 끝나야 상태가 변환이 되도록하기 위한 체크
     /// </summary>
     /// <returns></returns>
-    public bool CheckComboAnimation()
+    public bool CheckAnimationTag(int num, string tagName)
     {
-        return m_animator.GetCurrentAnimatorStateInfo(3).IsTag("Combo");
+        return m_animator.GetCurrentAnimatorStateInfo(num).IsTag(tagName);
     }
 
     public void UpdateAnimatorTransformValue()

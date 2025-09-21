@@ -17,8 +17,7 @@ public class PlayerInputHandler : MonoBehaviour
     #endregion ==================== /LocomotionInput
 
     #region ==================== CombatInput
-    public bool IsMeleeAttack { get; private set; }
-    public bool IsRangeShooting { get; private set; }
+    public bool IsAttack { get; private set; }
     public int SwapWeaponNum { get; private set; } = 0;
     public bool IsAim { get; private set; }
     public bool IsSniperScope { get; private set; }
@@ -94,8 +93,7 @@ public class PlayerInputHandler : MonoBehaviour
     {
         if(m_inputCombatFlags.HasFlag(InputCombatLockType.All))
         {
-            IsMeleeAttack = false;
-            IsRangeShooting = false;
+            IsAttack = false;
             IsAim = false;
             IsReload = false;
             SwapWeaponNum = 0;
@@ -103,23 +101,20 @@ public class PlayerInputHandler : MonoBehaviour
             return;
         }
         WeaponSwapNum();
-
-        bool _isAttack = Input.GetMouseButton(0);
-        switch (m_combat.CurrentWeaponNum)
+        IsAttack = !m_inputCombatFlags.HasFlag(InputCombatLockType.Attack) && Input.GetMouseButton(0);
+  
+        if (m_combat.CurrentWeaponNum > 1)
         {
-            case 1:
-                IsMeleeAttack = !m_inputCombatFlags.HasFlag(InputCombatLockType.MeleeAttack) && _isAttack;
-                break;
-            case 2:
-            case 3:
-                IsRangeShooting = !m_inputCombatFlags.HasFlag(InputCombatLockType.RangeShooting) && _isAttack;
-                break;
-
+            IsAim = (!m_inputCombatFlags.HasFlag(InputCombatLockType.Aim) && Input.GetMouseButton(1)) || IsAttack;
+            IsReload = !m_inputCombatFlags.HasFlag(InputCombatLockType.Reload) && Input.GetKeyDown(KeyCode.R);
+            IsSniperScope = Input.GetMouseButtonDown(1);
         }
-
-        IsAim = (!m_inputCombatFlags.HasFlag(InputCombatLockType.Aim) && Input.GetMouseButton(1)) || IsRangeShooting;
-        IsReload = !m_inputCombatFlags.HasFlag(InputCombatLockType.Reload) && Input.GetKeyDown(KeyCode.R);
-        IsSniperScope = Input.GetMouseButtonDown(1);
+        else
+        {
+            IsAim = false;
+            IsReload = false;
+            IsSniperScope = false;
+        }
     }
 
     private void WeaponSwapNum()

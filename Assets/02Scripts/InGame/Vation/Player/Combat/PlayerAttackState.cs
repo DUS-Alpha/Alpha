@@ -21,19 +21,15 @@ public class PlayerAttackState : PlayerCombatState
         }
     }
     private bool m_isMelee;
-    private bool m_isRange;
 
     public override void Enter()
     {
         base.Enter();
+
         if (m_Combat.CurrentWeaponNum == 1) m_isMelee = true;
-        else
-        {
-            m_isRange = true;
-        }
-        // 무기 Swap시 마다 스나이퍼 같은 총의 경우 바로 발사를 하면 안되기에 계속 현재 무기값으로
-        m_Combat.SetNextAttackDelay(m_Combat.CurrentWeapon.WeaponData.AttackDelay);
         m_Combat.AttackRootMotion(m_isMelee);
+
+        if (m_isMelee) m_PlayerCore.AniController.SetAnimatorWeight(5,1);
     }
     public override void FixedUpdate()
     {
@@ -46,37 +42,46 @@ public class PlayerAttackState : PlayerCombatState
 
         if (_weapon == null)
         {
+            m_Combat.SetAming(true);
             m_PlayerCore.SwitchCombatState(CombatStateType.Idle);
             return;
         }
-        
-        m_Combat.Attack();
-        m_Combat.Aming(m_Combat.IsAim);
+        if (m_Locomotion.IsFlying && m_isMelee)
+        {
+            m_PlayerCore.SwitchCombatState(CombatStateType.Idle);
+            return;
+        }
 
-        if (m_Combat.IsSwapWeapon)
+        if (m_Combat.IsSwapWeapon && !m_isMelee)
         {
             m_PlayerCore.SwitchCombatState(CombatStateType.SwapWeapon);
         }
-        // 공격이 끝났으면 Idle로
-        else if (!_weapon.IsInAction(m_PlayerCore.AniController))
+        else if (!m_Combat.IsAttack)
         {
-            // TODO 딜레이 조금 줄지 고민
-            if (m_isRange && m_Combat.IsAim)
+            if(!m_Combat.IsAction)
             {
-                m_PlayerCore.SwitchCombatState(CombatStateType.Aim);
-            }
-            else
-            {
+                if (m_Combat.IsAim) m_PlayerCore.SwitchCombatState(CombatStateType.Aim);
+                else
                 m_PlayerCore.SwitchCombatState(CombatStateType.Idle);
             }
         }
+        else
+        {
+            m_Combat.Attack();
+        }
 
-        
+        /*if (!m_Combat.CurrentWeapon.IsInAction(m_PlayerCore.AniController))
+        {
+            m_PlayerCore.SwitchCombatState(CombatStateType.Idle);
+        }*/
     }
+    
 
     public override void Exit()
     {
         base.Exit();
         m_Combat.AttackRootMotion(false);
+        m_Combat.SetAming(false);
+        m_Combat.ExitAttack();
     }
 }

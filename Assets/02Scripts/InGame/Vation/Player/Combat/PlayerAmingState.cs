@@ -7,10 +7,13 @@ public class PlayerAmingState : PlayerCombatState
     protected override InputLocoLockType m_LockOnEnter => InputLocoLockType.Look;
 
     protected override InputLocoLockType m_LockOnExit => InputLocoLockType.Look;
+
+    private float m_delayTime;
     public override void Enter()
     {
         base.Enter();
-        m_Combat.Aming(true);
+        m_Combat.SetAming(true);
+        m_delayTime = 0f;
     }
 
     public override void FixedUpdate()
@@ -23,25 +26,27 @@ public class PlayerAmingState : PlayerCombatState
         // TODO : Combat에서 처리
         if (m_Locomotion.IsJump || m_Locomotion.IsDodge || m_Locomotion.IsFlyUp)
         {
-            m_Combat.Aming(false);
             m_PlayerCore.SwitchCombatState(CombatStateType.Idle);
         }
-        else if (m_Combat.IsRangeShooting)
+        else if(m_Combat.IsSwapWeapon)
         {
-            m_PlayerCore.SwitchCombatState(CombatStateType.RangeShooting);
+            m_PlayerCore.SwitchCombatState(CombatStateType.SwapWeapon);
         }
-        else if (m_Combat.IsAim)
+        else if (m_Combat.IsAttack)
         {
-            m_Combat.Aming(m_Combat.IsAim);
+            m_delayTime += Time.deltaTime;
+            if(m_delayTime >= 0.2f)
+            m_PlayerCore.SwitchCombatState(CombatStateType.Attack);
+
         }
         else if (!m_Combat.IsAim)
         {
-            m_Combat.Aming(false);
             m_PlayerCore.SwitchCombatState(CombatStateType.Idle);
         }
     }
     public override void Exit()
     {
         base.Exit();
+        if(!m_Combat.IsAttack) m_Combat.SetAming(false);
     }
 }

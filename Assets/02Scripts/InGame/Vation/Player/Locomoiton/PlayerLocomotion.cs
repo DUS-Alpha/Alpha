@@ -235,7 +235,8 @@ public class PlayerLocomotion : MonoBehaviour
 
         // 등가속
         SetVelocityY(Mathf.Sqrt(_startDistance * 2f * m_antiGravity));
-
+        m_animationController.SetAnimatorWeight(2,1);
+        m_animationController.SetAnimatorWeight(3, 1);
         m_animationController.FlyAni(IsFlying, IsFlyUp);
     }
     public void FlyUpExit()
@@ -251,6 +252,11 @@ public class PlayerLocomotion : MonoBehaviour
         m_velocity.y = value;
     }
     #endregion ================================================================================ /Fly
+    public void EnterLanding()
+    {
+        m_animationController.SetAnimatorWeight(2,0);
+        m_animationController.SetAnimatorWeight(3, 0);
+    }
 
     public void OnAnimatorMove()
     {

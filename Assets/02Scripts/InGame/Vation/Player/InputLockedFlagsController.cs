@@ -21,12 +21,10 @@ public enum InputCombatLockType
     None = 0,
     Aim = 1 << 0,
     Attack = 1 << 1,
-    MeleeAttack = 1 << 2,
-    RangeShooting = 1 << 3,
-    SwapWeapon = 1 << 4,
-    Reload = 1 << 5,
-    Skill = 1 << 6,
-    All = 1 << 7,
+    SwapWeapon = 1 << 2,
+    Reload = 1 << 3,
+    Skill = 1 << 4,
+    All = 1 << 5,
 }
 
 public class InputLockedFlagsController<T> where T : Enum

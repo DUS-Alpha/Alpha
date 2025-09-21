@@ -25,10 +25,9 @@ public enum CombatStateType
     None,
     Idle,
     Aim,
-    RangeShooting,
+    Attack,
     SwapWeapon,
     Reload,
-    MeleeAttack_All,
     MeleeSkill_All,
     RangeSkill_All,
 }

@@ -28,8 +28,6 @@ public class PlayerIdleState : PlayerLocomotionState
         m_Locomotion.Movement();
         m_Locomotion.ApplyGravity();
 
-
-
         // Locomotion Switch State
         if (m_Locomotion.IsJump)
         {
