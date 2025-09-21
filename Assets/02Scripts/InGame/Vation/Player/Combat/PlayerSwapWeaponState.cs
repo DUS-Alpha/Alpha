@@ -1,18 +1,22 @@
 using UnityEngine;
 
-public class PlayerSwapWeaponState : PlayerState
+public class PlayerSwapWeaponState : PlayerCombatState
 {
-    public PlayerSwapWeaponState(PlayerCore playerCore) : base(playerCore){}
+    public PlayerSwapWeaponState(PlayerCore playerCore) : base(playerCore)
+    {
+    }
 
-    private float delayTime;
+    protected override InputLocoLockType m_LockOnEnter => InputLocoLockType.Dodge;
+
+    protected override InputLocoLockType m_LockOnExit => InputLocoLockType.Dodge;
+    private float m_delayT;
 
     public override void Enter()
     {
-        delayTime = 0;
-        m_Combat.SwapWeapon();
+        base.Enter();
+        m_delayT = 0f;
+        m_Combat.EnterSwapWeapon();
     }
-
-
     public override void FixedUpdate()
     {
         
@@ -20,14 +24,14 @@ public class PlayerSwapWeaponState : PlayerState
 
     public override void Update()
     {
-        delayTime += Time.deltaTime;
-        if (delayTime > 0.25f)
+        if(!m_Combat.IsAction)
         {
-            m_PlayerCore.SwitchCombatState(CombatState.CombatIdle);
+            m_PlayerCore.SwitchCombatState(CombatStateType.Idle);
         }
     }
     public override void Exit()
     {
-        
+        base.Exit();
+        m_Combat.ExitSwapWeapon();
     }
 }

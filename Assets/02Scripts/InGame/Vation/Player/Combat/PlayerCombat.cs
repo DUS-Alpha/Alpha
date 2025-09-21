@@ -1,31 +1,41 @@
 using System;
-using System.Linq;
-using System.Security.Claims;
 using UnityEngine;
-using static UnityEngine.InputSystem.DefaultInputActions;
 
 public class PlayerCombat : MonoBehaviour
 {
     // Ref Component
+    private PlayerCameraManger m_cameraManager;
     private PlayerInputHandler m_inputHandler;
     private PlayerAnimationController m_animationController;
-    private PlayerCameraManger m_cameraManager;
 
-    private Action<int> m_swapActions;
+    private Action<int> m_swapAction;
 
-    // Locomotion 상태 제어를 위해
-    public bool IsCombatProgressing;
     public bool IsAttack { get; private set; }
     public bool IsAim { get; private set; }
-    public bool IsWeaponSwap => m_swapWeaponNum != CurrentWeaponNum && m_swapWeaponNum != 0;
-    public int CurrentWeaponNum { get; private set; }
-    private int m_swapWeaponNum;
+    public bool IsSwapWeapon { get; private set; }
+    public bool IsReload { get; private set; }
 
-    public void InitializeModule(PlayerInputHandler inputHandler, PlayerAnimationController animationController, PlayerCameraManger cameraManger)
+    // 무기 관리
+    public int CurrentWeaponNum => m_currentWeaponNum;
+    private int m_currentWeaponNum;
+    public Weapon CurrentWeapon => m_currentWeapon;
+    private Weapon m_currentWeapon => m_currentWeaponNum > 0 ? m_equipmentWeapons[m_currentWeaponNum] : null;
+    private int m_swapWeaponNum;
+    private Weapon[] m_equipmentWeapons = new Weapon[4]; // 착용중인 무기
+
+    private float m_nextAttakTime;
+
+    public bool IsAction => m_isAction;
+    private bool m_isAction;
+    // TODO : 각 무기별 쿨타임관리
+    // private WeaponAttackCoolTime[] m_weaponAttack; 
+
+    public void InitializeModule(PlayerCameraManger cameraManager, PlayerInputHandler inputHandler, PlayerAnimationController animationController, Weapon[] weapons)
     {
+        m_cameraManager = cameraManager;
         m_inputHandler = inputHandler;
         m_animationController = animationController;
-        m_cameraManager = cameraManger;
+        m_equipmentWeapons = weapons;
     }
 
     public void InitializeEvents(IPlayerEvents events)
@@ -33,74 +43,94 @@ public class PlayerCombat : MonoBehaviour
         events.CheckInputAction += CheckInput;
     }
 
+    public void SetSwapAction(Action<int> swapAction)
+    {
+        m_swapAction = swapAction;
+    }
     /// <summary>
     /// PlayerCore에서 옵저버패턴으로 받은 Swap관련된 Action을 Combat에서 관리
     /// </summary>
     /// <param name="swapAction"></param>
-    public void SetSwapAction(Action<int> swapAction)
-    {
-        m_swapActions = swapAction;
-    }
 
     private void Start()
     {
-        CurrentWeaponNum = 0;
+        m_currentWeaponNum = 0;
     }
+
+    // 파라미터 Trigger형태는 KeyDown방식으로 최대한 관리
     public void CheckInput()
     {
         IsAttack = m_inputHandler.IsAttack;
+        IsAim = m_inputHandler.IsAim;
         m_swapWeaponNum = m_inputHandler.SwapWeaponNum;
-        
-        if (CurrentWeaponNum == 2)
-        {
-            IsAim = m_inputHandler.IsAim || m_inputHandler.IsAttack;
-        }
-        else if (CurrentWeaponNum == 3)
-        {
-            if (m_inputHandler.IsSniperScope)
-            {
-                IsAim = !IsAim;
-            }
-        }
-        else
-        {
-            IsAim = false;
-        }
+        IsReload = m_inputHandler.IsReload;
+        CheckCanSwapWeapon();
     }
 
-    public void SetIsAllBodyAction(bool isAllBodyAction)
+    public void EnterSwapWeapon()
     {
-        IsCombatProgressing = isAllBodyAction;
+        // 옵저버 패턴 - 각 모듈의 액션들 처리
+        // 현재는 PlayerEquipmentController의 SwapAction함수만 저장
+        m_animationController.SetAnimatorWeight(4,1);
+        m_currentWeaponNum = m_swapWeaponNum;
+        m_swapAction?.Invoke(m_swapWeaponNum);
+        m_animationController.SwapWeaponAni(m_currentWeaponNum);
     }
-
-    public void CheckAreaTarget()
+    public void ExitSwapWeapon()
     {
-
+        m_animationController.SetAnimatorWeight(4, 0);
     }
-    // TODO : 전략패턴
-    public void Attack(bool isAttack)
-    {
-        // 현재 무기에 따라 값 공격 방식 변경
-        // TODO : Melee일 때 앞으로 살짝 이동이 필요할듯?
-        m_animationController.AttackAni(isAttack, IsCombatProgressing);
-    }
-    public void Aiming(bool isAim)
-    {
-        m_animationController.AimAni(isAim);
-        if(isAim)
-        {
-
-        }
-    }
-
     /// <summary>
-    /// 현재는 단순 Holder만 OnOff
+    /// Player오브젝트 하위에 있는 각 Holder 오브젝트 On/Off 방식
+    /// TODO 스왑시 스왑상태에서 시간에 의해 애니메이션 Num값과 실제 Swap값이 다르게 가~끔나옴 해결필요
     /// </summary>
-    public void SwapWeapon()
+    public void CheckCanSwapWeapon()
     {
-        CurrentWeaponNum = m_swapWeaponNum;
+        // 같은 번호 입력시 리턴
+        if (m_swapWeaponNum == 0 || m_swapWeaponNum == CurrentWeaponNum)
+        {
+            IsSwapWeapon = false;
+            return;
+        }
+        // 무기가 없을경우 리턴
+        if (m_equipmentWeapons[m_swapWeaponNum] == null) return;
+        IsSwapWeapon = true;
+    }
 
-        // 각 모듈의 액션들 처리
-        m_swapActions?.Invoke(m_swapWeaponNum);
+
+    public void AttackRootMotion(bool isApplyRoot)
+    {
+        m_animationController.SetApplyRootMotion(isApplyRoot);
+    }
+
+    // AttackUpdate
+    public void Attack()
+    {
+        if (m_currentWeaponNum == 0) return;
+        if(Time.time >= m_nextAttakTime)
+        {
+            m_nextAttakTime = Time.time + m_currentWeapon.WeaponData.AttackDelay;
+            // 무기 Swap시 마다 스나이퍼 같은 총의 경우 바로 발사를 하면 안되기에 계속 현재 무기값으로
+            m_currentWeapon.Attack(IsAttack, m_animationController);
+        }
+    }
+    public void ExitAttack()
+    {
+        if(m_currentWeaponNum == 1)
+        {
+            m_animationController.MeleeAttackAni(false);
+            m_animationController.SetAnimatorWeight(5, 0);
+        }
+    }
+
+    public void SetIsAction(bool isAction)
+    {
+        m_isAction = isAction;
+    }
+
+    public void SetAming(bool isAim)
+    {
+        m_cameraManager.AimFOV(isAim);
+        m_animationController.AimAni(isAim);
     }
 }

@@ -8,18 +8,33 @@ using UnityEngine;
 public class PlayerAnimationController : MonoBehaviour
 {
     [SerializeField]
-    private Animator m_animator;
+    public Animator m_animator;
     public Vector3 RootMotionPos { get; private set; }
     public Quaternion RootMotionRot { get; private set; }
-    public bool IsRootMotion { get; private set; }
+    public bool IsRootMotion => m_animator.applyRootMotion;
     public bool IsPlayAni {  get; private set; }
+    private PlayerCombat m_combat;
     private void Awake()
     {
         m_animator = GetComponent<Animator>();
     }
+    private void Start()
+    {
+        SetAnimatorWeight(1,0);
+        SetAnimatorWeight(2, 0);
+        SetAnimatorWeight(3, 0);
+        SetAnimatorWeight(4, 0);
+        SetAnimatorWeight(5, 0);
+        SetAnimatorWeight(6, 0);
+    }
+
+    public void InitializeModule(PlayerCombat combat)
+    {
+        m_combat = combat;
+    }
     public void InitializeEvents(IPlayerEvents events)
     {
-        events.SwapWeaponAction += SwapWeaponAni;
+        //events.SwapWeaponAction += SwapWeaponAni;
     }
 
     #region ================================================================================ Locomotion
@@ -27,7 +42,7 @@ public class PlayerAnimationController : MonoBehaviour
     /// Locomotion의 CurrentMoveSpeed 받아오기
     /// </summary>
     /// <param name="moveSpeed"></param>
-    public void SetGroundMoveAni(float moveSpeed)
+    public void MoveAni(float moveSpeed)
     {
         m_animator.SetFloat("MoveSpeed", moveSpeed);
     }
@@ -35,75 +50,89 @@ public class PlayerAnimationController : MonoBehaviour
     {
         m_animator.SetBool("IsGround", isGrounded);
     }
-    public void SetJumpAni(bool isJump)
-    {
-        m_animator.SetBool("IsJump", isJump);
-        //m_animator.SetTrigger("Jump");
-    }
 
-    public void SetIsFlyAni(bool isFlying, bool isFlyUpStart)
+    public void JumpAni()
+    {
+        m_animator.SetTrigger("Jump");
+    }
+    public void FlyAni(bool isFlying, bool isFlyUpStart)
     {
         m_animator.SetBool("IsFlying", isFlying);
         m_animator.SetBool("IsFlyUp", isFlyUpStart);
     }
-    
     /// <summary>
-    /// Fly와 공격형태일때 사용됨
+    /// Fly와 Aim일때 사용됨
     /// </summary>
     /// <param name="inputX"></param>
     /// <param name="inputY"></param>
-    public void SetAimMoveAni(float inputX, float inputY, bool isAim)
+    public void DirMoveAni(float inputX, float inputY)
     {
-        if (isAim && !m_animator.GetBool("IsGround"))
+        /*if (m_combat.IsAim)
         {
-            if (inputY > 0) inputY = 0;
-        }
-
-        // 값이 바로 전환되는 것을 부드럽게 변환
-        float dampTime = 0.1f;
+            inputY = 0;
+        }*/
+            // 값이 바로 전환되는 것을 부드럽게 변환
+            float dampTime = 0.1f;
 
         m_animator.SetFloat("InputX", inputX, dampTime, Time.deltaTime);
         m_animator.SetFloat("InputY", inputY, dampTime, Time.deltaTime);
     }
     #endregion ================================================================================ /Locomotion
 
-    #region ================================================================================ Combat
-    public void SwapWeaponAni(int weaponNum)
+
+    #region ================================================================================ CombatFlags
+    public void SetAnimatorWeight(int index,float value)
     {
-        m_animator.SetTrigger("SwapWeapon");
-        
-        m_animator.SetInteger("WeaponNum", weaponNum);
+        m_animator.SetLayerWeight(index, value);
     }
     public void AimAni(bool isAim)
     {
-        m_animator.SetBool("IsAim", isAim);
+        m_animator.SetBool("IsAim",isAim);
     }
-
-    // TODO : 포지션값 받아오는 함수 따로 만들지 고민
-    public void AttackAni(bool isAttack, bool isAllBody)
+    public void SwapWeaponAni(int currentNum)
     {
-        IsRootMotion = isAllBody;
-        m_animator.applyRootMotion = isAllBody;
-
-        m_animator.SetBool("IsAttack", isAttack);
+        m_animator.SetInteger("WeaponNum", currentNum);
+        m_animator.SetTrigger("SwapWeapon");
     }
-    #endregion ================================================================================ /Combat
+    public void MeleeAttackAni(bool isAttack)
+    {
+        m_animator.SetBool("IsMeleeAttack", isAttack);
+    }
+    public void RangeShootingAni()
+    {
+        m_animator.SetTrigger("RangeShooting");
+    }
+    public void SkillAni()
+    {
+
+    }
+    public void ReloadAni()
+    {
+        m_animator.SetTrigger("Reload");
+    }
+
+    public void SetApplyRootMotion(bool isRoot)
+    {
+        m_animator.applyRootMotion = isRoot;
+    }
     /// <summary>
     /// 현재 상태가 Combo 태그를 가진 애니메이션인지 체크
     /// Input의 IsAttack이 false가 되더라도 해당 애니메이션이 끝나야 상태가 변환이 되도록하기 위한 체크
     /// </summary>
     /// <returns></returns>
-    public bool CheckComboAnimation()
+    public bool CheckAnimationTag(int num, string tagName)
     {
-        return m_animator.GetCurrentAnimatorStateInfo(0).IsTag("Combo");
+        return m_animator.GetCurrentAnimatorStateInfo(num).IsTag(tagName);
     }
 
     public void UpdateAnimatorTransformValue()
     {
-        if(m_animator.applyRootMotion)
+        if (m_animator.applyRootMotion)
         {
             RootMotionPos = m_animator.deltaPosition;
             RootMotionRot = m_animator.deltaRotation;
         }
     }
+    #endregion ================================================================================ /Combat
+
 }

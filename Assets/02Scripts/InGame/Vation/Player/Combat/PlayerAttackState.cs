@@ -1,15 +1,35 @@
 using UnityEngine;
 using UnityEngine.Windows;
-public class PlayerAttackState : PlayerState
+public class PlayerAttackState : PlayerCombatState
 {
     public PlayerAttackState(PlayerCore playerCore) : base(playerCore){}
-    private bool m_isCombo;
+    protected override InputLocoLockType m_LockOnEnter
+    {
+        get
+        {
+            if (m_Combat.CurrentWeaponNum == 1) return InputLocoLockType.All;
+            else return InputLocoLockType.None;
+        }
+    }
+
+    protected override InputLocoLockType m_LockOnExit
+    {
+        get
+        {
+            if (m_Combat.CurrentWeaponNum == 1) return InputLocoLockType.All;
+            else return InputLocoLockType.None;
+        }
+    }
+    private bool m_isMelee;
 
     public override void Enter()
     {
-        if (m_Combat.CurrentWeaponNum == 1)
-            m_Combat.SetIsAllBodyAction(true);
-        else m_Combat.SetIsAllBodyAction(false);
+        base.Enter();
+
+        if (m_Combat.CurrentWeaponNum == 1) m_isMelee = true;
+        m_Combat.AttackRootMotion(m_isMelee);
+
+        if (m_isMelee) m_PlayerCore.AniController.SetAnimatorWeight(5,1);
     }
     public override void FixedUpdate()
     {
@@ -18,34 +38,50 @@ public class PlayerAttackState : PlayerState
 
     public override void Update()
     {
-        m_Combat.Attack(m_Combat.IsAttack);
+        var _weapon = m_Combat.CurrentWeapon;
 
-        if(m_Combat.IsCombatProgressing)
+        if (_weapon == null)
         {
-            bool _isTag = m_PlayerCore.AniController.CheckComboAnimation();
+            m_Combat.SetAming(true);
+            m_PlayerCore.SwitchCombatState(CombatStateType.Idle);
+            return;
+        }
+        if (m_Locomotion.IsFlying && m_isMelee)
+        {
+            m_PlayerCore.SwitchCombatState(CombatStateType.Idle);
+            return;
+        }
 
-            // 콤보 시작 지점 기록
-            if (!m_isCombo && _isTag)
+        if (m_Combat.IsSwapWeapon && !m_isMelee)
+        {
+            m_PlayerCore.SwitchCombatState(CombatStateType.SwapWeapon);
+        }
+        else if (!m_Combat.IsAttack)
+        {
+            if(!m_Combat.IsAction)
             {
-                m_isCombo = true;
-                return;
-            }
-
-            // 콤보가 끝났을 때만 Idle 전환
-            if (m_isCombo && !_isTag)
-            {
-                m_PlayerCore.SwitchCombatState(CombatState.CombatIdle);
+                if (m_Combat.IsAim) m_PlayerCore.SwitchCombatState(CombatStateType.Aim);
+                else
+                m_PlayerCore.SwitchCombatState(CombatStateType.Idle);
             }
         }
         else
         {
-            if(!m_Combat.IsAttack) m_PlayerCore.SwitchCombatState(CombatState.CombatIdle);
+            m_Combat.Attack();
         }
+
+        /*if (!m_Combat.CurrentWeapon.IsInAction(m_PlayerCore.AniController))
+        {
+            m_PlayerCore.SwitchCombatState(CombatStateType.Idle);
+        }*/
     }
+    
+
     public override void Exit()
     {
-        m_Combat.SetIsAllBodyAction(false);
-        m_Combat.Attack(false);
-        if (m_Combat.CurrentWeaponNum > 1) m_Combat.Aiming(false);
+        base.Exit();
+        m_Combat.AttackRootMotion(false);
+        m_Combat.SetAming(false);
+        m_Combat.ExitAttack();
     }
 }
