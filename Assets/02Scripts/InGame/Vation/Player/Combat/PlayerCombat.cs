@@ -18,8 +18,8 @@ public class PlayerCombat : MonoBehaviour
     // 무기 관리
     public int CurrentWeaponNum => m_currentWeaponNum;
     private int m_currentWeaponNum;
-    public Weapon CurrentWeapon => m_currentWeapon;
-    private Weapon m_currentWeapon => m_currentWeaponNum > 0 ? m_equipmentWeapons[m_currentWeaponNum] : null;
+    public Weapon CurrentWeapon => currentWeapon;
+    public Weapon currentWeapon => m_currentWeaponNum > 0 ? m_equipmentWeapons[m_currentWeaponNum] : null;
     private int m_swapWeaponNum;
     private Weapon[] m_equipmentWeapons = new Weapon[4]; // 착용중인 무기
 
@@ -103,15 +103,26 @@ public class PlayerCombat : MonoBehaviour
         m_animationController.SetApplyRootMotion(isApplyRoot);
     }
 
+    // Melee Animation에서 불러오는중
+    public void OnWeaponCollider()
+    {
+        MeleeWeapon _meleeWeapon = currentWeapon as MeleeWeapon;
+        _meleeWeapon.SetActivateCollider(true);
+    }
+    public void OffWeaponCollider()
+    {
+        MeleeWeapon _meleeWeapon = currentWeapon as MeleeWeapon;
+        _meleeWeapon.SetActivateCollider(false);
+    }
     // AttackUpdate
     public void Attack()
     {
         if (m_currentWeaponNum == 0) return;
         if(Time.time >= m_nextAttakTime)
         {
-            m_nextAttakTime = Time.time + m_currentWeapon.WeaponData.AttackDelay;
+            m_nextAttakTime = Time.time + currentWeapon.WeaponData.AttackDelay;
             // 무기 Swap시 마다 스나이퍼 같은 총의 경우 바로 발사를 하면 안되기에 계속 현재 무기값으로
-            m_currentWeapon.Attack(IsAttack, m_animationController);
+            currentWeapon.Attack(IsAttack, m_animationController);
         }
     }
     public void ExitAttack()

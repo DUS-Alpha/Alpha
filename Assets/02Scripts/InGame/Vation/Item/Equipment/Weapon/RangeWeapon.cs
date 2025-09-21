@@ -68,7 +68,6 @@ public class RangeWeapon : Weapon
 
                 // 맞은 곳에 BloodEffect 재생(몬스터쪽에서해도 괜찮음)
             }
-            Debug.Log(_hit.collider.name);
         }
     }
 }

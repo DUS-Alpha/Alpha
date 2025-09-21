@@ -37,6 +37,8 @@ public class PlayerMoveState : PlayerLocomotionState
         }
         else if (m_Locomotion.MoveDir == Vector3.zero)
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Idle);
+        /*else if(!m_Locomotion.IsGrounded)
+            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Fall);*/
         // else if(IsDie)
     }
     public override void Exit()
