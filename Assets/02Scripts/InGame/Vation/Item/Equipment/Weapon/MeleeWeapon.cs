@@ -36,7 +36,6 @@ public class MeleeWeapon : Weapon
     {
         if(other.CompareTag("Enemy"))
         {
-            Debug.Log("Enemy");
             IDamageable _damageableTarget;
             if (other.TryGetComponent<IDamageable>(out _damageableTarget))
             {

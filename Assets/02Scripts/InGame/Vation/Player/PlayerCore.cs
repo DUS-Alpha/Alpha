@@ -81,7 +81,10 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
     {
         StateMachine.SwitchCombatState(newState);
     }
-
+    public void SetAnimatorLayer(int index, int weight)
+    {
+        AniController.SetAnimatorWeight(index, weight);
+    }
     private void Update()
     {
         StateMachine.Update();
