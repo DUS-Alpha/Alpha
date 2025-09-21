@@ -46,6 +46,13 @@ public class PlayerAttackState : PlayerCombatState
             m_PlayerCore.SwitchCombatState(CombatStateType.Idle);
             return;
         }
+
+        /*if(!m_Locomotion.IsGrounded && !m_Locomotion.IsFlying)
+        {
+            m_PlayerCore.SwitchCombatState(CombatStateType.Idle);
+            return;
+        }*/
+
         if (m_Locomotion.IsFlying && m_isMelee)
         {
             m_PlayerCore.SwitchCombatState(CombatStateType.Idle);

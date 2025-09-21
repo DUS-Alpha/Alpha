@@ -3,7 +3,6 @@ using UnityEngine;
 public class Weapon : Equipment, IAttack
 {
     public WeaponData WeaponData => (Data as WeaponData);
-
     public virtual void Attack(bool isAttackInput, PlayerAnimationController anim)
     {
         

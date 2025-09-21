@@ -21,6 +21,11 @@ public class PlayerCombatIdleState : PlayerCombatState
 
     public override void Update()
     {
+        /*if(!m_Locomotion.IsGrounded && !m_Locomotion.IsFlying)
+        {
+            return;
+        }*/
+
         if (m_Combat.IsSwapWeapon)
         {
             m_PlayerCore.SwitchCombatState(CombatStateType.SwapWeapon);
