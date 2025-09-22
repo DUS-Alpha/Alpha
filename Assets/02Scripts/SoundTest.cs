@@ -1,18 +1,16 @@
 using UnityEngine;
-using UnityEngine.UI;
+
 
 public class SoundTest : MonoBehaviour
 {
-    public Button button;
+    // public Button button;
     public AK.Wwise.Event sound;
 
-    private void Start()
+    private void Update()
     {
-        button.onClick.AddListener(() => PlaySound());
-    }
-
-    private void PlaySound()
-    {
-        sound.Post(gameObject);
+        if (Input.GetMouseButtonDown(0))
+        {
+            sound.Post(gameObject);
+        }
     }
 }
