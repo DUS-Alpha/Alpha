@@ -1,0 +1,47 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Android",
+  "BasePlatform": "Android",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "154",
+  "SoundBanks": [
+   {
+    "Id": "3161908922",
+    "Type": "User",
+    "GUID": "{EF4C6D5A-7873-4DE2-B709-23E8B6F51FAD}",
+    "Language": "SFX",
+    "Hash": "{350292C5-7EB7-8E4F-0F50-952CA45D7492}",
+    "ObjectPath": "\\SoundBanks\\Default Work Unit\\Main",
+    "ShortName": "Main",
+    "Path": "Main.bnk",
+    "Media": [
+     {
+      "Id": "845142347",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Card_Game_UI_Button_Mechanical_Metal_01.wav",
+      "CachePath": "B8/{B8BB93E5-5C18-0172-1E36-D85FBAA333BF}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "814543256",
+      "Name": "Button_Click",
+      "ObjectPath": "\\Events\\Default Work Unit\\Button_Click",
+      "GUID": "{633F55D0-B2C5-42A1-A2DF-1851C5A111B6}",
+      "DurationType": "OneShot",
+      "DurationMin": "0.6976875",
+      "DurationMax": "0.6976875",
+      "MediaRefs": [
+       {
+        "Id": "845142347"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{24CA09D3-F63C-671E-1E14-5F80A34B855C}"
+ }
+}
