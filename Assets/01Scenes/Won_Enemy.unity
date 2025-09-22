@@ -10313,33 +10313,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_treeRunner: {fileID: 7060128034757441355}
+  animator: {fileID: 7060128034757441356}
+  Dolly: {fileID: 726981355}
+  ReadyPos: {fileID: 1531673947}
+  PatternPos: {fileID: 1682297898}
   MidRange: 10
   CloseRange: 5
   StopRange: 3
+  m_range: 2
   currentTime: 2
   m_Timer: 1
+  faceTurnSpeed: 7
+  Isarrived: 0
   m_isRun: 0
   m_TestHp: 100
+  _attackStarted: 0
   gateWindowDuration: 2
   gateWindowDeadline: 0
-  Dolly: {fileID: 726981355}
-  m_range: 2
-  animator: {fileID: 7060128034757441356}
-  _attackStarted: 0
-  faceTurnSpeed: 7
   m_AnswerTimer: 2
   m_Window: 0.25
+  SuccessCount: 0
+  FailureCount: 0
+  _resolvedCount: 0
   TestGaks:
   - {fileID: 347300469}
   - {fileID: 715229756}
   - {fileID: 226162727}
   - {fileID: 1906619665}
-  SuccessCount: 0
-  FailureCount: 0
-  _resolvedCount: 0
-  ReadyPos: {fileID: 1531673947}
-  Isarrived: 0
-  PatternPos: {fileID: 1682297898}
 --- !u!114 &7060128034757441355
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10362,7 +10362,7 @@ Animator:
   m_GameObject: {fileID: 3135868569931090260}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 922c398316b5be44482cc2026955c3e6, type: 3}
-  m_Controller: {fileID: 9100000, guid: 1a734ce7d773a4645b031dd7ed173529, type: 2}
+  m_Controller: {fileID: 9100000, guid: d15327078e762fe47bc0232c6a46b474, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
