@@ -1,31 +1,39 @@
+using System;
 using UnityEngine;
 
 
 //실재 위치가 어디인지 씬에서 보이게 만드느 기능
-[ExecuteAlways]
+[ExecuteAlways] // 에디터 실행을 안해도 바로 실행 
 public class BossDebugGizmos : MonoBehaviour
 {
     public BossActions actions;
-    public Color FarColor = new Color(0.2f, 0.7f, 1f, 0.4f);
     public Color MidColor = new Color(0.2f, 1f, 0.4f, 0.4f);
     public Color CloseColor = new Color(1f, 0.3f, 0.3f, 0.4f);
+    public Color StopColor = Color.magenta;
     public Color lineColor = Color.yellow;
+
+
+  
 
     private void OnDrawGizmos()
     {
         if (!actions) actions = GetComponent<BossActions>();
         if (!actions) return;
-
+        
+        // 실제로 움직이는 기준(Animator가 손자라면 그 트랜스폼)
+        
+        
         // 원 그리기
-        DrawCircle(transform.position, actions.FarRange, FarColor);
-        DrawCircle(transform.position, actions.MidRange, MidColor);
-        DrawCircle(transform.position, actions.CloseRange, CloseColor);
+        DrawCircle(actions.animator.transform.position, actions.MidRange, MidColor);
+        DrawCircle(actions.animator.transform.position, actions.CloseRange, CloseColor);
+        DrawCircle(actions.BB.Target.position, actions.StopRange, StopColor);
+        
 
         // 타깃 방향선
         if (actions.BB != null && actions.BB.Target)
         {
             Gizmos.color = lineColor;
-            Gizmos.DrawLine(transform.position, actions.BB.Target.position);
+            Gizmos.DrawLine(actions.animator.transform.position, actions.BB.Target.position);
         }
     }
 

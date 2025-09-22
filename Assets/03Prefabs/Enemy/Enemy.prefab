@@ -2215,6 +2215,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   animator: {fileID: 5198410652667782083}
+  sprintSpeedMul: 1.8
   rotSpeed: 12
   approachSpeed: 3.2
   retreatSpeed: 3
@@ -2259,6 +2260,8 @@ MonoBehaviour:
   attacks: {fileID: 6086501089865147387}
   idleHold: {x: 0.3, y: 0.6}
   recover: {x: 0.2, y: 0.5}
+  locomotionTriggers: Sprint
+  sprintDuration: 1.2
   m_RagneState: 2
   mPhase: 0
   phaseTimer: 0
@@ -2565,7 +2568,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2725968491594421724}
-  - component: {fileID: 6143106800318544695}
   m_Layer: 0
   m_Name: Android_SkeletalMesh
   m_TagString: Untagged
@@ -2590,28 +2592,6 @@ Transform:
   - {fileID: 5938009380449287636}
   m_Father: {fileID: 7944659352129866444}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &6143106800318544695
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8906574307648884817}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 922c398316b5be44482cc2026955c3e6, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 1
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &9183006255795632898
 GameObject:
   m_ObjectHideFlags: 0
