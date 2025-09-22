@@ -6,7 +6,7 @@ public class LocomotionUtility
     private float m_currentSpeed;
 
     // Rotate Config
-    private float m_rotationSmoothTime = 0.2f;
+    private float m_rotationSmoothTime = 0.1f;
     private float m_currentSmoothVelocityX = 0;
     private float m_currentSmoothVelocityY = 0;
     private float m_currentSmoothVelocityZ = 0;
@@ -22,7 +22,7 @@ public class LocomotionUtility
         return m_moveDirByCamera;
     }
 
-    public float HandleMove(Vector3 moveDir,float targetSpeed, float speedLerpRate, CharacterController characterController)
+    public float HandleMove(Vector3 moveDir, float targetSpeed, float speedLerpRate, CharacterController characterController)
     {
         Camera cam = Camera.main;
 
@@ -43,23 +43,42 @@ public class LocomotionUtility
         return m_currentSpeed;
     }
 
-    // FlyRotate와 리팩토링
-    public void HandleRotate(GameObject gameObject, Vector3 moveDir, bool isFly)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="gameObject"></param>
+    /// <param name="moveDir"></param>
+    /// <param name="isImmediatelyRot"> true시 카메라 정면 방향으로 즉시 회전 </param>
+    public void HandleRotate(GameObject gameObject, Vector3 moveDir, bool isImmediatelyRot)
     {
         Camera cam = Camera.main;
 
-        if (moveDir == Vector3.zero) return;
-
         Vector3 _dir;
 
-        if(!isFly) _dir = m_moveDirByCamera;
-        else _dir = cam.transform.forward;
-        
+        if (!isImmediatelyRot)
+        {
+            if (moveDir != Vector3.zero)
+                _dir = m_moveDirByCamera; // 이동 입력 있을 때는 이동 방향
+            else
+                _dir = gameObject.transform.forward; // 입력 없으면 현재 바라보는 방향 유지
+        }
+        else
+        {
+            _dir = cam.transform.forward; // Aim 중에는 카메라 forward
+        }
         _dir.y = 0f;
-        Quaternion _targetRot = Quaternion.LookRotation(_dir);
+
+        Quaternion _targetRot;
+        if (_dir != Vector3.zero)
+            _targetRot = Quaternion.LookRotation(_dir);
+        else
+            _targetRot = Quaternion.identity;
 
         Vector3 _targetEuler = _targetRot.eulerAngles;
         Vector3 _currentEuler = gameObject.transform.eulerAngles;
+
+        
+
 
         // 각 축의 각도변화 Smooth 적용 (부드러운 회전)
         float smoothX = Mathf.SmoothDampAngle
@@ -87,10 +106,12 @@ public class LocomotionUtility
                         );
 
         // 땅에서는 Y축의 각도만 사용하여 회전 적용, Fly상태에서는 전체 축 사용
+
         gameObject.transform.rotation = Quaternion.Euler(0f, smoothY, 0f);
 
         // Fly 시 회전 값 계산 제대로하기
     }
+
     #endregion ================================================================================ /Movment
 
     #region ================================================================================ Gravity

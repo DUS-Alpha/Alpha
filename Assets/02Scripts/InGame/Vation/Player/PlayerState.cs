@@ -11,12 +11,13 @@ public abstract class PlayerState
         m_PlayerCore = playerCore;
         m_Locomotion = playerCore.Locomotion;
         m_Combat = playerCore.Combat;
-        DebugCurrentState();
+        //DebugCurrentState();
     }
-    private void DebugCurrentState()
+    public void DebugCurrentState()
     {
-        Debug.Log(GetType().Name);
+        //Debug.Log(GetType().Name);
     }
+
     public abstract void Enter();
     public abstract void FixedUpdate();
     public abstract void Update();
