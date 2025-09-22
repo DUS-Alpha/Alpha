@@ -1,6 +1,12 @@
 fileFormatVersion: 2
+<<<<<<< Updated upstream:Assets/04Animations/Player/Locomotion/Fly/FlyDown.anim.meta
 guid: 3ca4788328c969c4a9ae529f9b7cb1e4
 NativeFormatImporter:
+=======
+guid: 7689ba22583b6de4fb1688f27fbce4e8
+folderAsset: yes
+DefaultImporter:
+>>>>>>> Stashed changes:Assets/00Arts/Model/WON.meta
   externalObjects: {}
   mainObjectFileID: 0
   userData: 
