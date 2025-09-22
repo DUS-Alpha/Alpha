@@ -12,21 +12,21 @@
     "GUID": "{08194164-455F-44BF-AFAA-B8AAF5B5A097}",
     "BasePlatform": "Android",
     "BasePlatformGUID": "{A2D401DE-B8B6-4FEB-8142-137C34D507CA}",
-    "Path": "."
+    "Path": "../../../../Alpha/GeneratedSoundBanks/Windows"
    },
    {
     "Name": "Mac",
     "GUID": "{A3D4DBEF-7824-4D81-B711-9C5F3EC55157}",
     "BasePlatform": "Mac",
     "BasePlatformGUID": "{9C6217D5-DD11-4795-87C1-6CE02853C540}",
-    "Path": "."
+    "Path": "../../../../Alpha/GeneratedSoundBanks/Mac"
    },
    {
     "Name": "Windows",
     "GUID": "{E9DD5619-3AEB-4BFC-A966-0351A0630C14}",
     "BasePlatform": "Windows",
     "BasePlatformGUID": "{6E0CB257-C6C8-4C5C-8366-2740DFC441EB}",
-    "Path": "."
+    "Path": "../../../../Alpha/GeneratedSoundBanks/Android"
    }
   ],
   "Languages": [
@@ -38,6 +38,6 @@
     "UseAsStandIn": "true"
    }
   ],
-  "FileHash": "{E9500986-5A5C-45A5-9343-8AABE60D8981}"
+  "FileHash": "{2CFAA41B-C0AC-8A20-04D6-CCECC221954A}"
  }
 }
