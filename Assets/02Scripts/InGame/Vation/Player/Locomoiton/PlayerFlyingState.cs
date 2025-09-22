@@ -1,11 +1,17 @@
 using UnityEngine;
 
-public class PlayerFlyingState : PlayerState
+public class PlayerFlyingState : PlayerLocomotionState
 {
+    protected override InputCombatLockType m_LockOnEnter => InputCombatLockType.Skill;
+
+    protected override InputCombatLockType m_LockOnExit => InputCombatLockType.Skill;
+
     public PlayerFlyingState(PlayerCore playerCore) : base(playerCore) { }
     public override void Enter()
     {
-
+        base.Enter();
+        m_PlayerCore.SetAnimatorLayer(2, 1);
+        m_PlayerCore.SetAnimatorLayer(3, 1);
     }
     public override void FixedUpdate()
     {
@@ -13,21 +19,25 @@ public class PlayerFlyingState : PlayerState
     }
 
     public override void Update()
-    {
+    { 
         m_Locomotion.Movement();
 
         if (m_Locomotion.IsFlyUp)
-            m_PlayerCore.SwitchState(new PlayerFlyUpStartState(m_PlayerCore));
+            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.FlyUp);
         else if (m_Locomotion.IsFlyOff)
-            m_PlayerCore.SwitchState(new PlayerFallState(m_PlayerCore));
-        else if (m_Combat.IsAttack)
-            m_PlayerCore.SwitchState(new PlayerAttackState(m_PlayerCore));
+        {
+            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Fall);
+            m_Locomotion.SetVelocityY(2.5f);
+        }
         // TODO : 중력 적용 시 Idle 전환 처리(애니메이션 처리 미흡해서 현재는 적용x)
     }
 
     public override void Exit()
     {
-        m_Locomotion.FlyExit();
+        base.Exit();
+        m_Locomotion.FlyingExit();
+
+        
     }
 
 

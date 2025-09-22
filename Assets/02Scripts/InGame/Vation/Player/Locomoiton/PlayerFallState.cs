@@ -1,12 +1,16 @@
 using UnityEngine;
 
-public class PlayerFallState : PlayerState
+public class PlayerFallState : PlayerLocomotionState
 {
+    protected override InputCombatLockType m_LockOnEnter => InputCombatLockType.All;
+
+    protected override InputCombatLockType m_LockOnExit => InputCombatLockType.All;
+
     public PlayerFallState(PlayerCore playerCore) : base(playerCore){}
 
     public override void Enter()
     {
-        
+       base.Enter();
     }
     public override void FixedUpdate()
     {
@@ -15,17 +19,19 @@ public class PlayerFallState : PlayerState
 
     public override void Update()
     {
+        m_Locomotion.AirMovement();
         m_Locomotion.ApplyGravity();
+
         if (m_Locomotion.IsFlyUp)
         {
-            m_PlayerCore.SwitchState(new PlayerFlyUpStartState(m_PlayerCore));
+            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.FlyUp);
         }
         else if (m_Locomotion.IsGrounded)
-            m_PlayerCore.SwitchState(new PlayerIdleState(m_PlayerCore));
+            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Landing);
     }
 
     public override void Exit()
     {
-       
+       base.Exit();
     }
 }

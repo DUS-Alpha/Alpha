@@ -1,67 +1,147 @@
+using System;
 using UnityEngine;
-
 
 public class PlayerCombat : MonoBehaviour
 {
-    private PlayerCore m_playerCore;
-    private CharacterController m_characterController;
+    // Ref Component
+    private PlayerCameraManger m_cameraManager;
+    private PlayerInputHandler m_inputHandler;
+    private PlayerAnimationController m_animationController;
+
+    private Action<int> m_swapAction;
 
     public bool IsAttack { get; private set; }
-    public int CurrentWeaponNum { get; private set; }
-    private int m_swapWeaponNum;
-    public void Initialize(PlayerCore playerCore)
-    {
-        m_playerCore = playerCore;
-        m_characterController = m_playerCore.PlayerCharacterController;
+    public bool IsAim { get; private set; }
+    public bool IsSwapWeapon { get; private set; }
+    public bool IsReload { get; private set; }
 
+    // 무기 관리
+    public int CurrentWeaponNum => m_currentWeaponNum;
+    private int m_currentWeaponNum;
+    public Weapon CurrentWeapon => currentWeapon;
+    public Weapon currentWeapon => m_currentWeaponNum > 0 ? m_equipmentWeapons[m_currentWeaponNum] : null;
+    private int m_swapWeaponNum;
+    private Weapon[] m_equipmentWeapons = new Weapon[4]; // 착용중인 무기
+
+    private float m_nextAttakTime;
+
+    public bool IsAction => m_isAction;
+    private bool m_isAction;
+    // TODO : 각 무기별 쿨타임관리
+    // private WeaponAttackCoolTime[] m_weaponAttack; 
+
+    public void InitializeModule(PlayerCameraManger cameraManager, PlayerInputHandler inputHandler, PlayerAnimationController animationController, Weapon[] weapons)
+    {
+        m_cameraManager = cameraManager;
+        m_inputHandler = inputHandler;
+        m_animationController = animationController;
+        m_equipmentWeapons = weapons;
     }
+
+    public void InitializeEvents(IPlayerEvents events)
+    {
+        events.CheckInputAction += CheckInput;
+    }
+
+    public void SetSwapAction(Action<int> swapAction)
+    {
+        m_swapAction = swapAction;
+    }
+    /// <summary>
+    /// PlayerCore에서 옵저버패턴으로 받은 Swap관련된 Action을 Combat에서 관리
+    /// </summary>
+    /// <param name="swapAction"></param>
 
     private void Start()
     {
-        m_playerCore.CheckInputAction += CheckInput;
-        CurrentWeaponNum = 0;
+        m_currentWeaponNum = 0;
     }
+
+    // 파라미터 Trigger형태는 KeyDown방식으로 최대한 관리
     public void CheckInput()
     {
-        IsAttack = m_playerCore.InputHandler.IsAttack;
-        m_swapWeaponNum = m_playerCore.InputHandler.SwapWeaponNum;
+        IsAttack = m_inputHandler.IsAttack;
+        IsAim = m_inputHandler.IsAim;
+        m_swapWeaponNum = m_inputHandler.SwapWeaponNum;
+        IsReload = m_inputHandler.IsReload;
+        CheckCanSwapWeapon();
     }
 
-
-    // TODO : 전략패턴
-    public void Attack(bool isAttack)
+    public void EnterSwapWeapon()
     {
-        // 현재 무기에 따라 값 공격 방식 변경
-        // TODO : Melee일 때 앞으로 살짝 이동이 필요할듯?
-        m_playerCore.AniController.AttackAni(isAttack);
-        
+        // 옵저버 패턴 - 각 모듈의 액션들 처리
+        // 현재는 PlayerEquipmentController의 SwapAction함수만 저장
+        m_animationController.SetAnimatorWeight(4,1);
+        m_currentWeaponNum = m_swapWeaponNum;
+        m_swapAction?.Invoke(m_swapWeaponNum);
+        m_animationController.SwapWeaponAni(m_currentWeaponNum);
     }
-
-    public void Aiming()
+    public void ExitSwapWeapon()
     {
-
+        m_animationController.SetAnimatorWeight(4, 0);
     }
-
-    public void SwapWeapon(Weapon weapon)
+    /// <summary>
+    /// Player오브젝트 하위에 있는 각 Holder 오브젝트 On/Off 방식
+    /// TODO 스왑시 스왑상태에서 시간에 의해 애니메이션 Num값과 실제 Swap값이 다르게 가~끔나옴 해결필요
+    /// </summary>
+    public void CheckCanSwapWeapon()
     {
-        if (m_swapWeaponNum == CurrentWeaponNum) return;
-        CurrentWeaponNum = m_swapWeaponNum;
-
-        m_playerCore.EquipmentManager.SwapWeapon(weapon);
-        m_playerCore.AniController.SwapWeaponAni(CurrentWeaponNum);
-    }
-
-    public void OnAnimatorMove()
-    {
-        if (m_playerCore.AniController.IsRootMotion)
+        // 같은 번호 입력시 리턴
+        if (m_swapWeaponNum == 0 || m_swapWeaponNum == CurrentWeaponNum)
         {
-            m_playerCore.AniController.UpdateAnimatorTransformValue();
-            // Animator가 계산한 이동량을 가져와서 CharacterController에 적용
-            Vector3 _deltaPosition = m_playerCore.AniController.RootMotionPos;
-            //_deltaPosition.y = m_playerCore.Locomotion.BaseGravity * Time.deltaTime; // 중력 보정 (필요 시)
-
-            m_characterController.Move(_deltaPosition);
-            m_characterController.transform.rotation *= m_playerCore.AniController.RootMotionRot;
+            IsSwapWeapon = false;
+            return;
         }
+        // 무기가 없을경우 리턴
+        if (m_equipmentWeapons[m_swapWeaponNum] == null) return;
+        IsSwapWeapon = true;
+    }
+
+
+    public void AttackRootMotion(bool isApplyRoot)
+    {
+        m_animationController.SetApplyRootMotion(isApplyRoot);
+    }
+
+    // Melee Animation에서 불러오는중
+    public void OnWeaponCollider()
+    {
+        MeleeWeapon _meleeWeapon = currentWeapon as MeleeWeapon;
+        _meleeWeapon.SetActivateCollider(true);
+    }
+    public void OffWeaponCollider()
+    {
+        MeleeWeapon _meleeWeapon = currentWeapon as MeleeWeapon;
+        _meleeWeapon.SetActivateCollider(false);
+    }
+    // AttackUpdate
+    public void Attack()
+    {
+        if (m_currentWeaponNum == 0) return;
+        if(Time.time >= m_nextAttakTime)
+        {
+            m_nextAttakTime = Time.time + currentWeapon.WeaponData.AttackDelay;
+            // 무기 Swap시 마다 스나이퍼 같은 총의 경우 바로 발사를 하면 안되기에 계속 현재 무기값으로
+            currentWeapon.Attack(IsAttack, m_animationController);
+        }
+    }
+    public void ExitAttack()
+    {
+        if(m_currentWeaponNum == 1)
+        {
+            m_animationController.MeleeAttackAni(false);
+            m_animationController.SetAnimatorWeight(5, 0);
+        }
+    }
+
+    public void SetIsAction(bool isAction)
+    {
+        m_isAction = isAction;
+    }
+
+    public void SetAming(bool isAim)
+    {
+        m_cameraManager.AimFOV(isAim);
+        m_animationController.AimAni(isAim);
     }
 }

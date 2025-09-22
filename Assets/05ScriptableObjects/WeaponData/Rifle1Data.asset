@@ -13,15 +13,16 @@ MonoBehaviour:
   m_Name: Rifle1Data
   m_EditorClassIdentifier: 
   Description: "\uAC04\uB2E8 \uB77C\uC774\uD50C"
+  ItemType: 2
   ItemPrefab: {fileID: 4817347068994847213, guid: e99434ced7dceb744a32e6e3ce2fb845, type: 3}
   ID: 20
   Name: Rifle1
-  Icon: {fileID: 0}
-  Rating: Normal
-  Slot: 5
+  Grade: 0
+  Icon: {fileID: 21300000, guid: adbd94eceaed0d548b2ac44172096ef9, type: 3}
+  ApplicableSlot: 5
   UsageLevel: 0
   Weight: 0
-  Durability: 0
+  Durability: 100
   WeaponType: 2
   AttackDamage: 10
-  AttackDelay: 0.2
+  AttackDelay: 0.1
