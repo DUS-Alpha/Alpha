@@ -37,7 +37,7 @@ public class PlayerUIManager : MonoBehaviour
 
     }
 
-    public void EquipInventory(EquipmentData equipmentData)
+    public void EquipInventory(EquipmentDataSO equipmentData)
     {
         m_inventoryUI.Equip(equipmentData);
     }

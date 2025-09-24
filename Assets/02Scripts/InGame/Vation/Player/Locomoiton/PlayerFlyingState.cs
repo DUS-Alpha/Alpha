@@ -10,8 +10,6 @@ public class PlayerFlyingState : PlayerLocomotionState
     public override void Enter()
     {
         base.Enter();
-        m_PlayerCore.SetAnimatorLayer(2, 1);
-        m_PlayerCore.SetAnimatorLayer(3, 1);
     }
     public override void FixedUpdate()
     {
@@ -22,9 +20,7 @@ public class PlayerFlyingState : PlayerLocomotionState
     { 
         m_Locomotion.Movement();
 
-        if (m_Locomotion.IsFlyUp)
-            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.FlyUp);
-        else if (m_Locomotion.IsFlyOff)
+        if (m_Locomotion.IsFlyOff)
         {
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Fall);
             m_Locomotion.SetVelocityY(2.5f);
@@ -36,8 +32,7 @@ public class PlayerFlyingState : PlayerLocomotionState
     {
         base.Exit();
         m_Locomotion.FlyingExit();
-
-        
+       // m_PlayerCore.SetAnimatorLayer(1, 0);
     }
 
 

@@ -47,6 +47,6 @@ public class PlayerAmingState : PlayerCombatState
     public override void Exit()
     {
         base.Exit();
-        if(!m_Combat.IsAttack) m_Combat.SetAming(false);
+        if(!m_Combat.IsAttack) m_Combat.SetAming(false, m_Locomotion.IsFlying);
     }
 }

@@ -250,7 +250,7 @@ public class AkUnitySoundEngineInitialization
 		AkCallbackManager.Term();
 		ResetBanks();
 
-		UnityEngine.Debug.Log("WwiseUnity: Sound engine terminated successfully.");
+		//UnityEngine.Debug.Log("WwiseUnity: Sound engine terminated successfully.");
 	}
 }
 

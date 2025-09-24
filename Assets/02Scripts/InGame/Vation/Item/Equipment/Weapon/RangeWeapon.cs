@@ -12,16 +12,21 @@ public enum RangeTypes
 public class RangeWeapon : Weapon
 {
     public RangeTypes RangeType;
-    
-    public float maxDistance = 100f;
-    public float tracerSpeed = 50f;
-    public float BuletSpeed;
+
+    [SerializeField]
+    private float m_maxDistance = 20f;
+    [SerializeField]
+    private int m_maxAmmo;
+    [SerializeField]
+    private int m_ammo;
 
     public AudioSource m_audioSource;
     [SerializeField]
     private Transform m_bulletFirePos; //이펙트 효과만
     [SerializeField]
     private ParticleSystem m_muzzleFlashEffect;
+    
+
 
     private bool m_isFire;
     
@@ -50,7 +55,7 @@ public class RangeWeapon : Weapon
         Vector3 _rayDirection = Camera.main.transform.forward; // 화면 중앙 기준
         RaycastHit _hit;
 
-        if (Physics.Raycast(_rayOrigin, _rayDirection, out _hit, maxDistance))
+        if (Physics.Raycast(_rayOrigin, _rayDirection, out _hit, m_maxDistance))
         {
             // 데미지 받을 타겟
             IDamageable _damageableTarget;

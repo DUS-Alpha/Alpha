@@ -20,12 +20,9 @@ public class PlayerAnimationController : MonoBehaviour
     }
     private void Start()
     {
-        SetAnimatorWeight(1,0);
         SetAnimatorWeight(2, 0);
         SetAnimatorWeight(3, 0);
         SetAnimatorWeight(4, 0);
-        SetAnimatorWeight(5, 0);
-        SetAnimatorWeight(6, 0);
     }
 
     public void InitializeModule(PlayerCombat combat)
@@ -67,12 +64,8 @@ public class PlayerAnimationController : MonoBehaviour
     /// <param name="inputY"></param>
     public void DirMoveAni(float inputX, float inputY)
     {
-        /*if (m_combat.IsAim)
-        {
-            inputY = 0;
-        }*/
-            // 값이 바로 전환되는 것을 부드럽게 변환
-            float dampTime = 0.1f;
+        // 값이 바로 전환되는 것을 부드럽게 변환
+        float dampTime = 0.1f;
 
         m_animator.SetFloat("InputX", inputX, dampTime, Time.deltaTime);
         m_animator.SetFloat("InputY", inputY, dampTime, Time.deltaTime);

@@ -7,8 +7,8 @@ public enum WeaponTypes
     Melee,
     Range,
 }
-[CreateAssetMenu(fileName = "WeaponData", menuName = "Scriptable Objects/WeaponData")]
-public class WeaponData : EquipmentData
+[CreateAssetMenu(fileName = "WeaponDataSO", menuName = "Scriptable Objects/WeaponDataSO")]
+public class WeaponDataSO : EquipmentDataSO
 {
     [Header("[ Weapon Info ]"),Space(10)]
     public WeaponTypes WeaponType;

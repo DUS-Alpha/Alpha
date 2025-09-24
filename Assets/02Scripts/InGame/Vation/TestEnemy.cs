@@ -14,6 +14,7 @@ public class TestEnemy : MonoBehaviour, IDamageable
         if(m_hp <= 0)
         {
             Debug.Log("Die");
+            Destroy(this.gameObject);
         }
     }
 

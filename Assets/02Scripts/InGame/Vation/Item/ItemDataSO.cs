@@ -12,8 +12,8 @@ public enum ItemGrade
     Unique,
     Legend
 }
-[CreateAssetMenu(fileName = "ItemData", menuName = "Scriptable Objects/ItemData")]
-public abstract class ItemData : ScriptableObject
+[CreateAssetMenu(fileName = "ItemDataSO", menuName = "Scriptable Objects/ItemDataSO")]
+public abstract class ItemDataSO : ScriptableObject
 {
     [Header("[ Item Info ]"), Space(10)]
     public string Description;

@@ -2,7 +2,11 @@ using UnityEngine;
 
 public class Weapon : Equipment, IAttack
 {
-    public WeaponData WeaponData => (Data as WeaponData);
+    public WeaponDataSO WeaponData => (Data as WeaponDataSO);
+    public Transform LeftHandIK;
+    public Transform RightHandIK;
+    public Transform LeftHintIK;
+    public Transform RightHintIK;
     public virtual void Attack(bool isAttackInput, PlayerAnimationController anim)
     {
         

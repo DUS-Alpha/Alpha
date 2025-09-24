@@ -26,6 +26,9 @@ public class PlayerSwapWeaponState : PlayerCombatState
     {
         if(!m_Combat.IsAction)
         {
+            m_delayT += Time.deltaTime;
+
+            if(m_delayT > 0.2f)
             m_PlayerCore.SwitchCombatState(CombatStateType.Idle);
         }
     }

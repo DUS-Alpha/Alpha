@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 public class PlayerCombat : MonoBehaviour
 {
@@ -7,7 +9,7 @@ public class PlayerCombat : MonoBehaviour
     private PlayerCameraManger m_cameraManager;
     private PlayerInputHandler m_inputHandler;
     private PlayerAnimationController m_animationController;
-
+    private PlayerIKController m_ikController;
     private Action<int> m_swapAction;
 
     public bool IsAttack { get; private set; }
@@ -30,12 +32,13 @@ public class PlayerCombat : MonoBehaviour
     // TODO : 각 무기별 쿨타임관리
     // private WeaponAttackCoolTime[] m_weaponAttack; 
 
-    public void InitializeModule(PlayerCameraManger cameraManager, PlayerInputHandler inputHandler, PlayerAnimationController animationController, Weapon[] weapons)
+    public void InitializeModule(PlayerCameraManger cameraManager, PlayerInputHandler inputHandler, PlayerAnimationController animationController, Weapon[] weapons, PlayerIKController IKController)
     {
         m_cameraManager = cameraManager;
         m_inputHandler = inputHandler;
         m_animationController = animationController;
         m_equipmentWeapons = weapons;
+        m_ikController = IKController;
     }
 
     public void InitializeEvents(IPlayerEvents events)
@@ -71,14 +74,17 @@ public class PlayerCombat : MonoBehaviour
     {
         // 옵저버 패턴 - 각 모듈의 액션들 처리
         // 현재는 PlayerEquipmentController의 SwapAction함수만 저장
-        m_animationController.SetAnimatorWeight(4,1);
+        m_animationController.SetAnimatorWeight(2,1);
         m_currentWeaponNum = m_swapWeaponNum;
         m_swapAction?.Invoke(m_swapWeaponNum);
         m_animationController.SwapWeaponAni(m_currentWeaponNum);
     }
+
     public void ExitSwapWeapon()
     {
-        m_animationController.SetAnimatorWeight(4, 0);
+        m_ikController.SetRigTarget(currentWeapon.LeftHandIK, currentWeapon.RightHandIK, currentWeapon.LeftHintIK, currentWeapon.RightHintIK);
+        //m_ikController.SetWeight(RigType.Hand, 1);
+        m_animationController.SetAnimatorWeight(2, 0);
     }
     /// <summary>
     /// Player오브젝트 하위에 있는 각 Holder 오브젝트 On/Off 방식
@@ -123,6 +129,11 @@ public class PlayerCombat : MonoBehaviour
             m_nextAttakTime = Time.time + currentWeapon.WeaponData.AttackDelay;
             // 무기 Swap시 마다 스나이퍼 같은 총의 경우 바로 발사를 하면 안되기에 계속 현재 무기값으로
             currentWeapon.Attack(IsAttack, m_animationController);
+            m_animationController.SetAnimatorWeight(2,0.4f);
+        }
+        else
+        {
+            
         }
     }
     public void ExitAttack()
@@ -130,7 +141,7 @@ public class PlayerCombat : MonoBehaviour
         if(m_currentWeaponNum == 1)
         {
             m_animationController.MeleeAttackAni(false);
-            m_animationController.SetAnimatorWeight(5, 0);
+            m_animationController.SetAnimatorWeight(2, 0);
         }
     }
 
@@ -139,8 +150,13 @@ public class PlayerCombat : MonoBehaviour
         m_isAction = isAction;
     }
 
-    public void SetAming(bool isAim)
+    public void SetAming(bool isAim, bool isFlying = false)
     {
+        int _isAimWeight = isAim ? 1 : 0;
+        m_ikController.SetWeight(RigType.Aim, _isAimWeight);
+        
+        // TODO : UpperBody라서 Fly일때도 같이 쓰기에 다시 조율 필요
+        
         m_cameraManager.AimFOV(isAim);
         m_animationController.AimAni(isAim);
     }

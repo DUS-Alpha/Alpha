@@ -29,7 +29,7 @@ public class PlayerAttackState : PlayerCombatState
         if (m_Combat.CurrentWeaponNum == 1) m_isMelee = true;
         m_Combat.AttackRootMotion(m_isMelee);
 
-        if (m_isMelee) m_PlayerCore.AniController.SetAnimatorWeight(5,1);
+        if (m_isMelee) m_PlayerCore.AniController.SetAnimatorWeight(3,1);
     }
     public override void FixedUpdate()
     {
@@ -46,12 +46,6 @@ public class PlayerAttackState : PlayerCombatState
             m_PlayerCore.SwitchCombatState(CombatStateType.Idle);
             return;
         }
-
-        /*if(!m_Locomotion.IsGrounded && !m_Locomotion.IsFlying)
-        {
-            m_PlayerCore.SwitchCombatState(CombatStateType.Idle);
-            return;
-        }*/
 
         if (m_Locomotion.IsFlying && m_isMelee)
         {
@@ -76,11 +70,6 @@ public class PlayerAttackState : PlayerCombatState
         {
             m_Combat.Attack();
         }
-
-        /*if (!m_Combat.CurrentWeapon.IsInAction(m_PlayerCore.AniController))
-        {
-            m_PlayerCore.SwitchCombatState(CombatStateType.Idle);
-        }*/
     }
     
 
@@ -88,7 +77,8 @@ public class PlayerAttackState : PlayerCombatState
     {
         base.Exit();
         m_Combat.AttackRootMotion(false);
-        m_Combat.SetAming(false);
+        m_Combat.SetAming(false, m_Locomotion.IsFlying);
+        if (m_isMelee) m_PlayerCore.AniController.SetAnimatorWeight(3, 0);
         m_Combat.ExitAttack();
     }
 }

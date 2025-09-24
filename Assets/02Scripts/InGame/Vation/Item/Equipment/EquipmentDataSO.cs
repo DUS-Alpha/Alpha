@@ -11,8 +11,8 @@ public enum ApplicableSlots
     SniperWeapon
 }
 
-[CreateAssetMenu(fileName = "EquipmentData", menuName = "Scriptable Objects/EquipmentData")]
-public abstract  class EquipmentData : ItemData
+[CreateAssetMenu(fileName = "EquipmentDataSO", menuName = "Scriptable Objects/EquipmentDataSO")]
+public abstract  class EquipmentDataSO : ItemDataSO
 {
     [Header("[ Equipment Info ]"), Space(10)]
     public ApplicableSlots ApplicableSlot; // 적용 슬롯

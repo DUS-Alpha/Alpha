@@ -1,6 +1,7 @@
 using System.Collections;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerCameraManger : MonoBehaviour
 {
@@ -12,17 +13,27 @@ public class PlayerCameraManger : MonoBehaviour
     [SerializeField]
     private float m_aimFOV = 40;
 
+    [SerializeField]
+    private float shakeDuration;
+    [SerializeField]
+    private float shakeAmount;
+    
+    [SerializeField]
+    private bool m_isCursorLock;
+
+
     // 허용 오차
-    const float EPSILON = 0.01f;
     private float m_currentFOV;
     private float m_targetFOV;
-    private float m_velocity = 0f; // 반드시 ref로 관리해야 함
+    private float m_velocity = 0f;
     private float m_smoothTime = 0.1f; // 작을수록 빠르게, 클수록 느리게
     private void Start()
     {
         m_currentFOV = m_originFOV;
         m_targetFOV = m_originFOV;
         m_freeLook.Lens.FieldOfView = m_currentFOV;
+
+        m_isCursorLock = true;
     }
     public void AimFOV(bool isAim)
     {
@@ -34,5 +45,27 @@ public class PlayerCameraManger : MonoBehaviour
         m_currentFOV = Mathf.SmoothDamp(m_currentFOV, m_targetFOV, ref m_velocity, m_smoothTime);
 
         m_freeLook.Lens.FieldOfView = m_currentFOV;
+
+        SetCursorLock(m_isCursorLock);
+    }
+
+    private void SetCursorLock(bool isCursorLock)
+    {
+        if (!m_isCursorLock)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+
+            Cursor.visible = false;
+        }
+    }
+    
+    public void CameraShake()
+    {
+
     }
 }

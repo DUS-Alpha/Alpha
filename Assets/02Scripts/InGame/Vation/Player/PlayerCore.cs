@@ -21,8 +21,11 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
     public PlayerCombat Combat { get; private set; }
     public PlayerInventoryManager InventoryManager { get; private set; }
     public PlayerEquipmentController EquipmentController { get; private set; }
+    public PlayerIKController IKController { get; private set; }
+   
     public InputLockedFlagsController<InputLocoLockType> LocomotionFlagsController { get; private set; } = new InputLockedFlagsController<InputLocoLockType>();
     public InputLockedFlagsController<InputCombatLockType> CombatFlagsController { get; private set; } = new InputLockedFlagsController<InputCombatLockType>();
+    
     // IPlayerEvents에서 옵저버 패턴을 통해서 다른 클래스에서 받아옴
     public event Action CheckInputAction;
     public event Action<int> SwapWeaponAction;
@@ -35,6 +38,7 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
         Combat = GetComponent<PlayerCombat>();
         InventoryManager = GetComponent<PlayerInventoryManager>();
         EquipmentController = GetComponent<PlayerEquipmentController>();
+        IKController = GetComponentInChildren<PlayerIKController>();
 
         StateMachine = new PlayerStateMachine();
         InitializeModule();
@@ -51,7 +55,7 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
         EquipmentController.InitializeModule();
         InputHandler.InitializeModule(Combat, LocomotionFlagsController, CombatFlagsController);
         Locomotion.InitializeModule(InputHandler, AniController);
-        Combat.InitializeModule(CameraManger, InputHandler, AniController, EquipmentController.Weapons);
+        Combat.InitializeModule(CameraManger, InputHandler, AniController, EquipmentController.Weapons, IKController);
     }
 
     /// <summary>
@@ -81,10 +85,7 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
     {
         StateMachine.SwitchCombatState(newState);
     }
-    public void SetAnimatorLayer(int index, int weight)
-    {
-        AniController.SetAnimatorWeight(index, weight);
-    }
+
     private void Update()
     {
         StateMachine.Update();

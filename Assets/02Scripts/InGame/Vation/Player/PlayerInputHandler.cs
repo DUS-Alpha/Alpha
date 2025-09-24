@@ -70,7 +70,7 @@ public class PlayerInputHandler : MonoBehaviour
         IsJump = !m_inputLockedFlags.HasFlag(InputLocoLockType.Jump)
             && Input.GetKeyDown(KeyCode.Space);
         IsFlyUp = !m_inputLockedFlags.HasFlag(InputLocoLockType.FlyUp)
-            && Input.GetKey(KeyCode.Q);
+            && Input.GetKeyDown(KeyCode.Q);
         IsFlyOff = !m_inputLockedFlags.HasFlag(InputLocoLockType.FlyOff) && Input.GetKeyDown(KeyCode.E);
         IsDodge = !m_inputLockedFlags.HasFlag(InputLocoLockType.Dodge) 
             && (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift));
