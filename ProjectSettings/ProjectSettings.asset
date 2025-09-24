@@ -82,7 +82,7 @@ PlayerSettings:
   androidApplicationEntry: 2
   defaultIsNativeResolution: 1
   macRetinaSupport: 1
-  runInBackground: 0
+  runInBackground: 1
   muteOtherAudioSources: 0
   Prepare IOS For Recording: 0
   Force IOS Speakers When Recording: 0
@@ -817,7 +817,9 @@ PlayerSettings:
   webGLWebAssemblyBigInt: 0
   webGLCloseOnQuit: 0
   webWasm2023: 0
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    Android: WWISE_ADDRESSABLES_23_1_OR_LATER;WWISE_ADDRESSABLES_24_1_OR_LATER;WWISE_2024_OR_LATER
+    Standalone: WWISE_ADDRESSABLES_23_1_OR_LATER;WWISE_ADDRESSABLES_24_1_OR_LATER;WWISE_2024_OR_LATER
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:
@@ -916,11 +918,11 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: 
+  cloudProjectId: 51e5df8a-9715-405f-ac83-d20d4e96805c
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: 
-  organizationId: 
+  projectName: Alpha
+  organizationId: wsinp431
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
