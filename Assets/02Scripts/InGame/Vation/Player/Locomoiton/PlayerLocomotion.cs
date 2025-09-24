@@ -1,10 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Android.Gradle.Manifest;
-using Unity.Hierarchy;
+using TMPro;
 using UnityEngine;
-using static UnityEditor.Rendering.ShadowCascadeGUI;
+
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerLocomotion : MonoBehaviour
@@ -47,24 +43,28 @@ public class PlayerLocomotion : MonoBehaviour
     [SerializeField]
     private float m_antiGravity = 5f;
 
-    [Header("[ FlyUp ]")]
+    [Header("[ Fly ]")]
     [Tooltip("목표 높이"),SerializeField]
     private float m_targetFlyHeight = 10f;
     [Tooltip("초기 상승 속도"), SerializeField]
     private float m_initialFlySpeed = 15f;
     [Tooltip("감속 계수"), SerializeField]
     private float m_flyDecel = 6f;
+    [SerializeField]
+    private float m_maxFlyingGauge;
+    public float MaxFlyingGauge => m_maxFlyingGauge;
+    private float m_flyingGauge;
+    public float FlyingGauge=> m_flyingGauge;
+    [SerializeField]
+    private TextMeshProUGUI m_gaugeTMP;
     private float m_currentFlyHeight = 0f;      // 현재 FlyUp 높이
 
-    // Combat 상태 제어를 위해
 
+    // Combat 상태 제어를 위해
     public Vector3 Velocity => m_velocity;  //.y값 변경이 public으로는 이상하게 안됨 그래서 연결
     private Vector3 m_velocity;
-
     private Vector3 m_moveDirByCamera;
-    
     private float m_lastGroundTime;
-
     private Vector3 m_airMove;   // Jump/Fall 시 XZ 이동 전용
 
     // ========================== Input
@@ -80,6 +80,7 @@ public class PlayerLocomotion : MonoBehaviour
     {
         m_locoUtility = new LocomotionUtility();
         m_characterController = GetComponent<CharacterController>();
+        m_flyingGauge = m_maxFlyingGauge;
     }
 
     public void InitializeModule(PlayerInputHandler inputHandler,PlayerAnimationController animationController)
@@ -181,10 +182,12 @@ public class PlayerLocomotion : MonoBehaviour
         if (IsGrounded && !IsJump && !IsFlying)
         {
             SetVelocityY(- 2f);
+            ChargingFlyingGauge();
         }
             // Ground Anim Parameter
             m_animationController.SetIsGroundAni(IsGrounded);
-
+        if(m_flyingGauge >= m_maxFlyingGauge) m_flyingGauge = m_maxFlyingGauge;
+        m_gaugeTMP.text = m_flyingGauge.ToString();
         Debug.DrawLine(_colliderButtomtr, _colliderButtomtr + (Vector3.down * m_groundDistance), Color.red);
     }
     #endregion ================================================================================ /Ground
@@ -204,8 +207,6 @@ public class PlayerLocomotion : MonoBehaviour
 
         if (m_airMove != Vector3.zero)
             gameObject.transform.rotation = Quaternion.LookRotation(m_airMove);
-
-        
     }
     public void JumpExit()
     {
@@ -276,9 +277,24 @@ public class PlayerLocomotion : MonoBehaviour
         // 수직 이동만 적용
         m_characterController.Move(Vector3.up * deltaY);
     }
+    
+
     public void FlyUpExit()
     {
         m_animationController.FlyAni(IsFlying, false);
+    }
+
+    // Flying
+    public void UpdateFlyingGauge()
+    {
+        if (m_flyingGauge <= 0) m_flyingGauge = 0;
+        else m_flyingGauge = m_flyingGauge - Time.deltaTime;
+    }
+    public void ChargingFlyingGauge()
+    {
+        if (m_flyingGauge <= m_maxFlyingGauge)
+            m_flyingGauge += Time.deltaTime;
+        else m_flyingGauge = m_maxFlyingGauge;
     }
     public void FlyingExit()
     {

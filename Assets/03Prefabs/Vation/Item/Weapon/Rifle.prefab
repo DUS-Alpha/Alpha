@@ -242,14 +242,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Data: {fileID: 11400000, guid: 75b56d680a506434eadf4ccfcd280e0c, type: 2}
-  LeftHandIK: {fileID: 3118961144101862151}
-  RightHandIK: {fileID: 7264287757125650279}
-  LeftHintIK: {fileID: 0}
-  RightHintIK: {fileID: 0}
   RangeType: 1
-  maxDistance: 100
-  tracerSpeed: 50
-  BuletSpeed: 0
+  m_maxDistance: 45
+  m_maxAmmo: 0
+  m_ammo: 0
   m_audioSource: {fileID: 7320850594030909362}
   m_bulletFirePos: {fileID: 8068424206098908719}
   m_muzzleFlashEffect: {fileID: 2668514958684811738}

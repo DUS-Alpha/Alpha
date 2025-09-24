@@ -19,8 +19,9 @@ public class PlayerFlyingState : PlayerLocomotionState
     public override void Update()
     { 
         m_Locomotion.Movement();
+        //m_Locomotion.UpdateFlyingGauge();
 
-        if (m_Locomotion.IsFlyOff)
+        if (m_Locomotion.IsFlyOff || m_Locomotion.FlyingGauge <= 0)
         {
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Fall);
             m_Locomotion.SetVelocityY(2.5f);

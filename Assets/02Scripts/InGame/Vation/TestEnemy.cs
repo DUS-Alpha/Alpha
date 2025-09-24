@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class TestEnemy : MonoBehaviour, IDamageable
 {
+    [SerializeField]
     private float m_hp;
     public void ApplyDamage(DamageMassage damageMassage)
     {
@@ -21,7 +22,7 @@ public class TestEnemy : MonoBehaviour, IDamageable
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        m_hp = 100;
+
     }
 
     // Update is called once per frame

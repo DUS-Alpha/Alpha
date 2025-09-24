@@ -31,15 +31,12 @@ public class PlayerMoveState : PlayerLocomotionState
         {
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Dodge);
         }
-        else if (m_Locomotion.IsFlyUp)
+        else if (m_Locomotion.IsFlyUp && m_Locomotion.FlyingGauge == m_Locomotion.MaxFlyingGauge)
         {
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.FlyUp);
         }
         else if (m_Locomotion.MoveDir == Vector3.zero)
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Idle);
-        /*else if(!m_Locomotion.IsGrounded)
-            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Fall);*/
-        // else if(IsDie)
     }
     public override void Exit()
     {

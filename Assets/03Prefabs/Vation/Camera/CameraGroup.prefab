@@ -130,8 +130,7 @@ GameObject:
   - component: {fileID: 528603597378025412}
   - component: {fileID: 5027782826858283388}
   - component: {fileID: 3513979365931602960}
-  - component: {fileID: 8528143197483543829}
-  - component: {fileID: 5500904649118952494}
+  - component: {fileID: 1851475947686109956}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -147,7 +146,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4666208024982372927}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.120915644, y: 0.06955093, z: -0.008493139, w: 0.9901868}
+  m_LocalRotation: {x: 0.120916724, y: 0.06942368, z: -0.008477601, w: 0.99019575}
   m_LocalPosition: {x: 0.5199473, y: 1.6674418, z: -3.2667952}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -282,46 +281,14 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   CustomBlends: {fileID: 0}
---- !u!114 &8528143197483543829
-MonoBehaviour:
+--- !u!81 &1851475947686109956
+AudioListener:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4666208024982372927}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6bb3f1c8c6ff98a418a60e22b730295d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_listeners:
-    initialListenerList: []
-    useDefaultListeners: 1
-  isEnvironmentAware: 0
-  isStaticObject: 0
-  usePositionOffsetData: 0
-  m_positionOffsetData:
-    KeepMe: 0
-    positionOffset: {x: 0, y: 0, z: 0}
-  scalingFactor: 1
-  m_posOffsetData: {fileID: 0}
-  listenerMask: 1
---- !u!114 &5500904649118952494
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4666208024982372927}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0214a1b33e5de45498825b9031dba4e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isDefaultListener: 1
-  bOverrideScalingFactor: 0
-  scalingFactor: -1
-  listenerId: 0
 --- !u!1 &5313035160973555553
 GameObject:
   m_ObjectHideFlags: 0
@@ -372,6 +339,8 @@ MonoBehaviour:
   m_freeLook: {fileID: 5314633187798790498}
   m_originFOV: 60
   m_aimFOV: 40
+  shakeDuration: 0
+  shakeAmount: 0
   m_isCursorLock: 0
 --- !u!1 &8752975632250374084
 GameObject:
@@ -402,7 +371,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8752975632250374084}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.12091564, y: 0.06955092, z: -0.008493139, w: 0.99018687}
+  m_LocalRotation: {x: 0.12091673, y: 0.06942368, z: -0.008477601, w: 0.99019575}
   m_LocalPosition: {x: 0.5199473, y: 1.6674418, z: -3.2667952}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

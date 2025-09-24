@@ -275,11 +275,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Data: {fileID: 11400000, guid: 668efbbda99a44d4f90cf8a7a3277e3a, type: 2}
   RangeType: 2
-  maxDistance: 100
-  tracerSpeed: 50
-  BuletSpeed: 0
-  LeftHandIK: {fileID: 7176176024855289726}
-  RightHandIK: {fileID: 8512405234411541920}
+  m_maxDistance: 70
+  m_maxAmmo: 0
+  m_ammo: 0
   m_audioSource: {fileID: 436999622030129817}
   m_bulletFirePos: {fileID: 5073973432345917144}
   m_muzzleFlashEffect: {fileID: 4749878520598146844}

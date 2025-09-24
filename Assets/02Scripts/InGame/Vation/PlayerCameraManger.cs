@@ -9,24 +9,29 @@ public class PlayerCameraManger : MonoBehaviour
     [SerializeField]
     private CinemachineCamera m_freeLook;
     [SerializeField]
+    private CinemachineImpulseSource m_impulseSource; //Freelook카메라에 AddExtension의 CinemachineImpulseListener
+    
+    [Space(10)]
+
+    [Header("[ FOV ]")]
+    [SerializeField]
     private float m_originFOV = 60;
     [SerializeField]
     private float m_aimFOV = 40;
 
-    [SerializeField]
-    private float shakeDuration;
-    [SerializeField]
-    private float shakeAmount;
     
     [SerializeField]
     private bool m_isCursorLock;
 
-
+    
     // 허용 오차
     private float m_currentFOV;
     private float m_targetFOV;
     private float m_velocity = 0f;
     private float m_smoothTime = 0.1f; // 작을수록 빠르게, 클수록 느리게
+
+    // Shak
+    private Vector3 m_shakeVector;
     private void Start()
     {
         m_currentFOV = m_originFOV;
@@ -64,8 +69,12 @@ public class PlayerCameraManger : MonoBehaviour
         }
     }
     
-    public void CameraShake()
+    public void CameraShake(float intensity = 1f)
     {
-
+        if (m_impulseSource != null)
+        {
+            m_impulseSource.DefaultVelocity = new Vector3(Random.Range(-0.03f, 0.03f), Random.Range(-0.05f, 0.05f), 0);
+            m_impulseSource.GenerateImpulse(intensity);
+        }
     }
 }

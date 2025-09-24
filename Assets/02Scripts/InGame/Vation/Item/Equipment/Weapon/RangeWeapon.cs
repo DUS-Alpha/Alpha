@@ -11,10 +11,12 @@ public enum RangeTypes
 // 현재는 히트스캔방식으로 공격 처리하기(현실감x, 빠른템포의 게임은 이방식으로)
 public class RangeWeapon : Weapon
 {
-    public RangeTypes RangeType;
+    [Space(10)]
 
+    [Header("[ Range ]")]
+    public RangeTypes RangeType;
     [SerializeField]
-    private float m_maxDistance = 20f;
+    private float m_maxDistance = 40f;
     [SerializeField]
     private int m_maxAmmo;
     [SerializeField]
@@ -26,10 +28,9 @@ public class RangeWeapon : Weapon
     [SerializeField]
     private ParticleSystem m_muzzleFlashEffect;
     
-
-
     private bool m_isFire;
-    
+    public bool IsDistance => m_isDistance;
+    private bool m_isDistance;
     public override void Attack(bool isAttackInput, PlayerAnimationController anim)
     {
         m_isFire = isAttackInput;
@@ -57,10 +58,12 @@ public class RangeWeapon : Weapon
 
         if (Physics.Raycast(_rayOrigin, _rayDirection, out _hit, m_maxDistance))
         {
+            Debug.DrawLine(_rayOrigin, _hit.point, Color.red);
             // 데미지 받을 타겟
             IDamageable _damageableTarget;
             if (_hit.collider.TryGetComponent<IDamageable>(out _damageableTarget))
             {
+                m_isDistance = true;
                 // 데미지 정보
                 DamageMassage _damageMassage = new DamageMassage();
                 //_damageMassage.Damager = damager;
@@ -74,5 +77,6 @@ public class RangeWeapon : Weapon
                 // 맞은 곳에 BloodEffect 재생(몬스터쪽에서해도 괜찮음)
             }
         }
+        else m_isDistance = false;
     }
 }

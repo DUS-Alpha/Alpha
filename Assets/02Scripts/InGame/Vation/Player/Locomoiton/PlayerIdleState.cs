@@ -37,7 +37,7 @@ public class PlayerIdleState : PlayerLocomotionState
         {
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Dodge);
         }
-        else if (m_Locomotion.IsFlyUp)
+        else if (m_Locomotion.IsFlyUp && m_Locomotion.FlyingGauge == m_Locomotion.MaxFlyingGauge)
         {
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.FlyUp);
         }

@@ -29,8 +29,6 @@ public class PlayerCombat : MonoBehaviour
 
     public bool IsAction => m_isAction;
     private bool m_isAction;
-    // TODO : 각 무기별 쿨타임관리
-    // private WeaponAttackCoolTime[] m_weaponAttack; 
 
     public void InitializeModule(PlayerCameraManger cameraManager, PlayerInputHandler inputHandler, PlayerAnimationController animationController, Weapon[] weapons, PlayerIKController IKController)
     {
@@ -82,8 +80,6 @@ public class PlayerCombat : MonoBehaviour
 
     public void ExitSwapWeapon()
     {
-        m_ikController.SetRigTarget(currentWeapon.LeftHandIK, currentWeapon.RightHandIK, currentWeapon.LeftHintIK, currentWeapon.RightHintIK);
-        //m_ikController.SetWeight(RigType.Hand, 1);
         m_animationController.SetAnimatorWeight(2, 0);
     }
     /// <summary>
@@ -128,12 +124,9 @@ public class PlayerCombat : MonoBehaviour
         {
             m_nextAttakTime = Time.time + currentWeapon.WeaponData.AttackDelay;
             // 무기 Swap시 마다 스나이퍼 같은 총의 경우 바로 발사를 하면 안되기에 계속 현재 무기값으로
+            if(currentWeapon.WeaponData.AttackDelay != 0) m_cameraManager.CameraShake();
             currentWeapon.Attack(IsAttack, m_animationController);
             m_animationController.SetAnimatorWeight(2,0.4f);
-        }
-        else
-        {
-            
         }
     }
     public void ExitAttack()
