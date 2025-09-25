@@ -17,8 +17,9 @@ public class PlayerFlyingState : PlayerLocomotionState
     }
 
     public override void Update()
-    { 
-        m_Locomotion.Movement();
+    {
+        bool _isAming = m_Combat.IsAttack ? (m_Combat.CurrentWeaponNum > 1 ? true : false) : false || m_Combat.IsAiming;
+        m_Locomotion.Movement(_isAming);
         //m_Locomotion.UpdateFlyingGauge();
 
         if (m_Locomotion.IsFlyOff || m_Locomotion.FlyingGauge <= 0)

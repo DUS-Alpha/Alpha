@@ -12,6 +12,7 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
 {
     [Header(" [ Ref Component ] ")]
     public PlayerCameraManger CameraManger;
+    public PlayerUIManager UIManager;
 
     public GameObject PlayerObj { get; private set; }
     public PlayerInputHandler InputHandler { get; private set; }
@@ -19,6 +20,7 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
     public PlayerStateMachine StateMachine { get; private set; }
     public PlayerLocomotion Locomotion { get; private set; }
     public PlayerCombat Combat { get; private set; }
+    
     public PlayerInventoryManager InventoryManager { get; private set; }
     public PlayerEquipmentController EquipmentController { get; private set; }
     public PlayerIKController IKController { get; private set; }
@@ -55,7 +57,7 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
         EquipmentController.InitializeModule();
         InputHandler.InitializeModule(Combat, LocomotionFlagsController, CombatFlagsController);
         Locomotion.InitializeModule(InputHandler, AniController);
-        Combat.InitializeModule(CameraManger, InputHandler, AniController, EquipmentController.Weapons, IKController);
+        Combat.InitializeModule(CameraManger, InputHandler, AniController, EquipmentController.Weapons, IKController, UIManager);
     }
 
     /// <summary>

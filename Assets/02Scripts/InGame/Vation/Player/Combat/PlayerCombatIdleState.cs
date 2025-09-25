@@ -41,9 +41,13 @@ public class PlayerCombatIdleState : PlayerCombatState
                 m_PlayerCore.SwitchCombatState(CombatStateType.Aim);
             }
         }
-        else if(m_Combat.IsAim)
+        else if(m_Combat.IsAiming)
         {
             m_PlayerCore.SwitchCombatState(CombatStateType.Aim);
+        }
+        else if(m_Combat.IsReload)
+        {
+            m_PlayerCore.SwitchCombatState(CombatStateType.Reload);
         }
     }
 

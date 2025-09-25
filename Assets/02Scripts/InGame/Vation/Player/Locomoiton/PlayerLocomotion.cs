@@ -69,13 +69,12 @@ public class PlayerLocomotion : MonoBehaviour
 
     // ========================== Input
     public Vector3 MoveDir { get; private set; }
-    private bool m_isAim;
+
     public bool IsJump { get; private set; }
     public bool IsDodge { get; private set; }
     public bool IsFlying { get; private set; }
     public bool IsFlyUp { get; private set; }
     public bool IsFlyOff { get; private set; }
-    public bool IsImmediatelyRot { get; private set; } // 캐릭터 회전 유무
     private void Awake()
     {
         m_locoUtility = new LocomotionUtility();
@@ -99,7 +98,6 @@ public class PlayerLocomotion : MonoBehaviour
         IsFlyUp = m_InputHandler.IsFlyUp;
         IsFlyOff = m_InputHandler.IsFlyOff;
         IsDodge = m_InputHandler.IsDodge;
-        m_isAim = m_InputHandler.IsAim;
 
         bool _isJump = m_InputHandler.IsJump;
 
@@ -117,7 +115,6 @@ public class PlayerLocomotion : MonoBehaviour
             IsFlying = false;
         }
 
-        IsImmediatelyRot = m_isAim;
 
     }
     #region ================================================================================ Movement
@@ -127,11 +124,11 @@ public class PlayerLocomotion : MonoBehaviour
     /// </summary>
     /// <param name="payerCore"></param>
     /// <returns></returns>
-    public void Movement()
+    public void Movement(bool isAiming)
     {
-        float _targetSpeed = IsFlying? (m_isAim ? m_flyAimSpeed : m_flySpeed) : m_baseSpeed;
+        float _targetSpeed = IsFlying? (isAiming ? m_flyAimSpeed : m_flySpeed) : m_baseSpeed;
 
-        if (m_isAim)
+        if (isAiming)
         {
             m_animationController.DirMoveAni(MoveDir.x, MoveDir.z);
         }
@@ -140,7 +137,7 @@ public class PlayerLocomotion : MonoBehaviour
             m_animationController.MoveAni(m_currentSpeed);
         }
 
-        HandleRotate(MoveDir, m_isAim, IsFlying);
+        HandleRotate(MoveDir, isAiming, IsFlying);
         HandleMove(MoveDir, _targetSpeed, IsFlying);
     }
 

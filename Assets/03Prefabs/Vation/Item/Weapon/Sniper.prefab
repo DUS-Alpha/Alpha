@@ -276,8 +276,9 @@ MonoBehaviour:
   Data: {fileID: 11400000, guid: 668efbbda99a44d4f90cf8a7a3277e3a, type: 2}
   RangeType: 2
   m_maxDistance: 70
-  m_maxAmmo: 0
-  m_ammo: 0
+  m_maxAmmo: 5
+  m_currentAmmo: 0
+  m_saveAmmo: 40
   m_audioSource: {fileID: 436999622030129817}
   m_bulletFirePos: {fileID: 5073973432345917144}
   m_muzzleFlashEffect: {fileID: 4749878520598146844}

@@ -42,7 +42,7 @@ public class PlayerAttackState : PlayerCombatState
 
         if (_weapon == null)
         {
-            m_Combat.SetAming(true);
+            
             m_PlayerCore.SwitchCombatState(CombatStateType.Idle);
             return;
         }
@@ -61,13 +61,17 @@ public class PlayerAttackState : PlayerCombatState
         {
             if(!m_Combat.IsAction)
             {
-                if (m_Combat.IsAim) m_PlayerCore.SwitchCombatState(CombatStateType.Aim);
-                else
-                m_PlayerCore.SwitchCombatState(CombatStateType.Idle);
+                if (m_Combat.IsAiming) m_PlayerCore.SwitchCombatState(CombatStateType.Aim);
+                else m_PlayerCore.SwitchCombatState(CombatStateType.Idle);
             }
+        }
+        else if (m_Combat.IsReload)
+        {
+            m_PlayerCore.SwitchCombatState(CombatStateType.Reload);
         }
         else
         {
+            m_Combat.SetAming(m_Combat.IsAttack);
             m_Combat.Attack();
         }
     }

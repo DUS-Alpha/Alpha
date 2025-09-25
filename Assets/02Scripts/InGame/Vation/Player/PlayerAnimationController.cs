@@ -78,31 +78,47 @@ public class PlayerAnimationController : MonoBehaviour
     {
         m_animator.SetLayerWeight(index, value);
     }
-    public void AimAni(bool isAim)
+    public void AimAni(bool isAimming)
     {
-        m_animator.SetBool("IsAim",isAim);
+        m_animator.SetBool("IsAiming",isAimming);
     }
     public void SwapWeaponAni(int currentNum)
     {
         m_animator.SetInteger("WeaponNum", currentNum);
         m_animator.SetTrigger("SwapWeapon");
     }
-    public void MeleeAttackAni(bool isAttack)
+    public void AttackAni(bool isAttack, int currentNum)
+    {
+        m_animator.SetBool("IsAttack", isAttack);
+        switch(currentNum)
+        {
+            case 1:
+                MeleeAttackAni(isAttack);
+                break;
+            case 2:
+            case 3:
+                RangeShootingAni();
+                break;
+        }
+    }
+
+    private void MeleeAttackAni(bool isAttack)
     {
         m_animator.SetBool("IsMeleeAttack", isAttack);
     }
-    public void RangeShootingAni()
+    private void RangeShootingAni()
     {
         m_animator.SetTrigger("RangeShooting");
-    }
-    public void SkillAni()
-    {
-
     }
     public void ReloadAni()
     {
         m_animator.SetTrigger("Reload");
     }
+    public void SkillAni()
+    {
+
+    }
+   
 
     public void SetApplyRootMotion(bool isRoot)
     {

@@ -9,8 +9,7 @@ public class PlayerCameraManger : MonoBehaviour
     [SerializeField]
     private CinemachineCamera m_freeLook;
     [SerializeField]
-    private CinemachineImpulseSource m_impulseSource; //Freelook카메라에 AddExtension의 CinemachineImpulseListener
-    
+    private CinemachineCamera m_scopeCamera;
     [Space(10)]
 
     [Header("[ FOV ]")]
@@ -19,6 +18,9 @@ public class PlayerCameraManger : MonoBehaviour
     [SerializeField]
     private float m_aimFOV = 40;
 
+    [Header("[ Effect ]")]
+    [SerializeField]
+    private CinemachineImpulseSource m_impulseSource; //Freelook카메라에 AddExtension의 CinemachineImpulseListener
     
     [SerializeField]
     private bool m_isCursorLock;
@@ -38,12 +40,26 @@ public class PlayerCameraManger : MonoBehaviour
         m_targetFOV = m_originFOV;
         m_freeLook.Lens.FieldOfView = m_currentFOV;
 
+        m_freeLook.Priority = 20;
+        m_scopeCamera.Priority = 10;
+
         m_isCursorLock = true;
     }
-    public void AimFOV(bool isAim)
+    public void AimFOV(bool isAim, int currentWeaponNum)
     {
+        if(currentWeaponNum == 2)
         // Aim 상태에 따라 목표 FOV 변경
         m_targetFOV = isAim ? m_aimFOV : m_originFOV;
+
+        else if(currentWeaponNum == 3)
+        {
+            m_scopeCamera.Priority = 20;
+            m_freeLook.Priority = 10;
+   
+            m_freeLook.Priority = 20;
+            m_scopeCamera.Priority = 10;
+        }
+        
     }
     private void Update()
     {

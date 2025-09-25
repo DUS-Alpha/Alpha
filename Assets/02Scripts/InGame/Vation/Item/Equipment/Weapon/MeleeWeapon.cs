@@ -13,8 +13,8 @@ public class MeleeWeapon : Weapon
     public override void Attack(bool isAttackInput, PlayerAnimationController anim)
     {
         m_isCombo = isAttackInput;
-        if (isAttackInput) anim.MeleeAttackAni(true);
-        else anim.MeleeAttackAni(false);
+        if (isAttackInput) anim.AttackAni(true, 1);
+        else anim.AttackAni(false,1);
 
         // Audio
 

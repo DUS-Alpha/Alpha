@@ -20,7 +20,6 @@ public class PlayerInputHandler : MonoBehaviour
     public bool IsAttack { get; private set; }
     public int SwapWeaponNum { get; private set; } = 0;
     public bool IsAim { get; private set; }
-    public bool IsSniperScope { get; private set; }
     public bool IsWeaponSwap { get; private set; }
     public bool IsReload { get; private set; }
     public bool IsSkill1 { get; private set; }
@@ -97,7 +96,6 @@ public class PlayerInputHandler : MonoBehaviour
             IsAim = false;
             IsReload = false;
             SwapWeaponNum = 0;
-            IsSniperScope = false;
             return;
         }
         WeaponSwapNum();
@@ -105,15 +103,13 @@ public class PlayerInputHandler : MonoBehaviour
   
         if (m_combat.CurrentWeaponNum > 1)
         {
-            IsAim = (!m_inputCombatFlags.HasFlag(InputCombatLockType.Aim) && Input.GetMouseButton(1)) || IsAttack;
+            IsAim = (!m_inputCombatFlags.HasFlag(InputCombatLockType.Aim) && Input.GetMouseButtonDown(1));  
             IsReload = !m_inputCombatFlags.HasFlag(InputCombatLockType.Reload) && Input.GetKeyDown(KeyCode.R);
-            IsSniperScope = Input.GetMouseButtonDown(1);
         }
         else
         {
             IsAim = false;
             IsReload = false;
-            IsSniperScope = false;
         }
     }
 

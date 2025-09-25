@@ -27,7 +27,7 @@ public class PlayerFallState : PlayerLocomotionState
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.FlyUp);
         }
         else if (m_Locomotion.IsGrounded)
-            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Landing);
+            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Land);
     }
 
     public override void Exit()

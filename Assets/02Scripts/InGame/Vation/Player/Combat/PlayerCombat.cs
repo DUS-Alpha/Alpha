@@ -10,13 +10,14 @@ public class PlayerCombat : MonoBehaviour
     private PlayerInputHandler m_inputHandler;
     private PlayerAnimationController m_animationController;
     private PlayerIKController m_ikController;
+    private PlayerUIManager m_uiManager;
     private Action<int> m_swapAction;
-
     public bool IsAttack { get; private set; }
-    public bool IsAim { get; private set; }
+    public bool IsAiming => m_isAiming;
+    private bool m_isAiming;
     public bool IsSwapWeapon { get; private set; }
     public bool IsReload { get; private set; }
-
+    public bool m_isReloading;
     // 무기 관리
     public int CurrentWeaponNum => m_currentWeaponNum;
     private int m_currentWeaponNum;
@@ -29,12 +30,17 @@ public class PlayerCombat : MonoBehaviour
 
     public bool IsAction => m_isAction;
     private bool m_isAction;
-
-    public void InitializeModule(PlayerCameraManger cameraManager, PlayerInputHandler inputHandler, PlayerAnimationController animationController, Weapon[] weapons, PlayerIKController IKController)
+    public void InitializeModule(PlayerCameraManger cameraManager, 
+        PlayerInputHandler inputHandler, 
+        PlayerAnimationController animationController, 
+        Weapon[] weapons, PlayerIKController IKController,
+        PlayerUIManager uiManager)
     {
+
         m_cameraManager = cameraManager;
         m_inputHandler = inputHandler;
         m_animationController = animationController;
+        m_uiManager = uiManager;
         m_equipmentWeapons = weapons;
         m_ikController = IKController;
     }
@@ -62,9 +68,21 @@ public class PlayerCombat : MonoBehaviour
     public void CheckInput()
     {
         IsAttack = m_inputHandler.IsAttack;
-        IsAim = m_inputHandler.IsAim;
+        bool _isAim = m_inputHandler.IsAim;
         m_swapWeaponNum = m_inputHandler.SwapWeaponNum;
         IsReload = m_inputHandler.IsReload;
+
+        if(_isAim)
+        {
+            m_isAiming = !m_isAiming;
+        }
+
+        if (m_isReloading)
+        {
+            IsAttack = false;
+            m_isAiming = false;
+        }
+
         CheckCanSwapWeapon();
     }
 
@@ -81,6 +99,11 @@ public class PlayerCombat : MonoBehaviour
     public void ExitSwapWeapon()
     {
         m_animationController.SetAnimatorWeight(2, 0);
+        if (m_currentWeaponNum > 1)
+        {
+            RangeWeapon _rangeWeapon = CurrentWeapon as RangeWeapon;
+            m_uiManager.SetAmmo(_rangeWeapon.CurrentAmmo, _rangeWeapon.SaveAmmo, _rangeWeapon.MaxAmmo);
+        }
     }
     /// <summary>
     /// Player오브젝트 하위에 있는 각 Holder 오브젝트 On/Off 방식
@@ -120,20 +143,33 @@ public class PlayerCombat : MonoBehaviour
     public void Attack()
     {
         if (m_currentWeaponNum == 0) return;
-        if(Time.time >= m_nextAttakTime)
+        MeleeWeapon _meleeWeapon = null;
+        RangeWeapon _rangeWeapon = null;
+
+        if(m_currentWeaponNum == 1)
+        {
+            _meleeWeapon = CurrentWeapon as MeleeWeapon;
+        }
+        else if(m_currentWeaponNum > 1)
+        {
+            _rangeWeapon = CurrentWeapon as RangeWeapon;
+            m_uiManager.SetAmmo(_rangeWeapon.CurrentAmmo, _rangeWeapon.SaveAmmo, _rangeWeapon.MaxAmmo);
+        }
+
+        if (Time.time >= m_nextAttakTime)
         {
             m_nextAttakTime = Time.time + currentWeapon.WeaponData.AttackDelay;
             // 무기 Swap시 마다 스나이퍼 같은 총의 경우 바로 발사를 하면 안되기에 계속 현재 무기값으로
-            if(currentWeapon.WeaponData.AttackDelay != 0) m_cameraManager.CameraShake();
             currentWeapon.Attack(IsAttack, m_animationController);
-            m_animationController.SetAnimatorWeight(2,0.4f);
+            m_animationController.SetAnimatorWeight(2, 1f);
         }
     }
     public void ExitAttack()
     {
+        m_animationController.AttackAni(false, m_currentWeaponNum);
+
         if(m_currentWeaponNum == 1)
         {
-            m_animationController.MeleeAttackAni(false);
             m_animationController.SetAnimatorWeight(2, 0);
         }
     }
@@ -150,7 +186,26 @@ public class PlayerCombat : MonoBehaviour
         
         // TODO : UpperBody라서 Fly일때도 같이 쓰기에 다시 조율 필요
         
-        m_cameraManager.AimFOV(isAim);
+        m_cameraManager.AimFOV(m_isAiming, m_currentWeaponNum);
         m_animationController.AimAni(isAim);
+    }
+
+    public bool EnterReload()
+    {
+        RangeWeapon _rangeWeapon = CurrentWeapon as RangeWeapon;
+        bool _cansReload = _rangeWeapon.Reload();
+        if(!_cansReload) return false;
+
+        m_uiManager.SetAmmo(_rangeWeapon.CurrentAmmo, _rangeWeapon.SaveAmmo, _rangeWeapon.MaxAmmo);
+        m_isReloading = true;
+        m_animationController.SetAnimatorWeight(2, 1);
+        m_animationController.ReloadAni();
+        return true;
+
+    }
+    public void ExitReload()
+    {
+        m_isReloading = false;
+        m_animationController.SetAnimatorWeight(2, 0);
     }
 }

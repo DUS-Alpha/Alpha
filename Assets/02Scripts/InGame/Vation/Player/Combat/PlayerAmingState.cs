@@ -12,7 +12,7 @@ public class PlayerAmingState : PlayerCombatState
     public override void Enter()
     {
         base.Enter();
-        m_Combat.SetAming(true);
+        m_Combat.SetAming(m_Combat.IsAiming);
         m_delayTime = 0f;
     }
 
@@ -39,9 +39,13 @@ public class PlayerAmingState : PlayerCombatState
             m_PlayerCore.SwitchCombatState(CombatStateType.Attack);
 
         }
-        else if (!m_Combat.IsAim)
+        else if (!m_Combat.IsAiming)
         {
             m_PlayerCore.SwitchCombatState(CombatStateType.Idle);
+        }
+        else if (m_Combat.IsReload)
+        {
+            m_PlayerCore.SwitchCombatState(CombatStateType.Reload);
         }
     }
     public override void Exit()

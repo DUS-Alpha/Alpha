@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class PlayerLandingState : PlayerLocomotionState
+public class PlayerLandState : PlayerLocomotionState
 {
-    public PlayerLandingState(PlayerCore playerCore) : base(playerCore){}
+    public PlayerLandState(PlayerCore playerCore) : base(playerCore){}
 
     protected override InputCombatLockType m_LockOnEnter => InputCombatLockType.All;
 

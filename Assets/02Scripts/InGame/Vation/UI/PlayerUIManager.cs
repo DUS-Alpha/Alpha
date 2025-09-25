@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 
 public class PlayerUIManager : MonoBehaviour
@@ -8,7 +9,8 @@ public class PlayerUIManager : MonoBehaviour
     [SerializeField]
     private PlayerInventoryUI m_inventoryUI;
 
-
+    [SerializeField]
+    private TextMeshProUGUI m_ammoTMP;
     private BaseUI GetUI<T>(out bool isAlreadyOpen) //out : 참조역할 이를 통해 BaseUI와 bool 두 타입을 반환
     {
         Type uiType = typeof(T);
@@ -40,5 +42,10 @@ public class PlayerUIManager : MonoBehaviour
     public void EquipInventory(EquipmentDataSO equipmentData)
     {
         m_inventoryUI.Equip(equipmentData);
+    }
+
+    public void SetAmmo(int currentAmmo, int saveAmmo, int maxAmmo)
+    {
+        m_ammoTMP.text = currentAmmo + " / " + saveAmmo + " / " + maxAmmo;
     }
 }

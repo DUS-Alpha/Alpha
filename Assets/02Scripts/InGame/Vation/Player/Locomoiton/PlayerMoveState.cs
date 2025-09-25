@@ -20,7 +20,8 @@ public class PlayerMoveState : PlayerLocomotionState
 
     public override void Update()
     {
-        m_Locomotion.Movement();
+        bool _isAming = m_Combat.IsAttack ? (m_Combat.CurrentWeaponNum > 1 ? true : false) : false || m_Combat.IsAiming;
+        m_Locomotion.Movement(_isAming);
         m_Locomotion.ApplyGravity();
 
         if (m_Locomotion.IsJump)

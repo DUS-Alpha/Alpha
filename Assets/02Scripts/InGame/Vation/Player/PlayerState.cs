@@ -15,7 +15,7 @@ public abstract class PlayerState
     }
     public void DebugCurrentState()
     {
-        //Debug.Log(GetType().Name);
+        Debug.Log(GetType().Name);
     }
 
     public abstract void Enter();

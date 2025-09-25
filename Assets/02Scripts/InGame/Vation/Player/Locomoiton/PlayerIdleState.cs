@@ -25,7 +25,8 @@ public class PlayerIdleState : PlayerLocomotionState
     {
         if (!m_Locomotion.IsGrounded) return;
 
-        m_Locomotion.Movement();
+        bool _isAming = m_Combat.IsAttack ? (m_Combat.CurrentWeaponNum > 1 ? true : false) : false || m_Combat.IsAiming;
+        m_Locomotion.Movement(_isAming);
         m_Locomotion.ApplyGravity();
 
         // Locomotion Switch State

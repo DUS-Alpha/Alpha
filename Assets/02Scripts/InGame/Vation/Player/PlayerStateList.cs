@@ -11,7 +11,7 @@ public enum LocomotionStateType
     Move,
     Jump,
     Fall,
-    Landing,
+    Land,
     Dodge,
     FlyUp,
     Flying,

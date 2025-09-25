@@ -36,7 +36,7 @@ public class PlayerStateMachine
             {LocomotionStateType.Idle, ()=> new PlayerIdleState(m_playerCore) },
             {LocomotionStateType.Move, ()=> new PlayerMoveState(m_playerCore) },
             {LocomotionStateType.Jump, () => new PlayerJumpState(m_playerCore) },
-            {LocomotionStateType.Landing, () => new PlayerLandingState(m_playerCore) },
+            {LocomotionStateType.Land, () => new PlayerLandState(m_playerCore) },
             {LocomotionStateType.Dodge, () => new PlayerDodgeState(m_playerCore) },
             {LocomotionStateType.Fall, () => new PlayerFallState(m_playerCore) },
             {LocomotionStateType.FlyUp, () => new PlayerFlyUpState(m_playerCore) },
