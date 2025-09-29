@@ -78,7 +78,7 @@ public class PlayerCombat : MonoBehaviour
             m_isScope = !m_isScope;
         }
 
-        IsCombat = IsAttack || _isScope;
+        IsCombat = IsAttack || m_isScope;
     }
     public void SetIsAction(bool isAction)
     {
@@ -199,7 +199,8 @@ public class PlayerCombat : MonoBehaviour
     public void SetAming(bool isAim)
     {
         int _isAimWeight = isAim ? 1 : 0;
-        
+        if(!isAim) m_isScope = false;
+
         // TODO : UpperBody라서 Fly일때도 같이 쓰기에 다시 조율 필요
         m_cameraManager.AimFOV(m_isScope, m_currentWeaponNum);
     }

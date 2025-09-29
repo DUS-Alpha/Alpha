@@ -53,6 +53,7 @@ public class PlayerInCombatState : PlayerCombatState
         base.Exit();
         m_Combat.ExitInCombat();
         m_Combat.SetUpperAnimatorLayer(0);
+        m_Combat.SetAming(false);
     }
 
 }
