@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -39,8 +39,8 @@ public class SFB_AudioSnapshotExporterEditor : Editor {
 			if (myScript.audioClips.Count < 2)
 			{
 				// Display an error box warning user that they need to populate the clips as children of the current object.
-				EditorGUILayout.HelpBox("Warning:  For each Clip in your track...\n\n1. Create a child object under this object.\n2. Name the child the same name as the exposed Volume parameter in the Audio Mixer.\n3. Add an Audio Source component to the child object.\n4. Assign your AudioClip to the \"Audio Clip\" parameter.\n5. Assign the AudioGroup for that clip in the \"Output\" parameter.\n6. Click the Reload Data button below\n\n** You can automate much of this process.  Check the instructions in the comments before the \"SetupChildren\" function in \"SFB_AudioSnapshotExporter.cs\".", MessageType.Error);
-				if(GUILayout.Button("Reload AudioMixer Data"))										// If this button is clicked...
+				EditorGUILayout.HelpBox("Warning:  For each Clip in your track...\n\n1. Create a child object under this object.\n2. Name the child the same name as the exposed Volume parameter in the Audio Mixer.\n3. Add an Audio Source component to the child object.\n4. Assign your AudioClip to the \"Audio Clip\" parameter.\n5. Assign the AudioGroup for that clip in the \"Output\" parameter.\n6. Click the Upper_Reload Data button below\n\n** You can automate much of this process.  Check the instructions in the comments before the \"SetupChildren\" function in \"SFB_AudioSnapshotExporter.cs\".", MessageType.Error);
+				if(GUILayout.Button("Upper_Reload AudioMixer Data"))										// If this button is clicked...
 					myScript.ReloadData();															// Call the function
 			}
 			else
@@ -48,7 +48,7 @@ public class SFB_AudioSnapshotExporterEditor : Editor {
 				EditorGUILayout.BeginHorizontal (GUILayout.Width(newWidth));
 				// Display a dialogue box describing what the Reload Data button does and when to use it.
 				EditorGUILayout.HelpBox("Data will be loaded when you select or change the Audio Mixer.  If you change Mixer data, press button to reload.", MessageType.Info);
-				if(GUILayout.Button("Reload AudioMixer Data"))											// If this button is clicked...
+				if(GUILayout.Button("Upper_Reload AudioMixer Data"))											// If this button is clicked...
 					myScript.ReloadData();																// Call the function
 				EditorGUILayout.EndHorizontal ();
 

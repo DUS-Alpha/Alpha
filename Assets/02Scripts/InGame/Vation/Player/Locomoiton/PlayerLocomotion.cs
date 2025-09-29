@@ -9,19 +9,20 @@ public class PlayerLocomotion : MonoBehaviour
     private PlayerInputHandler m_InputHandler;
     private PlayerAnimationController m_animationController;
     private CharacterController m_characterController;
-    private LocomotionUtility m_locoUtility;
+    private PlayerMovementUitility m_movementUtility;
 
     [Header("[ HandleMove ]")]
     [SerializeField]
     private float m_baseSpeed = 3f;     // 기본적으로 달리게끔
     [SerializeField]
-    private float m_aimSpeed = 1.5f;
+    private float m_jumpSpeed = 2f;
+    [SerializeField]
+    private float m_combatSpeed = 1.5f;
     [SerializeField]
     private float m_flySpeed = 8f;
     [SerializeField]
-    private float m_flyAimSpeed = 3f;
-    [SerializeField]
-    private float m_speedLerpRate = 10f;
+    private float m_flightCombatSpeed = 3f;
+
     private float m_currentSpeed;
     [Space(10)]
 
@@ -65,19 +66,25 @@ public class PlayerLocomotion : MonoBehaviour
     private Vector3 m_velocity;
     private Vector3 m_moveDirByCamera;
     private float m_lastGroundTime;
-    private Vector3 m_airMove;   // Jump/Fall 시 XZ 이동 전용
+    private Vector3 m_lastMoveDir;   // Jump/Fall 시 XZ 이동 전용
 
     // ========================== Input
+    public bool IsAction => m_isAction;
+    private bool m_isAction;
     public Vector3 MoveDir { get; private set; }
-
     public bool IsJump { get; private set; }
-    public bool IsDodge { get; private set; }
-    public bool IsFlying { get; private set; }
+    private bool m_isJumping;
     public bool IsFlyUp { get; private set; }
+    public bool IsFlying => m_isFlying;
+    private bool m_isFlying;
     public bool IsFlyOff { get; private set; }
+    public bool IsDash {  get; private set; }
+    public bool IsDodge { get; private set; }
+
+
     private void Awake()
     {
-        m_locoUtility = new LocomotionUtility();
+        m_movementUtility = new PlayerMovementUitility();
         m_characterController = GetComponent<CharacterController>();
         m_flyingGauge = m_maxFlyingGauge;
     }
@@ -91,6 +98,17 @@ public class PlayerLocomotion : MonoBehaviour
     {
         events.CheckInputAction += CheckInput;
     }
+    public void InitializeLocotion()
+    {
+        MoveDir = Vector3.zero;
+        IsFlyUp = false;
+        IsFlyOff = false;
+        IsDodge = false;
+        IsJump = false;
+        m_isJumping = false;
+        m_isFlying = false;
+        m_currentSpeed = 0;
+    }
 
     public void CheckInput()
     {
@@ -98,24 +116,12 @@ public class PlayerLocomotion : MonoBehaviour
         IsFlyUp = m_InputHandler.IsFlyUp;
         IsFlyOff = m_InputHandler.IsFlyOff;
         IsDodge = m_InputHandler.IsDodge;
+        IsJump = m_InputHandler.IsJump;
+    }
 
-        bool _isJump = m_InputHandler.IsJump;
-
-        if (_isJump && IsGrounded)
-        {
-            IsJump = true;
-        }
-
-        if (IsFlyUp)
-        {
-            IsFlying = true;
-        }
-        else if (IsFlyOff)
-        {
-            IsFlying = false;
-        }
-
-
+    public void SetIsAction(bool isAction)
+    { 
+        m_isAction = isAction; 
     }
     #region ================================================================================ Movement
 
@@ -124,34 +130,34 @@ public class PlayerLocomotion : MonoBehaviour
     /// </summary>
     /// <param name="payerCore"></param>
     /// <returns></returns>
-    public void Movement(bool isAiming)
+    public void Movement(bool isCombating)
     {
-        float _targetSpeed = IsFlying? (isAiming ? m_flyAimSpeed : m_flySpeed) : m_baseSpeed;
+        float _targetSpeed;
 
-        if (isAiming)
-        {
-            m_animationController.DirMoveAni(MoveDir.x, MoveDir.z);
-        }
-        else
-        {
-            m_animationController.MoveAni(m_currentSpeed);
-        }
+        // Combat인가? 그리고 Flying상태인가?
+        _targetSpeed = isCombating ? (m_isFlying ? m_flightCombatSpeed : m_combatSpeed) : (m_isFlying ?  m_flySpeed: m_baseSpeed);
+        if (MoveDir.sqrMagnitude < 0.1f) _targetSpeed = 0;
 
-        HandleRotate(MoveDir, isAiming, IsFlying);
-        HandleMove(MoveDir, _targetSpeed, IsFlying);
+        HandleRotate(MoveDir, isCombating);
+        HandleMove(MoveDir, _targetSpeed, isCombating);
     }
 
-    // TODO : FlyMove와 리팩토링
-    private void HandleMove(Vector3 moveDir, float targetSpeed, bool isFlying)
+
+    private void HandleMove(Vector3 moveDir, float targetSpeed, bool isCombat)
     {
-        m_currentSpeed = m_locoUtility.HandleMove(moveDir, targetSpeed, m_speedLerpRate, m_characterController, isFlying);
-        m_moveDirByCamera = m_locoUtility.GetMovieDir();
+        m_currentSpeed = m_movementUtility.HandleMove(moveDir, targetSpeed, m_characterController, m_isFlying);
+        m_moveDirByCamera = m_movementUtility.GetMovieDir();
+
+        if (isCombat)
+            m_animationController.CombatMoveAni(moveDir.x, moveDir.z);
+        else
+            m_animationController.MoveAni(m_currentSpeed);
     }
 
     // FlyRotate와 리팩토링
-    private void HandleRotate(Vector3 moveDir, bool isAim, bool isFlying, bool isFlyUp = false)
+    private void HandleRotate(Vector3 moveDir, bool isCombat)
     {
-        m_locoUtility.HandleRotate(this.gameObject, moveDir, isAim, IsFlying, isFlyUp);
+        m_movementUtility.HandleRotate(this.gameObject, moveDir, isCombat, m_isFlying);
     }
     #endregion ================================================================================ /Movement
     private void Update()
@@ -162,10 +168,11 @@ public class PlayerLocomotion : MonoBehaviour
     private void CheckGround()
     {
         // m_characterController.center 바닥에서 조금 띄어져있는 상태
-        Vector3 _center = m_characterController.center;
+        //Vector3 _center = m_characterController.center;
+        Vector3 worldCenter = m_characterController.transform.TransformPoint(m_characterController.center);
         float _height = m_characterController.height;
 
-        Vector3 _colliderButtomtr = transform.position + _center - (Vector3.up * (_height * 0.5f - m_characterController.skinWidth));
+        Vector3 _colliderButtomtr = worldCenter - Vector3.up * (m_characterController.height * 0.5f - m_characterController.skinWidth);
 
         bool _groundCheck = Physics.CheckSphere(_colliderButtomtr, m_groundDistance, m_groundMask);
 
@@ -176,13 +183,13 @@ public class PlayerLocomotion : MonoBehaviour
 
         IsGrounded = (Time.time - m_lastGroundTime) <= 0.1f;
 
-        if (IsGrounded && !IsJump && !IsFlying)
+        if (IsGrounded && !m_isJumping && !m_isFlying)
         {
             SetVelocityY(- 2f);
             ChargingFlyingGauge();
         }
             // Ground Anim Parameter
-            m_animationController.SetIsGroundAni(IsGrounded);
+        m_animationController.SetIsGroundAni(IsGrounded);
         if(m_flyingGauge >= m_maxFlyingGauge) m_flyingGauge = m_maxFlyingGauge;
         m_gaugeTMP.text = m_flyingGauge.ToString();
         Debug.DrawLine(_colliderButtomtr, _colliderButtomtr + (Vector3.down * m_groundDistance), Color.red);
@@ -193,35 +200,33 @@ public class PlayerLocomotion : MonoBehaviour
     public void JumpStart()
     {
         IsGrounded = false;
-        IsJump = true;
+        m_isJumping = true;
         //등가속도운동 적용 (노션 참고)
         SetVelocityY(Mathf.Sqrt(m_jumpHeight * -2f * BaseGravity));   // m_jumpHeight = 점프 힘이기도함
 
-        m_airMove = m_moveDirByCamera.normalized * m_currentSpeed;
+        m_lastMoveDir = m_moveDirByCamera.normalized * m_jumpSpeed;
 
         m_animationController.JumpAni();
         m_animationController.SetIsGroundAni(IsGrounded);
 
-        if (m_airMove != Vector3.zero)
-            gameObject.transform.rotation = Quaternion.LookRotation(m_airMove);
+        if (m_lastMoveDir != Vector3.zero)
+            gameObject.transform.rotation = Quaternion.LookRotation(m_lastMoveDir);
     }
     public void JumpExit()
     {
-        IsJump = false;
-        //m_airMove = Vector3.zero;  // 공중 이동값 초기화
+        m_isJumping = false;
         m_animationController.SetIsGroundAni(IsGrounded);
     }
     // 점프 시 이동방향으로의 이동처리(Jump, Fall Update에 적용)
     public void AirMovement()
     {
         // 공중 이동 (XZ) + 중력 이동(Y)
-        Vector3 move = m_airMove;   // XZ 고정값
+        Vector3 move = m_lastMoveDir;   // XZ 고정값
         move.y = m_velocity.y;      // y축 중력
 
         // 점프일때는 바로 회전하지 않으면 다른 방향 바라본 상태로 점프가됨
 
         m_characterController.Move(move * Time.deltaTime);
-
     }
     #endregion ================================================================================ /Jump
 
@@ -229,41 +234,44 @@ public class PlayerLocomotion : MonoBehaviour
     // TODO : 중복 내용이기에 재사용성으로 전환
     public void ApplyGravity()
     {
-        m_velocity = m_locoUtility.ApplyGravity(BaseGravity, m_currentSpeed, m_moveDirByCamera, m_velocity, m_characterController);
+        m_velocity = m_movementUtility.ApplyGravity(BaseGravity, m_currentSpeed, m_moveDirByCamera, m_velocity, m_characterController);
     }
     public void AntiGravity()
     {
-        m_airMove = Vector3.zero;
-        m_velocity = m_locoUtility.ApplyGravity(m_antiGravity, m_currentSpeed, Vector3.zero, m_velocity, m_characterController);
+        m_lastMoveDir = Vector3.zero;
+        m_velocity = m_movementUtility.ApplyGravity(m_antiGravity, m_currentSpeed, Vector3.zero, m_velocity, m_characterController);
     }
 
     #endregion ================================================================================ /Gravtiy
 
     #region ================================================================================ Fly
-    private float m_currentFlySpeed;
+    private float m_flyUpSpeed;
     public void FlyUpStart()
     {
+        m_isFlying = true;
         IsGrounded = false;
 
         m_currentFlyHeight = 0f;
-        m_currentFlySpeed = m_initialFlySpeed;
+        m_flyUpSpeed = m_initialFlySpeed;
 
-
-        // Flying중 FlyUp시 회전되어 있던 캐릭터 상태를 곧게 세운후 위로 이동시키기 위해
-        HandleRotate(Vector3.zero, false, true, true);
+        MoveDir = Vector3.zero;
+        // 똑바로 선 상태로 회전
+        m_movementUtility.InitializeRotate(this.gameObject);
 
         // 등가속 (강하게 발사)
         //SetVelocityY(Mathf.Sqrt(2f * -BaseGravity * m_antiGravity)); // m_antiGravity는 높이, 조정 가능
 
-        m_animationController.FlyAni(IsFlying, IsFlyUp);
+        m_animationController.FlyUpAni();
+        m_animationController.SetFlyingAni(m_isFlying);
     }
+
     public void FlyUpUpdate()
     {
         // 속도를 점점 줄임
-        m_currentFlySpeed = Mathf.Max(0f, m_currentFlySpeed - m_flyDecel * Time.deltaTime);
+        m_flyUpSpeed = Mathf.Max(0f, m_flyUpSpeed - m_flyDecel * Time.deltaTime);
 
         // 목표 높이까지 상승
-        float deltaY = m_currentFlySpeed * Time.deltaTime;
+        float deltaY = m_flyUpSpeed * Time.deltaTime;
 
         // 남은 높이보다 더 올라가면 조정
         if (m_currentFlyHeight + deltaY > m_targetFlyHeight)
@@ -273,12 +281,6 @@ public class PlayerLocomotion : MonoBehaviour
 
         // 수직 이동만 적용
         m_characterController.Move(Vector3.up * deltaY);
-    }
-    
-
-    public void FlyUpExit()
-    {
-        m_animationController.FlyAni(IsFlying, false);
     }
 
     // Flying
@@ -293,19 +295,21 @@ public class PlayerLocomotion : MonoBehaviour
             m_flyingGauge += Time.deltaTime;
         else m_flyingGauge = m_maxFlyingGauge;
     }
-    public void FlyingExit()
+
+    public void FlightMoveExit()
     {
-        m_animationController.FlyAni(false, false);
+        m_isFlying = false;
+        m_animationController.SetFlyingAni(m_isFlying);
+        MoveDir = Vector3.zero;
+
+        // 똑바로 선 상태로 회전
+        m_movementUtility.InitializeRotate(this.gameObject);
     }
     public void SetVelocityY(float value)
     {
         m_velocity.y = value;
     }
     #endregion ================================================================================ /Fly
-    public void EnterLanding()
-    {
-        
-    }
 
     public void OnAnimatorMove()
     {

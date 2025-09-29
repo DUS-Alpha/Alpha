@@ -16,6 +16,8 @@ public class PlayerFlyUpState : PlayerLocomotionState
     public override void Enter()
     {
         base.Enter();
+        m_Locomotion.SetIsAction(true);
+        
         m_Locomotion.FlyUpStart();
         m_delayT = 0f;
         m_nextStateDelay = 0f;
@@ -38,12 +40,12 @@ public class PlayerFlyUpState : PlayerLocomotionState
 
         if (m_nextStateDelay < 1f) return;
 
-        m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Flying);
+        m_PlayerCore.SwitchLocomotionState(LocomotionStateType.FlightMove);
     }
 
     public override void Exit()
     {
         base.Exit();
-        m_Locomotion.FlyUpExit();
+        m_Locomotion.SetIsAction(false);
     }
 }

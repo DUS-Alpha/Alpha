@@ -12,6 +12,7 @@ public class PlayerJumpState : PlayerLocomotionState
     {
         base.Enter();
         m_Locomotion.JumpStart();
+        m_Locomotion.SetIsAction(true);
     }
   
     public override void FixedUpdate()
@@ -33,5 +34,6 @@ public class PlayerJumpState : PlayerLocomotionState
     {
         base.Exit();
         m_Locomotion.JumpExit();
+        m_Locomotion.SetIsAction(false);
     }
 }

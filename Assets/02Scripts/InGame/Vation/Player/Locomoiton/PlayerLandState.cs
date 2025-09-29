@@ -12,8 +12,8 @@ public class PlayerLandState : PlayerLocomotionState
     public override void Enter()
     {
         base.Enter();
+        m_Locomotion.SetIsAction(true);
         m_delayT = 0;
-        m_Locomotion.EnterLanding();
     }
     public override void FixedUpdate()
     {
@@ -29,5 +29,6 @@ public class PlayerLandState : PlayerLocomotionState
     public override void Exit()
     {
         base.Exit();
+        m_Locomotion.SetIsAction(false);
     }
 }

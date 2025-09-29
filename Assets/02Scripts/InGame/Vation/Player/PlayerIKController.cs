@@ -36,14 +36,14 @@ public class PlayerIKController : MonoBehaviour
     private Transform m_defaultRightHintTr;
     private void Awake()
     {
-        SetWeight(RigType.Hand, 0);
-        SetWeight(RigType.Aim, 0);
+        SetRigWeight(RigType.Hand, 0);
+        SetRigWeight(RigType.Aim, 0);
 
         m_defaultLeftHintTr = m_leftHandIK.data.hint.transform;
         m_defaultRightHintTr = m_rightHandIK.data.hint.transform;
     }
 
-    public void SetWeight(RigType rigType, float value)
+    public void SetRigWeight(RigType rigType, float value)
     {
         switch (rigType)
         {

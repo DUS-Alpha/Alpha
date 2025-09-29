@@ -57,7 +57,7 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
         EquipmentController.InitializeModule();
         InputHandler.InitializeModule(Combat, LocomotionFlagsController, CombatFlagsController);
         Locomotion.InitializeModule(InputHandler, AniController);
-        Combat.InitializeModule(CameraManger, InputHandler, AniController, EquipmentController.Weapons, IKController, UIManager);
+        Combat.InitializeModule(this);
     }
 
     /// <summary>
@@ -73,9 +73,8 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
 
     private void Start()
     {
-        SwapWeaponAction(0);
         SwitchLocomotionState(LocomotionStateType.Idle);
-        SwitchCombatState(CombatStateType.Idle);
+        SwitchCombatState(CombatStateType.NonCombat);
         Combat.SetSwapAction(SwapWeaponAction);
     }
 

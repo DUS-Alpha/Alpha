@@ -44,8 +44,9 @@ public class PlayerUIManager : MonoBehaviour
         m_inventoryUI.Equip(equipmentData);
     }
 
+    // 현재 Ammo와 SaveAmmo만 표기하면됨
     public void SetAmmo(int currentAmmo, int saveAmmo, int maxAmmo)
     {
-        m_ammoTMP.text = currentAmmo + " / " + saveAmmo + " / " + maxAmmo;
+        m_ammoTMP.text = currentAmmo + " / " + saveAmmo;
     }
 }

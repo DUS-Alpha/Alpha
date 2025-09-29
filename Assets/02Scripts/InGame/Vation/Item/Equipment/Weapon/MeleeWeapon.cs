@@ -12,11 +12,6 @@ public class MeleeWeapon : Weapon
 
     public override void Attack(bool isAttackInput, PlayerAnimationController anim)
     {
-        m_isCombo = isAttackInput;
-        if (isAttackInput) anim.AttackAni(true, 1);
-        else anim.AttackAni(false,1);
-
-        // Audio
 
     }
     public override void Unequip(GameObject user)

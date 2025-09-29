@@ -47,19 +47,18 @@ public class PlayerCameraManger : MonoBehaviour
     }
     public void AimFOV(bool isAim, int currentWeaponNum)
     {
-        if(currentWeaponNum == 2)
+        //if(currentWeaponNum == 2)
         // Aim 상태에 따라 목표 FOV 변경
         m_targetFOV = isAim ? m_aimFOV : m_originFOV;
 
-        else if(currentWeaponNum == 3)
+        /*else if(currentWeaponNum == 3)
         {
             m_scopeCamera.Priority = 20;
             m_freeLook.Priority = 10;
    
             m_freeLook.Priority = 20;
             m_scopeCamera.Priority = 10;
-        }
-        
+        }*/
     }
     private void Update()
     {

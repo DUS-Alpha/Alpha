@@ -861,7 +861,7 @@ PrefabInstance:
     - target: {fileID: 8652837559477405220, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
       propertyPath: m_stateMachine
       value: 
-      objectReference: {fileID: 1917136555}
+      objectReference: {fileID: 0}
     - target: {fileID: 8652837559477405220, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
       propertyPath: m_aniController
       value: 
@@ -899,17 +899,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 620d992d61d242e48acf49f865e5f1db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1917136555 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5076560712957535269, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
-  m_PrefabInstance: {fileID: 1917136550}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cebc88568684d894a975a7999b1da7cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1917136556 stripped

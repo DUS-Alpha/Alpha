@@ -25,14 +25,14 @@ public class PlayerReloadState : PlayerCombatState
     {
         if(!m_canReload)
         {
-            m_PlayerCore.SwitchCombatState(CombatStateType.Idle);
+            m_PlayerCore.SwitchCombatState(CombatStateType.NonCombat);
             return;
         }
 
         m_nextDelay += Time.deltaTime;
         if (m_nextDelay < 3) return;
 
-        m_PlayerCore.SwitchCombatState(CombatStateType.Idle);
+        m_PlayerCore.SwitchCombatState(CombatStateType.NonCombat);
     }
     public override void Exit()
     {

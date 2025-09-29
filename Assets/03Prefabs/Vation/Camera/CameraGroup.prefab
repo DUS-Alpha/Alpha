@@ -146,8 +146,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4666208024982372927}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.120916724, y: 0.06942368, z: -0.008477601, w: 0.99019575}
-  m_LocalPosition: {x: 0.5199473, y: 1.6674418, z: -3.2667952}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.12150134, y: 0.700265, z: 0.28499734}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -187,7 +187,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 500
-  field of view: 60
+  field of view: 20
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -299,6 +299,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4489162341042395552}
   - component: {fileID: 7799947792868137006}
+  - component: {fileID: 4353301929430608959}
   m_Layer: 0
   m_Name: CameraGroup
   m_TagString: Untagged
@@ -337,11 +338,64 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainCamera: {fileID: 528603597378025412}
   m_freeLook: {fileID: 5314633187798790498}
+  m_scopeCamera: {fileID: 0}
   m_originFOV: 60
   m_aimFOV: 40
-  shakeDuration: 0
-  shakeAmount: 0
+  m_impulseSource: {fileID: 4353301929430608959}
   m_isCursorLock: 0
+--- !u!114 &4353301929430608959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5313035160973555553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ImpulseDefinition:
+    ImpulseChannel: 1
+    ImpulseShape: 2
+    CustomImpulseShape:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    ImpulseDuration: 0.1
+    ImpulseType: 0
+    DissipationRate: 0.25
+    RawSignal: {fileID: 0}
+    AmplitudeGain: 1
+    FrequencyGain: 1
+    RepeatMode: 0
+    Randomize: 1
+    TimeEnvelope:
+      AttackShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      DecayShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      AttackTime: 0
+      SustainTime: 0.2
+      DecayTime: 0.7
+      ScaleWithImpact: 1
+      HoldForever: 0
+    ImpactRadius: 100
+    DirectionMode: 0
+    DissipationMode: 2
+    DissipationDistance: 100
+    PropagationSpeed: 343
+  DefaultVelocity: {x: 0.03, y: 0.05, z: 0}
 --- !u!1 &8752975632250374084
 GameObject:
   m_ObjectHideFlags: 0
@@ -356,6 +410,7 @@ GameObject:
   - component: {fileID: 3021757411976306853}
   - component: {fileID: 5771689707147900278}
   - component: {fileID: 3345047588664506159}
+  - component: {fileID: 3372325326588099447}
   m_Layer: 0
   m_Name: FreeLook Camera
   m_TagString: Untagged
@@ -371,8 +426,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8752975632250374084}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.12091673, y: 0.06942368, z: -0.008477601, w: 0.99019575}
-  m_LocalPosition: {x: 0.5199473, y: 1.6674418, z: -3.2667952}
+  m_LocalRotation: {x: 0.12017566, y: 0.06941515, z: -0.008423832, w: 0.99028707}
+  m_LocalPosition: {x: 0.5199473, y: 1.6625221, z: -3.2667952}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -451,7 +506,7 @@ MonoBehaviour:
       Height: 2.6
     Bottom:
       Radius: 2
-      Height: 0.1
+      Height: -0.3
     SplineCurvature: 0.5
   RecenteringTarget: 2
   HorizontalAxis:
@@ -588,3 +643,27 @@ MonoBehaviour:
         DecelTime: 0
   PlayerIndex: -1
   AutoEnableInputs: 1
+--- !u!114 &3372325326588099447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8752975632250374084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ApplyAfter: 2
+  ChannelMask: 1
+  Gain: 1
+  Use2DDistance: 0
+  UseCameraSpace: 1
+  SignalCombinationMode: 0
+  ReactionSettings:
+    m_SecondaryNoise: {fileID: 0}
+    AmplitudeGain: 0.1
+    FrequencyGain: 3
+    Duration: 0.2
+    m_NoiseOffsets: {x: 0, y: 0, z: 0}

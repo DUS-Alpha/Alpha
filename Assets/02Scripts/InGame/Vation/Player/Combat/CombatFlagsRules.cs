@@ -9,7 +9,7 @@ public class CombatFlagsRules : MonoBehaviour
         LocomotionStateType.Move,
         LocomotionStateType.Jump,
         LocomotionStateType.Fall,
-        LocomotionStateType.Flying  // 나중에 상태 추가 시 바로 넣으면 됨
+        LocomotionStateType.FlightMove  // 나중에 상태 추가 시 바로 넣으면 됨
     };
 
     public HashSet<LocomotionStateType> ReloadAllowedStates = new HashSet<LocomotionStateType>
@@ -18,7 +18,7 @@ public class CombatFlagsRules : MonoBehaviour
         LocomotionStateType.Move,
         LocomotionStateType.Jump,
         LocomotionStateType.Fall,
-        LocomotionStateType.Flying
+        LocomotionStateType.FlightMove
     };
 
     public HashSet<LocomotionStateType> SwapAllowedStates = new HashSet<LocomotionStateType>
@@ -27,6 +27,6 @@ public class CombatFlagsRules : MonoBehaviour
         LocomotionStateType.Move,
         LocomotionStateType.Jump,
         LocomotionStateType.Fall,
-        LocomotionStateType.Flying
+        LocomotionStateType.FlightMove
     };
 }

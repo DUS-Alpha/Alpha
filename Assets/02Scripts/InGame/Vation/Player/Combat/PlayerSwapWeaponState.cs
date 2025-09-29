@@ -29,7 +29,7 @@ public class PlayerSwapWeaponState : PlayerCombatState
             m_delayT += Time.deltaTime;
 
             if(m_delayT > 0.2f)
-            m_PlayerCore.SwitchCombatState(CombatStateType.Idle);
+            m_PlayerCore.SwitchCombatState(CombatStateType.NonCombat);
         }
     }
     public override void Exit()
