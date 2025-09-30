@@ -67,6 +67,15 @@ public class PlayerAnimationController : MonoBehaviour
         m_animator.SetBool("IsFlying", isFlying);
     }
 
+
+    public void HitAni()
+    {
+        m_animator.SetTrigger("Hit");
+    }
+    public void DieAni()
+    {
+        m_animator.SetTrigger("EnterDie");
+    }
     #endregion ================================================================================ /Locomotion
 
 
@@ -97,7 +106,7 @@ public class PlayerAnimationController : MonoBehaviour
     }
     public void ReloadAni()
     {
-        m_animator.SetTrigger("Upper_Reload");
+        m_animator.SetTrigger("Reload");
     }
     public void SkillAni()
     {

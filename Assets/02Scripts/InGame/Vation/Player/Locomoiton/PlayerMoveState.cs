@@ -20,7 +20,13 @@ public class PlayerMoveState : PlayerLocomotionState
 
     public override void Update()
     {
-        m_Locomotion.Movement(m_Combat.IsCombating);
+        if(m_Locomotion.IsDie)
+        {
+            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Die);
+            return;
+        }
+
+        m_Locomotion.Movement(m_Combat.IsCombating, m_Combat.IsSniper);
         m_Locomotion.ApplyGravity();
 
         if (m_Locomotion.IsJump)
@@ -34,6 +40,11 @@ public class PlayerMoveState : PlayerLocomotionState
         }
         else if (m_Locomotion.MoveDir == Vector3.zero)
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Idle);
+
+        if(m_Locomotion.MoveDir.sqrMagnitude > 0.1f)
+        {
+            m_Locomotion.MoveEffect();
+        }
     }
     public override void Exit()
     {

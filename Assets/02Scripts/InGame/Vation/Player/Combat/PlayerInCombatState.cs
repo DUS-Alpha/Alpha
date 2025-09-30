@@ -31,7 +31,7 @@ public class PlayerInCombatState : PlayerCombatState
         }
 
         if (m_Combat.IsSwapWeapon()) m_PlayerCore.SwitchCombatState(CombatStateType.Upper_SwapWeapon);
-        else if (m_Combat.IsReload) m_PlayerCore.SwitchCombatState(CombatStateType.Upper_SwapWeapon);
+        else if (m_Combat.IsReload) m_PlayerCore.SwitchCombatState(CombatStateType.Upper_Reload);
         else if (m_Combat.IsAttack)
         {
             m_Combat.Attack();
@@ -52,6 +52,7 @@ public class PlayerInCombatState : PlayerCombatState
     {
         base.Exit();
         m_Combat.ExitInCombat();
+        if(!m_Locomotion.IsFlying)
         m_Combat.SetUpperAnimatorLayer(0);
         m_Combat.SetAming(false);
     }

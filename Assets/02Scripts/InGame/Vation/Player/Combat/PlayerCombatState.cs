@@ -14,7 +14,6 @@ public abstract class PlayerCombatState : PlayerState
             m_PlayerCore.LocomotionFlagsController.AddAllFlags();
         else
             m_PlayerCore.LocomotionFlagsController.AddLockedFlag(m_LockOnEnter);
-        DebugCurrentState();
     }
 
     public abstract override void FixedUpdate();

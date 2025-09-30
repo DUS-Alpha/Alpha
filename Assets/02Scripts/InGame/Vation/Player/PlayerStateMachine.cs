@@ -42,6 +42,7 @@ public class PlayerStateMachine
             {LocomotionStateType.Fall, () => new PlayerFallState(m_playerCore) },
             {LocomotionStateType.FlyUp, () => new PlayerFlyUpState(m_playerCore) },
             {LocomotionStateType.FlightMove, () => new PlayerFlightMoveState(m_playerCore) },
+            {LocomotionStateType.Die, () => new PlayerDieState(m_playerCore) }
         };
 
         m_combatStateCreateDic = new Dictionary<CombatStateType, Func<PlayerState>>
@@ -57,7 +58,7 @@ public class PlayerStateMachine
     public void Update()
     {
         m_locoState.Update();
-
+        if (m_playerCore.Locomotion.IsDie) return;
         m_combatState.Update();
     }
 

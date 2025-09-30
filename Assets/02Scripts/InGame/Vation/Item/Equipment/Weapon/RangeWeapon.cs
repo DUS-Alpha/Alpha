@@ -40,7 +40,7 @@ public class RangeWeapon : Weapon
     private bool m_canNeedReload;
     public bool IsNeedReload => m_canNeedReload;
 
-    private void Start()
+    private void Awake()
     {
         m_currentAmmo = m_maxAmmo;
     }

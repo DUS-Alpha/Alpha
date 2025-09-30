@@ -18,8 +18,13 @@ public class PlayerFlightMoveState : PlayerLocomotionState
 
     public override void Update()
     {
-        m_Locomotion.Movement(m_Combat.IsCombating);
+        m_Locomotion.Movement(m_Combat.IsCombating, m_Combat.IsSniper);
         //m_Locomotion.UpdateFlyingGauge();
+
+        if(m_Locomotion.IsDie)
+        {
+            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Die);
+        }
 
         if (m_Locomotion.IsFlyOff || m_Locomotion.FlyingGauge <= 0)
         {

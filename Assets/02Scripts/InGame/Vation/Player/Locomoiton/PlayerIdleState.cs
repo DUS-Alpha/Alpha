@@ -15,7 +15,7 @@ public class PlayerIdleState : PlayerLocomotionState
     {
         base.Enter();
         // 모든 Locomotion 값 초기화
-        m_Locomotion.InitializeLocotion();
+       // m_Locomotion.InitializeLocotion();
     }
 
     public override void FixedUpdate()
@@ -25,9 +25,14 @@ public class PlayerIdleState : PlayerLocomotionState
 
     public override void Update()
     {
+        if (m_Locomotion.IsDie)
+        {
+            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Die);
+            return;
+        }
         if (m_Combat.IsAction) return;
 
-        m_Locomotion.Movement(m_Combat.IsCombating);
+        m_Locomotion.Movement(m_Combat.IsCombating, m_Combat.IsSniper);
         m_Locomotion.ApplyGravity();
 
         // Locomotion Switch State

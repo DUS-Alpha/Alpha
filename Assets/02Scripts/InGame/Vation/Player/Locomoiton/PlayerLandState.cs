@@ -14,6 +14,7 @@ public class PlayerLandState : PlayerLocomotionState
         base.Enter();
         m_Locomotion.SetIsAction(true);
         m_delayT = 0;
+        m_Locomotion.EnterLanding();
     }
     public override void FixedUpdate()
     {
@@ -21,6 +22,7 @@ public class PlayerLandState : PlayerLocomotionState
 
     public override void Update()
     {
+        
         m_delayT += Time.deltaTime;
         if (m_delayT < 0.4f) return;
 

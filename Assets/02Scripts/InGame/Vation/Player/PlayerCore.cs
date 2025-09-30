@@ -13,6 +13,7 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
     [Header(" [ Ref Component ] ")]
     public PlayerCameraManger CameraManger;
     public PlayerUIManager UIManager;
+    public AudioManager AudioManager;
 
     public GameObject PlayerObj { get; private set; }
     public PlayerInputHandler InputHandler { get; private set; }
@@ -25,6 +26,7 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
     public PlayerEquipmentController EquipmentController { get; private set; }
     public PlayerIKController IKController { get; private set; }
    
+
     public InputLockedFlagsController<InputLocoLockType> LocomotionFlagsController { get; private set; } = new InputLockedFlagsController<InputLocoLockType>();
     public InputLockedFlagsController<InputCombatLockType> CombatFlagsController { get; private set; } = new InputLockedFlagsController<InputCombatLockType>();
     
@@ -56,7 +58,7 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
         AniController.InitializeModule(Combat);
         EquipmentController.InitializeModule();
         InputHandler.InitializeModule(Combat, LocomotionFlagsController, CombatFlagsController);
-        Locomotion.InitializeModule(InputHandler, AniController);
+        Locomotion.InitializeModule(InputHandler, AniController, CameraManger,AudioManager);
         Combat.InitializeModule(this);
     }
 
@@ -91,6 +93,5 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
     {
         StateMachine.Update();
         CheckInputAction?.Invoke();
-
     }
 }

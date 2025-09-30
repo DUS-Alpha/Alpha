@@ -25,8 +25,8 @@ public class PlayerMovementUitility
 
     public float HandleMove(Vector3 moveDir, float targetSpeed, CharacterController characterController, bool isFlying)
     {
+        if (Camera.main == null) return 0;
         Camera cam = Camera.main;
-
         if (moveDir.magnitude <= 0.1f)
         {
             targetSpeed = 0;
@@ -58,9 +58,9 @@ public class PlayerMovementUitility
         return m_currentSpeed;
     }
 
-    public void HandleRotate(GameObject gameObject, Vector3 moveDir, bool isCombat, bool isFlying)
+    public void HandleRotate(GameObject gameObject, Vector3 moveDir, Camera camera,bool isCombat, bool isFlying)
     {
-        Camera cam = Camera.main;
+        Camera cam = camera;
 
         Vector3 _dir;
 

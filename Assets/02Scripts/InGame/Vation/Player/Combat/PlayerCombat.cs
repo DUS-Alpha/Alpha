@@ -19,6 +19,7 @@ public class PlayerCombat : MonoBehaviour
     public bool IsAttack { get; private set; }
     public bool IsScope => m_isScope;
     private bool m_isScope;
+    public bool IsSniper;
     public bool IsReload { get; private set; }
     public bool m_isReloading;
     // 무기 관리
@@ -140,6 +141,13 @@ public class PlayerCombat : MonoBehaviour
         m_swapAction?.Invoke(m_currentWeaponNum);
         m_animationController.SetAnimatorWeight(2,1);
         m_animationController.SwapWeaponAni(m_currentWeaponNum);
+
+        if (m_currentWeaponNum > 1)
+        {
+            RangeWeapon _rangeWeapon = CurrentWeapon as RangeWeapon;
+            m_uiManager.SetAmmo(_rangeWeapon.CurrentAmmo, _rangeWeapon.SaveAmmo, _rangeWeapon.MaxAmmo);
+        }
+        else m_uiManager.SetAmmo(0, 0, 0);
     }
 
     public void ExitSwapWeapon()
@@ -150,6 +158,7 @@ public class PlayerCombat : MonoBehaviour
             RangeWeapon _rangeWeapon = CurrentWeapon as RangeWeapon;
             m_uiManager.SetAmmo(_rangeWeapon.CurrentAmmo, _rangeWeapon.SaveAmmo, _rangeWeapon.MaxAmmo);
         }
+        else m_uiManager.SetAmmo(0, 0, 0);
         m_animationController.SetAnimatorWeight(2, 0);
     }
     /// <summary>
@@ -199,8 +208,8 @@ public class PlayerCombat : MonoBehaviour
     public void SetAming(bool isAim)
     {
         int _isAimWeight = isAim ? 1 : 0;
-        if(!isAim) m_isScope = false;
-
+        if (!isAim) m_isScope = false;
+        else m_isScope = isAim;
         // TODO : UpperBody라서 Fly일때도 같이 쓰기에 다시 조율 필요
         m_cameraManager.AimFOV(m_isScope, m_currentWeaponNum);
     }

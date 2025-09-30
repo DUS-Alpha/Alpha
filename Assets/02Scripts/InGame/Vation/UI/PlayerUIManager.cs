@@ -5,12 +5,24 @@ using UnityEngine;
 public class PlayerUIManager : MonoBehaviour
 {
     public static PlayerUIManager Instance;
+    [SerializeField]
+    private GameObject[] m_crossHeadUIs;
 
     [SerializeField]
     private PlayerInventoryUI m_inventoryUI;
 
     [SerializeField]
     private TextMeshProUGUI m_ammoTMP;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+    private void Start()
+    {
+        ChangeSniperAimUI(false);
+        SetAmmo(0, 0, 0);
+    }
     private BaseUI GetUI<T>(out bool isAlreadyOpen) //out : 참조역할 이를 통해 BaseUI와 bool 두 타입을 반환
     {
         Type uiType = typeof(T);
@@ -37,6 +49,11 @@ public class PlayerUIManager : MonoBehaviour
     public void CloseUI(BaseUI ui)
     {
 
+    }
+    public void ChangeSniperAimUI(bool isSniper)
+    {
+        m_crossHeadUIs[0].SetActive(!isSniper);
+        m_crossHeadUIs[1].SetActive(isSniper);
     }
 
     public void EquipInventory(EquipmentDataSO equipmentData)
