@@ -19,18 +19,19 @@ public class PlayerFlightMoveState : PlayerLocomotionState
     public override void Update()
     {
         m_Locomotion.Movement(m_Combat.IsCombating, m_Combat.IsSniper);
-        //m_Locomotion.UpdateFlyingGauge();
+        m_Locomotion.UpdateFlightMove();
 
         if(m_Locomotion.IsDie)
         {
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Die);
         }
 
-        if (m_Locomotion.IsFlyOff || m_Locomotion.FlyingGauge <= 0)
+        if (m_Locomotion.IsFlyUp || m_Locomotion.FlyingGauge <= 0)
         {
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Fall);
             m_Locomotion.SetVelocityY(2.5f);
         }
+
         // TODO : 중력 적용 시 Idle 전환 처리(애니메이션 처리 미흡해서 현재는 적용x)
     }
 

@@ -90,7 +90,7 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
     public bool IsDash {  get; private set; }
     public bool IsDodge { get; private set; }
     public bool IsDie;
-    
+
     private void Awake()
     {
         m_movementUtility = new PlayerMovementUitility();
@@ -120,7 +120,6 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
     {
         MoveDir = Vector3.zero;
         IsFlyUp = false;
-        IsFlyOff = false;
         IsDodge = false;
         IsJump = false;
         m_isJumping = false;
@@ -132,7 +131,6 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
     {
         MoveDir = m_InputHandler.MoveDir;
         IsFlyUp = m_InputHandler.IsFlyUp;
-        IsFlyOff = m_InputHandler.IsFlyOff;
         IsDodge = m_InputHandler.IsDodge;
         IsJump = m_InputHandler.IsJump;
     }
@@ -325,10 +323,13 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
     }
 
     // Flying
-    public void UpdateFlyingGauge()
+    public void UpdateFlightMove()
     {
-        if (m_flyingGauge <= 0) m_flyingGauge = 0;
-        else m_flyingGauge = m_flyingGauge - Time.deltaTime;
+        // 이동이 없을 경우 사운드 끄기
+        m_audioManager.PlaySFXLocomotionAudio(SFXLomotionType.FlyMove, MoveDir.sqrMagnitude < 0.1f);
+ 
+        /*if (m_flyingGauge <= 0) m_flyingGauge = 0;
+        else m_flyingGauge = m_flyingGauge - Time.deltaTime;*/
     }
     public void ChargingFlyingGauge()
     {

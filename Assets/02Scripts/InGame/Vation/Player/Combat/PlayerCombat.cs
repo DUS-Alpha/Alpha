@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
+using UnityEngine.Rendering.VirtualTexturing;
 
 public class PlayerCombat : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class PlayerCombat : MonoBehaviour
     private PlayerAnimationController m_animationController;
     private PlayerIKController m_ikController;
     private PlayerUIManager m_uiManager;
+    private AudioManager m_audioManager;
     private Action<int> m_swapAction;
 
     public bool IsCombat { get; private set; }
@@ -42,6 +44,7 @@ public class PlayerCombat : MonoBehaviour
         m_uiManager = playerCore.UIManager;
         m_equipmentWeapons = playerCore.EquipmentController.Weapons;
         m_ikController = playerCore.IKController;
+        m_audioManager = playerCore.AudioManager;
     }
 
     public void InitializeEvents(IPlayerEvents events)
@@ -71,7 +74,7 @@ public class PlayerCombat : MonoBehaviour
         IsAttack = m_inputHandler.IsAttack;
         bool _isScope = m_inputHandler.IsScope;
         m_swapWeaponNum = m_inputHandler.SwapWeaponNum;
-        IsReload = m_inputHandler.IsReload;
+        IsReload = m_currentWeaponNum > 1? m_inputHandler.IsReload : false;
 
         // Toggle 형태로
         if(_isScope)
@@ -79,7 +82,8 @@ public class PlayerCombat : MonoBehaviour
             m_isScope = !m_isScope;
         }
 
-        IsCombat = IsAttack || m_isScope;
+        IsCombat = m_currentWeaponNum != 0 ? IsAttack || m_isScope : false;
+
     }
     public void SetIsAction(bool isAction)
     {
@@ -102,10 +106,12 @@ public class PlayerCombat : MonoBehaviour
         m_animationController.SetIsCombatAni(m_isCombating);
         if (m_currentWeaponNum > 1) SetIKRigWeight(1);
     }
-    public void ExitInCombat()
+    public void ExitInCombat(bool isCombating)
     {
-        m_isCombating = false;
+        m_isCombating = isCombating;
         m_animationController.SetIsCombatAni(m_isCombating);
+        
+        if(!isCombating)
         SetIKRigWeight(0);
     }
     
@@ -223,8 +229,12 @@ public class PlayerCombat : MonoBehaviour
 
         m_uiManager.SetAmmo(_rangeWeapon.CurrentAmmo, _rangeWeapon.SaveAmmo, _rangeWeapon.MaxAmmo);
         m_isReloading = true;
+
+        SetAming(false);
+
         m_animationController.SetAnimatorWeight(2, 1);
         m_animationController.ReloadAni();
+        m_audioManager.PlaySFXCombatAudio(SFXCombatType.Reload);
         return true;
 
     }

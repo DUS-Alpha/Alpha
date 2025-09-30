@@ -9,6 +9,7 @@ public class PlayerInCombatState : PlayerCombatState
 
     private int m_currentWeaponNum;
     private float m_nextDely;
+    private bool m_isReloading;
     public override void Enter()
     {
         base.Enter();
@@ -16,6 +17,7 @@ public class PlayerInCombatState : PlayerCombatState
         m_Combat.EnterInCombat();
         m_currentWeaponNum = m_Combat.CurrentWeaponNum;
         m_nextDely = 0;
+        m_isReloading = false;
     }
     public override void FixedUpdate()
     {
@@ -30,8 +32,15 @@ public class PlayerInCombatState : PlayerCombatState
             return;
         }
 
-        if (m_Combat.IsSwapWeapon()) m_PlayerCore.SwitchCombatState(CombatStateType.Upper_SwapWeapon);
-        else if (m_Combat.IsReload) m_PlayerCore.SwitchCombatState(CombatStateType.Upper_Reload);
+        //if (m_Combat.IsAction) return;
+
+        if (m_Combat.IsSwapWeapon()) 
+            m_PlayerCore.SwitchCombatState(CombatStateType.Upper_SwapWeapon);
+        else if (m_Combat.IsReload)
+        {
+            m_isReloading = true;
+            m_PlayerCore.SwitchCombatState(CombatStateType.Upper_Reload);
+        }
         else if (m_Combat.IsAttack)
         {
             m_Combat.Attack();
@@ -51,9 +60,12 @@ public class PlayerInCombatState : PlayerCombatState
     public override void Exit()
     {
         base.Exit();
-        m_Combat.ExitInCombat();
-        if(!m_Locomotion.IsFlying)
-        m_Combat.SetUpperAnimatorLayer(0);
+        if(m_isReloading) m_Combat.SetUpperAnimatorLayer(1);
+        else if(!m_Locomotion.IsFlying)
+            m_Combat.SetUpperAnimatorLayer(0);
+
+        m_Combat.ExitInCombat(m_isReloading);
+
         m_Combat.SetAming(false);
     }
 

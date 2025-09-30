@@ -1,5 +1,6 @@
 using NUnit.Framework.Interfaces;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlayerNonCombatState : PlayerCombatState
 {
@@ -29,6 +30,7 @@ public class PlayerNonCombatState : PlayerCombatState
         }
         else if (m_Combat.IsReload)
         {
+            if(m_Combat.CurrentWeaponNum > 1)
             m_PlayerCore.SwitchCombatState(CombatStateType.Upper_Reload);
         }
         else if(m_Combat.IsCombat)

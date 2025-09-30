@@ -55,8 +55,12 @@ public class AudioManager : MonoBehaviour
     {
 
     }
-    public void PlaySFXLocomotionAudio(SFXLomotionType sfxType, bool isPlayOneShot = false)
+
+    // TODO 재활용성을 위해 PlaySFX로 통합할지 고민
+    public void PlaySFXLocomotionAudio(SFXLomotionType sfxType, bool isStop = false, bool isPlayOneShot = false)
     {
+        if (isStop) m_sfxLocomotionAudio.Stop();
+
         AudioClip _clip = m_sfxLocomotionClips[(int)sfxType-1];
 
         if(m_sfxLocomotionAudio.clip != _clip) m_sfxLocomotionAudio.Stop();
@@ -72,8 +76,11 @@ public class AudioManager : MonoBehaviour
             }
         }
     }
-    public void PlaySFXCombatAudio(SFXLomotionType sfxType, bool isPlayOneShot = false)
+    
+    public void PlaySFXCombatAudio(SFXCombatType sfxType, bool isStop = false, bool isPlayOneShot = false)
     {
+        if (isStop) m_sfxCombatAudio.Stop();
+
         AudioClip _clip = m_sfxCombatClips[(int)sfxType - 1];
 
         m_sfxCombatAudio.clip = _clip;
