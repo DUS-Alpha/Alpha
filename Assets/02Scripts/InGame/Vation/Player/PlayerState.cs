@@ -13,7 +13,7 @@ public abstract class PlayerState
         m_Locomotion = playerCore.Locomotion;
         m_Combat = playerCore.Combat;
         m_Ani = playerCore.AniController;
-        DebugCurrentState();
+        //DebugCurrentState();
     }
     public void DebugCurrentState()
     {

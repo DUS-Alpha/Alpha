@@ -14,6 +14,10 @@ public class PlayerUIManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI m_ammoTMP;
 
+    [SerializeField]
+    private TextMeshProUGUI m_locomotionTMP;
+    [SerializeField]
+    private TextMeshProUGUI m_combatTMP;
     private void Awake()
     {
         Instance = this;
@@ -65,5 +69,14 @@ public class PlayerUIManager : MonoBehaviour
     public void SetAmmo(int currentAmmo, int saveAmmo, int maxAmmo)
     {
         m_ammoTMP.text = currentAmmo + " / " + saveAmmo;
+    }
+
+    public void CurrentLocomotionState(string state)
+    {
+        m_locomotionTMP.text = "Locomotion \n" + state;
+    }
+    public void CurrentCombatState(string state)
+    {
+        m_combatTMP.text = "Combat \n" + state;
     }
 }
