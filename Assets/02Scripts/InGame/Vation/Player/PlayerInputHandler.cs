@@ -19,10 +19,12 @@ public class PlayerInputHandler : MonoBehaviour
     #region ==================== CombatInput
     public bool IsAttack { get; private set; }
     public int SwapWeaponNum { get; private set; } = 0;
-    public bool IsScope { get; private set; }
+    public bool IsAim { get; private set; }
     public bool IsWeaponSwap { get; private set; }
     public bool IsReload { get; private set; }
     public bool IsSkill1 { get; private set; }
+    public bool IsSkill2 {  get; private set; }
+    public bool IsSkill3 { get; private set; }
     #endregion ==================== /CombatInput
 
     #region ==================== ETC
@@ -93,7 +95,7 @@ public class PlayerInputHandler : MonoBehaviour
         if(m_inputCombatFlags.HasFlag(InputCombatLockType.All))
         {
             IsAttack = false;
-            IsScope = false;
+            IsAim = false;
             IsReload = false;
             SwapWeaponNum = 0;
             return;
@@ -101,8 +103,12 @@ public class PlayerInputHandler : MonoBehaviour
         WeaponSwapNum();
         IsAttack = !m_inputCombatFlags.HasFlag(InputCombatLockType.Attack) && Input.GetMouseButton(0);
 
-        IsScope = !m_inputCombatFlags.HasFlag(InputCombatLockType.Aim) && Input.GetMouseButtonDown(1) && m_combat.CurrentWeaponNum > 1;
+        IsAim = !m_inputCombatFlags.HasFlag(InputCombatLockType.Aim) && Input.GetMouseButtonDown(1) && m_combat.CurrentWeaponNum > 1;
         IsReload = !m_inputCombatFlags.HasFlag(InputCombatLockType.Reload) && Input.GetKeyDown(KeyCode.R);
+
+        IsSkill1 = !m_inputCombatFlags.HasFlag(InputCombatLockType.Skill1) && Input.GetKeyDown(KeyCode.Q);
+        IsSkill2 = !m_inputCombatFlags.HasFlag(InputCombatLockType.Skill2) && Input.GetKeyDown(KeyCode.E);
+        IsSkill3 = !m_inputCombatFlags.HasFlag(InputCombatLockType.Skill3) && Input.GetKeyDown(KeyCode.Z);
     }
 
     private void WeaponSwapNum()

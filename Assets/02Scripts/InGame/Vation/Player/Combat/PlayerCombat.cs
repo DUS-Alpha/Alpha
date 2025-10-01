@@ -19,8 +19,8 @@ public class PlayerCombat : MonoBehaviour
     public bool IsCombating => m_isCombating;
     private bool m_isCombating;
     public bool IsAttack { get; private set; }
-    public bool IsScope => m_isScope;
-    private bool m_isScope;
+    public bool IsScope => m_isAim;
+    private bool m_isAim;
     public bool IsSniper;
     public bool IsReload { get; private set; }
     public bool m_isReloading;
@@ -72,17 +72,17 @@ public class PlayerCombat : MonoBehaviour
     public void CheckInput()
     {
         IsAttack = m_inputHandler.IsAttack;
-        bool _isScope = m_inputHandler.IsScope;
+        bool _isAim = m_inputHandler.IsAim;
         m_swapWeaponNum = m_inputHandler.SwapWeaponNum;
         IsReload = m_currentWeaponNum > 1? m_inputHandler.IsReload : false;
 
         // Toggle 형태로
-        if(_isScope)
+        if(_isAim)
         {
-            m_isScope = !m_isScope;
+            m_isAim = !m_isAim;
         }
 
-        IsCombat = m_currentWeaponNum != 0 ? IsAttack || m_isScope : false;
+        IsCombat = m_currentWeaponNum != 0 ? IsAttack || m_isAim : false;
 
     }
     public void SetIsAction(bool isAction)
@@ -184,7 +184,6 @@ public class PlayerCombat : MonoBehaviour
         return true;
     }
 
-
     public void AttackRootMotion(bool isApplyRoot)
     {
        // m_animationController.SetApplyRootMotion(isApplyRoot);
@@ -214,10 +213,9 @@ public class PlayerCombat : MonoBehaviour
     public void SetAming(bool isAim)
     {
         int _isAimWeight = isAim ? 1 : 0;
-        if (!isAim) m_isScope = false;
-        else m_isScope = isAim;
+        m_isAim = isAim;
         // TODO : UpperBody라서 Fly일때도 같이 쓰기에 다시 조율 필요
-        m_cameraManager.AimFOV(m_isScope, m_currentWeaponNum);
+        m_cameraManager.AimFOV(m_isAim, m_currentWeaponNum);
     }
 
     public bool EnterReload()

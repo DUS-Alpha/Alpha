@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class PlayerFlightMoveState : PlayerLocomotionState
 {
-    protected override InputCombatLockType m_LockOnEnter => InputCombatLockType.Skill;
+    protected override InputCombatLockType m_LockOnEnter => InputCombatLockType.Skill1 | InputCombatLockType.Skill2 | InputCombatLockType.Skill3;
 
-    protected override InputCombatLockType m_LockOnExit => InputCombatLockType.Skill;
+    protected override InputCombatLockType m_LockOnExit => InputCombatLockType.Skill1 | InputCombatLockType.Skill2 | InputCombatLockType.Skill3;
 
     public PlayerFlightMoveState(PlayerCore playerCore) : base(playerCore) { }
     public override void Enter()

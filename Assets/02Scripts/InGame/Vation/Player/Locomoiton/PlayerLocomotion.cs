@@ -86,7 +86,8 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
     public bool IsFlyUp { get; private set; }
     public bool IsFlying => m_isFlying;
     private bool m_isFlying;
-    public bool IsFlyOff { get; private set; }
+    public bool IsFlyFall => m_isFlyFall;
+    private bool m_isFlyFall;
     public bool IsDash {  get; private set; }
     public bool IsDodge { get; private set; }
     public bool IsDie;
@@ -239,7 +240,6 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
 
         m_lastMoveDir = m_moveDirByCamera.normalized * m_jumpSpeed;
 
-
         if (m_lastMoveDir != Vector3.zero)
             gameObject.transform.rotation = Quaternion.LookRotation(m_lastMoveDir);
 
@@ -286,7 +286,7 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
     {
         m_isFlying = true;
         IsGrounded = false;
-
+        m_isFlyFall = true;
         m_animationController.SetAnimatorWeight(1,1);
 
         m_currentFlyHeight = 0f;
@@ -356,7 +356,10 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
     {
         m_audioManager.PlaySFXLocomotionAudio(SFXLomotionType.Land);
     }
-
+    public void ExitLanding()
+    {
+        m_isFlyFall = false;
+    }
     public void EnterDie()
     {
         m_animationController.DieAni();
