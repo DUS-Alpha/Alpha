@@ -23,7 +23,7 @@ public class PlayerCombat : MonoBehaviour
     private bool m_isAim;
     public bool IsSniper;
     public bool IsReload { get; private set; }
-    public bool m_isReloading;
+
     // 무기 관리
     public int CurrentWeaponNum => m_currentWeaponNum;
     private int m_currentWeaponNum;
@@ -140,12 +140,11 @@ public class PlayerCombat : MonoBehaviour
     }
     public void EnterSwapWeapon()
     {
-        m_isAction = true;
         // 옵저버 패턴 - 각 모듈의 액션들 처리
         // 현재는 PlayerEquipmentController의 SwapAction함수만 저장
         
         m_swapAction?.Invoke(m_currentWeaponNum);
-        m_animationController.SetAnimatorWeight(2,1);
+        //m_animationController.SetAnimatorWeight(2,1);
         m_animationController.SwapWeaponAni(m_currentWeaponNum);
 
         if (m_currentWeaponNum > 1)
@@ -158,14 +157,13 @@ public class PlayerCombat : MonoBehaviour
 
     public void ExitSwapWeapon()
     {
-        m_isAction = false;
         if (m_currentWeaponNum > 1)
         {
             RangeWeapon _rangeWeapon = CurrentWeapon as RangeWeapon;
             m_uiManager.SetAmmo(_rangeWeapon.CurrentAmmo, _rangeWeapon.SaveAmmo, _rangeWeapon.MaxAmmo);
         }
         else m_uiManager.SetAmmo(0, 0, 0);
-        m_animationController.SetAnimatorWeight(2, 0);
+        //m_animationController.SetAnimatorWeight(2, 0);
     }
     /// <summary>
     /// Player오브젝트 하위에 있는 각 Holder 오브젝트 On/Off 방식
@@ -207,7 +205,7 @@ public class PlayerCombat : MonoBehaviour
     {
         m_animationController.AttackAni(false, m_currentWeaponNum);
         
-        m_animationController.SetAnimatorWeight(2, 0);
+        //m_animationController.SetAnimatorWeight(2, 0);
     }
 
     public void SetAming(bool isAim)
@@ -220,17 +218,15 @@ public class PlayerCombat : MonoBehaviour
 
     public bool EnterReload()
     {
-        m_isAction = true;
         RangeWeapon _rangeWeapon = CurrentWeapon as RangeWeapon;
         bool _cansReload = _rangeWeapon.Reload();
         if(!_cansReload) return false;
 
         m_uiManager.SetAmmo(_rangeWeapon.CurrentAmmo, _rangeWeapon.SaveAmmo, _rangeWeapon.MaxAmmo);
-        m_isReloading = true;
 
         SetAming(false);
 
-        m_animationController.SetAnimatorWeight(2, 1);
+        //m_animationController.SetAnimatorWeight(2, 1);
         m_animationController.ReloadAni();
         m_audioManager.PlaySFXCombatAudio(SFXCombatType.Reload);
         return true;
@@ -238,9 +234,8 @@ public class PlayerCombat : MonoBehaviour
     }
     public void ExitReload()
     {
-        m_isAction = false;
-        m_isReloading = false;
-        m_animationController.SetAnimatorWeight(2, 0);
+        //m_isAction = false;
+        //m_animationController.SetAnimatorWeight(2, 0);
     }
     #endregion ================================================ /Enter,Exit State
 }

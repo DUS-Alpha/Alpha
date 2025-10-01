@@ -40,6 +40,7 @@ public class PlayerReloadState : PlayerCombatState
     public override void Exit()
     {
         base.Exit();
-        m_Combat.ExitReload();
+        //m_Combat.ExitReload();
+        m_Combat.SetIsAction(false);
     }
 }

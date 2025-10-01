@@ -21,9 +21,11 @@ public class PlayerAnimationController : MonoBehaviour
     private void Start()
     {
         SetAnimatorWeight(1, 0);
-        SetAnimatorWeight(2, 0);
+        //SetAnimatorWeight(2, 0);
         SetAnimatorWeight(3, 0);
     }
+
+    
 
     public void InitializeModule(PlayerCombat combat)
     {
@@ -35,7 +37,10 @@ public class PlayerAnimationController : MonoBehaviour
     }
 
     #region ================================================================================ Locomotion
+    public void AllClear()
+    {
 
+    }
     public void MoveAni(float moveSpeed)
     {
         m_animator.SetFloat("MoveSpeed", moveSpeed);
@@ -74,7 +79,7 @@ public class PlayerAnimationController : MonoBehaviour
     }
     public void DieAni()
     {
-        m_animator.SetTrigger("EnterDie");
+        m_animator.SetTrigger("Die");
     }
     #endregion ================================================================================ /Locomotion
 

@@ -8,7 +8,7 @@ public class SwapWeaonSMB : StateMachineBehaviour
     {
         if (m_combat == null)
             m_combat = animator.GetComponent<PlayerCombat>();
-        m_combat.SetIsAction(true);
+        //m_combat.SetIsAction(true);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -20,7 +20,7 @@ public class SwapWeaonSMB : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        m_combat.SetIsAction(false);
+        //m_combat.SetIsAction(false);
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

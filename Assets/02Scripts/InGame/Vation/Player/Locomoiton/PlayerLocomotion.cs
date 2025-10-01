@@ -76,11 +76,12 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
     private Vector3 m_moveDirByCamera;
     private float m_lastGroundTime;
     private Vector3 m_lastMoveDir;   // Jump/Fall 시 XZ 이동 전용
+    private Vector3 m_moveDir;
 
     // ========================== Input
     public bool IsAction => m_isAction;
     private bool m_isAction;
-    public Vector3 MoveDir { get; private set; }
+    public bool IsMoving { get; private set; }
     public bool IsJump { get; private set; }
     private bool m_isJumping;
     public bool IsFlyUp { get; private set; }
@@ -119,7 +120,7 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
 
     public void InitializeLocotion()
     {
-        MoveDir = Vector3.zero;
+        m_moveDir = Vector3.zero;
         IsFlyUp = false;
         IsDodge = false;
         IsJump = false;
@@ -130,10 +131,11 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
 
     public void CheckInput()
     {
-        MoveDir = m_InputHandler.MoveDir;
+        m_moveDir = m_InputHandler.MoveDir;
         IsFlyUp = m_InputHandler.IsFlyUp;
         IsDodge = m_InputHandler.IsDodge;
         IsJump = m_InputHandler.IsJump;
+        //Debug.Log(m_moveDir+ " Check ");
     }
 
     public void SetIsAction(bool isAction)
@@ -152,14 +154,19 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
         float _targetSpeed;
 
         // Combat인가? 그리고 Flying상태인가?
-        if (MoveDir.sqrMagnitude < 0.1f) _targetSpeed = 0;
+        if (m_moveDir.sqrMagnitude < 0.1f)
+        {
+            _targetSpeed = 0;
+            IsMoving = false;
+        }
         else
         {
-            _targetSpeed = isCombating ? (m_isFlying ? m_flightCombatSpeed : m_combatSpeed) : (m_isFlying ?  m_flySpeed: m_baseSpeed);
+            IsMoving = true;
+            _targetSpeed = isCombating ? (m_isFlying ? m_flightCombatSpeed : m_combatSpeed) : (m_isFlying ? m_flySpeed : m_baseSpeed);
         }
 
-        HandleRotate(MoveDir, isCombating, isSniper);
-        HandleMove(MoveDir, _targetSpeed, isCombating);
+        HandleRotate(m_moveDir, isCombating, isSniper);
+        HandleMove(m_moveDir, _targetSpeed, isCombating);
     }
 
     public void MoveEffect()
@@ -292,7 +299,7 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
         m_currentFlyHeight = 0f;
         m_flyUpSpeed = m_initialFlySpeed;
 
-        MoveDir = Vector3.zero;
+        m_moveDir = Vector3.zero;
         // 똑바로 선 상태로 회전
         m_movementUtility.InitializeRotate(this.gameObject);
 
@@ -326,7 +333,7 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
     public void UpdateFlightMove()
     {
         // 이동이 없을 경우 사운드 끄기
-        m_audioManager.PlaySFXLocomotionAudio(SFXLomotionType.FlyMove, MoveDir.sqrMagnitude < 0.1f);
+        m_audioManager.PlaySFXLocomotionAudio(SFXLomotionType.FlyMove, m_moveDir.sqrMagnitude < 0.1f);
  
         /*if (m_flyingGauge <= 0) m_flyingGauge = 0;
         else m_flyingGauge = m_flyingGauge - Time.deltaTime;*/
@@ -342,7 +349,7 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
     {
         if(!IsDie) m_isFlying = false;
         m_animationController.SetFlyingAni(m_isFlying);
-        MoveDir = Vector3.zero;
+        m_moveDir = Vector3.zero;
 
         // 똑바로 선 상태로 회전
         m_movementUtility.InitializeRotate(this.gameObject);

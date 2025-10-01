@@ -27,6 +27,11 @@ public class PlayerMoveState : PlayerLocomotionState
         }
 
         m_Locomotion.Movement(m_Combat.IsCombating, m_Combat.IsSniper);
+        if (m_Locomotion.IsMoving)
+        {
+            m_Locomotion.MoveEffect();
+        }
+
         m_Locomotion.ApplyGravity();
 
         if (m_Locomotion.IsJump)
@@ -38,13 +43,10 @@ public class PlayerMoveState : PlayerLocomotionState
             if(m_Locomotion.FlyingGauge > 0)
                 m_PlayerCore.SwitchLocomotionState(LocomotionStateType.FlyUp);
         }
-        else if (m_Locomotion.MoveDir == Vector3.zero)
+        else if (!m_Locomotion.IsMoving)
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Idle);
 
-        if(m_Locomotion.MoveDir.sqrMagnitude > 0.1f)
-        {
-            m_Locomotion.MoveEffect();
-        }
+        
     }
     public override void Exit()
     {
