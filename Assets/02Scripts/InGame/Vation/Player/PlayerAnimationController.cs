@@ -113,9 +113,16 @@ public class PlayerAnimationController : MonoBehaviour
     {
         m_animator.SetTrigger("Reload");
     }
-    public void SkillAni()
+    public void SkillAni(int num)
     {
-
+        if(num == 1)
+        {
+            m_animator.SetTrigger("Skill1");
+        }
+        else if (num == 2)
+        {
+            m_animator.SetTrigger("Skill2");
+        }
     }
   
     public void UpdateAnimatorTransformValue()

@@ -33,34 +33,16 @@ public class PlayerNonCombatState : PlayerCombatState
             if(m_Combat.CurrentWeaponNum > 1)
             m_PlayerCore.SwitchCombatState(CombatStateType.Upper_Reload);
         }
-        else if(m_Combat.IsCombat)
+
+        if (m_Combat.CurrentWeaponNum == 0) return;
+        else if (m_Combat.IsCombat)
         {
             m_PlayerCore.SwitchCombatState(CombatStateType.Upper_InCombat);
         }
-
-        /*if (m_Combat.IsSwapWeapon)
+        else if (m_Combat.SkillQueue.Count != 0)
         {
-            m_PlayerCore.SwitchCombatState(CombatStateType.SwapWeapon);
+            m_PlayerCore.SwitchCombatState(CombatStateType.Skill);
         }
-        else if (m_Combat.IsAttack)    // 우선은 같은 Attack으로 넘어가지만 향후를 위해 구분
-        {
-            if(m_Combat.CurrentWeaponNum == 1 && !m_Locomotion.IsFlying)
-            {
-                m_PlayerCore.SwitchCombatState(CombatStateType.Attack);
-            }
-            else if(m_Combat.CurrentWeaponNum > 1)
-            {
-                m_PlayerCore.SwitchCombatState(CombatStateType.Aim);
-            }
-        }
-        else if(m_Combat.IsAiming)
-        {
-            m_PlayerCore.SwitchCombatState(CombatStateType.Aim);
-        }
-        else if(m_Combat.IsReload)
-        {
-            m_PlayerCore.SwitchCombatState(CombatStateType.Reload);
-        }*/
     }
 
     public override void Exit()

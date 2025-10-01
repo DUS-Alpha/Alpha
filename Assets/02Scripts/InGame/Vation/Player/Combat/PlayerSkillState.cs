@@ -28,7 +28,10 @@ public class PlayerSkillState : PlayerCombatState
 
         if (m_Combat.CurrentWeaponNum == 1) m_isMelee = true;
 
-        if (m_isMelee) m_PlayerCore.AniController.SetAnimatorWeight(3,1);
+        m_PlayerCore.AniController.SetAnimatorWeight(3,1);
+
+        int num = m_Combat.SkillQueue.Peek();
+        m_Combat.EnterSkill(num);
     }
     public override void FixedUpdate()
     {
@@ -37,50 +40,16 @@ public class PlayerSkillState : PlayerCombatState
 
     public override void Update()
     {
-        /*var _weapon = m_Combat.CurrentWeapon;
-
-        if (_weapon == null)
-        {
-            
-            m_PlayerCore.SwitchCombatState(CombatStateType.NonCombat);
-            return;
-        }
-
-        if (m_Locomotion.IsFlying && m_isMelee)
-        {
-            m_PlayerCore.SwitchCombatState(CombatStateType.NonCombat);
-            return;
-        }
-
-        if (m_Combat.IsSwapWeapon && !m_isMelee)
-        {
-            m_PlayerCore.SwitchCombatState(CombatStateType.SwapWeapon);
-        }
-        else if (!m_Combat.IsAttack)
-        {
-            if(!m_Combat.IsAction)
-            {
-                if (m_Combat.IsAiming) m_PlayerCore.SwitchCombatState(CombatStateType.Aim);
-                else m_PlayerCore.SwitchCombatState(CombatStateType.NonCombat);
-            }
-        }
-        else if (m_Combat.IsReload)
-        {
-            m_PlayerCore.SwitchCombatState(CombatStateType.Reload);
-        }
-        else
-        {
-            m_Combat.SetAming(m_Combat.IsAttack);
-            m_Combat.Attack();
-        }*/
+        if (m_Combat.IsAction) return;
+        //
+        m_PlayerCore.SwitchCombatState(CombatStateType.NonCombat);
     }
     
 
     public override void Exit()
     {
         base.Exit();
-        m_Combat.SetAming(false);
         if (m_isMelee) m_PlayerCore.AniController.SetAnimatorWeight(3, 0);
-        m_Combat.ExitAttack();
+        m_Combat.SkillQueue.Clear();
     }
 }

@@ -301,6 +301,37 @@ MonoBehaviour:
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0}
     m_Visible: 1
+--- !u!1 &3481321384635143041
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7322517246126839078}
+  m_Layer: 0
+  m_Name: ScopeCamPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7322517246126839078
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3481321384635143041}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.0469, y: 1.6033, z: 0.4872}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6242632061427808748}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3591889657129914483
 GameObject:
   m_ObjectHideFlags: 0
@@ -568,7 +599,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de6ab1e1ec10ec2419bda597b88c9a6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_rigBuilder: {fileID: 0}
+  m_rigBuilder: {fileID: 4064793412432140875}
   m_handLayerRig: {fileID: 7240787735208484419}
   m_aimRig: {fileID: 4563387206902382527}
   m_leftHandIK: {fileID: 1538658263306526634}
@@ -748,6 +779,7 @@ GameObject:
   - component: {fileID: 587818568328244339}
   - component: {fileID: 2763090024261597597}
   - component: {fileID: 8652837559477405220}
+  - component: {fileID: 8384058729499424320}
   - component: {fileID: 4064793412432140875}
   m_Layer: 3
   m_Name: Player
@@ -771,6 +803,7 @@ Transform:
   m_Children:
   - {fileID: 4900496596394057669}
   - {fileID: 8503921140304466475}
+  - {fileID: 7322517246126839078}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!143 &6637529040941777247
@@ -894,6 +927,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2d790ccf400ffe438d6e6e013801bc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsSniper: 0
 --- !u!114 &2763090024261597597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -906,11 +940,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 620d992d61d242e48acf49f865e5f1db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_status:
+    HP: 100
+    FlyGauge: 100
   m_baseSpeed: 3
-  m_aimSpeed: 1.5
-  m_flySpeed: 8
-  m_flyAimSpeed: 3
-  m_speedLerpRate: 10
+  m_jumpSpeed: 2
+  m_combatSpeed: 1.5
+  m_flySpeed: 10
+  m_flightCombatSpeed: 1.5
   m_groundMask:
     serializedVersion: 2
     m_Bits: 64
@@ -921,6 +958,9 @@ MonoBehaviour:
   m_targetFlyHeight: 10
   m_initialFlySpeed: 15
   m_flyDecel: 6
+  m_maxFlyingGauge: 10
+  m_gaugeTMP: {fileID: 0}
+  IsDie: 0
 --- !u!114 &8652837559477405220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -934,6 +974,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CameraManger: {fileID: 0}
+  UIManager: {fileID: 0}
+  AudioManager: {fileID: 0}
+--- !u!114 &8384058729499424320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7144277684283177295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52f4a798ffb0f7a42b42bf74c1aa73b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &4064793412432140875
 MonoBehaviour:
   m_ObjectHideFlags: 0

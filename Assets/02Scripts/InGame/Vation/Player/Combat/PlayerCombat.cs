@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Animations.Rigging;
-using UnityEngine.Rendering.VirtualTexturing;
 
 public class PlayerCombat : MonoBehaviour
 {
@@ -23,7 +21,8 @@ public class PlayerCombat : MonoBehaviour
     private bool m_isAim;
     public bool IsSniper;
     public bool IsReload { get; private set; }
-
+    public bool IsSkill;
+    private bool[] m_isSkills = new bool[3];
     // 무기 관리
     public int CurrentWeaponNum => m_currentWeaponNum;
     private int m_currentWeaponNum;
@@ -33,7 +32,7 @@ public class PlayerCombat : MonoBehaviour
     private Weapon[] m_equipmentWeapons = new Weapon[4]; // 착용중인 무기
 
     private float m_nextAttakTime;
-
+    public Queue<int> SkillQueue = new Queue<int>();
     public bool IsAction => m_isAction;
     private bool m_isAction;
     public void InitializeModule(PlayerCore playerCore)
@@ -75,14 +74,42 @@ public class PlayerCombat : MonoBehaviour
         bool _isAim = m_inputHandler.IsAim;
         m_swapWeaponNum = m_inputHandler.SwapWeaponNum;
         IsReload = m_currentWeaponNum > 1? m_inputHandler.IsReload : false;
+        m_isSkills[0] = m_inputHandler.IsSkill1;
 
         // Toggle 형태로
-        if(_isAim)
+        if (_isAim)
         {
             m_isAim = !m_isAim;
         }
 
         IsCombat = m_currentWeaponNum != 0 ? IsAttack || m_isAim : false;
+
+        if (CurrentWeaponNum == 0) return;
+
+        if (m_isSkills[0])
+        {
+            if (SkillQueue.Count == 0)
+            {
+                SkillQueue.Enqueue(1);
+            }
+        }
+        m_isSkills[1] = m_inputHandler.IsSkill2;
+        if (m_isSkills[1])
+        {
+            if (SkillQueue.Count == 0)
+                SkillQueue.Enqueue(2);
+        }
+        m_isSkills[2] = m_inputHandler.IsSkill3;
+
+        if (m_isSkills[2])
+        {
+            if (SkillQueue.Count == 0)
+                SkillQueue.Enqueue(3);
+        }
+
+
+        IsSkill = m_isSkills[0] || m_isSkills[1] || m_isSkills[2];
+
 
     }
     public void SetIsAction(bool isAction)
@@ -199,15 +226,6 @@ public class PlayerCombat : MonoBehaviour
         _meleeWeapon.SetActivateCollider(false);
     }
 
-    // AttackUpdate
-    
-    public void ExitAttack()
-    {
-        m_animationController.AttackAni(false, m_currentWeaponNum);
-        
-        //m_animationController.SetAnimatorWeight(2, 0);
-    }
-
     public void SetAming(bool isAim)
     {
         int _isAimWeight = isAim ? 1 : 0;
@@ -236,6 +254,11 @@ public class PlayerCombat : MonoBehaviour
     {
         //m_isAction = false;
         //m_animationController.SetAnimatorWeight(2, 0);
+    }
+
+    public void EnterSkill(int num)
+    {
+        m_animationController.SkillAni(num);
     }
     #endregion ================================================ /Enter,Exit State
 }
