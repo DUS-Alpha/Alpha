@@ -1732,7 +1732,7 @@ AnimatorController:
   - serializedVersion: 5
     m_Name: AramLayer
     m_StateMachine: {fileID: 2793258737815460179}
-    m_Mask: {fileID: 31900000, guid: 593f26908cce9094f92dc986eaf9b472, type: 2}
+    m_Mask: {fileID: 31900000, guid: 0d2646be5f8baa54796580af3bbeb6a4, type: 2}
     m_Motions: []
     m_Behaviours: []
     m_BlendingMode: 0
@@ -2350,7 +2350,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 44eae8d1813472e48b1939674a943b85, type: 2}
+  m_Motion: {fileID: 7400000, guid: d18772d3128cd974b86cfd07b4eb1c7f, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -3093,7 +3093,7 @@ AnimatorStateTransition:
   m_TransitionOffset: 0
   m_ExitTime: 0.75
   m_HasExitTime: 0
-  m_HasFixedDuration: 1
+  m_HasFixedDuration: 0
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
@@ -3171,7 +3171,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 792778453de454b40ab42bad2cdf5273, type: 2}
+  m_Motion: {fileID: 7400000, guid: 60574437b93cb6d48be445a6d4168466, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

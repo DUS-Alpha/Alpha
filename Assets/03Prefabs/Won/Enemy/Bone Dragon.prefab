@@ -20013,7 +20013,7 @@ MonoBehaviour:
   moveSpeed: 0.1
   turnSpeed: 3
   _attackStarted: 0
-  fireballPrefab: {fileID: 2690523208907403055, guid: 3aa5e28ad178af2458f3f58892cbbd94, type: 3}
+  fireballPrefab: {fileID: 2690523208907403055, guid: 9ef273fe77ccf3049831369ed5e9b9e9, type: 3}
   firePoints:
   - {fileID: 3723595021983650665}
   - {fileID: 2194116445704023348}
@@ -20023,7 +20023,7 @@ MonoBehaviour:
   - {fileID: 944299044789167372}
   BreathsPrefab: {fileID: 5547936114249051039}
   BreathsPos: {fileID: 8534399480929570923}
-  fireInterval: 4
+  fireInterval: 3
   fireSpeed: 30
   bossAudio: {fileID: 880996031497051859}
   hp: 100

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -383,7 +383,7 @@ public class SFB_BlendShapesManagerEditor : Editor  {
 			}
 		}
 		GUI.color 			= Color.green;
-		if(GUILayout.Button("Upper_Reload Blend Shapes"))				
+		if(GUILayout.Button("Reload Blend Shapes"))				
 		{
 			myScript.ReloadBlendShapes();			
 		}

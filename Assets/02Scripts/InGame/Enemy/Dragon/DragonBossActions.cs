@@ -199,7 +199,6 @@ public class DragonBossActions : MonoBehaviour,IDamageable
         // 이동
         transform.position = Vector3.MoveTowards(MyTransform, BB.Target.position, Time.deltaTime * moveSpeed);
 
-        bossAudio.WingSound();
         return NodeState.Success; 
     }
     
@@ -330,14 +329,13 @@ public class DragonBossActions : MonoBehaviour,IDamageable
     
     public void ApplyDamage(DamageMassage damageMassage)
     {
-        
         if (isDead) return; // 이미 죽었으면 무시
         
         //데미지 밀기 
         hp -= damageMassage.damage;
         // 0 밑으로 안내려가게 Clamp
         hp = Mathf.Max(hp, 0);
-        print($"{damageMassage.Damager}가 {gameObject.name}에게 {damageMassage.damage}의 데미지");
+        print($"{damageMassage.Damager}가 {gameObject.name}에게 {damageMassage.damage}의 데미지 \n 현재 HP : {hp}");
         
         // 단순히 피격 여부만 표시
         wasHit = true;

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +33,7 @@ public class InfinityPBRManager : EditorWindow
     {
         _scrollPos = EditorGUILayout.BeginScrollView(_scrollPos);
         
-        if (GUILayout.Button ("Upper_Reload Package List")) {
+        if (GUILayout.Button ("Reload Package List")) {
             ReloadPackageList ();
         }
         

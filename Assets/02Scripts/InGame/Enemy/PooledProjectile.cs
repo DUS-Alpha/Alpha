@@ -49,6 +49,20 @@ public class PooledProjectile : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         ReturnToPool();
+        if (other.CompareTag("Player"))
+        {
+            IDamageable _damageableTarget;
+            if (other.TryGetComponent<IDamageable>(out _damageableTarget))
+            {
+                DamageMassage _damageMassage = new DamageMassage();
+                _damageMassage.damage = 15;
+
+                // 데미지 전달
+                _damageableTarget.ApplyDamage(_damageMassage);
+
+                Debug.Log(other.name);
+            }
+        }
     }
 
     public void ReturnToPool()

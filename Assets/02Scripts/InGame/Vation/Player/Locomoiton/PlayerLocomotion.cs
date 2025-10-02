@@ -232,7 +232,7 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
             // Ground Anim Parameter
         m_animationController.SetIsGroundAni(IsGrounded);
         if(m_flyingGauge >= m_maxFlyingGauge) m_flyingGauge = m_maxFlyingGauge;
-        m_gaugeTMP.text = m_flyingGauge.ToString();
+        //m_gaugeTMP.text = m_flyingGauge.ToString();
         Debug.DrawLine(_colliderButtomtr, _colliderButtomtr + (Vector3.down * m_groundDistance), Color.red);
     }
     #endregion ================================================================================ /Ground

@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEditor;
 using System;
 using System.Collections.Generic;
@@ -263,7 +263,7 @@ namespace InfinityPBR
            GUI.backgroundColor = Color.white;
            
            GUI.backgroundColor = redColor;
-           if (GUILayout.Button("Upper_Reload Blend Shape Data", GUILayout.Width(200), GUILayout.Height(50)))
+           if (GUILayout.Button("Reload Blend Shape Data", GUILayout.Width(200), GUILayout.Height(50)))
                ReloadBlendShapeData();
             
            GUI.backgroundColor = Color.white;
