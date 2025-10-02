@@ -41,7 +41,9 @@ public class PlayerSkillState : PlayerCombatState
     public override void Update()
     {
         if (m_Combat.IsAction) return;
-        //
+
+        if (m_Combat.IsAttack) m_PlayerCore.SwitchCombatState(CombatStateType.Upper_InCombat);
+        else
         m_PlayerCore.SwitchCombatState(CombatStateType.NonCombat);
     }
     

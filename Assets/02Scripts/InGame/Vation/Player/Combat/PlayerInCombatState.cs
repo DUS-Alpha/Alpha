@@ -32,8 +32,6 @@ public class PlayerInCombatState : PlayerCombatState
             return;
         }
 
-        //if (m_Combat.IsAction) return;
-
         if (m_Combat.IsSwapWeapon())
         {
             m_Combat.SetIsAction(true);
@@ -45,6 +43,10 @@ public class PlayerInCombatState : PlayerCombatState
             //m_isReloading = true;
             m_PlayerCore.SwitchCombatState(CombatStateType.Upper_Reload);
         }
+        else if(m_Combat.IsSkill)
+        {
+            m_PlayerCore.SwitchCombatState(CombatStateType.Skill);
+        }
         else if (m_Combat.IsAttack)
         {
             m_nextDely = 0;
@@ -54,7 +56,6 @@ public class PlayerInCombatState : PlayerCombatState
         {
             if (m_Combat.IsScope) m_nextDely = 0;
             else m_nextDely += Time.deltaTime;
-            m_Ani.AttackAni(false, m_currentWeaponNum);
         }
 
         if (m_currentWeaponNum > 1) m_Combat.SetAming(m_Combat.IsScope);

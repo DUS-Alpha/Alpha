@@ -20,7 +20,7 @@ public class AttackSMB : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if(!m_combat.IsAttack) m_combat.SetIsAction(false);
+        m_combat.SetIsAction(false);
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

@@ -107,10 +107,7 @@ public class PlayerCombat : MonoBehaviour
                 SkillQueue.Enqueue(3);
         }
 
-
-        IsSkill = m_isSkills[0] || m_isSkills[1] || m_isSkills[2];
-
-
+        IsSkill = SkillQueue.Count != 0;
     }
     public void SetIsAction(bool isAction)
     {
@@ -137,7 +134,8 @@ public class PlayerCombat : MonoBehaviour
     {
         m_isCombating = isCombating;
         m_animationController.SetIsCombatAni(m_isCombating);
-        
+        m_animationController.AttackAni(isCombating, m_currentWeaponNum);
+
         if(!isCombating)
         SetIKRigWeight(0);
     }

@@ -12,7 +12,7 @@ public class MeleeWeapon : Weapon
 
     public override void Attack(bool isAttackInput, PlayerAnimationController anim)
     {
-
+        anim.AttackAni(isAttackInput, 1);
     }
     public override void Unequip(GameObject user)
     {

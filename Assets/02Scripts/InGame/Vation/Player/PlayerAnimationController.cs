@@ -121,7 +121,8 @@ public class PlayerAnimationController : MonoBehaviour
         }
         else if (num == 2)
         {
-            m_animator.SetTrigger("Skill2");
+            Debug.Log("aaa");
+            m_animator.SetTrigger("Skill2");        
         }
     }
   
