@@ -5,7 +5,7 @@ using Random = UnityEngine.Random;
 
 
 
-public class BossActions : MonoBehaviour
+public class BossAction : MonoBehaviour
 {
     // ■ A. 외부 참조 / 기본 제어
     [SerializeField] private BehaviorTreeRunner m_treeRunner;   // 죽음 처리용 (BT 제어)

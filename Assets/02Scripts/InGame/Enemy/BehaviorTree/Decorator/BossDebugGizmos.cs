@@ -6,7 +6,7 @@ using UnityEngine;
 [ExecuteAlways] // 에디터 실행을 안해도 바로 실행 
 public class BossDebugGizmos : MonoBehaviour
 {
-    public BossActions actions;
+    public BossAction actions;
     public Color MidColor = new Color(0.2f, 1f, 0.4f, 0.4f);
     public Color CloseColor = new Color(1f, 0.3f, 0.3f, 0.4f);
     public Color StopColor = Color.magenta;
@@ -17,7 +17,7 @@ public class BossDebugGizmos : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (!actions) actions = GetComponent<BossActions>();
+        if (!actions) actions = GetComponent<BossAction>();
         if (!actions) return;
         
         // 실제로 움직이는 기준(Animator가 손자라면 그 트랜스폼)

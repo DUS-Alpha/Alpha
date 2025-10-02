@@ -7,6 +7,8 @@ public class TestPlayerController : MonoBehaviour
 
     private CharacterController controller;
     private Vector3 moveDirection;
+
+    public float damage = 1f;
     
     void Start()
     {

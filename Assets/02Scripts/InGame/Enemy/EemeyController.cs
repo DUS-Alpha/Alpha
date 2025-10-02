@@ -4,13 +4,13 @@ using UnityEngine;
 public class EemeyController : MonoBehaviour
 {
     private BehaviorTreeRunner m_runner;
-    private BossActions m_actions;
+    private BossAction m_actions;
     [SerializeField] Transform m_player; // 플레이어
     
     void Start()
     {
         m_runner = GetComponent<BehaviorTreeRunner>();
-        m_actions = GetComponent<BossActions>();
+        m_actions = GetComponent<BossAction>();
         // ★ 추가: 블랙보드 생성 및 기본 연결
         var _bb = new Blackboard(gameObject)
         {
