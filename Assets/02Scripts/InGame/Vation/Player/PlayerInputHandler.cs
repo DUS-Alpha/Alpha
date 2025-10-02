@@ -20,10 +20,11 @@ public class PlayerInputHandler : MonoBehaviour
     public bool IsAttack { get; private set; }
     public int SwapWeaponNum { get; private set; } = 0;
     public bool IsAim { get; private set; }
-    public bool IsSniperScope { get; private set; }
     public bool IsWeaponSwap { get; private set; }
     public bool IsReload { get; private set; }
     public bool IsSkill1 { get; private set; }
+    public bool IsSkill2 {  get; private set; }
+    public bool IsSkill3 { get; private set; }
     #endregion ==================== /CombatInput
 
     #region ==================== ETC
@@ -70,7 +71,7 @@ public class PlayerInputHandler : MonoBehaviour
         IsJump = !m_inputLockedFlags.HasFlag(InputLocoLockType.Jump)
             && Input.GetKeyDown(KeyCode.Space);
         IsFlyUp = !m_inputLockedFlags.HasFlag(InputLocoLockType.FlyUp)
-            && Input.GetKey(KeyCode.Q);
+            && Input.GetKeyDown(KeyCode.F);
         IsFlyOff = !m_inputLockedFlags.HasFlag(InputLocoLockType.FlyOff) && Input.GetKeyDown(KeyCode.E);
         IsDodge = !m_inputLockedFlags.HasFlag(InputLocoLockType.Dodge) 
             && (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift));
@@ -97,24 +98,17 @@ public class PlayerInputHandler : MonoBehaviour
             IsAim = false;
             IsReload = false;
             SwapWeaponNum = 0;
-            IsSniperScope = false;
             return;
         }
         WeaponSwapNum();
         IsAttack = !m_inputCombatFlags.HasFlag(InputCombatLockType.Attack) && Input.GetMouseButton(0);
-  
-        if (m_combat.CurrentWeaponNum > 1)
-        {
-            IsAim = (!m_inputCombatFlags.HasFlag(InputCombatLockType.Aim) && Input.GetMouseButton(1)) || IsAttack;
-            IsReload = !m_inputCombatFlags.HasFlag(InputCombatLockType.Reload) && Input.GetKeyDown(KeyCode.R);
-            IsSniperScope = Input.GetMouseButtonDown(1);
-        }
-        else
-        {
-            IsAim = false;
-            IsReload = false;
-            IsSniperScope = false;
-        }
+
+        IsAim = !m_inputCombatFlags.HasFlag(InputCombatLockType.Aim) && Input.GetMouseButtonDown(1) && m_combat.CurrentWeaponNum > 1;
+        IsReload = !m_inputCombatFlags.HasFlag(InputCombatLockType.Reload) && Input.GetKeyDown(KeyCode.R);
+
+        IsSkill1 = !m_inputCombatFlags.HasFlag(InputCombatLockType.Skill1) && Input.GetKeyDown(KeyCode.Q);
+        IsSkill2 = !m_inputCombatFlags.HasFlag(InputCombatLockType.Skill2) && Input.GetKeyDown(KeyCode.E);
+        IsSkill3 = !m_inputCombatFlags.HasFlag(InputCombatLockType.Skill3) && Input.GetKeyDown(KeyCode.Z);
     }
 
     private void WeaponSwapNum()

@@ -29,7 +29,7 @@ public class PlayerInventoryUI : BaseUI
         m_inventoryUIData = uiData as InventorytUIData;
     }
 
-    public void Equip(EquipmentData equipmentData)
+    public void Equip(EquipmentDataSO equipmentData)
     {
         Sprite _icon = equipmentData.Icon;
         switch (equipmentData.ApplicableSlot)
@@ -48,7 +48,7 @@ public class PlayerInventoryUI : BaseUI
                 break;
         }
     }
-    public void UnEquip(EquipmentData equipmentData)
+    public void UnEquip(EquipmentDataSO equipmentData)
     {
         
     }

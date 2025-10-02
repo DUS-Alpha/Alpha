@@ -85,8 +85,8 @@ public class BossAction : MonoBehaviour
     // 3) 죽음 애니메이션 트리거
     public NodeState PlayDieAnim()
     {
-        animator.ResetTrigger("Die");
-        animator.SetTrigger("Die");
+        animator.ResetTrigger("DieAni");
+        animator.SetTrigger("DieAni");
         // 애니 이벤트로 후처리할 거면 Running으로 두고 완료 시 Success로 바꿔도 됨
         return NodeState.Success;
     }

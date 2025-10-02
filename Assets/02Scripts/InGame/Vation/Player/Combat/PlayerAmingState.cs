@@ -12,7 +12,7 @@ public class PlayerAmingState : PlayerCombatState
     public override void Enter()
     {
         base.Enter();
-        m_Combat.SetAming(true);
+        m_Combat.SetAming(m_Combat.IsScope);
         m_delayTime = 0f;
     }
 
@@ -24,25 +24,24 @@ public class PlayerAmingState : PlayerCombatState
     public override void Update()
     {
         // TODO : Combat에서 처리
-        if (m_Locomotion.IsJump || m_Locomotion.IsDodge || m_Locomotion.IsFlyUp)
-        {
-            m_PlayerCore.SwitchCombatState(CombatStateType.Idle);
-        }
-        else if(m_Combat.IsSwapWeapon)
-        {
-            m_PlayerCore.SwitchCombatState(CombatStateType.SwapWeapon);
-        }
-        else if (m_Combat.IsAttack)
+        if (m_Locomotion.IsAction) m_PlayerCore.SwitchCombatState(CombatStateType.NonCombat);
+        else if(m_Combat.IsSwapWeapon()) m_PlayerCore.SwitchCombatState(CombatStateType.Upper_SwapWeapon);
+        
+        /*else if (m_Combat.IsAttack)
         {
             m_delayTime += Time.deltaTime;
             if(m_delayTime >= 0.2f)
             m_PlayerCore.SwitchCombatState(CombatStateType.Attack);
 
         }
-        else if (!m_Combat.IsAim)
+        else if (!m_Combat.IsAiming)
         {
-            m_PlayerCore.SwitchCombatState(CombatStateType.Idle);
+            m_PlayerCore.SwitchCombatState(CombatStateType.NonCombat);
         }
+        else if (m_Combat.IsReload)
+        {
+            m_PlayerCore.SwitchCombatState(CombatStateType.Reload);
+        }*/
     }
     public override void Exit()
     {

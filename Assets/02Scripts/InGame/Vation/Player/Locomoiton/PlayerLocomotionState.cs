@@ -13,8 +13,6 @@ public override void Enter()
             m_PlayerCore.CombatFlagsController.AddAllFlags();
         else
             m_PlayerCore.CombatFlagsController.AddLockedFlag(m_LockOnEnter);
-
-        DebugCurrentState();
     }
     public abstract override void FixedUpdate();
     public abstract override void Update();

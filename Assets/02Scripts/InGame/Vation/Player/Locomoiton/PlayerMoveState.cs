@@ -20,26 +20,33 @@ public class PlayerMoveState : PlayerLocomotionState
 
     public override void Update()
     {
-        m_Locomotion.Movement();
+        if(m_Locomotion.IsDie)
+        {
+            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Die);
+            return;
+        }
+
+        m_Locomotion.Movement(m_Combat.IsCombating, m_Combat.IsSniper);
+        if (m_Locomotion.IsMoving)
+        {
+            m_Locomotion.MoveEffect();
+        }
+
         m_Locomotion.ApplyGravity();
 
         if (m_Locomotion.IsJump)
-        {
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Jump);
-        }
         else if (m_Locomotion.IsDodge)
-        {
-            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Dodge);
-        }
+            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Dash);
         else if (m_Locomotion.IsFlyUp)
         {
-            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.FlyUp);
+            if(m_Locomotion.FlyingGauge > 0)
+                m_PlayerCore.SwitchLocomotionState(LocomotionStateType.FlyUp);
         }
-        else if (m_Locomotion.MoveDir == Vector3.zero)
+        else if (!m_Locomotion.IsMoving)
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Idle);
-        /*else if(!m_Locomotion.IsGrounded)
-            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Fall);*/
-        // else if(IsDie)
+
+        
     }
     public override void Exit()
     {

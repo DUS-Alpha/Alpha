@@ -11,12 +11,16 @@ public class PlayerFlyUpState : PlayerLocomotionState
     public PlayerFlyUpState(PlayerCore playerCore) : base(playerCore){}
 
     private bool m_canFlyUp;
-    private float delayT;
+    private float m_delayT;
+    private float m_nextStateDelay;
     public override void Enter()
     {
         base.Enter();
+        m_Locomotion.SetIsAction(true);
+        
         m_Locomotion.FlyUpStart();
-        delayT = 0f;
+        m_delayT = 0f;
+        m_nextStateDelay = 0f;
     }
 
     public override void FixedUpdate()
@@ -27,22 +31,21 @@ public class PlayerFlyUpState : PlayerLocomotionState
     public override void Update()
     {
         // 애니메이션 모션 자연스럽게하기 위해 딜레이
-        delayT += Time.deltaTime;
+        m_delayT += Time.deltaTime;
 
-        if (delayT < 0.4f) return;
+        if (m_delayT < 0.4f) return;
+        m_Locomotion.FlyUpUpdate();
 
-        // TODO 애니메이션 모션 이후 힘적용 초반 발사 느낌으로
-        if (m_Locomotion.IsFlyUp)
-            m_Locomotion.AntiGravity();
-        else if(!m_Locomotion.IsFlyUp)
-        {
-            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Flying);
-        }
+        m_nextStateDelay += Time.deltaTime;
+
+        if (m_nextStateDelay < 1f) return;
+
+        m_PlayerCore.SwitchLocomotionState(LocomotionStateType.FlightMove);
     }
 
     public override void Exit()
     {
         base.Exit();
-        m_Locomotion.FlyUpExit();
+        m_Locomotion.SetIsAction(false);
     }
 }

@@ -10,14 +10,14 @@ public class PickUpItem : MonoBehaviour
 
     // 픽업한 아이템의 데이터에 대한 아이템 정보 생성
     // 저장은 픽업아이템에서 직접 플레이어 인벤토리 클래스로 정보를 보냄
-    private Item CreateItem(ItemData data)
+    private Item CreateItem(ItemDataSO data)
     {
         GameObject ItemObj = new GameObject(data.Name);
         Item ItemBase;
 
-        if (data is WeaponData weaponData)
+        if (data is WeaponDataSO weaponData)
             ItemBase = ItemObj.AddComponent<Weapon>();
-        else if (data is EquipmentData equipData)
+        else if (data is EquipmentDataSO equipData)
             ItemBase = ItemObj.AddComponent<Equipment>();
         else
             ItemBase = ItemObj.AddComponent<Item>();
