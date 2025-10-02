@@ -24,8 +24,10 @@ public class DragonBTController : MonoBehaviour
         var idleHover = new ActionNode(m_actions.HoverIdle);
         var deathBranch = new ActionNode(m_actions.CheckDeath);
         var ascendToHover = new ActionNode(m_actions.AscendToHoverHeight);
-        var flyToTarget = new ActionNode(m_actions.FlyTowardTarget);
+        var flyToTargetAttack = new ActionNode(m_actions.FlyTowardTargetAndFire);
         var breatheFire = new ActionNode(m_actions.BreatheFire);
+        var fireballAttack = new ActionNode(m_actions.FireballAttack);
+        var flyToTarget = new ActionNode(m_actions.FlyTowardTarget);
 
         var flySequence = new SequenceNode(
             ascendToHover,
@@ -33,13 +35,25 @@ public class DragonBTController : MonoBehaviour
             breatheFire
         );
 
-        // ── 루트 트리 구성
         INode root = new SelectorNode(
-            deathBranch,
-            flyToTarget
+            new SequenceNode(                     // 죽음 처리 시퀀스
+                new ActionNode(m_actions.CheckDeath), 
+                new ActionNode(m_actions.Fall)
+            ),
+            new ActionNode(m_actions.CheckHitReaction), 
+            new ActionNode(m_actions.CheckBreath),         
+            new ActionNode(m_actions.BreatheFire),         
+            new SequenceNode(
+                new ActionNode(m_actions.FlyTowardTarget),
+                new ActionNode(m_actions.FireballAttack)
+            )
         );
 
+
+
+
         m_runner.SetTree(root);
+       
         m_runner.StartTree();
     }
 }
