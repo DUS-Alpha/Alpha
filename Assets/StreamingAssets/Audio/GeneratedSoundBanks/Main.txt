@@ -1,6 +1,0 @@
-Event	ID	Name			Wwise Object Path	Notes
-	814543256	Button_Click			\Default Work Unit\Button_Click	
-
-In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
-	845142347	Card_Game_UI_Button_Mechanical_Metal_01	D:\WwiseProject\Alpha\.cache\B8\{B8BB93E5-5C18-0172-1E36-D85FBAA333BF}.wem		\Actor-Mixer Hierarchy\Default Work Unit\Card_Game_UI_Button_Mechanical_Metal_01		134052
-

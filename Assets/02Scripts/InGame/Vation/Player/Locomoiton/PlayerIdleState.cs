@@ -14,6 +14,8 @@ public class PlayerIdleState : PlayerLocomotionState
     public override void Enter()
     {
         base.Enter();
+        // 모든 Locomotion 값 초기화
+       // m_Locomotion.InitializeLocotion();
     }
 
     public override void FixedUpdate()
@@ -23,33 +25,29 @@ public class PlayerIdleState : PlayerLocomotionState
 
     public override void Update()
     {
-        if (!m_Locomotion.IsGrounded) return;
+        if (m_Locomotion.IsDie)
+        {
+            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Die);
+            return;
+        }
 
-        m_Locomotion.Movement();
+        m_Locomotion.Movement(m_Combat.IsCombating, m_Combat.IsSniper);
         m_Locomotion.ApplyGravity();
 
+
         // Locomotion Switch State
-        if (m_Locomotion.IsJump)
-        {
+        if (m_Locomotion.IsJump) 
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Jump);
-        }
-        else if (m_Locomotion.IsDodge)
-        {
-            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Dodge);
-        }
-        else if (m_Locomotion.IsFlyUp)
-        {
+        else if (m_Locomotion.IsDodge) 
+            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Dash);
+        else if (m_Locomotion.IsFlyUp && m_Locomotion.FlyingGauge > 0) 
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.FlyUp);
-        }
-        else if (m_Locomotion.MoveDir != Vector3.zero)
+        else if (m_Locomotion.IsMoving)
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Move);
-        // else if(IsDie)
     }
 
     public override void Exit()
     {
         base .Exit();
-
-        
     }
 }

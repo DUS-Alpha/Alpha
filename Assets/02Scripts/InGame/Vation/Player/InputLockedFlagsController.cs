@@ -23,8 +23,10 @@ public enum InputCombatLockType
     Attack = 1 << 1,
     SwapWeapon = 1 << 2,
     Reload = 1 << 3,
-    Skill = 1 << 4,
-    All = 1 << 5,
+    Skill1 = 1 << 4,
+    Skill2 = 1 << 5,
+    Skill3 = 1 << 6,
+    All = 1 << 7,
 }
 
 public class InputLockedFlagsController<T> where T : Enum

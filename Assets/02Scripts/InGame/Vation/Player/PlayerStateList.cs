@@ -11,25 +11,24 @@ public enum LocomotionStateType
     Move,
     Jump,
     Fall,
-    Landing,
-    Dodge,
+    Land,
     FlyUp,
-    Flying,
-    Die,
+    FlightMove,
+    Dash,
+    Die
 }
 
 // Combat : 전투
-// 주로 UpperBody 레이어 사용
+// Upper_없는것은 AllBodyLayer
 public enum CombatStateType
 {
     None,
-    Idle,
-    Aim,
-    Attack,
-    SwapWeapon,
-    Reload,
-    MeleeSkill_All,
-    RangeSkill_All,
+    NonCombat,
+    Upper_InCombat,
+    Upper_SwapWeapon,
+    Upper_Reload,
+    Skill,
+    Dodge
 }
 
 /*// Flags enum 형태는 비트연산 처리 필요

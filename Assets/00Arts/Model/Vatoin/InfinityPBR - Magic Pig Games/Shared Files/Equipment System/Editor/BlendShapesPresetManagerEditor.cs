@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEditor;
 using System;
 using System.Collections.Generic;
@@ -249,7 +249,7 @@ namespace InfinityPBR
             
 
             BackgroundColorIf(Manager.shapeList.Count == 0, Color.green, Color.white);
-            if (GUILayout.Button($"Reload Blendshape List [{Manager.shapeList.Count}]"))
+            if (GUILayout.Button($"Upper_Reload Blendshape List [{Manager.shapeList.Count}]"))
                 BuildShapeList(BlendShapesManager, Manager);
             ResetColor();
             

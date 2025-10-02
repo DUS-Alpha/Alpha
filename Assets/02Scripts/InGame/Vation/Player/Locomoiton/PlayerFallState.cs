@@ -11,6 +11,7 @@ public class PlayerFallState : PlayerLocomotionState
     public override void Enter()
     {
        base.Enter();
+        m_Ani.SetAnimatorWeight(1,0);
     }
     public override void FixedUpdate()
     {
@@ -22,12 +23,14 @@ public class PlayerFallState : PlayerLocomotionState
         m_Locomotion.AirMovement();
         m_Locomotion.ApplyGravity();
 
-        if (m_Locomotion.IsFlyUp)
+        if (m_Locomotion.IsFlyUp && m_Locomotion.FlyingGauge > 0)
         {
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.FlyUp);
         }
         else if (m_Locomotion.IsGrounded)
-            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Landing);
+        {
+            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Land);
+        }
     }
 
     public override void Exit()

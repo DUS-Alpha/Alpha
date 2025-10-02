@@ -12,6 +12,8 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
 {
     [Header(" [ Ref Component ] ")]
     public PlayerCameraManger CameraManger;
+    public PlayerUIManager UIManager;
+    public AudioManager AudioManager;
 
     public GameObject PlayerObj { get; private set; }
     public PlayerInputHandler InputHandler { get; private set; }
@@ -19,10 +21,15 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
     public PlayerStateMachine StateMachine { get; private set; }
     public PlayerLocomotion Locomotion { get; private set; }
     public PlayerCombat Combat { get; private set; }
+    
     public PlayerInventoryManager InventoryManager { get; private set; }
     public PlayerEquipmentController EquipmentController { get; private set; }
+    public PlayerIKController IKController { get; private set; }
+   
+
     public InputLockedFlagsController<InputLocoLockType> LocomotionFlagsController { get; private set; } = new InputLockedFlagsController<InputLocoLockType>();
     public InputLockedFlagsController<InputCombatLockType> CombatFlagsController { get; private set; } = new InputLockedFlagsController<InputCombatLockType>();
+    
     // IPlayerEvents에서 옵저버 패턴을 통해서 다른 클래스에서 받아옴
     public event Action CheckInputAction;
     public event Action<int> SwapWeaponAction;
@@ -35,6 +42,7 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
         Combat = GetComponent<PlayerCombat>();
         InventoryManager = GetComponent<PlayerInventoryManager>();
         EquipmentController = GetComponent<PlayerEquipmentController>();
+        IKController = GetComponentInChildren<PlayerIKController>();
 
         StateMachine = new PlayerStateMachine();
         InitializeModule();
@@ -50,8 +58,8 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
         AniController.InitializeModule(Combat);
         EquipmentController.InitializeModule();
         InputHandler.InitializeModule(Combat, LocomotionFlagsController, CombatFlagsController);
-        Locomotion.InitializeModule(InputHandler, AniController);
-        Combat.InitializeModule(CameraManger, InputHandler, AniController, EquipmentController.Weapons);
+        Locomotion.InitializeModule(InputHandler, AniController, CameraManger,AudioManager);
+        Combat.InitializeModule(this);
     }
 
     /// <summary>
@@ -67,9 +75,8 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
 
     private void Start()
     {
-        SwapWeaponAction(0);
         SwitchLocomotionState(LocomotionStateType.Idle);
-        SwitchCombatState(CombatStateType.Idle);
+        SwitchCombatState(CombatStateType.NonCombat);
         Combat.SetSwapAction(SwapWeaponAction);
     }
 
@@ -81,14 +88,10 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
     {
         StateMachine.SwitchCombatState(newState);
     }
-    public void SetAnimatorLayer(int index, int weight)
-    {
-        AniController.SetAnimatorWeight(index, weight);
-    }
+
     private void Update()
     {
         StateMachine.Update();
         CheckInputAction?.Invoke();
-
     }
 }

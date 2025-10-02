@@ -24,14 +24,21 @@ public class PlayerSwapWeaponState : PlayerCombatState
 
     public override void Update()
     {
-        if(!m_Combat.IsAction)
-        {
-            m_PlayerCore.SwitchCombatState(CombatStateType.Idle);
-        }
+
+        m_delayT += Time.deltaTime;
+
+        if (m_delayT < 0.7f) return;
+
+        if(m_Combat.IsCombating)
+            m_PlayerCore.SwitchCombatState(CombatStateType.Upper_InCombat);
+        else
+            m_PlayerCore.SwitchCombatState(CombatStateType.NonCombat);
+
     }
     public override void Exit()
     {
         base.Exit();
         m_Combat.ExitSwapWeapon();
+        m_Combat.SetIsAction(false);
     }
 }
