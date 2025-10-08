@@ -2,14 +2,15 @@ using UnityEngine;
 
 public class PlayerFlightMoveState : PlayerLocomotionState
 {
-    protected override InputCombatLockType m_LockOnEnter => InputCombatLockType.Skill1 | InputCombatLockType.Skill2 | InputCombatLockType.Skill3;
+    protected override InputCombatLockType m_LockOnEnter => InputCombatLockType.Skill;
 
-    protected override InputCombatLockType m_LockOnExit => InputCombatLockType.Skill1 | InputCombatLockType.Skill2 | InputCombatLockType.Skill3;
+    protected override InputCombatLockType m_LockOnExit => InputCombatLockType.Skill;
 
     public PlayerFlightMoveState(PlayerCore playerCore) : base(playerCore) { }
     public override void Enter()
     {
         base.Enter();
+        
     }
     public override void FixedUpdate()
     {
@@ -18,8 +19,8 @@ public class PlayerFlightMoveState : PlayerLocomotionState
 
     public override void Update()
     {
-        m_Locomotion.Movement(m_Combat.IsCombating, m_Combat.IsSniper);
-        m_Locomotion.UpdateFlightMove();
+        m_Locomotion.Movement(m_Combat.IsInCombat, m_Combat.IsAction);
+        m_Locomotion.UpdateFlightMove(m_Combat.CurrentWeaponNum > 0);
 
         if(m_Locomotion.IsDie)
         {

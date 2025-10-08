@@ -6,16 +6,17 @@ public class PlayerSwapWeaponState : PlayerCombatState
     {
     }
 
-    protected override InputLocoLockType m_LockOnEnter => InputLocoLockType.Dodge;
+    protected override InputLocoLockType m_LockOnEnter => InputLocoLockType.None;
 
-    protected override InputLocoLockType m_LockOnExit => InputLocoLockType.Dodge;
+    protected override InputLocoLockType m_LockOnExit => InputLocoLockType.None;
     private float m_delayT;
 
     public override void Enter()
     {
         base.Enter();
         m_delayT = 0f;
-        m_Combat.EnterSwapWeapon();
+        m_Combat.EnterSwapWeapon(m_Locomotion.IsFlying);
+        
     }
     public override void FixedUpdate()
     {
@@ -28,17 +29,20 @@ public class PlayerSwapWeaponState : PlayerCombatState
         m_delayT += Time.deltaTime;
 
         if (m_delayT < 0.7f) return;
-
-        if(m_Combat.IsCombating)
+        
+        if (m_Combat.IsInCombat)
+        {
             m_PlayerCore.SwitchCombatState(CombatStateType.Upper_InCombat);
+            
+        }
         else
             m_PlayerCore.SwitchCombatState(CombatStateType.NonCombat);
-
     }
+
+
     public override void Exit()
     {
         base.Exit();
         m_Combat.ExitSwapWeapon();
-        m_Combat.SetIsAction(false);
     }
 }

@@ -7,6 +7,7 @@ public abstract class PlayerLocomotionState : PlayerState
     // Input 잠금
     protected abstract InputCombatLockType m_LockOnEnter  { get; }
     protected abstract InputCombatLockType m_LockOnExit  { get; }
+    
 public override void Enter()
     {
         if (m_LockOnEnter == InputCombatLockType.All) 

@@ -2,84 +2,49 @@ using UnityEngine;
 
 public class PlayerMovementUitility
 {
-    // Move Config
-    private float m_currentSpeed;
-
     // Rotate Config
     private float m_rotationSmoothTime = 0.1f;
     private float m_currentSmoothVelocityX = 0;
     private float m_currentSmoothVelocityY = 0;
     private float m_currentSmoothVelocityZ = 0;
 
-    private float m_speedLerpRate = 10f;
     // Dir Config
     public Vector3 Velocity => m_velocity;
     private Vector3 m_velocity;
-    private Vector3 m_moveDirByCamera;
 
     #region ================================================================================ Movement
-    public Vector3 GetMovieDir()
+    public Vector3 HandleMove(GameObject player, Vector3 moveDir, float targetSpeed, CharacterController characterController, bool isFlying)
     {
-        return m_moveDirByCamera;
-    }
+        Vector3 dir = player.transform.right * moveDir.x + player.transform.forward * moveDir.z;
 
-    public float HandleMove(Vector3 moveDir, float targetSpeed, CharacterController characterController, bool isFlying)
-    {
-        if (Camera.main == null) return 0;
-        Camera cam = Camera.main;
-        if (moveDir.magnitude <= 0.1f)
-        {
-            targetSpeed = 0;
-        }
+        if (!isFlying)
+            dir.y = 0f;
 
-        m_currentSpeed = Mathf.Lerp(m_currentSpeed, targetSpeed, Time.deltaTime * m_speedLerpRate);    // m_speedLerpRate : 전환 시간
-
-        // TPS에서 이동 방식중 카메라 앞 기준 이동 방식
-        Vector3 _forward = cam.transform.forward;
-
-        if(!isFlying)
-        _forward.y = 0f;
-
-        Vector3 _right = cam.transform.right;
-
-        m_moveDirByCamera = (_right * moveDir.x) + (_forward * moveDir.z);
 
         if (isFlying)
         {
-            // 전진/후진 입력에 따라 카메라 forward의 y값을 그대로 적용
-            // (전진 시 camForward.y > 0이면 올라가고, camForward.y < 0이면 내려감)
-            float verticalY = cam.transform.forward.y * moveDir.z;
-
             // 위아래 이동 추가 (예: Space=Up, Ctrl=Down)
-            m_moveDirByCamera += Vector3.up * moveDir.y;
+            dir += Vector3.up * moveDir.y;
         }
+        if (dir.sqrMagnitude > 1f) dir.Normalize();
 
-        characterController.Move(m_moveDirByCamera * Time.deltaTime * m_currentSpeed);
-        return m_currentSpeed;
+        characterController.Move(dir * Time.deltaTime * targetSpeed);
+
+        return dir;
     }
 
-    public void HandleRotate(GameObject gameObject, Vector3 moveDir, Camera camera,bool isCombat, bool isFlying)
+    public void HandleRotate(GameObject gameObject, Vector3 moveDir, Camera camera, bool isFlying)
     {
+        // TODO : 카메라 방향이 아닌 일반 키입력방향에 대한 이동은 차후 키로 변경
         Camera cam = camera;
 
-        Vector3 _dir;
+        Vector3 _dir= cam.transform.forward; // Aim 중에는 카메라 forward
 
-        if (!isCombat)
-        {
-            if (moveDir != Vector3.zero)
-                _dir = m_moveDirByCamera; // 이동 입력 있을 때는 이동 방향
-            else
-                _dir = gameObject.transform.forward; // 입력 없으면 현재 바라보는 방향 유지
-        }
-        else
-        {
-            _dir = cam.transform.forward; // Aim 중에는 카메라 forward
-        }
-
-        if(!isFlying)
-        _dir.y = 0f;
+        // 공중에서 이동 없을때는 공격중 허리만 위로 바라보게
+        if(!isFlying || isFlying && moveDir.magnitude < 0.1f) _dir.y = 0f;
 
         Quaternion _targetRot;
+
         if (_dir != Vector3.zero)
             _targetRot = Quaternion.LookRotation(_dir);
         else

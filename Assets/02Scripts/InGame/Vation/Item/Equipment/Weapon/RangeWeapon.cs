@@ -30,6 +30,8 @@ public class RangeWeapon : Weapon
     
     public AudioSource m_audioSource;
     [SerializeField]
+    private AudioClip m_audioClip;
+    [SerializeField]
     private Transform m_bulletFirePos; //이펙트 효과만
     [SerializeField]
     private ParticleSystem m_muzzleFlashEffect;
@@ -43,6 +45,7 @@ public class RangeWeapon : Weapon
     private void Awake()
     {
         m_currentAmmo = m_maxAmmo;
+        m_audioSource.clip = m_audioClip;
     }
 
     public override void Attack(bool isAttackInput, PlayerAnimationController anim)
@@ -55,7 +58,7 @@ public class RangeWeapon : Weapon
         m_isFire = isAttackInput;
 
         if (!m_isFire) return;
-        anim.AttackAni(m_isFire, 2);
+        anim.RangeShootingAni();
         m_audioSource.PlayOneShot(m_audioSource.clip);
         m_muzzleFlashEffect.Play();
 

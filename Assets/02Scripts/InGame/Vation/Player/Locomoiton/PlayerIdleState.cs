@@ -31,15 +31,13 @@ public class PlayerIdleState : PlayerLocomotionState
             return;
         }
 
-        m_Locomotion.Movement(m_Combat.IsCombating, m_Combat.IsSniper);
+        m_Locomotion.Movement(m_Combat.IsInCombat, m_Combat.IsAction);
         m_Locomotion.ApplyGravity();
 
 
         // Locomotion Switch State
         if (m_Locomotion.IsJump) 
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Jump);
-        else if (m_Locomotion.IsDodge) 
-            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Dash);
         else if (m_Locomotion.IsFlyUp && m_Locomotion.FlyingGauge > 0) 
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.FlyUp);
         else if (m_Locomotion.IsMoving)

@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -21,11 +22,9 @@ public class PlayerAnimationController : MonoBehaviour
     private void Start()
     {
         SetAnimatorWeight(1, 0);
-        //SetAnimatorWeight(2, 0);
+        SetAnimatorWeight(2, 0);
         SetAnimatorWeight(3, 0);
     }
-
-    
 
     public void InitializeModule(PlayerCombat combat)
     {
@@ -35,37 +34,45 @@ public class PlayerAnimationController : MonoBehaviour
     {
         //events.SwapWeaponAction += SwapWeaponAni;
     }
+    public void SetAnimatorWeight(int index, float value)
+    {
+        m_animator.SetLayerWeight(index, value);
+    }
 
     #region ================================================================================ Locomotion
-    public void AllClear()
-    {
 
-    }
-    public void MoveAni(float moveSpeed)
+    public void MoveAni(float inputX, float inputY, bool isFly, bool isCombat)
     {
-        m_animator.SetFloat("MoveSpeed", moveSpeed);
-    }
+       if(isFly)
+        {
+            // 애니메이션 기울기 조절
+            inputY = isCombat ? (inputY < -0.35f ? -0.35f : inputY) : inputY;
+            inputY = isCombat ? (inputY > 0.25f ? 0.25f : inputY) : (inputY > 0.6f ? 0.6f : inputY);
+            inputX = isCombat ? (inputX > 0.25f ? 0.25f : inputX) : inputX;
+            inputX = isCombat ? (inputX < -0.25f ? -0.25f : inputX) : inputX;
+        }
 
-    public void CombatMoveAni(float inputX, float inputY)
-    {
-        // 값이 바로 전환되는 것을 부드럽게 변환
-        float dampTime = 0.1f;
-
-        m_animator.SetFloat("InputX", inputX, dampTime, Time.deltaTime);
-        m_animator.SetFloat("InputY", inputY, dampTime, Time.deltaTime);
+        m_animator.SetFloat("InputX", inputX, 0.1f, Time.deltaTime);
+        m_animator.SetFloat("InputY", inputY, 0.1f, Time.deltaTime);
     }
     public void SetIsGroundAni(bool isGrounded)
     {
         m_animator.SetBool("IsGround", isGrounded);
     }
 
-    public void JumpAni()
+    public void JumpTriggerAni()
     {
-        m_animator.SetTrigger("Jump");
+        m_animator.Play("Jump");
     }
-    public void FlyUpAni()
+    public void DashTriggerAni()
     {
-        m_animator.SetTrigger("FlyUp");
+        m_animator.Play("Dash");
+    }
+
+    public void FlyUpStartTriggerAni()
+    {
+        m_animator.Play("FlyUpStart");
+        SetFlyingAni(true);
     }
     public void SetFlyingAni(bool isFlying)
     {
@@ -73,57 +80,63 @@ public class PlayerAnimationController : MonoBehaviour
     }
 
 
-    public void HitAni()
+    public void HitTriggerAni()
     {
-        m_animator.SetTrigger("Hit");
+        m_animator.Play("Hit");
     }
-    public void DieAni()
+    public void DieTriggerAni()
     {
-        m_animator.SetTrigger("Die");
+        m_animator.Play("Die");
     }
     #endregion ================================================================================ /Locomotion
 
 
     #region ================================================================================ CombatFlags
-    public void SetIsCombatAni(bool isCombat)
+
+    public void SwapWeaponAni(int currentNum, bool isFlying)
     {
-        m_animator.SetBool("IsCombat", isCombat);
-    }
-    public void SetAnimatorWeight(int index,float value)
-    {
-        m_animator.SetLayerWeight(index, value);
-    }
-    public void SwapWeaponAni(int currentNum)
-    {
+        m_animator.Play("SwapWeapon",2);
         m_animator.SetInteger("WeaponNum", currentNum);
-        m_animator.SetTrigger("SwapWeapon");
+
+        if (isFlying) return;
+
+        // Ground일 때
+        switch (currentNum)
+        {
+            case 0:
+                break;
+            case 1:
+                m_animator.Play("MeleeMoveTree");
+                break;
+            case 2:
+            case 3:
+                m_animator.Play("RangeMoveTree");
+                break;
+        }
     }
-    public void AttackAni(bool isAttack, int currentNum)
+    public void SetIsInCombatAni(bool isInCombat)
+    {
+        m_animator.SetBool("IsInCombat", isInCombat);
+    }
+    public void MeleeComboTriggerAni()
+    {
+            m_animator.SetTrigger("MeleeCombo");
+    }
+    public void SetAttackAni(bool isAttack)
     {
         m_animator.SetBool("IsAttack", isAttack);
-
-        if(currentNum > 1 && isAttack) RangeShootingAni();
     }
-
-    private void RangeShootingAni()
+    public void RangeShootingAni()
     {
-        m_animator.SetTrigger("RangeShooting");
+        m_animator.Play("RangeShooting", 2);
     }
     public void ReloadAni()
     {
-        m_animator.SetTrigger("Reload");
+        m_animator.Play("Reload", 2);
     }
-    public void SkillAni(int num)
+    public void SkillAni(string key)
     {
-        if(num == 1)
-        {
-            m_animator.SetTrigger("Skill1");
-        }
-        else if (num == 2)
-        {
-            Debug.Log("aaa");
-            m_animator.SetTrigger("Skill2");        
-        }
+        m_animator.Play("Skill " + key.ToUpper(), 3);
     }
   
     public void UpdateAnimatorTransformValue()

@@ -12,7 +12,7 @@ public class PlayerAmingState : PlayerCombatState
     public override void Enter()
     {
         base.Enter();
-        m_Combat.SetAming(m_Combat.IsScope);
+        m_Combat.SetAming(m_Combat.IsAim);
         m_delayTime = 0f;
     }
 
@@ -24,8 +24,7 @@ public class PlayerAmingState : PlayerCombatState
     public override void Update()
     {
         // TODO : Combat에서 처리
-        if (m_Locomotion.IsAction) m_PlayerCore.SwitchCombatState(CombatStateType.NonCombat);
-        else if(m_Combat.IsSwapWeapon()) m_PlayerCore.SwitchCombatState(CombatStateType.Upper_SwapWeapon);
+        if (m_Locomotion.IsCombatStop) m_PlayerCore.SwitchCombatState(CombatStateType.NonCombat);
         
         /*else if (m_Combat.IsAttack)
         {
@@ -46,6 +45,6 @@ public class PlayerAmingState : PlayerCombatState
     public override void Exit()
     {
         base.Exit();
-        if(!m_Combat.IsAttack) m_Combat.SetAming(false);
+        if(!m_Combat.IsAttack) m_Combat.SetAming(false, true);
     }
 }

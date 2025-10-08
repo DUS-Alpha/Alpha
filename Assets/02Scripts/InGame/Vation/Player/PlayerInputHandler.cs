@@ -10,7 +10,8 @@ public class PlayerInputHandler : MonoBehaviour
     //  TODO : new InpuSystem 전환할지 고려
     #region ==================== LocomotionInput
     public Vector3 MoveDir { get; private set; }
-    public bool IsDodge { get; private set; }
+    public bool IsMove {  get; private set; }
+    public bool IsDash { get; private set; }
     public bool IsJump { get; private set; }
     public bool IsFlyUp { get; private set; }
     public bool IsFlyOff { get; private set; }
@@ -18,13 +19,17 @@ public class PlayerInputHandler : MonoBehaviour
 
     #region ==================== CombatInput
     public bool IsAttack { get; private set; }
-    public int SwapWeaponNum { get; private set; } = 0;
     public bool IsAim { get; private set; }
-    public bool IsWeaponSwap { get; private set; }
+    public bool IsSwap { get; private set; }
+    public int SwapWeaponNum { get; private set; } = 0;
     public bool IsReload { get; private set; }
+    public bool IsSkill {  get; private set; }
+    public string SkillKey { get; private set; }
+    private KeyCode[] m_skillKeyCodes = { KeyCode.Q, KeyCode.E, KeyCode.Z, KeyCode.C };
     public bool IsSkill1 { get; private set; }
     public bool IsSkill2 {  get; private set; }
     public bool IsSkill3 { get; private set; }
+    public bool IsSkill4 { get; private set; }
     #endregion ==================== /CombatInput
 
     #region ==================== ETC
@@ -56,25 +61,24 @@ public class PlayerInputHandler : MonoBehaviour
 
     private void LocomotionInput()
     {
-        if (m_inputLockedFlags.HasFlag(InputLocoLockType.All))
-        {
-            IsJump = false;
-            IsDodge = false;
-            IsFlyUp = false;
-            IsFlyOff = false;
-            MoveDir = Vector3.zero;
-            return;
-        }
+        MoveDir = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        // 조이스틱 같은 누르는 민감도를 지켜주기 위해 0~1까지는 기본 GetAxis값으로하되
+        // 힘(민감도) 1이상일 때 (즉,대각선루트2, 거의 조이스틱 대각선 풀로 움직인 상태) 변경해줌 / 키보드 같은 버튼 방식은 필요없음
+        if (MoveDir.magnitude >= 1) MoveDir.Normalize();
 
-        HandleInputMove();
+        IsMove = MoveDir.sqrMagnitude > 0.1f;
+        IsJump = Input.GetKeyDown(KeyCode.Space);
+        IsFlyUp = Input.GetKeyDown(KeyCode.F);
+        IsFlyOff = Input.GetKeyDown(KeyCode.E);
+        IsDash = (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift));
 
-        IsJump = !m_inputLockedFlags.HasFlag(InputLocoLockType.Jump)
+        /*IsJump = !m_inputLockedFlags.HasFlag(InputLocoLockType.Jump)
             && Input.GetKeyDown(KeyCode.Space);
         IsFlyUp = !m_inputLockedFlags.HasFlag(InputLocoLockType.FlyUp)
             && Input.GetKeyDown(KeyCode.F);
         IsFlyOff = !m_inputLockedFlags.HasFlag(InputLocoLockType.FlyOff) && Input.GetKeyDown(KeyCode.E);
         IsDodge = !m_inputLockedFlags.HasFlag(InputLocoLockType.Dodge) 
-            && (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift));
+            && (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift));*/
     }
     private void HandleInputMove()
     {
@@ -84,24 +88,22 @@ public class PlayerInputHandler : MonoBehaviour
         // 힘(민감도) 1이상일 때 (즉,대각선루트2, 거의 조이스틱 대각선 풀로 움직인 상태) 변경해줌 / 키보드 같은 버튼 방식은 필요없음
         if (MoveDir.magnitude >= 1) MoveDir.Normalize();
 
-        if (m_inputLockedFlags.HasFlag(InputLocoLockType.Move))
+        /*if (m_inputLockedFlags.HasFlag(InputLocoLockType.Move))
         {
             MoveDir = Vector3.zero;
-        }
+        }*/
     }
 
     private void CombatInput()
     {
-        if(m_inputCombatFlags.HasFlag(InputCombatLockType.All))
-        {
-            IsAttack = false;
-            IsAim = false;
-            IsReload = false;
-            SwapWeaponNum = 0;
-            return;
-        }
-        WeaponSwapNum();
-        IsAttack = !m_inputCombatFlags.HasFlag(InputCombatLockType.Attack) && Input.GetMouseButton(0);
+        IsSwap = IsSwapInput();
+        IsAttack = Input.GetMouseButton(0);
+        IsAim = Input.GetMouseButtonDown(1) && m_combat.CurrentWeaponNum > 1;
+        IsReload = Input.GetKeyDown(KeyCode.R);
+
+        IsSkill = SkillKeyCode();
+
+        /*IsAttack = !m_inputCombatFlags.HasFlag(InputCombatLockType.Attack) && Input.GetMouseButton(0);
 
         IsAim = !m_inputCombatFlags.HasFlag(InputCombatLockType.Aim) && Input.GetMouseButtonDown(1) && m_combat.CurrentWeaponNum > 1;
         IsReload = !m_inputCombatFlags.HasFlag(InputCombatLockType.Reload) && Input.GetKeyDown(KeyCode.R);
@@ -109,30 +111,33 @@ public class PlayerInputHandler : MonoBehaviour
         IsSkill1 = !m_inputCombatFlags.HasFlag(InputCombatLockType.Skill1) && Input.GetKeyDown(KeyCode.Q);
         IsSkill2 = !m_inputCombatFlags.HasFlag(InputCombatLockType.Skill2) && Input.GetKeyDown(KeyCode.E);
         IsSkill3 = !m_inputCombatFlags.HasFlag(InputCombatLockType.Skill3) && Input.GetKeyDown(KeyCode.Z);
+        IsSkill4 = !m_inputCombatFlags.HasFlag(InputCombatLockType.Skill4) && Input.GetKeyDown(KeyCode.C);*/
     }
 
-    private void WeaponSwapNum()
+    private bool IsSwapInput()
     {
-        IsWeaponSwap = (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Alpha3));
-        
-        if(IsWeaponSwap)
+        // 1 ~ 4
+        for (int i = 1; i <= 4; i++)
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+            if (Input.GetKeyDown(KeyCode.Alpha0 + i) || Input.GetKeyDown(KeyCode.Keypad0 + i))
             {
-                SwapWeaponNum = 1;
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                SwapWeaponNum = 2;
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                SwapWeaponNum = 3;
+                SwapWeaponNum = i;
+                return true;
             }
         }
-        else
+        return false;
+    }
+
+    public bool SkillKeyCode()
+    {
+        foreach (var key in m_skillKeyCodes)
         {
-            SwapWeaponNum = 0;
+            if (Input.GetKeyDown(key))
+            {
+                SkillKey = key.ToString();
+                return true;
+            }
         }
+        return false;
     }
 }

@@ -59,7 +59,11 @@ public class AudioManager : MonoBehaviour
     // TODO 재활용성을 위해 PlaySFX로 통합할지 고민
     public void PlaySFXLocomotionAudio(SFXLomotionType sfxType, bool isStop = false, bool isPlayOneShot = false)
     {
-        if (isStop) m_sfxLocomotionAudio.Stop();
+        if (isStop)
+        {
+            m_sfxLocomotionAudio.Stop();
+            return;
+        }
 
         AudioClip _clip = m_sfxLocomotionClips[(int)sfxType-1];
 

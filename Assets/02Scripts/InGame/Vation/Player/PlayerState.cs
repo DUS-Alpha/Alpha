@@ -6,7 +6,7 @@ public abstract class PlayerState
     protected PlayerLocomotion m_Locomotion;
     protected PlayerCombat m_Combat;
     protected PlayerAnimationController m_Ani;
-
+    protected float m_nextStateDelay;
     public PlayerState(PlayerCore playerCore)
     {
         m_PlayerCore = playerCore;

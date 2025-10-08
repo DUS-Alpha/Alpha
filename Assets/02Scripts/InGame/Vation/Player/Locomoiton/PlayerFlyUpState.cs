@@ -12,7 +12,7 @@ public class PlayerFlyUpState : PlayerLocomotionState
 
     private bool m_canFlyUp;
     private float m_delayT;
-    private float m_nextStateDelay;
+
     public override void Enter()
     {
         base.Enter();
@@ -38,7 +38,7 @@ public class PlayerFlyUpState : PlayerLocomotionState
 
         m_nextStateDelay += Time.deltaTime;
 
-        if (m_nextStateDelay < 1f) return;
+        if (m_nextStateDelay < 0.7f) return;
 
         m_PlayerCore.SwitchLocomotionState(LocomotionStateType.FlightMove);
     }

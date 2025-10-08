@@ -21,6 +21,7 @@ public class PlayerSkillState : PlayerCombatState
         }
     }
     private bool m_isMelee;
+    private float m_nextDelay;
 
     public override void Enter()
     {
@@ -30,8 +31,8 @@ public class PlayerSkillState : PlayerCombatState
 
         m_PlayerCore.AniController.SetAnimatorWeight(3,1);
 
-        int num = m_Combat.SkillQueue.Peek();
-        m_Combat.EnterSkill(num);
+        m_Combat.EnterSkill();
+        m_nextDelay = 0;
     }
     public override void FixedUpdate()
     {
@@ -41,6 +42,10 @@ public class PlayerSkillState : PlayerCombatState
     public override void Update()
     {
         if (m_Combat.IsAction) return;
+
+        /*m_nextDelay += Time.deltaTime;
+
+        if (m_nextDelay < 0.2f) return;*/
 
         if (m_Combat.IsAttack) m_PlayerCore.SwitchCombatState(CombatStateType.Upper_InCombat);
         else

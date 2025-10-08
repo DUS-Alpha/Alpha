@@ -25,8 +25,8 @@ public enum CombatStateType
     None,
     NonCombat,
     Upper_InCombat,
-    Upper_SwapWeapon,
-    Upper_Reload,
+    SwapWeapon,
+    Reload,
     Skill,
     Dodge
 }

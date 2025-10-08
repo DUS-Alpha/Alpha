@@ -9,7 +9,7 @@ public enum InputLocoLockType
     Move = 1 << 0,    // 이동 관련 입력
     Look = 1 << 1,        // 카메라 회전
     Jump = 1 << 2,
-    Dodge = 1 << 3,       // 회피 입력
+    Dash = 1 << 3,       // 회피 입력
     FlyUp = 1 << 4,
     FlyOff = 1 << 5,
     All = 1 << 6,
@@ -23,10 +23,9 @@ public enum InputCombatLockType
     Attack = 1 << 1,
     SwapWeapon = 1 << 2,
     Reload = 1 << 3,
-    Skill1 = 1 << 4,
-    Skill2 = 1 << 5,
-    Skill3 = 1 << 6,
-    All = 1 << 7,
+    Skill = 1 << 4,
+    Dodge = 1 << 5,
+    All = 1 << 6,
 }
 
 public class InputLockedFlagsController<T> where T : Enum

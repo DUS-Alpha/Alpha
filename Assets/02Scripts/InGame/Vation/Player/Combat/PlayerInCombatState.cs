@@ -7,17 +7,11 @@ public class PlayerInCombatState : PlayerCombatState
     protected override InputLocoLockType m_LockOnEnter => InputLocoLockType.Jump | InputLocoLockType.FlyUp;
     protected override InputLocoLockType m_LockOnExit => InputLocoLockType.Jump | InputLocoLockType.FlyUp;
 
-    private int m_currentWeaponNum;
-    private float m_nextDely;
-    private bool m_isReloading;
     public override void Enter()
     {
         base.Enter();
-        m_Combat.SetUpperAnimatorLayer(1);
         m_Combat.EnterInCombat();
-        m_currentWeaponNum = m_Combat.CurrentWeaponNum;
-        m_nextDely = 0;
-        //m_isReloading = false;
+        m_nextStateDelay = 0;
     }
     public override void FixedUpdate()
     {
@@ -26,22 +20,27 @@ public class PlayerInCombatState : PlayerCombatState
 
     public override void Update()
     {
-        if(m_Locomotion.IsAction || m_nextDely > 1)
+        base.Update();
+        if(m_Locomotion.IsCombatStop || m_nextStateDelay > 1)
         {
             m_PlayerCore.SwitchCombatState(CombatStateType.NonCombat);
+            // TODO : 모든 애니메이션 및 레이어 초기화 & 중단
             return;
         }
 
-        if (m_Combat.IsSwapWeapon())
+        if (m_Combat.CurrentWeaponNum > 1)
         {
-            m_Combat.SetIsAction(true);
-            m_PlayerCore.SwitchCombatState(CombatStateType.Upper_SwapWeapon);
+            if(m_Combat.IsAim) m_nextStateDelay = 0;
+            m_Combat.SetAming(m_Combat.IsAim);
+        }
+
+        if (m_Combat.IsSwap)
+        {
+            m_PlayerCore.SwitchCombatState(CombatStateType.SwapWeapon);
         }
         else if (m_Combat.IsReload)
         {
-            m_Combat.SetIsAction(true);
-            //m_isReloading = true;
-            m_PlayerCore.SwitchCombatState(CombatStateType.Upper_Reload);
+            m_PlayerCore.SwitchCombatState(CombatStateType.Reload);
         }
         else if(m_Combat.IsSkill)
         {
@@ -49,28 +48,26 @@ public class PlayerInCombatState : PlayerCombatState
         }
         else if (m_Combat.IsAttack)
         {
-            m_nextDely = 0;
+            m_nextStateDelay = 0;
             m_Combat.Attack();
+            m_Combat.UpdateInCombat(m_Locomotion.IsFlying);
         }
         else
         {
-            if (m_Combat.IsScope) m_nextDely = 0;
-            else m_nextDely += Time.deltaTime;
+            m_nextStateDelay += Time.deltaTime;
         }
 
-        if (m_currentWeaponNum > 1) m_Combat.SetAming(m_Combat.IsScope);
-        else m_Combat.SetAming(false);
+        m_Combat.SetAttack(m_Combat.IsAttack);
     }
     public override void Exit()
     {
         base.Exit();
-        if(m_Combat.IsAction) m_Combat.SetUpperAnimatorLayer(1);
-        else if(!m_Locomotion.IsFlying)
+        
+        if(!m_Locomotion.IsFlying)
             m_Combat.SetUpperAnimatorLayer(0);
 
-        m_Combat.ExitInCombat(m_Combat.IsAction);
-
-        m_Combat.SetAming(false);
+        m_Combat.ExitInCombat();
+        m_Combat.SetAming(false, true);
     }
 
 }

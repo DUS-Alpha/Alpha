@@ -106,7 +106,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: e899b89140464914b8afb3e63908527f, type: 3}
+  m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -280,6 +280,7 @@ MonoBehaviour:
   m_currentAmmo: 0
   m_saveAmmo: 40
   m_audioSource: {fileID: 436999622030129817}
+  m_audioClip: {fileID: 8300000, guid: 5ccab8ecffbe56944ac1ec97687efeef, type: 3}
   m_bulletFirePos: {fileID: 5073973432345917144}
   m_muzzleFlashEffect: {fileID: 4749878520598146844}
 --- !u!1 &8562690013002790731
