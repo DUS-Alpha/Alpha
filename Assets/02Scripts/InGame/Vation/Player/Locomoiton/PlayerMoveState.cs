@@ -27,7 +27,7 @@ public class PlayerMoveState : PlayerLocomotionState
         }
 
         m_Locomotion.Movement(m_Combat.IsInCombat, m_Combat.IsAction);
-        if (m_Locomotion.IsMoving)
+        if (m_Locomotion.IsMove)
         {
             //m_Locomotion.MoveEffect();
         }
@@ -43,7 +43,7 @@ public class PlayerMoveState : PlayerLocomotionState
             if(m_Locomotion.FlyingGauge > 0)
                 m_PlayerCore.SwitchLocomotionState(LocomotionStateType.FlyUp);
         }
-        else if (!m_Locomotion.IsMoving)
+        else if (!m_Locomotion.IsMove)
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Idle);
 
         

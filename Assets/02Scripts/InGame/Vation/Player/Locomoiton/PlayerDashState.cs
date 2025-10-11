@@ -13,7 +13,7 @@ public class PlayerDashState : PlayerLocomotionState
         base.Enter();
         m_Locomotion.SetIsAction(true);
         m_Locomotion.DashEnter();
-        m_nextStateDelay = 0;
+        m_NextStateDelay = 0;
     }
     public override void FixedUpdate()
     {
@@ -23,9 +23,9 @@ public class PlayerDashState : PlayerLocomotionState
     public override void Update()
     {
         m_Locomotion.UpdateDashMove();
-        m_nextStateDelay += Time.deltaTime;
+        m_NextStateDelay += Time.deltaTime;
 
-        if (m_nextStateDelay > 0.45f)
+        if (m_NextStateDelay > 0.45f)
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Idle);
 
     }

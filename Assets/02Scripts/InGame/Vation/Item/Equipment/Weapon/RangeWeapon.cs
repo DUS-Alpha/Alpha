@@ -37,8 +37,6 @@ public class RangeWeapon : Weapon
     private ParticleSystem m_muzzleFlashEffect;
     
     private bool m_isFire;
-    public bool IsDistance => m_isDistance;
-    private bool m_isDistance;
     private bool m_canNeedReload;
     public bool IsNeedReload => m_canNeedReload;
 
@@ -65,7 +63,8 @@ public class RangeWeapon : Weapon
         if(m_currentAmmo > 0)
             m_currentAmmo -= 1;
 
-        ApplyDamageInfo();
+        if (TryGetTarget(out RaycastHit hit))
+            ApplyDamage(hit);
     }
     public override bool IsInAction(PlayerAnimationController anim)
     {
@@ -89,33 +88,43 @@ public class RangeWeapon : Weapon
         }
         return true;
     }
-    public void ApplyDamageInfo()
+    /// <summary>
+    /// 거리 내 맞은 대상이 있는지 확인 (단순 체크용)
+    /// </summary>
+    public bool TryGetTarget(out RaycastHit hit)
     {
-        Vector3 _rayOrigin = Camera.main.transform.position;
-        Vector3 _rayDirection = Camera.main.transform.forward; // 화면 중앙 기준
-        RaycastHit _hit;
+        Vector3 origin = Camera.main.transform.position;
+        Vector3 dir = Camera.main.transform.forward;
 
-        if (Physics.Raycast(_rayOrigin, _rayDirection, out _hit, m_maxDistance))
+        bool isHit = Physics.Raycast(origin, dir, out hit, m_maxDistance);
+
+        if (isHit)
         {
-            Debug.DrawLine(_rayOrigin, _hit.point, Color.red);
-            // 데미지 받을 타겟
-            IDamageable _damageableTarget;
-            if (_hit.collider.TryGetComponent<IDamageable>(out _damageableTarget))
-            {
-                m_isDistance = true;
-                // 데미지 정보
-                DamageMassage _damageMassage = new DamageMassage();
-                //_damageMassage.Damager = damager;
-                _damageMassage.HitNormal = _hit.normal;
-                _damageMassage.HitPoint = _hit.point;
-                _damageMassage.damage = this.WeaponData.AttackDamage;
-
-                // 데미지 전달
-                _damageableTarget.ApplyDamage(_damageMassage);
-
-                // 맞은 곳에 BloodEffect 재생(몬스터쪽에서해도 괜찮음)
-            }
+            Debug.DrawLine(origin, hit.point, Color.red);
         }
-        else m_isDistance = false;
+        else
+        {
+        }
+
+        return isHit;
+    }
+
+    /// <summary>
+    /// 실제 데미지를 적용하는 메서드 (거리 체크 통과 후 호출)
+    /// </summary>
+    private void ApplyDamage(RaycastHit hit)
+    {
+        if (hit.collider.TryGetComponent<IDamageable>(out IDamageable target))
+        {
+            DamageMassage msg = new DamageMassage
+            {
+                HitNormal = hit.normal,
+                HitPoint = hit.point,
+                damage = WeaponData.AttackDamage
+            };
+
+            target.ApplyDamage(msg);
+            // TODO: 피격 이펙트 재생 등
+        }
     }
 }

@@ -39,7 +39,7 @@ public class PlayerFlightMoveState : PlayerLocomotionState
     public override void Exit()
     {
         base.Exit();
-        m_Locomotion.FlightMoveExit();
+        m_Locomotion.ExitFlightMove();
        // m_PlayerCore.SetAnimatorLayer(1, 0);
     }
 

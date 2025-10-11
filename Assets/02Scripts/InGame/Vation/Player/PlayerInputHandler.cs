@@ -11,6 +11,7 @@ public class PlayerInputHandler : MonoBehaviour
     #region ==================== LocomotionInput
     public Vector3 MoveDir { get; private set; }
     public bool IsMove {  get; private set; }
+    public bool ISRot {  get; private set; }
     public bool IsDash { get; private set; }
     public bool IsJump { get; private set; }
     public bool IsFlyUp { get; private set; }
@@ -61,24 +62,13 @@ public class PlayerInputHandler : MonoBehaviour
 
     private void LocomotionInput()
     {
-        MoveDir = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        // 조이스틱 같은 누르는 민감도를 지켜주기 위해 0~1까지는 기본 GetAxis값으로하되
-        // 힘(민감도) 1이상일 때 (즉,대각선루트2, 거의 조이스틱 대각선 풀로 움직인 상태) 변경해줌 / 키보드 같은 버튼 방식은 필요없음
-        if (MoveDir.magnitude >= 1) MoveDir.Normalize();
-
-        IsMove = MoveDir.sqrMagnitude > 0.1f;
+        HandleInputMove();
+        bool _isRot = Input.GetKeyDown(KeyCode.LeftAlt);
+        if (_isRot) ISRot = !ISRot;
         IsJump = Input.GetKeyDown(KeyCode.Space);
         IsFlyUp = Input.GetKeyDown(KeyCode.F);
         IsFlyOff = Input.GetKeyDown(KeyCode.E);
         IsDash = (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift));
-
-        /*IsJump = !m_inputLockedFlags.HasFlag(InputLocoLockType.Jump)
-            && Input.GetKeyDown(KeyCode.Space);
-        IsFlyUp = !m_inputLockedFlags.HasFlag(InputLocoLockType.FlyUp)
-            && Input.GetKeyDown(KeyCode.F);
-        IsFlyOff = !m_inputLockedFlags.HasFlag(InputLocoLockType.FlyOff) && Input.GetKeyDown(KeyCode.E);
-        IsDodge = !m_inputLockedFlags.HasFlag(InputLocoLockType.Dodge) 
-            && (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift));*/
     }
     private void HandleInputMove()
     {
@@ -88,10 +78,7 @@ public class PlayerInputHandler : MonoBehaviour
         // 힘(민감도) 1이상일 때 (즉,대각선루트2, 거의 조이스틱 대각선 풀로 움직인 상태) 변경해줌 / 키보드 같은 버튼 방식은 필요없음
         if (MoveDir.magnitude >= 1) MoveDir.Normalize();
 
-        /*if (m_inputLockedFlags.HasFlag(InputLocoLockType.Move))
-        {
-            MoveDir = Vector3.zero;
-        }*/
+        IsMove = MoveDir.sqrMagnitude > 0.1f;
     }
 
     private void CombatInput()
@@ -102,16 +89,6 @@ public class PlayerInputHandler : MonoBehaviour
         IsReload = Input.GetKeyDown(KeyCode.R);
 
         IsSkill = SkillKeyCode();
-
-        /*IsAttack = !m_inputCombatFlags.HasFlag(InputCombatLockType.Attack) && Input.GetMouseButton(0);
-
-        IsAim = !m_inputCombatFlags.HasFlag(InputCombatLockType.Aim) && Input.GetMouseButtonDown(1) && m_combat.CurrentWeaponNum > 1;
-        IsReload = !m_inputCombatFlags.HasFlag(InputCombatLockType.Reload) && Input.GetKeyDown(KeyCode.R);
-
-        IsSkill1 = !m_inputCombatFlags.HasFlag(InputCombatLockType.Skill1) && Input.GetKeyDown(KeyCode.Q);
-        IsSkill2 = !m_inputCombatFlags.HasFlag(InputCombatLockType.Skill2) && Input.GetKeyDown(KeyCode.E);
-        IsSkill3 = !m_inputCombatFlags.HasFlag(InputCombatLockType.Skill3) && Input.GetKeyDown(KeyCode.Z);
-        IsSkill4 = !m_inputCombatFlags.HasFlag(InputCombatLockType.Skill4) && Input.GetKeyDown(KeyCode.C);*/
     }
 
     private bool IsSwapInput()

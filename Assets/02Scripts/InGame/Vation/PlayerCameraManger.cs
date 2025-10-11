@@ -67,6 +67,10 @@ public class PlayerCameraManger : MonoBehaviour
 
         m_targetFOV = isAim ? m_aimFOV : m_originFOV;
     }
+    public void StopRotCamera(bool isStop)
+    {
+        m_freeLook.gameObject.SetActive(!isStop);
+    }
     private void Update()
     {
         SetCursorLock(m_isCursorLock);

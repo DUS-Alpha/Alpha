@@ -83,7 +83,8 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
     // Lock이랑은 다른개념으로 해당 State가 되었을 때 동작중인 Combat을 중지시키고 NonCombat로 전환
     public bool IsCombatStop => m_isCombatStop;
     private bool m_isCombatStop;
-    public bool IsMoving { get; private set; }
+    public bool IsMove { get; private set; }
+    public bool IsRot { get; private set; }
     public bool IsJump { get; private set; }
     private bool m_isJumping;
     public bool IsFlyUp { get; private set; }
@@ -123,6 +124,8 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
     public void InitializeLocotion()
     {
         m_moveDir = Vector3.zero;
+        IsMove = false;
+        IsRot = false;
         IsFlyUp = false;
         IsDash = false;
         IsJump = false;
@@ -134,6 +137,8 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
     public void CheckInput()
     {
         m_moveDir = m_InputHandler.MoveDir;
+        IsMove = m_InputHandler.IsMove;
+        IsRot = m_InputHandler.ISRot;
         IsFlyUp = m_InputHandler.IsFlyUp;
         IsDash = m_InputHandler.IsDash;
         IsJump = m_InputHandler.IsJump;
@@ -154,15 +159,12 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
         float _targetSpeed;
         float _speedLerpRate = 10f;
 
-        // Combat인가? 그리고 Flying상태인가?
-        if (m_moveDir.sqrMagnitude < 0.1f)
+        if (!IsMove)
         {
             _targetSpeed = 0;
-            IsMoving = false;
         }
         else
         {
-            IsMoving = true;
             if (m_moveDir.z > 0 && !isInCombat) _targetSpeed = m_isFlying? m_flySpeed : m_baseSpeed;
             else _targetSpeed = isInCombat? (m_isFlying? m_flightCombatSpeed : m_combatSpeed) : m_baseBackMovingSpeed;
         }
@@ -173,13 +175,13 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
             m_moveDir = Vector3.zero;
             m_currentSpeed = 0;
         }
-        else 
+        else if(!IsRot)
             HandleRotate();
 
         HandleMove(m_currentSpeed);
         m_animationController.MoveAni(m_moveDir.x, m_moveDir.z, m_isFlying, isInCombat);
 
-        if (IsMoving) 
+        if (IsMove) 
         { 
             // Moving Audio 처리
         }
@@ -315,7 +317,14 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
 
     #region ================================================================================ Fly
     private float m_flyUpSpeed;
-    public void FlyUpStart()
+    public void ChargingFlyingGauge()
+    {
+        if (m_flyingGauge <= m_maxFlyingGauge)
+            m_flyingGauge += Time.deltaTime;
+        else m_flyingGauge = m_maxFlyingGauge;
+    }
+
+    public void EnterFlyUp(bool isWeapon)
     {
         IsGrounded = false;
         m_isFlying = true;
@@ -323,15 +332,17 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
         m_currentFlyHeight = 0f;
         m_flyUpSpeed = m_initialFlySpeed;
 
-
         // 똑바로 선 상태로 회전 고친후 상승
         m_movementUtility.InitializeRotate(this.gameObject);
 
-        m_animationController.FlyUpStartTriggerAni();
+        if(isWeapon)
+        m_animationController.SetAnimatorWeight(1, 1);
+
+        m_animationController.FlyUpTriggerAni();
         m_audioManager.PlaySFXLocomotionAudio(SFXLomotionType.FlyUp);
     }
 
-    public void FlyUpUpdate()
+    public void UpdateFlyUp()
     {
         // 속도를 점점 줄임
         m_flyUpSpeed = Mathf.Max(0f, m_flyUpSpeed - m_flyDecel * Time.deltaTime);
@@ -352,26 +363,16 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
     // Flying
     public void UpdateFlightMove(bool hasWeapon)
     {
-        if(hasWeapon)
-            m_animationController.SetAnimatorWeight(1, 1);
         // 이동이 없을 경우 사운드 끄기
         m_audioManager.PlaySFXLocomotionAudio(SFXLomotionType.FlyMove, m_moveDir.sqrMagnitude < 0.1f);
- 
-        /*if (m_flyingGauge <= 0) m_flyingGauge = 0;
-        else m_flyingGauge = m_flyingGauge - Time.deltaTime;*/
     }
-    public void ChargingFlyingGauge()
+    
+    public void ExitFlightMove()
     {
-        if (m_flyingGauge <= m_maxFlyingGauge)
-            m_flyingGauge += Time.deltaTime;
-        else m_flyingGauge = m_maxFlyingGauge;
-    }
-
-    public void FlightMoveExit()
-    {
-        //m_moveDir = Vector3.zero;
         if(!IsDie) m_isFlying = false;
         m_animationController.SetFlyingAni(m_isFlying);
+        m_animationController.FlyFallAni();
+        m_animationController.SetAnimatorWeight(1, 0);
 
         // 똑바로 선 상태로 회전
         m_movementUtility.InitializeRotate(this.gameObject);

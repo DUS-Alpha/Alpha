@@ -10,7 +10,6 @@ public class PlayerFlyUpState : PlayerLocomotionState
 
     public PlayerFlyUpState(PlayerCore playerCore) : base(playerCore){}
 
-    private bool m_canFlyUp;
     private float m_delayT;
 
     public override void Enter()
@@ -18,9 +17,8 @@ public class PlayerFlyUpState : PlayerLocomotionState
         base.Enter();
         m_Locomotion.SetIsAction(true);
         
-        m_Locomotion.FlyUpStart();
-        m_delayT = 0f;
-        m_nextStateDelay = 0f;
+        m_Locomotion.EnterFlyUp(m_Combat.CurrentWeaponNum > 0);
+        m_NextStateDelay = 0f;
     }
 
     public override void FixedUpdate()
@@ -31,15 +29,12 @@ public class PlayerFlyUpState : PlayerLocomotionState
     public override void Update()
     {
         // 애니메이션 모션 자연스럽게하기 위해 딜레이
-        m_delayT += Time.deltaTime;
+        m_NextStateDelay += Time.deltaTime;
 
-        if (m_delayT < 0.4f) return;
-        m_Locomotion.FlyUpUpdate();
+        if (m_NextStateDelay < 0.4f) return;
+        m_Locomotion.UpdateFlyUp();
 
-        m_nextStateDelay += Time.deltaTime;
-
-        if (m_nextStateDelay < 0.7f) return;
-
+        if (m_NextStateDelay < 1.1f) return;
         m_PlayerCore.SwitchLocomotionState(LocomotionStateType.FlightMove);
     }
 

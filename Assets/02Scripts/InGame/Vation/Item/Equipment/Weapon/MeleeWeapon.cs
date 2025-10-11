@@ -12,7 +12,7 @@ public class MeleeWeapon : Weapon
 
     public override void Attack(bool isAttackInput, PlayerAnimationController anim)
     {
-        
+        anim.MeleeComboTriggerAni();
     }
     public override void Unequip(GameObject user)
     {

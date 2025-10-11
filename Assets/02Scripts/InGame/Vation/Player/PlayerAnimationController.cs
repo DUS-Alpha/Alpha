@@ -69,16 +69,19 @@ public class PlayerAnimationController : MonoBehaviour
         m_animator.Play("Dash");
     }
 
-    public void FlyUpStartTriggerAni()
+    public void FlyUpTriggerAni()
     {
-        m_animator.Play("FlyUpStart");
         SetFlyingAni(true);
+        m_animator.Play("FlyUp");
     }
     public void SetFlyingAni(bool isFlying)
     {
         m_animator.SetBool("IsFlying", isFlying);
     }
-
+    public void FlyFallAni()
+    {
+        m_animator.Play("Fall2");
+    }
 
     public void HitTriggerAni()
     {
@@ -95,7 +98,7 @@ public class PlayerAnimationController : MonoBehaviour
 
     public void SwapWeaponAni(int currentNum, bool isFlying)
     {
-        m_animator.Play("SwapWeapon",2);
+        m_animator.Play("SwapWeapon", 1);
         m_animator.SetInteger("WeaponNum", currentNum);
 
         if (isFlying) return;
@@ -128,15 +131,15 @@ public class PlayerAnimationController : MonoBehaviour
     }
     public void RangeShootingAni()
     {
-        m_animator.Play("RangeShooting", 2);
+        m_animator.Play("RangeShooting", 1);
     }
     public void ReloadAni()
     {
-        m_animator.Play("Reload", 2);
+        m_animator.Play("Reload", 1);
     }
     public void SkillAni(string key)
     {
-        m_animator.Play("Skill " + key.ToUpper(), 3);
+        m_animator.Play("Skill " + key.ToUpper(), 2);
     }
   
     public void UpdateAnimatorTransformValue()

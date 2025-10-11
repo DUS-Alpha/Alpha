@@ -1,12 +1,14 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerUIManager : MonoBehaviour
 {
     public static PlayerUIManager Instance;
+
     [SerializeField]
-    private GameObject[] m_crossHeadUIs;
+    private Image[] m_crossHeadUIs;
 
     [SerializeField]
     private PlayerInventoryUI m_inventoryUI;
@@ -56,8 +58,18 @@ public class PlayerUIManager : MonoBehaviour
     }
     public void ChangeSniperAimUI(bool isSniper)
     {
-        m_crossHeadUIs[0].SetActive(!isSniper);
-        m_crossHeadUIs[1].SetActive(isSniper);
+        m_crossHeadUIs[0].gameObject.SetActive(!isSniper);
+        m_crossHeadUIs[1].gameObject.SetActive(isSniper);
+    }
+
+    public void SetColorMarkCrossHead(bool isDistance)
+    {
+        for (int i = 0; i < m_crossHeadUIs.Length; i++)
+        {
+            Color _color = m_crossHeadUIs[i].color;
+            _color = isDistance ? Color.green : Color.white;
+            m_crossHeadUIs[i].color = _color;
+        }
     }
 
     public void EquipInventory(EquipmentDataSO equipmentData)

@@ -40,7 +40,7 @@ public class PlayerIdleState : PlayerLocomotionState
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Jump);
         else if (m_Locomotion.IsFlyUp && m_Locomotion.FlyingGauge > 0) 
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.FlyUp);
-        else if (m_Locomotion.IsMoving)
+        else if (m_Locomotion.IsMove)
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Move);
     }
 

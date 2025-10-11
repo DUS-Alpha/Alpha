@@ -8,7 +8,7 @@ public class PlayerCombat : MonoBehaviour
     // Ref Component
     private PlayerCameraManger m_cameraManager;
     private PlayerInputHandler m_inputHandler;
-    private PlayerAnimationController m_animationController;
+    private PlayerAnimationController m_aniController;
     private PlayerIKController m_ikController;
     private PlayerUIManager m_uiManager;
     private AudioManager m_audioManager;
@@ -45,7 +45,7 @@ public class PlayerCombat : MonoBehaviour
         m_equipmentWeapons = playerCore.EquipmentController.Weapons;
         m_cameraManager = playerCore.CameraManger;
         m_inputHandler = playerCore.InputHandler;
-        m_animationController = playerCore.AniController;
+        m_aniController = playerCore.AniController;
         m_uiManager = playerCore.UIManager;
         m_equipmentWeapons = playerCore.EquipmentController.Weapons;
         m_ikController = playerCore.IKController;
@@ -84,19 +84,18 @@ public class PlayerCombat : MonoBehaviour
         }
 
         IsAttack = !m_flagsController.HasFlag(InputCombatLockType.Attack) 
-                && m_inputHandler.IsAttack;
+                && m_inputHandler.IsAttack && CurrentWeaponNum > 0;
 
         IsSwap = !m_flagsController.HasFlag(InputCombatLockType.SwapWeapon) 
                 && m_inputHandler.IsSwap && CanSwapWeapon();
 
         IsReload = !m_flagsController.HasFlag(InputCombatLockType.Reload) 
-                && (CurrentWeaponNum > 1? m_inputHandler.IsReload : false);
-
-        IsSkill = !m_flagsController.HasFlag(InputCombatLockType.Skill) 
-                && m_inputHandler.IsSkill && !IsAction;
-
+                 && m_inputHandler.IsReload && CurrentWeaponNum > 1;
         IsAim = !m_flagsController.HasFlag(InputCombatLockType.Aim)
                 && m_inputHandler.IsAim && CurrentWeaponNum > 1;
+
+        IsSkill = !m_flagsController.HasFlag(InputCombatLockType.Skill) 
+                & m_inputHandler.IsSkill && CurrentWeaponNum == 1;
     }
     public void SetIsAction(bool isAction)
     {
@@ -109,85 +108,75 @@ public class PlayerCombat : MonoBehaviour
     // UpperLayer
     public void SetUpperAnimatorLayer(int weight)
     {
-        m_animationController.SetAnimatorWeight(1, weight);
+        m_aniController.SetAnimatorWeight(1, weight);
+    }
+    private void Update()
+    {
+        if(CurrentWeaponNum > 1)
+        {
+            RangeWeapon _rangeWeapon = CurrentWeapon as RangeWeapon;
+            SetColorMarkCrossHeadUI(_rangeWeapon.TryGetTarget(out RaycastHit hit));
+        }
     }
 
     #region ================================================ Enter, Exit State
     public void EnterInCombat()
     {
         m_isInCombat = true;
-        m_animationController.SetIsInCombatAni(true);
-
-        if (CurrentWeaponNum > 1)
-        {
-            SetIKRigWeight(1);
-            m_animationController.SetAnimatorWeight(2, 1);
-        }
-        else 
-            m_animationController.SetAnimatorWeight(1, 1);
+        m_aniController.SetIsInCombatAni(m_isInCombat);
     }
 
-    /// <summary>
-    /// Flying상태일때의 무기장착 Flying 애니메이션 없기에 상체 애니메이터 레이어 켜줘야함
-    /// </summary>
-    /// <param name="isFlying"></param>
-    public void UpdateInCombat(bool isFlying)
-    {
-        if (CurrentWeaponNum != 1) return;
-
-        if (isFlying) m_animationController.SetAnimatorWeight(1, 1);
-        else
-        {
-            m_animationController.SetAnimatorWeight(3, 1);
-        }
-    }
-
-    public void ExitInCombat()
+    public void ExitInCombat(bool isFlying)
     {
         m_isInCombat = false;
         m_isAction = false;
         IsActioning = false;
 
-        m_animationController.SetIsInCombatAni(false);
+        m_aniController.SetIsInCombatAni(false);
 
-        m_animationController.SetAnimatorWeight(1, 0);
-        m_animationController.SetAnimatorWeight(2, 0);
-        m_animationController.SetAnimatorWeight(3, 0);
+        if(!isFlying)
+        m_aniController.SetAnimatorWeight(1, 0);
+        
+        m_aniController.SetAnimatorWeight(2, 0);
+        m_aniController.SetAnimatorWeight(3, 0);
         
         SetIKRigWeight(0);
     }
-    public void SetAttack(bool isAttack)
-    {
-        m_animationController.SetAttackAni(isAttack);
-    }
+
     public void Attack()
     {
-        if (CurrentWeaponNum == 0) return;
         MeleeWeapon _meleeWeapon = null;
         RangeWeapon _rangeWeapon = null;
 
         if (CurrentWeaponNum == 1)
         {
+            m_aniController.SetAnimatorWeight(2, 1);
+            SetIKRigWeight(0);
             _meleeWeapon = CurrentWeapon as MeleeWeapon;
-            if(!IsActioning)
+            
+            if (!IsActioning)
             {
-                m_animationController.MeleeComboTriggerAni();
+                currentWeapon.Attack(IsAttack, m_aniController);
             }
         }
         else if (CurrentWeaponNum > 1)
         {
+            SetIKRigWeight(1);
             _rangeWeapon = CurrentWeapon as RangeWeapon;
             m_uiManager.SetAmmo(_rangeWeapon.CurrentAmmo, _rangeWeapon.SaveAmmo, _rangeWeapon.MaxAmmo);
-        }
-
-        if (Time.time >= m_nextAttakTime)
-        {
-            m_nextAttakTime = Time.time + currentWeapon.WeaponData.AttackDelay;
-            // 무기 Swap시 마다 스나이퍼 같은 총의 경우 바로 발사를 하면 안되기에 계속 현재 무기값으로
-            currentWeapon.Attack(IsAttack, m_animationController);
+            m_aniController.SetAnimatorWeight(1, 1);
+            if (Time.time >= m_nextAttakTime)
+            {
+                m_nextAttakTime = Time.time + currentWeapon.WeaponData.AttackDelay;
+                // 무기 Swap시 마다 스나이퍼 같은 총의 경우 바로 발사를 하면 안되기에 계속 현재 무기값으로
+                currentWeapon.Attack(IsAttack, m_aniController);
+            }
         }
     }
-
+    public void SetColorMarkCrossHeadUI(bool isDistance)
+    {
+        m_uiManager.SetColorMarkCrossHead(isDistance);
+    }
     /// <summary>
     /// Player오브젝트 하위에 있는 각 Holder 오브젝트 On/Off 방식
     /// TODO 스왑시 스왑상태에서 시간에 의해 애니메이션 Num값과 실제 Swap값이 다르게 가~끔나옴 해결필요
@@ -206,12 +195,9 @@ public class PlayerCombat : MonoBehaviour
 
     public void EnterSwapWeapon(bool isFlying)
     {
-        // 무기 교체
-        m_swapAction?.Invoke(CurrentWeaponNum);
-
         SetIKRigWeight(0);
-        m_animationController.SetAnimatorWeight(2,1);
-        m_animationController.SwapWeaponAni(CurrentWeaponNum, isFlying);
+        m_aniController.SetAnimatorWeight(1,1);
+        m_aniController.SwapWeaponAni(CurrentWeaponNum, isFlying);
 
         if (CurrentWeaponNum > 1)
         {
@@ -220,8 +206,12 @@ public class PlayerCombat : MonoBehaviour
         }
         else m_uiManager.SetAmmo(0, 0, 0);
     }
+    public void SwapInventoryWeapon()
+    {
+        m_swapAction?.Invoke(CurrentWeaponNum);
+    }
 
-    public void ExitSwapWeapon()
+    public void ExitSwapWeapon(bool isFlying)
     {
         if (CurrentWeaponNum > 1)
         {
@@ -229,25 +219,15 @@ public class PlayerCombat : MonoBehaviour
             m_uiManager.SetAmmo(_rangeWeapon.CurrentAmmo, _rangeWeapon.SaveAmmo, _rangeWeapon.MaxAmmo);
         }
         else m_uiManager.SetAmmo(0, 0, 0);
-        m_animationController.SetAnimatorWeight(2, 0);
+
+        if(!isFlying)
+            m_aniController.SetAnimatorWeight(1, 0);
     }
 
     // TODO : 정리 후 고려
     /*public void AttackRootMotion(bool isApplyRoot)
     {
        // m_animationController.SetApplyRootMotion(isApplyRoot);
-    }
-
-    // Melee Animation에서 불러오는중
-    public void OnWeaponCollider()
-    {
-        MeleeWeapon _meleeWeapon = currentWeapon as MeleeWeapon;
-        _meleeWeapon.SetActivateCollider(true);
-    }
-    public void OffWeaponCollider()
-    {
-        MeleeWeapon _meleeWeapon = currentWeapon as MeleeWeapon;
-        _meleeWeapon.SetActivateCollider(false);
     }*/
 
     public void SetAming(bool isAim, bool isOffAiming = false)
@@ -268,21 +248,26 @@ public class PlayerCombat : MonoBehaviour
 
         m_uiManager.SetAmmo(_rangeWeapon.CurrentAmmo, _rangeWeapon.SaveAmmo, _rangeWeapon.MaxAmmo);
 
-        m_animationController.SetAnimatorWeight(2, 1);
-        m_animationController.ReloadAni();
+        m_aniController.SetAnimatorWeight(1, 1);
+        m_aniController.ReloadAni();
         m_audioManager.PlaySFXCombatAudio(SFXCombatType.Reload);
         return true;
-
     }
-    public void ExitReload()
+    public void ExitReload(bool isFlying)
     {
-        m_animationController.SetAnimatorWeight(2, 0);
+        if(!isFlying)
+        m_aniController.SetAnimatorWeight(2, 0);
     }
 
     public void EnterSkill()
     {
         SkillKey = m_inputHandler.SkillKey;
-        m_animationController.SkillAni(SkillKey);
+        m_aniController.SkillAni(SkillKey);
+        m_aniController.SetAnimatorWeight(2, 1);
+    }
+    public void ExitSkill()
+    {
+        m_aniController.SetAnimatorWeight(2, 0);
     }
     #endregion ================================================ /Enter,Exit State
 }

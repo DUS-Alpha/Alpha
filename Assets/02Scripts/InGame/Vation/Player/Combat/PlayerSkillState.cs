@@ -29,10 +29,9 @@ public class PlayerSkillState : PlayerCombatState
 
         if (m_Combat.CurrentWeaponNum == 1) m_isMelee = true;
 
-        m_PlayerCore.AniController.SetAnimatorWeight(3,1);
-
         m_Combat.EnterSkill();
         m_nextDelay = 0;
+        m_PlayerCore.CameraManger.StopRotCamera(true);
     }
     public override void FixedUpdate()
     {
@@ -47,16 +46,15 @@ public class PlayerSkillState : PlayerCombatState
 
         if (m_nextDelay < 0.2f) return;*/
 
-        if (m_Combat.IsAttack) m_PlayerCore.SwitchCombatState(CombatStateType.Upper_InCombat);
-        else
-        m_PlayerCore.SwitchCombatState(CombatStateType.NonCombat);
+        m_PlayerCore.SwitchCombatState(CombatStateType.Upper_InCombat);
+
     }
     
 
     public override void Exit()
     {
         base.Exit();
-        if (m_isMelee) m_PlayerCore.AniController.SetAnimatorWeight(3, 0);
-        m_Combat.SkillQueue.Clear();
+        m_Combat.ExitSkill();
+        m_PlayerCore.CameraManger.StopRotCamera(false);
     }
 }

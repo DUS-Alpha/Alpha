@@ -22,30 +22,16 @@ public class PlayerNonCombatState : PlayerCombatState
 
     public override void Update()
     {
-        if (m_Locomotion.IsCombatStop) return;
-
         if (m_Combat.IsSwap)
-        {
             m_PlayerCore.SwitchCombatState(CombatStateType.SwapWeapon);
-            return;
-        }
         else if (m_Combat.IsReload)
-        {
-            if(m_Combat.CurrentWeaponNum > 1)
             m_PlayerCore.SwitchCombatState(CombatStateType.Reload);
-            return;
-        }
-
-        if (m_Combat.CurrentWeaponNum == 0) return;
-
-        else if (m_Combat.IsAttack || m_Combat.IsAim)
-        {
+        else if (m_Combat.IsAttack || m_Combat.IsAim) 
             m_PlayerCore.SwitchCombatState(CombatStateType.Upper_InCombat);
-        }
         else if (m_Combat.IsSkill)
-        {
             m_PlayerCore.SwitchCombatState(CombatStateType.Skill);
-        }
+
+        m_Combat.SetAming(m_Combat.IsAim);
     }
 
     public override void Exit()

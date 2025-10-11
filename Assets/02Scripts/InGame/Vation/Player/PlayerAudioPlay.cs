@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 // 공통된 사운드 제외는 각 객체에서 사운드 관리(애니메이션 동작시에 사운드 삽입하기 위해)
@@ -10,16 +11,20 @@ public class PlayerAudioPlay : MonoBehaviour
     [SerializeField]
     private AudioClip[] m_footStepClips;
 
-    public void FootStep1Audio()
+    public void FootStepAudio()
     {
-        m_audioSources[0].clip = m_footStepClips[0];
+        //if (moveSpeed < 0.1f ) return;
         //if (m_audioSources[0].isPlaying) return;
-        m_audioSources[0].PlayOneShot(m_footStepClips[0]);
+        int _random = Random.Range(0, m_footStepClips.Length);
+        m_audioSources[0].clip = m_footStepClips[_random];
+        m_audioSources[0].Play();
+
+        m_audioSources[0].PlayOneShot(m_footStepClips[_random]);
     }
-    public void FootStep2Audio()
+
+    private IEnumerator FootStepCoroutine()
     {
-        m_audioSources[0].clip = m_footStepClips[1];
-        //if (m_audioSources[0].isPlaying) return;
-        m_audioSources[0].PlayOneShot(m_footStepClips[1]);
+        yield return null;
+        
     }
 }
