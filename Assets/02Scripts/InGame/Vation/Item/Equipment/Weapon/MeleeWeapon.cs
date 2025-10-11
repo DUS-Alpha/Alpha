@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class MeleeWeapon : Weapon
@@ -5,6 +6,7 @@ public class MeleeWeapon : Weapon
     private bool m_isCombo;
     [SerializeField]
     private Collider m_collider;
+    private int m_index = 0;
     private void Start()
     {
         SetActivateCollider(false);
@@ -12,7 +14,7 @@ public class MeleeWeapon : Weapon
 
     public override void Attack(bool isAttackInput, PlayerAnimationController anim)
     {
-        anim.MeleeComboTriggerAni();
+        
     }
     public override void Unequip(GameObject user)
     {

@@ -16,14 +16,16 @@ public class RangeWeapon : Weapon
 
     [Header("[ Range ]")]
     public RangeTypes RangeType;
-    [SerializeField]
-    private float m_maxDistance = 40f;
+
     [SerializeField]
     private int m_maxAmmo;
     [SerializeField]
     private int m_currentAmmo;
     [SerializeField]
     private int m_saveAmmo;
+
+    [SerializeField]
+    private LayerMask m_layer;
     public int MaxAmmo => m_maxAmmo;
     public int CurrentAmmo => m_currentAmmo;
     public int SaveAmmo => m_saveAmmo;
@@ -62,9 +64,6 @@ public class RangeWeapon : Weapon
 
         if(m_currentAmmo > 0)
             m_currentAmmo -= 1;
-
-        if (TryGetTarget(out RaycastHit hit))
-            ApplyDamage(hit);
     }
     public override bool IsInAction(PlayerAnimationController anim)
     {
@@ -88,31 +87,12 @@ public class RangeWeapon : Weapon
         }
         return true;
     }
-    /// <summary>
-    /// 거리 내 맞은 대상이 있는지 확인 (단순 체크용)
-    /// </summary>
-    public bool TryGetTarget(out RaycastHit hit)
-    {
-        Vector3 origin = Camera.main.transform.position;
-        Vector3 dir = Camera.main.transform.forward;
-
-        bool isHit = Physics.Raycast(origin, dir, out hit, m_maxDistance);
-
-        if (isHit)
-        {
-            Debug.DrawLine(origin, hit.point, Color.red);
-        }
-        else
-        {
-        }
-
-        return isHit;
-    }
+    
 
     /// <summary>
     /// 실제 데미지를 적용하는 메서드 (거리 체크 통과 후 호출)
     /// </summary>
-    private void ApplyDamage(RaycastHit hit)
+    public void ApplyDamage(RaycastHit hit)
     {
         if (hit.collider.TryGetComponent<IDamageable>(out IDamageable target))
         {

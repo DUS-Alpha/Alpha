@@ -30,7 +30,6 @@ public class PlayerIdleState : PlayerLocomotionState
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Die);
             return;
         }
-
         m_Locomotion.Movement(m_Combat.IsInCombat, m_Combat.IsAction);
         m_Locomotion.ApplyGravity();
 

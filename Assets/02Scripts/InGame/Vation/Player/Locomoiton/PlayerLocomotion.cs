@@ -175,8 +175,9 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
             m_moveDir = Vector3.zero;
             m_currentSpeed = 0;
         }
-        else if(!IsRot)
-            HandleRotate();
+        else HandleRotate();
+        //else if(!IsRot)
+
 
         HandleMove(m_currentSpeed);
         m_animationController.MoveAni(m_moveDir.x, m_moveDir.z, m_isFlying, isInCombat);
@@ -360,11 +361,16 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
         m_characterController.Move(Vector3.up * deltaY);
     }
 
+    public void EnterFlightMove()
+    {
+        m_audioManager.PlaySFXLocomotionAudio(SFXLomotionType.FlyMove);
+        m_audioManager.SetSFXLocomotionAudioLoop(true);
+    }
     // Flying
     public void UpdateFlightMove(bool hasWeapon)
     {
         // 이동이 없을 경우 사운드 끄기
-        m_audioManager.PlaySFXLocomotionAudio(SFXLomotionType.FlyMove, m_moveDir.sqrMagnitude < 0.1f);
+        //m_audioManager.PlaySFXLocomotionAudio(SFXLomotionType.FlyMove, m_moveDir.sqrMagnitude < 0.1f);
     }
     
     public void ExitFlightMove()
@@ -384,6 +390,7 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
     #endregion ================================================================================ /Fly
     public void EnterLanding()
     {
+        m_audioManager.SetSFXLocomotionAudioLoop(false);
         m_audioManager.PlaySFXLocomotionAudio(SFXLomotionType.Land);
     }
     public void ExitLanding()

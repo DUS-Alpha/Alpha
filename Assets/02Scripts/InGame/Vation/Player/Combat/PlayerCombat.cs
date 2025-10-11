@@ -36,9 +36,9 @@ public class PlayerCombat : MonoBehaviour
     private Weapon[] m_equipmentWeapons = new Weapon[4]; // 착용중인 무기
 
     public Queue<int> SkillQueue = new Queue<int>();
-    public bool IsAction => m_isAction;
+    public bool IsAction;
     public bool IsActioning;
-    private bool m_isAction;
+    private bool m_isAttackDistance;
     public void InitializeModule(PlayerCore playerCore)
     {
         m_flagsController = playerCore.CombatFlagsController;
@@ -56,7 +56,12 @@ public class PlayerCombat : MonoBehaviour
     {
         events.CheckInputAction += CheckInput;
     }
-
+    private void Update()
+    {
+        if(currentWeapon == null) return;
+        m_isAttackDistance = TryGetTarget(out RaycastHit hit, currentWeapon.m_maxDistance);
+        SetColorMarkCrossHeadUI(m_isAttackDistance);
+    }
     /// <summary>
     /// PlayerCore에서 옵저버패턴으로 받은 SwapAction을 받아옴
     /// </summary>
@@ -99,25 +104,14 @@ public class PlayerCombat : MonoBehaviour
     }
     public void SetIsAction(bool isAction)
     {
-        m_isAction = isAction;
+        IsAction = isAction;
     }
     public void SetIKRigWeight(int weight)
     {
         m_ikController.SetRigWeight(RigType.Aim, weight);
     }
-    // UpperLayer
-    public void SetUpperAnimatorLayer(int weight)
-    {
-        m_aniController.SetAnimatorWeight(1, weight);
-    }
-    private void Update()
-    {
-        if(CurrentWeaponNum > 1)
-        {
-            RangeWeapon _rangeWeapon = CurrentWeapon as RangeWeapon;
-            SetColorMarkCrossHeadUI(_rangeWeapon.TryGetTarget(out RaycastHit hit));
-        }
-    }
+
+
 
     #region ================================================ Enter, Exit State
     public void EnterInCombat()
@@ -129,7 +123,6 @@ public class PlayerCombat : MonoBehaviour
     public void ExitInCombat(bool isFlying)
     {
         m_isInCombat = false;
-        m_isAction = false;
         IsActioning = false;
 
         m_aniController.SetIsInCombatAni(false);
@@ -169,10 +162,29 @@ public class PlayerCombat : MonoBehaviour
             {
                 m_nextAttakTime = Time.time + currentWeapon.WeaponData.AttackDelay;
                 // 무기 Swap시 마다 스나이퍼 같은 총의 경우 바로 발사를 하면 안되기에 계속 현재 무기값으로
-                currentWeapon.Attack(IsAttack, m_aniController);
+                _rangeWeapon.Attack(IsAttack, m_aniController);
+                if (TryGetTarget(out RaycastHit hit, currentWeapon.m_maxDistance))
+                {
+                    _rangeWeapon.ApplyDamage(hit);
+                }
             }
         }
+        
+            
     }
+    /// <summary>
+    /// 거리 내 맞은 대상이 있는지 확인 (단순 체크용)
+    /// </summary>
+    public bool TryGetTarget(out RaycastHit hit, float maxDistance)
+    {
+        Vector3 origin = Camera.main.transform.position;
+        Vector3 dir = Camera.main.transform.forward;
+
+        bool isHit = Physics.Raycast(origin, dir, out hit, maxDistance, 1 << LayerMask.NameToLayer("Enemy"));
+
+        return isHit;
+    }
+
     public void SetColorMarkCrossHeadUI(bool isDistance)
     {
         m_uiManager.SetColorMarkCrossHead(isDistance);

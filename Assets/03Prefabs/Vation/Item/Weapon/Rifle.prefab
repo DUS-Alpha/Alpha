@@ -246,7 +246,7 @@ MonoBehaviour:
   m_currentAmmo: 0
   m_saveAmmo: 200
   m_audioSource: {fileID: 7320850594030909362}
-  m_audioClip: {fileID: 8300000, guid: 03babb589dde27a429dffced8690a797, type: 3}
+  m_audioClip: {fileID: 8300000, guid: adc171bd21d9a954a82a2b4d22233891, type: 3}
   m_bulletFirePos: {fileID: 8068424206098908719}
   m_muzzleFlashEffect: {fileID: 2668514958684811738}
 --- !u!1 &6770055110033074608

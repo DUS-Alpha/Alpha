@@ -22,16 +22,19 @@ public class PlayerSkillState : PlayerCombatState
     }
     private bool m_isMelee;
     private float m_nextDelay;
-
+    private float m_aniLength;
     public override void Enter()
     {
         base.Enter();
 
         if (m_Combat.CurrentWeaponNum == 1) m_isMelee = true;
-
         m_Combat.EnterSkill();
+        m_Combat.SetIsAction(true);
+        
         m_nextDelay = 0;
-        m_PlayerCore.CameraManger.StopRotCamera(true);
+       
+        // 켜진 현재 애니메이션 끝나는지 확인
+        //m_PlayerCore.CameraManger.StopRotCamera(true);
     }
     public override void FixedUpdate()
     {
@@ -40,14 +43,13 @@ public class PlayerSkillState : PlayerCombatState
 
     public override void Update()
     {
-        if (m_Combat.IsAction) return;
-
-        /*m_nextDelay += Time.deltaTime;
-
-        if (m_nextDelay < 0.2f) return;*/
+        m_Combat.SetIsAction(true);
+        m_aniLength = m_PlayerCore.AniController.GetCurrentAniInfo(2);
+        m_nextDelay += Time.deltaTime;
+        if (m_nextDelay < m_aniLength + 1.3f) return;
 
         m_PlayerCore.SwitchCombatState(CombatStateType.Upper_InCombat);
-
+        Debug.Log(m_Combat.IsAction);
     }
     
 
@@ -55,6 +57,7 @@ public class PlayerSkillState : PlayerCombatState
     {
         base.Exit();
         m_Combat.ExitSkill();
+        m_Combat.SetIsAction(false);
         m_PlayerCore.CameraManger.StopRotCamera(false);
     }
 }

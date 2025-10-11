@@ -10,7 +10,7 @@ public class PlayerFlightMoveState : PlayerLocomotionState
     public override void Enter()
     {
         base.Enter();
-        
+        m_Locomotion.EnterFlightMove();
     }
     public override void FixedUpdate()
     {
@@ -20,7 +20,7 @@ public class PlayerFlightMoveState : PlayerLocomotionState
     public override void Update()
     {
         m_Locomotion.Movement(m_Combat.IsInCombat, m_Combat.IsAction);
-        m_Locomotion.UpdateFlightMove(m_Combat.CurrentWeaponNum > 0);
+        //m_Locomotion.UpdateFlightMove(m_Combat.CurrentWeaponNum > 0);
 
         if(m_Locomotion.IsDie)
         {

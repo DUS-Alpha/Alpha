@@ -11,6 +11,11 @@ public class PlayerAudioPlay : MonoBehaviour
     [SerializeField]
     private AudioClip[] m_footStepClips;
 
+    [SerializeField]
+    private AudioClip[] m_comboAttackClips;
+
+    [SerializeField]
+    private AudioClip[] m_skillClips;
     public void FootStepAudio()
     {
         //if (moveSpeed < 0.1f ) return;
@@ -25,6 +30,47 @@ public class PlayerAudioPlay : MonoBehaviour
     private IEnumerator FootStepCoroutine()
     {
         yield return null;
-        
+    }
+
+    public void PlayCombAttack1()
+    {
+        m_audioSources[1].clip = m_comboAttackClips[0];
+        m_audioSources[1].Play();
+    }
+    public void PlayCombAttack2()
+    {
+        m_audioSources[1].clip = m_comboAttackClips[1];
+        m_audioSources[1].Play();
+    }
+    public void PlayCombAttack3()
+    {
+        m_audioSources[1].clip = m_comboAttackClips[2];
+        m_audioSources[1].Play();
+    }
+    public void PlayCombAttack4()
+    {
+        m_audioSources[1].clip = m_comboAttackClips[3];
+        m_audioSources[1].Play();
+    }
+
+    public void PlaySkill1Audio()
+    {
+        m_audioSources[1].clip = m_skillClips[0];
+        m_audioSources[1].Play();
+    }
+    public void PlaySkill2Audio()
+    {
+        m_audioSources[1].clip = m_skillClips[1];
+        m_audioSources[1].Play();
+    }
+    public void PlaySkill3Audio()
+    {
+        m_audioSources[1].clip = m_skillClips[2];
+        m_audioSources[1].Play();
+    }
+    public void PlaySkill4Audio()
+    {
+        m_audioSources[1].clip = m_skillClips[3];
+        m_audioSources[1].Play();
     }
 }

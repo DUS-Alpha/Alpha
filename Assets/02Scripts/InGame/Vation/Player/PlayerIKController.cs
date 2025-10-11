@@ -17,23 +17,6 @@ public class PlayerIKController : MonoBehaviour
     [SerializeField]
     private Rig m_aimRig;
 
-    [SerializeField]
-    private TwoBoneIKConstraint m_leftHandIK;
-    [SerializeField]
-    private TwoBoneIKConstraint m_rightHandIK;
-
-    [SerializeField]
-    private Transform m_leftHnadIKTargetTr;
-    [SerializeField]
-    private Transform m_rightHandIKTargetTr;
-
-    [SerializeField]
-    private Transform m_leftHintTargetTr;
-    [SerializeField]
-    private Transform m_rightHintTargetTr;
-
-    private Transform m_defaultLeftHintTr;
-    private Transform m_defaultRightHintTr;
     private void Awake()
     {
         SetRigWeight(RigType.Hand, 0);
@@ -59,7 +42,7 @@ public class PlayerIKController : MonoBehaviour
     public void SetRigTarget(Transform leftHnadIKTr, Transform rightHandIKTr, Transform leftHintIKTr, Transform rightHintIKTr)
     {
 
-        // 스왑애니메이션 완료후 위치값을해야 정상으로 포지션 지정된다!!
+       /* // 스왑애니메이션 완료후 위치값을해야 정상으로 포지션 지정된다!!
 
         // 아니지 TR저거를 계속 업데이트 테스트해보기
         if (leftHnadIKTr == null)
@@ -77,6 +60,6 @@ public class PlayerIKController : MonoBehaviour
         {
             m_rightHandIKTargetTr.position = rightHandIKTr.position;
             //m_rightHandIKTargetTr.rotation = rightHandIKTr.rotation;
-        }
+        }*/
     }
 }

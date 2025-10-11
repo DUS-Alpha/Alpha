@@ -1,4 +1,5 @@
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 
@@ -37,6 +38,27 @@ public class PlayerAnimationController : MonoBehaviour
     public void SetAnimatorWeight(int index, float value)
     {
         m_animator.SetLayerWeight(index, value);
+    }
+    public float GetCurrentAniInfo(int index)
+    {
+        AnimatorClipInfo[] _clipInfos = m_animator.GetCurrentAnimatorClipInfo(index);
+        AnimatorStateInfo _stateInfo = m_animator.GetCurrentAnimatorStateInfo(index);
+
+        if (_clipInfos.Length > 0)
+        {
+            AnimationClip _currentClip = _clipInfos[0].clip;
+            float _baseLength = _currentClip.length;
+            float _actualLength = _baseLength / (m_animator.speed * _stateInfo.speedMultiplier);  // 실제 재생 속도반영한 길이
+
+            return _actualLength;
+        }
+        return 0;
+    }
+
+    public bool GetIsMeleeAttackInfo(int index)
+    {
+        AnimatorStateInfo state = m_animator.GetCurrentAnimatorStateInfo(index);
+        return state.IsName("Combo1") || state.IsName("Combo2") || state.IsName("Combo3") || state.IsName("Combo4");
     }
 
     #region ================================================================================ Locomotion
@@ -121,9 +143,10 @@ public class PlayerAnimationController : MonoBehaviour
     {
         m_animator.SetBool("IsInCombat", isInCombat);
     }
-    public void MeleeComboTriggerAni()
+    public void MeleeComboTriggerAni(int num)
     {
-            m_animator.SetTrigger("MeleeCombo");
+        //m_animator.Play("Combo" + num, 2);
+        m_animator.SetTrigger("MeleeCombo");
     }
     public void SetAttackAni(bool isAttack)
     {

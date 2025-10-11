@@ -53,6 +53,11 @@ public class PlayerInCombatState : PlayerCombatState
             m_Combat.Attack();
         }
 
+        if (m_Combat.CurrentWeaponNum == 1)
+        {
+            m_Combat.SetIsAction(m_PlayerCore.AniController.GetIsMeleeAttackInfo(2));
+        }
+
         m_Combat.SetAming(m_Combat.IsAim);
         
     }
@@ -60,6 +65,8 @@ public class PlayerInCombatState : PlayerCombatState
     {
         base.Exit();
         m_PlayerCore.AniController.SetAttackAni(false);
+
+        m_Combat.IsActioning = false;
         m_Combat.ExitInCombat(m_Locomotion.IsFlying);
         m_Combat.SetAming(false, true);
     }
