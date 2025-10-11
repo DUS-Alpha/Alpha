@@ -8,6 +8,8 @@ public enum SFXLomotionType
     FlyUp,
     FlyMove,
     Land,
+    Dash,
+    FlyDash,
     Die,
 }
 public enum SFXCombatType

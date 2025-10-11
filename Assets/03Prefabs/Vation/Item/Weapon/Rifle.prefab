@@ -76,7 +76,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 03babb589dde27a429dffced8690a797, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -240,11 +240,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Data: {fileID: 11400000, guid: 75b56d680a506434eadf4ccfcd280e0c, type: 2}
-  RangeType: 1
   m_maxDistance: 45
+  RangeType: 1
   m_maxAmmo: 40
   m_currentAmmo: 0
   m_saveAmmo: 200
+  m_layer:
+    serializedVersion: 2
+    m_Bits: 0
   m_audioSource: {fileID: 7320850594030909362}
   m_audioClip: {fileID: 8300000, guid: adc171bd21d9a954a82a2b4d22233891, type: 3}
   m_bulletFirePos: {fileID: 8068424206098908719}

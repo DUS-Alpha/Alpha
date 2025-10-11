@@ -285,6 +285,8 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
 
         m_isDashing = true;
         // Audio;
+        
+        m_audioManager.PlaySFXLocomotionAudio(SFXLomotionType.Dash,false,true);
     }
 
     public void UpdateDashMove()

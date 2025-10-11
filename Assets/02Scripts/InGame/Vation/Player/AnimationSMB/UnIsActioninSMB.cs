@@ -7,6 +7,7 @@ public class UnIsActioninSMB : StateMachineBehaviour
         PlayerCombat m_combat = animator.GetComponent<PlayerCombat>();
 
         m_combat.IsActioning = false;
+        m_combat.SetIsAction(false);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
