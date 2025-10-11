@@ -94,8 +94,12 @@ public class RangeWeapon : Weapon
 
         if (Physics.Raycast(_rayOrigin, _rayDirection, out _hit, m_maxDistance))
         {
+            //테스트
+            print("테스트 이름: "+ _hit.collider.name);
+            
             Debug.DrawLine(_rayOrigin, _hit.point, Color.red);
             // 데미지 받을 타겟
+            //부위별 콜라이더 추가로인한 컴포넌트 받아오는 구문 변경
             IDamageable _damageableTarget;
             if (_hit.collider.TryGetComponent<IDamageable>(out _damageableTarget))
             {

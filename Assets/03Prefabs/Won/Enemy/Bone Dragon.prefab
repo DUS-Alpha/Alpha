@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3031346547772580878}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_20
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7374896063562272141}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_05
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,7 +71,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 789508424154574659}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_43
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +102,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3203913069417157830}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: DragonRoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -242,7 +242,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4630233568383888217}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_15
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -261,7 +261,8 @@ Transform:
   m_LocalPosition: {x: 1.0333339, y: -0.95276487, z: 2.2415903}
   m_LocalScale: {x: 1, y: 1, z: 1.0000001}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 8326553547831448833}
   m_Father: {fileID: 3203913069417157830}
   m_LocalEulerAnglesHint: {x: -63.345814, y: -159.41745, z: -13.229569}
 --- !u!1 &355711579518982195
@@ -273,7 +274,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3632651979947852704}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: LLegToe3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -305,7 +306,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1232473805767744331}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_48
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -324,7 +325,8 @@ Transform:
   m_LocalPosition: {x: 0.19042988, y: 4.683263, z: 0.7584595}
   m_LocalScale: {x: 1.000001, y: 1.0000013, z: 1.000001}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 526804331492777792}
   m_Father: {fileID: 3203913069417157830}
   m_LocalEulerAnglesHint: {x: -46.50376, y: -47.2399, z: -59.960396}
 --- !u!1 &510900196487576614
@@ -336,7 +338,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6615608651353023879}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_65
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -367,7 +369,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3010175720414494738}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: RHandToe12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -398,7 +400,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3138742904288576362}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_81
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -429,7 +431,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 782896836917047334}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_17
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -448,7 +450,8 @@ Transform:
   m_LocalPosition: {x: 0.37478778, y: -0.7435333, z: 1.1385006}
   m_LocalScale: {x: 1.0000001, y: 1.0000002, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2735671949579260914}
   m_Father: {fileID: 3203913069417157830}
   m_LocalEulerAnglesHint: {x: 4.552122, y: -124.402245, z: -42.074024}
 --- !u!1 &652681149971700387
@@ -460,7 +463,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2186969106574191710}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: English DragonLLeg1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -492,7 +495,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 433787884654936094}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: LLegToe12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -514,6 +517,61 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3721713361551010183}
   m_LocalEulerAnglesHint: {x: 86.716034, y: -111.22779, z: -65.19842}
+--- !u!1 &761340180149098975
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1793380032239179827}
+  - component: {fileID: 3814315518361126562}
+  m_Layer: 20
+  m_Name: Calf
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1793380032239179827
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 761340180149098975}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.14098778, y: -0.000000058748974, z: 0.000000026612458, w: 0.99001133}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3130562894127369907}
+  m_LocalEulerAnglesHint: {x: -16.21, y: 0, z: 0}
+--- !u!136 &3814315518361126562
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 761340180149098975}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.14
+  m_Height: 0.7
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &882937038847366527
 GameObject:
   m_ObjectHideFlags: 0
@@ -523,7 +581,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3004798600860669508}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_21
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -554,7 +612,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3049323165099987}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_62
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -573,7 +631,8 @@ Transform:
   m_LocalPosition: {x: 0.0033272062, y: 1.7309604, z: 1.3487419}
   m_LocalScale: {x: 1, y: 1.0000007, z: 1.0000011}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 6986089117267005785}
   m_Father: {fileID: 3203913069417157830}
   m_LocalEulerAnglesHint: {x: -33.315197, y: -68.352936, z: -96.29194}
 --- !u!1 &947174348268585181
@@ -585,7 +644,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8931362019300939650}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_61
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -604,7 +663,8 @@ Transform:
   m_LocalPosition: {x: -0.2871892, y: 0.1583409, z: 1.388078}
   m_LocalScale: {x: 0.99999994, y: 1.0000002, z: 1.0000002}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1576433537433709572}
   m_Father: {fileID: 3203913069417157830}
   m_LocalEulerAnglesHint: {x: -23.018366, y: -92.59819, z: -93.685646}
 --- !u!1 &1022307622634584159
@@ -616,7 +676,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 348476623795202809}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_96
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -635,7 +695,8 @@ Transform:
   m_LocalPosition: {x: 0.42440027, y: -0.896593, z: 0.17613086}
   m_LocalScale: {x: 1.0000018, y: 1.0000013, z: 0.99999946}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 8732462014374940624}
   m_Father: {fileID: 3203913069417157830}
   m_LocalEulerAnglesHint: {x: 52.61545, y: -35.368263, z: 25.58462}
 --- !u!1 &1178538497628936742
@@ -647,7 +708,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7667952083487671943}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: LHandToe31
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -678,7 +739,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5692143987142207594}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: RLegPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -709,7 +770,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5051874954629562464}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: LArmPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -740,7 +801,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4379168972618864422}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: LHandToe3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -772,7 +833,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5535028982799492176}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_14
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -803,7 +864,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7016480292228383518}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -822,7 +883,8 @@ Transform:
   m_LocalPosition: {x: -0.5899781, y: -0.77766705, z: 1.1593196}
   m_LocalScale: {x: 1, y: 1.0000002, z: 1.0000001}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 8702323973299879482}
   m_Father: {fileID: 3203913069417157830}
   m_LocalEulerAnglesHint: {x: -15.01966, y: -115.78032, z: -39.281307}
 --- !u!1 &1513997378417298218
@@ -834,7 +896,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1585481521705711749}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_70
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -856,6 +918,59 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3203913069417157830}
   m_LocalEulerAnglesHint: {x: -21.23916, y: -141.61053, z: -74.764946}
+--- !u!1 &1516130411095980964
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3050661929167010223}
+  - component: {fileID: 5694343221228657506}
+  m_Layer: 20
+  m_Name: UpperBody
+  m_TagString: body
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3050661929167010223
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516130411095980964}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.5, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 500295972139131051}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &5694343221228657506
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516130411095980964}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.65
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1547077137791762646
 GameObject:
   m_ObjectHideFlags: 0
@@ -865,7 +980,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3897835027034089899}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: RLegToe1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -897,7 +1012,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5516714364150132968}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_90
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -928,7 +1043,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5185866771654550522}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_46
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -959,7 +1074,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8574368076242735877}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: English DragonRArm1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -991,7 +1106,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2630201272949889321}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_33
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1022,7 +1137,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2873108568249989895}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_85
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1053,7 +1168,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6932271184481909713}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: English DragonLArmPalm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1085,7 +1200,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 232258852904228251}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: RArmPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1116,7 +1231,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1747064184538727648}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_94
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1147,7 +1262,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2194116445704023348}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: FirePoint
   m_TagString: Untagged
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
@@ -1178,7 +1293,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5707898714427941232}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_80
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1209,7 +1324,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3063155687196224536}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: Point001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1232,6 +1347,59 @@ Transform:
   - {fileID: 8359725686378690572}
   m_Father: {fileID: 3203913069417157830}
   m_LocalEulerAnglesHint: {x: -41.494473, y: -83.38849, z: 41.03805}
+--- !u!1 &1961264926185779992
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7750210614403891645}
+  - component: {fileID: 7751688754736598275}
+  m_Layer: 20
+  m_Name: armpit
+  m_TagString: armpit
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7750210614403891645
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1961264926185779992}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4908560246267546540}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &7751688754736598275
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1961264926185779992}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2027301338814316704
 GameObject:
   m_ObjectHideFlags: 0
@@ -1241,7 +1409,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1269857578090714649}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_87
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1272,7 +1440,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 376323525232048734}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_30
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1303,7 +1471,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7591242858944127937}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_41
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1334,7 +1502,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1045562517727977453}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_35
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1365,7 +1533,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3197784007624606682}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: English DragonLLeg3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1388,6 +1556,61 @@ Transform:
   - {fileID: 1502449977353845273}
   m_Father: {fileID: 8058114862436058174}
   m_LocalEulerAnglesHint: {x: -1.0089097, y: -4.5545435, z: -41.641003}
+--- !u!1 &2343574770988179602
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 689442997836381050}
+  - component: {fileID: 7105195104778129532}
+  m_Layer: 20
+  m_Name: Calf
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &689442997836381050
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2343574770988179602}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.14098768, y: 0, z: 0, w: 0.9900114}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3327477855567081490}
+  m_LocalEulerAnglesHint: {x: -16.21, y: 0, z: 0}
+--- !u!136 &7105195104778129532
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2343574770988179602}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.14
+  m_Height: 0.7
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2409186197771147490
 GameObject:
   m_ObjectHideFlags: 0
@@ -1397,7 +1620,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9187480088718843146}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: RHandToe3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1429,7 +1652,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4224711705738931542}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: LLegPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1460,7 +1683,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1280129183171664747}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: English DragonRibcage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1493,7 +1716,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6078183378980768817}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_27
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1524,7 +1747,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3934305183048190398}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_75
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1555,7 +1778,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1224468551735624191}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_25
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1586,7 +1809,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1680779346681291865}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: Point009
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1618,7 +1841,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7368386949641937480}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: RHandToe2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1650,7 +1873,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4524466642820148037}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_63
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1681,7 +1904,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9005330478541793582}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: LLegToe21
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1712,7 +1935,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1216340299410457117}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_57
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1734,6 +1957,61 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3203913069417157830}
   m_LocalEulerAnglesHint: {x: 18.285975, y: -72.22496, z: -59.245876}
+--- !u!1 &2773521374926197177
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6986089117267005785}
+  - component: {fileID: 102514807110618401}
+  m_Layer: 20
+  m_Name: tail
+  m_TagString: Tail
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6986089117267005785
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2773521374926197177}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.23344536, y: 0, z: 0, w: 0.97236997}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3049323165099987}
+  m_LocalEulerAnglesHint: {x: -27, y: 0, z: 0}
+--- !u!136 &102514807110618401
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2773521374926197177}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 3
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.96, z: 0}
 --- !u!1 &2789139952122922899
 GameObject:
   m_ObjectHideFlags: 0
@@ -1743,7 +2021,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2840336715265327135}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: Point007
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1775,7 +2053,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9148259838896768331}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_55
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1806,7 +2084,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1726067014763861065}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_74
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1837,7 +2115,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4678708915303320603}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_54
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1868,7 +2146,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 907996658647450512}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_09
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1899,7 +2177,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9189903175623542924}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: Point005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1931,7 +2209,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 285309779806853329}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: LHandToe12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1962,7 +2240,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4597098275318450635}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: RLegToe21
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1993,7 +2271,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8359725686378690572}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: LHandToe1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2016,6 +2294,59 @@ Transform:
   - {fileID: 285309779806853329}
   m_Father: {fileID: 3063155687196224536}
   m_LocalEulerAnglesHint: {x: -0.0000009604954, y: 0, z: 0}
+--- !u!1 &3101798255259257839
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8326553547831448833}
+  - component: {fileID: 23931697323052758}
+  m_Layer: 20
+  m_Name: Wing
+  m_TagString: Wing
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8326553547831448833
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3101798255259257839}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1.5, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4630233568383888217}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &23931697323052758
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3101798255259257839}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.69, y: 3.25, z: 0.5}
+  m_Center: {x: 0, y: 1.5, z: 0}
 --- !u!1 &3205665910395822053
 GameObject:
   m_ObjectHideFlags: 0
@@ -2025,7 +2356,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2791715238439306499}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_45
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2056,7 +2387,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 944299044789167372}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: FirePoint (4)
   m_TagString: Untagged
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
@@ -2087,7 +2418,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8931761068367726871}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: Point012
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2119,7 +2450,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5119175491931921480}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_71
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2150,7 +2481,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5733830676534832251}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_56
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2181,7 +2512,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7056439013942762228}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_69
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2203,6 +2534,59 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3203913069417157830}
   m_LocalEulerAnglesHint: {x: -23.895304, y: -97.532814, z: -82.22495}
+--- !u!1 &3628514538213957920
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 526804331492777792}
+  - component: {fileID: 9108435195058473728}
+  m_Layer: 20
+  m_Name: Edge of tail
+  m_TagString: Tail
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &526804331492777792
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3628514538213957920}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1232473805767744331}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &9108435195058473728
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3628514538213957920}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.3
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3638912569374439708
 GameObject:
   m_ObjectHideFlags: 0
@@ -2212,7 +2596,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 748066432413968249}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: LHandToe21
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2243,7 +2627,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6756350854018840725}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_89
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2274,7 +2658,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3064819062224346476}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: English DragonRLeg2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2306,7 +2690,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2621501672881987928}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_29
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2337,7 +2721,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2454527620502170390}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_47
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2368,7 +2752,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1091828856395373113}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_52
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2399,7 +2783,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8743537448086246196}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2418,7 +2802,8 @@ Transform:
   m_LocalPosition: {x: -0.63104814, y: -0.061832923, z: 1.7980688}
   m_LocalScale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 7091127305294736783}
   m_Father: {fileID: 3203913069417157830}
   m_LocalEulerAnglesHint: {x: 18.629002, y: -70.48334, z: -65.880806}
 --- !u!1 &4106740779202292815
@@ -2432,7 +2817,7 @@ GameObject:
   - component: {fileID: 4830241028425050546}
   - component: {fileID: 7956548081896004357}
   - component: {fileID: 3100214200869377992}
-  m_Layer: 5
+  m_Layer: 20
   m_Name: MagicCirlce (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2505,7 +2890,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5656194956793852614}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: English DragonRLeg3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2537,7 +2922,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6254684933002482248}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: Point008
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2569,7 +2954,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5844837645716608688}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: English DragonSpine3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2602,7 +2987,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8865833524915032746}
   - component: {fileID: 6657899138038267982}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: DragMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2795,7 +3180,60 @@ SkinnedMeshRenderer:
   - {fileID: 748066432413968249}
   - {fileID: 4379168972618864422}
   - {fileID: 7667952083487671943}
-  m_BlendShapeWeights: []
+  m_BlendShapeWeights:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
   m_RootBone: {fileID: 4379168972618864422}
   m_AABB:
     m_Center: {x: 1.0719128, y: -0.07921505, z: -2.1992092}
@@ -2810,7 +3248,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1869243628179498836}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_19
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2841,7 +3279,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8599083078106216741}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: RHandToe1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2864,6 +3302,59 @@ Transform:
   - {fileID: 3010175720414494738}
   m_Father: {fileID: 5609789479024252173}
   m_LocalEulerAnglesHint: {x: -0.09059307, y: 0.04204723, z: -0.60904855}
+--- !u!1 &4558670093949805971
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7470739060594337392}
+  - component: {fileID: 3319100636721010590}
+  m_Layer: 20
+  m_Name: Head
+  m_TagString: Head
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7470739060594337392
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4558670093949805971}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6921768556742613755}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &3319100636721010590
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4558670093949805971}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4577340581543316520
 GameObject:
   m_ObjectHideFlags: 0
@@ -2873,7 +3364,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8370050745808930675}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_34
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2904,7 +3395,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1502449977353845273}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: English DragonLLegPalm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2927,6 +3418,59 @@ Transform:
   - {fileID: 4224711705738931542}
   m_Father: {fileID: 3197784007624606682}
   m_LocalEulerAnglesHint: {x: -5.781261, y: -1.8270018, z: -9.315898}
+--- !u!1 &4584817122581166502
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7091127305294736783}
+  - component: {fileID: 172842991867748138}
+  m_Layer: 20
+  m_Name: armpit
+  m_TagString: armpit
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7091127305294736783
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4584817122581166502}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8743537448086246196}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &172842991867748138
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4584817122581166502}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4682356824197262789
 GameObject:
   m_ObjectHideFlags: 0
@@ -2936,7 +3480,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 692350061836873921}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: English DragonRLegPalm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2968,7 +3512,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4226510255596297453}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: FirePoint (2)
   m_TagString: Untagged
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
@@ -2999,7 +3543,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8058114862436058174}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: English DragonLLeg2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3031,7 +3575,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4491397497900220802}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3048,7 +3592,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.000000044703494, y: 0.00000013411044, z: -0.00000007450581, w: 1}
   m_LocalPosition: {x: 1.1705312, y: -0.24954173, z: 2.3287964}
-  m_LocalScale: {x: 1, y: 0.99999994, z: 0.9999999}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3203913069417157830}
@@ -3062,7 +3606,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4667308158316953301}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: RHandToe31
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3093,7 +3637,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6368794682632020767}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: Point003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3127,7 +3671,7 @@ GameObject:
   - component: {fileID: 9051313189750207422}
   - component: {fileID: 5469308367701536297}
   - component: {fileID: 1127036899005160415}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: Point light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3248,7 +3792,7 @@ GameObject:
   - component: {fileID: 5147134501954082845}
   - component: {fileID: 3905276814324821134}
   - component: {fileID: 7377291320124652095}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: PComponent Smoke Forward
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8067,7 +8611,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8198316562384580984}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_83
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8098,7 +8642,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8464436407754625261}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_23
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8129,7 +8673,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6122115680024525583}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: Point006
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8161,7 +8705,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1306450367930296878}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: RLegToe2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8193,7 +8737,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7021633616880669473}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_50
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8224,7 +8768,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6377272649204063871}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_67
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8255,7 +8799,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8127040906103297766}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_66
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8286,7 +8830,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4990091061457402737}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_40
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8317,7 +8861,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6638972756677839852}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_95
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8336,7 +8880,8 @@ Transform:
   m_LocalPosition: {x: -0.7303885, y: -0.7808926, z: 0.15208961}
   m_LocalScale: {x: 1.000005, y: 0.99999785, z: 0.9999989}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 4902456631375459115}
   m_Father: {fileID: 3203913069417157830}
   m_LocalEulerAnglesHint: {x: 33.741077, y: -15.73295, z: -1.9966866}
 --- !u!1 &5475644081373671503
@@ -8348,7 +8893,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8140484100808673163}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_37
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8379,7 +8924,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2824463177179453528}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: RLegToe3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8413,7 +8958,7 @@ GameObject:
   - component: {fileID: 1899615145076511808}
   - component: {fileID: 5849007675160407060}
   - component: {fileID: 4798481749430756220}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: Magic Ice Breath
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13208,7 +13753,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7070502311852880591}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: English DragonLArmCollarbone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13240,7 +13785,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2332413290132156427}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_88
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13271,7 +13816,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8662826225681536715}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: Point002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13303,7 +13848,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7608263086591623206}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: LLegToe31
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13334,7 +13879,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3647460822590396778}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13365,7 +13910,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5609789479024252173}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: Point004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13397,7 +13942,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 911566917213220134}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_16
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13428,7 +13973,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5066493206545117428}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_76
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13459,7 +14004,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3723595021983650665}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: FirePoint
   m_TagString: Untagged
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
@@ -13490,7 +14035,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5070729313155221183}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: LHandToe2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13522,7 +14067,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3915760595215361584}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: FirePoint (1)
   m_TagString: Untagged
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
@@ -13553,7 +14098,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4007331536057315556}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_92
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13584,7 +14129,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7527111542269581848}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13615,7 +14160,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6983732761043153335}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: English DragonLArm3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13647,7 +14192,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7495628168042785996}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: Point011
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13679,7 +14224,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6147881304524922673}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_32
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13712,7 +14257,7 @@ GameObject:
   - component: {fileID: 6160002547187333887}
   - component: {fileID: 7176069985081776804}
   - component: {fileID: 4045688064444572645}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: PComponent Sparks Forward
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18477,7 +19022,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9195182104579261238}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: English DragonPelvis
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18511,7 +19056,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5054068455609629286}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_68
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18542,7 +19087,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8795757290506251643}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: English DragonRArmPalm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18574,7 +19119,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6485065911296636777}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: RLegToe31
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18605,7 +19150,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8559342895285500748}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: Point010
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18637,7 +19182,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3548665647684054407}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_51
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18668,7 +19213,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6326987030004745207}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: English DragonRArmCollarbone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18700,7 +19245,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8260291309485561354}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: English DragonSpine2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18723,6 +19268,59 @@ Transform:
   - {fileID: 5844837645716608688}
   m_Father: {fileID: 7290511434213774002}
   m_LocalEulerAnglesHint: {x: -0.8363873, y: -8.957424, z: -2.1655734}
+--- !u!1 &6671490924724803831
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2390026708752951760}
+  - component: {fileID: 81375946846034765}
+  m_Layer: 20
+  m_Name: neck
+  m_TagString: neck
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2390026708752951760
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6671490924724803831}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.059, z: 0.033}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9087733677365725867}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &81375946846034765
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6671490924724803831}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.43
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6673522223917343804
 GameObject:
   m_ObjectHideFlags: 0
@@ -18732,7 +19330,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7914663145047367660}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_77
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18763,7 +19361,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9087733677365725867}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_84
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18782,7 +19380,8 @@ Transform:
   m_LocalPosition: {x: -0.1482042, y: -1.733011, z: 2.1888561}
   m_LocalScale: {x: 0.9999982, y: 1.0000031, z: 0.9999988}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2390026708752951760}
   m_Father: {fileID: 3203913069417157830}
   m_LocalEulerAnglesHint: {x: -34.459568, y: -107.89213, z: -38.202084}
 --- !u!1 &6759291158803149035
@@ -18794,7 +19393,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4908560246267546540}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_18
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18813,9 +19412,63 @@ Transform:
   m_LocalPosition: {x: 0.5125878, y: -0.1367112, z: 1.7460371}
   m_LocalScale: {x: 0.9999999, y: 1, z: 1.0000001}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 7750210614403891645}
   m_Father: {fileID: 3203913069417157830}
   m_LocalEulerAnglesHint: {x: -33.537407, y: -166.34949, z: 20.616236}
+--- !u!1 &6825698326886247806
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1576433537433709572}
+  - component: {fileID: 2492003887937194724}
+  m_Layer: 20
+  m_Name: LowBody
+  m_TagString: body
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1576433537433709572
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6825698326886247806}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.26, y: 0.513, z: 0.207}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8931362019300939650}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &2492003887937194724
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6825698326886247806}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.65
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6894342804836117429
 GameObject:
   m_ObjectHideFlags: 0
@@ -18825,7 +19478,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8347495423561435919}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_06
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18856,7 +19509,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4382536864769206123}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: English DragonRArm2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18888,7 +19541,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6921768556742613755}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_00
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18910,8 +19563,64 @@ Transform:
   m_Children:
   - {fileID: 8534399480929570923}
   - {fileID: 1899615145076511808}
+  - {fileID: 7470739060594337392}
   m_Father: {fileID: 3203913069417157830}
   m_LocalEulerAnglesHint: {x: -81.32827, y: -75.47565, z: -90.90853}
+--- !u!1 &6963156894250983493
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2735671949579260914}
+  - component: {fileID: 2930729380443615680}
+  m_Layer: 20
+  m_Name: Leg
+  m_TagString: Leg
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2735671949579260914
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6963156894250983493}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.21609835, y: -0.00000007466459, z: -0.000000077890135, w: 0.9763716}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 782896836917047334}
+  m_LocalEulerAnglesHint: {x: 24.96, y: 0, z: 0}
+--- !u!136 &2930729380443615680
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6963156894250983493}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.14
+  m_Height: 0.7
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7028680001440921125
 GameObject:
   m_ObjectHideFlags: 0
@@ -18921,7 +19630,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6864762008043811827}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_58
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18952,7 +19661,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3130562894127369907}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_08
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18971,7 +19680,8 @@ Transform:
   m_LocalPosition: {x: 0.36055678, y: -0.56736296, z: 0.55923784}
   m_LocalScale: {x: 1, y: 0.9999999, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1793380032239179827}
   m_Father: {fileID: 3203913069417157830}
   m_LocalEulerAnglesHint: {x: -33.420837, y: -66.31532, z: -71.22635}
 --- !u!1 &7059396404479406864
@@ -18983,7 +19693,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 500295972139131051}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19002,7 +19712,8 @@ Transform:
   m_LocalPosition: {x: -0.45234707, y: -0.842683, z: 1.7960418}
   m_LocalScale: {x: 1, y: 1, z: 1.0000001}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 3050661929167010223}
   m_Father: {fileID: 3203913069417157830}
   m_LocalEulerAnglesHint: {x: -18.819208, y: -106.84973, z: -38.978943}
 --- !u!1 &7101084809542673376
@@ -19014,7 +19725,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8485437529515540213}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_44
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19045,7 +19756,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7290511434213774002}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: English DragonSpine1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19077,7 +19788,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 223466296157132364}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_64
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19096,7 +19807,8 @@ Transform:
   m_LocalPosition: {x: -1.1832215, y: -0.8074539, z: 2.2891774}
   m_LocalScale: {x: 0.99999887, y: 1.0000057, z: 1.0000018}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 3564698284075449336}
   m_Father: {fileID: 3203913069417157830}
   m_LocalEulerAnglesHint: {x: 21.808502, y: -70.25398, z: -62.938385}
 --- !u!1 &7232635865078502455
@@ -19108,7 +19820,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1098460390432732309}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_24
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19139,7 +19851,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 982859202397838674}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: RLegToe12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19170,7 +19882,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7457752087411704244}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: FirePoint (3)
   m_TagString: Untagged
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
@@ -19201,7 +19913,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3327477855567081490}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19220,7 +19932,8 @@ Transform:
   m_LocalPosition: {x: -0.608858, y: -0.69949704, z: 0.5426096}
   m_LocalScale: {x: 1, y: 0.99999994, z: 0.99999994}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 689442997836381050}
   m_Father: {fileID: 3203913069417157830}
   m_LocalEulerAnglesHint: {x: -56.322258, y: -12.347327, z: -92.24465}
 --- !u!1 &7578762773270102219
@@ -19232,7 +19945,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4681101307671279835}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_78
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19263,7 +19976,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3721713361551010183}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: LLegToe1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19295,7 +20008,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1574846576470050332}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_82
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19326,7 +20039,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7807349115627778868}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_59
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19359,7 +20072,7 @@ GameObject:
   - component: {fileID: 3909387340262020765}
   - component: {fileID: 1889461450801340883}
   - component: {fileID: 1065014759283249404}
-  m_Layer: 5
+  m_Layer: 20
   m_Name: MagicCirlce
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19435,7 +20148,7 @@ GameObject:
   - component: {fileID: 3518415495416454240}
   - component: {fileID: 8786626465317901054}
   - component: {fileID: 6363447428194230989}
-  m_Layer: 5
+  m_Layer: 20
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19526,6 +20239,59 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!1 &7814663829248676846
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4902456631375459115}
+  - component: {fileID: 142865066925954487}
+  m_Layer: 20
+  m_Name: Foot
+  m_TagString: Foot
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4902456631375459115
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7814663829248676846}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.391, y: -0.07, z: -0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6638972756677839852}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &142865066925954487
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7814663829248676846}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.3
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7906868057262336939
 GameObject:
   m_ObjectHideFlags: 0
@@ -19535,7 +20301,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4329213623756538963}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: English DragonRLeg1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19567,7 +20333,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1115700877045898425}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: FireGroup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19604,7 +20370,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4307806717522599783}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_07
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19635,7 +20401,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4303006934116360096}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_72
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19657,6 +20423,59 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3203913069417157830}
   m_LocalEulerAnglesHint: {x: -36.435886, y: -67.02027, z: -86.69815}
+--- !u!1 &8095369692600979411
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8732462014374940624}
+  - component: {fileID: 5276848646751449153}
+  m_Layer: 20
+  m_Name: Foot
+  m_TagString: Foot
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8732462014374940624
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8095369692600979411}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.000532329, y: 0.00008387863, z: -0.0024909375, w: 0.9999968}
+  m_LocalPosition: {x: -0.093, y: -0.081, z: -0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 348476623795202809}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &5276848646751449153
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8095369692600979411}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.3
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8118278416469658213
 GameObject:
   m_ObjectHideFlags: 0
@@ -19666,7 +20485,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6042998306951400478}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_31
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19697,7 +20516,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4057676539061976179}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: RHandToe21
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19728,7 +20547,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 892775708812143696}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_36
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19759,7 +20578,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7814772977992898627}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19790,7 +20609,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5524911824516576901}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_91
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19821,7 +20640,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 621751298205505641}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_73
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19852,7 +20671,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8534399480929570923}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: BreathsPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19883,7 +20702,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1464706503348063363}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_86
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19919,12 +20738,11 @@ GameObject:
   - component: {fileID: 4763973332376024150}
   - component: {fileID: 5698354675027720775}
   - component: {fileID: 7729861275473654938}
-  - component: {fileID: 8368769490236981186}
   - component: {fileID: 4966870948571292076}
   - component: {fileID: 880996031497051859}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: Bone Dragon
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19937,7 +20755,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8466629950565329391}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.93567806, z: -0, w: 0.35285482}
+  m_LocalRotation: {x: 0, y: -0.9356783, z: 0, w: 0.35285443}
   m_LocalPosition: {x: 12.053771, y: 0, z: 21.929592}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 0
@@ -20030,7 +20848,7 @@ MonoBehaviour:
   deathAnimPlayed: 0
   hitAnimCooldown: 5
   useBreath: 0
-  breathCooldown: 70
+  breathCooldown: 5
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -20062,27 +20880,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &8368769490236981186
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8466629950565329391}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.4, y: 2.83, z: 5.06}
-  m_Center: {x: 0, y: 1.63, z: 0}
 --- !u!82 &4966870948571292076
 AudioSource:
   m_ObjectHideFlags: 0
@@ -20218,7 +21015,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3610813517602639339}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_53
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20249,7 +21046,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4673486224325391963}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_28
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20280,7 +21077,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4436329216008965584}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_49
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20311,7 +21108,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6370987072920854839}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_26
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20342,7 +21139,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4515447881089015100}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: English DragonLArm1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20374,7 +21171,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6607096422169803489}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_60
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20405,7 +21202,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6309031087164403197}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_38
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20436,7 +21233,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6059298282861122518}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_79
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20467,7 +21264,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5508536904364492206}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: English DragonLArm2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20490,6 +21287,114 @@ Transform:
   - {fileID: 6983732761043153335}
   m_Father: {fileID: 4515447881089015100}
   m_LocalEulerAnglesHint: {x: -1.4871578, y: 11.928219, z: 36.19258}
+--- !u!1 &8770557075194944105
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8702323973299879482}
+  - component: {fileID: 4551697046250241542}
+  m_Layer: 20
+  m_Name: Leg
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8702323973299879482
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8770557075194944105}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.21609876, y: 0, z: 0, w: 0.9763715}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7016480292228383518}
+  m_LocalEulerAnglesHint: {x: 24.96, y: 0, z: 0}
+--- !u!136 &4551697046250241542
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8770557075194944105}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.14
+  m_Height: 0.7
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &8799027834863603185
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3564698284075449336}
+  - component: {fileID: 8119548189701278638}
+  m_Layer: 20
+  m_Name: LeftWing
+  m_TagString: Wing
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3564698284075449336
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8799027834863603185}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1.5, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 223466296157132364}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &8119548189701278638
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8799027834863603185}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.69, y: 3.25, z: 0.5}
+  m_Center: {x: 0, y: 1.5, z: 0}
 --- !u!1 &8866855816972404245
 GameObject:
   m_ObjectHideFlags: 0
@@ -20499,7 +21404,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4498383695777756346}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: English DragonRArm3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20531,7 +21436,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6664675500526556331}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_42
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20562,7 +21467,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1996684435296884252}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: LLegToe2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20594,7 +21499,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7582165334591834839}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20625,7 +21530,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5728198470105911987}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SkeleRIG_93
   m_TagString: Untagged
   m_Icon: {fileID: 0}
