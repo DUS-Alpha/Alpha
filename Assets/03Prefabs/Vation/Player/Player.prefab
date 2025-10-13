@@ -655,7 +655,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.324
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1388,7 +1388,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7144277684283177295}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 45f879a606d93e546b7dedb0197735ce, type: 3}
+  m_Avatar: {fileID: 9000000, guid: 4a37f78e0efe11e4dbf44d9c5c036d17, type: 3}
   m_Controller: {fileID: 9100000, guid: cf1987169af58dd4b861fff1b140be25, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
@@ -1447,6 +1447,16 @@ MonoBehaviour:
   - {fileID: 8300000, guid: c17d1fe03a69ea944a0d99a9bc9fc237, type: 3}
   - {fileID: 8300000, guid: ef54dac3ca1b19c4692f16f90279f499, type: 3}
   - {fileID: 8300000, guid: e66c4d3b1ee14f74d910e8884e19eb73, type: 3}
+  m_comboAttackClips:
+  - {fileID: 8300000, guid: 3e33afc6ef7126e45805cc8d9cac811a, type: 3}
+  - {fileID: 8300000, guid: 8fcd1d6325846584f8bdc5693c8bef7e, type: 3}
+  - {fileID: 8300000, guid: 49972f769606c0540a4cd684e6923659, type: 3}
+  - {fileID: 8300000, guid: 5f071329efe9e7041b7ff763d655b962, type: 3}
+  m_skillClips:
+  - {fileID: 8300000, guid: 3c7f5d41d45104a4fab7a0722c7ca5a7, type: 3}
+  - {fileID: 8300000, guid: 5d2ca670f9cfa6046ab9c50651df44f8, type: 3}
+  - {fileID: 8300000, guid: cc0a1156d6cde3a429a28558fe86334c, type: 3}
+  - {fileID: 8300000, guid: 6c4f3ac36e8392e4e8ce89b89f902140, type: 3}
 --- !u!114 &1483190946458451088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1498,6 +1508,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsAim: 0
   SkillKey: 
+  IsAction: 0
   IsActioning: 0
 --- !u!114 &2763090024261597597
 MonoBehaviour:

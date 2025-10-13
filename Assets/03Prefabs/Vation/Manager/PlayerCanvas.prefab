@@ -1024,8 +1024,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_crossHeadUIs:
-  - {fileID: 6680765023188397973}
-  - {fileID: 1313119076864126258}
+  - {fileID: 319561983116201952}
+  - {fileID: 2551631595068803119}
   m_inventoryUI: {fileID: 9086509773673273043}
   m_ammoTMP: {fileID: 8419179422716433765}
   m_locomotionTMP: {fileID: 3122656346082488696}
