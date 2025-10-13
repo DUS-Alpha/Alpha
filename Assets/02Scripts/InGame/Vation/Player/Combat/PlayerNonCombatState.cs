@@ -28,7 +28,7 @@ public class PlayerNonCombatState : PlayerCombatState
             m_PlayerCore.SwitchCombatState(CombatStateType.Reload);
         else if (m_Combat.IsAttack || m_Combat.IsAim)
         {
-            m_Combat.SetAming(m_Combat.IsAim);
+            if(m_Combat.IsAim) m_Combat.SetAming();
             m_PlayerCore.SwitchCombatState(CombatStateType.InCombat);
         }
         else if (m_Combat.IsSkill)

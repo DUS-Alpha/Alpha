@@ -6,12 +6,19 @@ public class PlayerInCombatState : PlayerCombatState
     public PlayerInCombatState(PlayerCore playerCore) : base(playerCore){}
     protected override InputLocoLockType m_LockOnEnter => InputLocoLockType.None;
     protected override InputLocoLockType m_LockOnExit => InputLocoLockType.None;
+    private bool m_isSniperAiming;
 
+    private int m_currentWeapon;
     public override void Enter()
     {
         base.Enter();
         m_Combat.EnterInCombat();
         m_NextStateDelay = 0;
+
+        m_currentWeapon = m_Combat.CurrentWeaponNum;
+        // IK Rig 활성화
+        if (m_currentWeapon > 1)
+            m_Combat.SetIKRigWeight(RigType.Aim, true);
     }
     public override void FixedUpdate()
     {
@@ -21,9 +28,10 @@ public class PlayerInCombatState : PlayerCombatState
     public override void Update()
     {
         base.Update();
-        int _currentWeapon = m_Combat.CurrentWeaponNum;
+        
 
-        if (m_Locomotion.IsCombatStop || m_NextStateDelay >= 1.5f || (!m_Combat.IsAttack && !m_Combat.IsAiming))
+        //|| (!m_Combat.IsAttack && !m_Combat.IsAiming && m_Combat.CurrentWeaponNum == 3)
+        if (m_Locomotion.IsCombatStop || m_NextStateDelay >= 1.5f )
         {
             m_PlayerCore.SwitchCombatState(CombatStateType.NonCombat);
             // TODO : 모든 애니메이션 및 레이어 초기화 & 중단
@@ -55,17 +63,29 @@ public class PlayerInCombatState : PlayerCombatState
             m_Combat.Attack();
         }
 
-        // IK Rig 활성화
-        if(_currentWeapon > 1)
-            m_Combat.SetIKRigWeight(RigType.Aim, true);
-
         // Aim 활성화 여부
-        m_Combat.SetAming(m_Combat.IsAim);
+        if (m_Combat.IsAim)
+            m_Combat.SetAming();
 
-        if (m_Combat.CurrentWeaponNum == 1)
+        /*if (m_Combat.IsAiming)
+        {
+            m_isSniperAiming = true;
+        }
+         
+        if(m_isSniperAiming)
+        {
+            if (!m_Combat.IsAiming) m_NextStateDelay = 1.5f;
+        }*/
+
+        // 사나이퍼에서 Aiming를 했다가 해제했을 때만 바로 m_NextStateDelay =1.5f
+
+
+        if (m_currentWeapon == 1)
         {
             m_Combat.SetIsAction(m_PlayerCore.AniController.GetIsMeleeAttackInfo(2));
         }
+
+        
     }
     public override void Exit()
     {
@@ -74,7 +94,7 @@ public class PlayerInCombatState : PlayerCombatState
 
         m_Combat.IsActioning = false;
         m_Combat.ExitInCombat(m_Locomotion.IsFlying);
-        m_Combat.SetAming(false, true);
+        m_Combat.SetAming(true);
 
         m_Combat.SetIKRigWeight(RigType.Aim, false);
     }

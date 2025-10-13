@@ -73,16 +73,25 @@ public class PlayerCameraManger : MonoBehaviour
         {
             case CMType.None:
             case CMType.MeleeCM:
-                m_meleeCM.Priority = 11;
+                m_meleeCM.Priority = 10;
                 m_rangeRifleCM.Priority = 9;
                 m_rangeSniperCM.Priority = 0;
+                m_rangeSniperCM.gameObject.SetActive(false);
                 Sniper(false);
                 break;
             case CMType.RangeRifleCM:
                 m_meleeCM.Priority = 9;
-                m_rangeRifleCM.Priority = 11;
+                m_rangeRifleCM.Priority = 10;
                 m_rangeSniperCM.Priority = 0;
+                m_rangeSniperCM.gameObject.SetActive(false);
                 Sniper(false);
+                break;
+            case CMType.RangeSniperCM:
+                m_meleeCM.Priority = 9;
+                m_rangeSniperCM.Priority = 10;
+                m_rangeSniperCM.Priority = 20;
+                m_rangeSniperCM.gameObject.SetActive(true);
+                Sniper(true);
                 break;
         }
     }
@@ -98,27 +107,25 @@ public class PlayerCameraManger : MonoBehaviour
         }
     }
 
-    public void AimFOV(bool isAim, bool isSniper)
+    public void AimFOV(bool isAiming, bool isSniper)
     {
-        if(isAim)
+        if (isAiming)
         {
-            if(isSniper)
+            if (isSniper)
             {
-                m_meleeCM.Priority = 9;
-                m_rangeSniperCM.Priority = 10;
-                m_rangeSniperCM.Priority = 20;
-                m_rangeSniperCM.gameObject.SetActive(true);
-                Sniper(true);
+                ChangeCM(CMType.RangeSniperCM);
             }
             else
             {
-                m_rangeSniperCM.gameObject.SetActive(false);
                 ChangeCM(CMType.RangeRifleCM);
             }
         }
+        else
+        {
+            ChangeCM(CMType.RangeRifleCM);
+        }
 
-        m_targetFOV = isAim ? (isSniper ? m_sniperFOV : m_aimFOV) : m_originFOV;
-        
+        m_targetFOV = isAiming ? (isSniper ? m_sniperFOV : m_aimFOV) : m_originFOV;
     }
  
     private void Update()

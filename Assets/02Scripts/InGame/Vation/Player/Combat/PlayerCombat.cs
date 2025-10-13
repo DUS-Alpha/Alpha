@@ -133,8 +133,6 @@ public class PlayerCombat : MonoBehaviour
         
         m_aniController.SetAnimatorWeight(2, 0);
         m_aniController.SetAnimatorWeight(3, 0);
-        
-        SetIKRigWeight(RigType.Aim ,false);
     }
 
     public void Attack()
@@ -208,7 +206,6 @@ public class PlayerCombat : MonoBehaviour
 
     public void EnterSwapWeapon(bool isFlying)
     {
-        SetIKRigWeight(RigType.Aim, false);
         m_aniController.SetAnimatorWeight(1,1);
         m_aniController.SwapWeaponAni(CurrentWeaponNum, isFlying);
 
@@ -243,12 +240,12 @@ public class PlayerCombat : MonoBehaviour
        // m_animationController.SetApplyRootMotion(isApplyRoot);
     }*/
 
-    public void SetAming(bool isAim,bool isOffAiming = false)
+    public void SetAming(bool isOffAiming = false)
     {
-        if (isAim) m_isAiming = !m_isAiming;
+        m_isAiming = !m_isAiming;
         if (isOffAiming) m_isAiming = false;
-        
-        // TODO : UpperBody라서 Fly일때도 같이 쓰기에 다시 조율 필요
+
+        m_uiManager.ChangeSniperAimUI(m_isAiming? (CurrentWeaponNum == 3? true: false) : false);
         m_cameraManager.AimFOV(m_isAiming, CurrentWeaponNum == 3);
     }
 

@@ -175,7 +175,9 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
             m_moveDir = Vector3.zero;
             m_currentSpeed = 0;
         }
-        else HandleRotate();
+        else 
+        //if(IsMove)
+            HandleRotate();
         //else if(!IsRot)
 
 

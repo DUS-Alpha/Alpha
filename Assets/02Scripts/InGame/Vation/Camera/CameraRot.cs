@@ -4,11 +4,13 @@ public class CameraRot : MonoBehaviour
 {
     [Header("Camera Target")]
     [SerializeField] 
-    private Transform m_cameraRoot;   // 회전 중심
+    private Transform m_sniperCMRoot;   // 회전 중심
     [SerializeField]
-    private float m_yMinRot;
+    private Transform m_mainCameraRoot;   // 회전 중심
     [SerializeField]
-    private float m_yMaxRot;
+    private float m_yMinRot = -60;
+    [SerializeField]
+    private float m_yMaxRot = 80;
     [SerializeField] 
     private float m_sensitivity = 100f; //  감도
 
@@ -18,9 +20,9 @@ public class CameraRot : MonoBehaviour
     // Update is called once per frame
     private void OnEnable()
     {
-        Vector3 euler = m_cameraRoot.rotation.eulerAngles;
+        Vector3 euler = m_mainCameraRoot.rotation.eulerAngles;
         yaw = euler.y;
-        pitch = euler.x;
+        pitch = (euler.x > 180f) ? euler.x - 360f : euler.x; // 보정
     }
 
     void Update()
@@ -32,6 +34,6 @@ public class CameraRot : MonoBehaviour
         pitch -= mouseY * m_sensitivity * Time.deltaTime;
         pitch = Mathf.Clamp(pitch, m_yMinRot, m_yMaxRot);
 
-        m_cameraRoot.rotation = Quaternion.Euler(pitch, yaw, 0f);   // X축에 MouseY값, Y축에 MouseX값
+        m_sniperCMRoot.rotation = Quaternion.Euler(pitch, yaw, 0f);   // X축에 MouseY값, Y축에 MouseX값
     }
 }
