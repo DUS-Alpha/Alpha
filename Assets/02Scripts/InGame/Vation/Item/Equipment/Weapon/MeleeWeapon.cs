@@ -6,7 +6,9 @@ public class MeleeWeapon : Weapon
     private bool m_isCombo;
     [SerializeField]
     private Collider m_collider;
+    
     private int m_index = 0;
+
     private void Start()
     {
         SetActivateCollider(false);
@@ -46,5 +48,27 @@ public class MeleeWeapon : Weapon
                 Debug.Log(other.name);
             }
         }
+    }
+    public void DoDamage(Transform pos,float radius)
+    {
+        Collider[] hits = Physics.OverlapSphere(pos.position, radius, 1 << LayerMask.NameToLayer("Enemy"));
+        foreach (var hit in hits)
+        {
+            if (hit.TryGetComponent<IDamageable>(out IDamageable _damageableTarget))
+            {
+                DamageMassage _damassage = new DamageMassage
+                {
+                    //HitNormal = hit.normal,
+                    //HitPoint = hit.point,
+                    damage = WeaponData.AttackDamage
+                };
+                _damageableTarget.ApplyDamage(_damassage);
+            }
+        }
+    }
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+       // Gizmos.DrawWireSphere(transform.position, radius);
     }
 }

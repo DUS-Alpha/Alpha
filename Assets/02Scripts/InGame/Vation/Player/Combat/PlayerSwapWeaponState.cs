@@ -13,6 +13,12 @@ public class PlayerSwapWeaponState : PlayerCombatState
         base.Enter();
         m_NextStateDelay = 0f;
         m_Combat.EnterSwapWeapon(m_Locomotion.IsFlying);
+
+        if(m_Combat.CurrentWeaponNum > 1)
+            m_PlayerCore.CameraManger.ChangeCM(CMType.RangeRifleCM);
+        else 
+            m_PlayerCore.CameraManger.ChangeCM(CMType.MeleeCM);
+
     }
     public override void FixedUpdate()
     {

@@ -48,7 +48,8 @@ public class PlayerStateMachine
         m_combatStateCreateDic = new Dictionary<CombatStateType, Func<PlayerState>>
         {
             { CombatStateType.NonCombat, ()=>  new PlayerNonCombatState(m_playerCore) },
-            { CombatStateType.Upper_InCombat, ()=> new PlayerInCombatState(m_playerCore)},
+            { CombatStateType.InCombat, ()=> new PlayerInCombatState(m_playerCore)},
+            {  CombatStateType.Attack, ()=> new PlayerAttackState(m_playerCore)},
             {CombatStateType.SwapWeapon, ()=> new PlayerSwapWeaponState(m_playerCore) },
             { CombatStateType.Reload, ()=>  new PlayerReloadState(m_playerCore) },
             { CombatStateType.Skill, ()=>  new PlayerSkillState(m_playerCore) },

@@ -48,7 +48,7 @@ public class PlayerSkillState : PlayerCombatState
         m_nextDelay += Time.deltaTime;
         if (m_nextDelay < m_aniLength + 1.3f) return;
 
-        m_PlayerCore.SwitchCombatState(CombatStateType.Upper_InCombat);
+        m_PlayerCore.SwitchCombatState(CombatStateType.InCombat);
         Debug.Log(m_Combat.IsAction);
     }
     
@@ -58,6 +58,5 @@ public class PlayerSkillState : PlayerCombatState
         base.Exit();
         m_Combat.ExitSkill();
         m_Combat.SetIsAction(false);
-        m_PlayerCore.CameraManger.StopRotCamera(false);
     }
 }

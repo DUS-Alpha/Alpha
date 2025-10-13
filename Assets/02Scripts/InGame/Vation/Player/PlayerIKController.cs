@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
@@ -16,25 +17,31 @@ public class PlayerIKController : MonoBehaviour
     private Rig m_handLayerRig;
     [SerializeField]
     private Rig m_aimRig;
+    private MultiAimConstraint m_aimMultiAim;
+
+    [SerializeField]
+    private float m_handWeight = 0.7f;
+    [SerializeField]
+    private float m_multiAimConstraintWeight = 0.7f;
 
     private void Awake()
     {
-        SetRigWeight(RigType.Hand, 0);
-        SetRigWeight(RigType.Aim, 0);
-
-        //m_defaultLeftHintTr = m_leftHandIK.data.hint.transform;
-        //m_defaultRightHintTr = m_rightHandIK.data.hint.transform;
+        SetRigWeight(RigType.Hand, false);
+        SetRigWeight(RigType.Aim, false);
+        m_aimMultiAim = m_aimRig.GetComponentInChildren<MultiAimConstraint>();
+        m_aimMultiAim.weight = m_multiAimConstraintWeight;
     }
 
-    public void SetRigWeight(RigType rigType, float value)
+    public void SetRigWeight(RigType rigType, bool isWeight)
     {
+        int _weight = isWeight ? 1 : 0;
         switch (rigType)
         {
             case RigType.Hand:
-                m_handLayerRig.weight = value;
+                    m_handLayerRig.weight = _weight;
                 break;
             case RigType.Aim:
-                m_aimRig.weight = value;
+                    m_aimRig.weight = _weight;
                 break;
         }
     }

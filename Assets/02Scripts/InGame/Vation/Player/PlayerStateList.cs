@@ -24,21 +24,10 @@ public enum CombatStateType
 {
     None,
     NonCombat,
-    Upper_InCombat,
+    InCombat,
+    Attack,
     SwapWeapon,
     Reload,
     Skill,
     Dodge
 }
-
-/*// Flags enum 형태는 비트연산 처리 필요
-[Flags]
-public enum SubFlagsStateTpye
-{
-    None = 0,
-    Aim = 1 << 0,
-    RangeShoot = 1 << 1,
-    SwapWeapon = 1 << 2,
-    Reload = 1 << 3,
-}
-*/

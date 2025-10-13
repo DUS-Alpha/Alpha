@@ -26,6 +26,7 @@ public class PlayerCombat : MonoBehaviour
     public bool IsAttack { get; private set; }
     private float m_nextAttakTime;
     public bool IsAim;
+    public bool IsAiming => m_isAiming;
     private bool m_isAiming;
     public bool IsSkill { get; private set; }
     public string SkillKey;
@@ -106,9 +107,9 @@ public class PlayerCombat : MonoBehaviour
     {
         IsAction = isAction;
     }
-    public void SetIKRigWeight(int weight)
+    public void SetIKRigWeight(RigType rigType,bool isWeight)
     {
-        m_ikController.SetRigWeight(RigType.Aim, weight);
+        m_ikController.SetRigWeight(rigType, isWeight);
     }
 
 
@@ -133,7 +134,7 @@ public class PlayerCombat : MonoBehaviour
         m_aniController.SetAnimatorWeight(2, 0);
         m_aniController.SetAnimatorWeight(3, 0);
         
-        SetIKRigWeight(0);
+        SetIKRigWeight(RigType.Aim ,false);
     }
 
     public void Attack()
@@ -144,7 +145,7 @@ public class PlayerCombat : MonoBehaviour
         if (CurrentWeaponNum == 1)
         {
             m_aniController.SetAnimatorWeight(2, 1);
-            SetIKRigWeight(0);
+            SetIKRigWeight(RigType.Aim, false);
             _meleeWeapon = CurrentWeapon as MeleeWeapon;
             
             if (!IsActioning)
@@ -154,7 +155,7 @@ public class PlayerCombat : MonoBehaviour
         }
         else if (CurrentWeaponNum > 1)
         {
-            SetIKRigWeight(1);
+            SetIKRigWeight(RigType.Aim, true);
             _rangeWeapon = CurrentWeapon as RangeWeapon;
             m_uiManager.SetAmmo(_rangeWeapon.CurrentAmmo, _rangeWeapon.SaveAmmo, _rangeWeapon.MaxAmmo);
             m_aniController.SetAnimatorWeight(1, 1);
@@ -207,7 +208,7 @@ public class PlayerCombat : MonoBehaviour
 
     public void EnterSwapWeapon(bool isFlying)
     {
-        SetIKRigWeight(0);
+        SetIKRigWeight(RigType.Aim, false);
         m_aniController.SetAnimatorWeight(1,1);
         m_aniController.SwapWeaponAni(CurrentWeaponNum, isFlying);
 
@@ -242,14 +243,13 @@ public class PlayerCombat : MonoBehaviour
        // m_animationController.SetApplyRootMotion(isApplyRoot);
     }*/
 
-    public void SetAming(bool isAim, bool isOffAiming = false)
+    public void SetAming(bool isAim,bool isOffAiming = false)
     {
         if (isAim) m_isAiming = !m_isAiming;
         if (isOffAiming) m_isAiming = false;
-        int _isAimWeight = m_isAiming ? 1 : 0;
         
         // TODO : UpperBody라서 Fly일때도 같이 쓰기에 다시 조율 필요
-        m_cameraManager.AimFOV(m_isAiming, CurrentWeaponNum);
+        m_cameraManager.AimFOV(m_isAiming, CurrentWeaponNum == 3);
     }
 
     public bool EnterReload()

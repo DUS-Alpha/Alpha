@@ -196,7 +196,7 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
     // FlyRotate와 리팩토링
     private void HandleRotate(bool isSniper = false)
     {
-        Camera _camera = isSniper ? m_cameraManager.SniperCamera : m_cameraManager.MainCamera;
+        Camera _camera = m_cameraManager.MainCamera;
         m_movementUtility.HandleRotate(this.gameObject, m_moveDir, _camera, m_isFlying);
     }
 

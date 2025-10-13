@@ -21,14 +21,16 @@ public class PlayerInCombatState : PlayerCombatState
     public override void Update()
     {
         base.Update();
-        if(m_Locomotion.IsCombatStop || m_NextStateDelay > 1.5f)
+        int _currentWeapon = m_Combat.CurrentWeaponNum;
+
+        if (m_Locomotion.IsCombatStop || m_NextStateDelay >= 1.5f || (!m_Combat.IsAttack && !m_Combat.IsAiming))
         {
             m_PlayerCore.SwitchCombatState(CombatStateType.NonCombat);
             // TODO : 모든 애니메이션 및 레이어 초기화 & 중단
             return;
         }
 
-        if (m_Combat.IsAim || m_Combat.IsAttack) m_NextStateDelay = 0;
+        if (m_Combat.IsAiming || m_Combat.IsAttack) m_NextStateDelay = 0;
         else m_NextStateDelay += Time.deltaTime;
 
         m_PlayerCore.AniController.SetAttackAni(m_Combat.IsAttack);
@@ -53,13 +55,17 @@ public class PlayerInCombatState : PlayerCombatState
             m_Combat.Attack();
         }
 
+        // IK Rig 활성화
+        if(_currentWeapon > 1)
+            m_Combat.SetIKRigWeight(RigType.Aim, true);
+
+        // Aim 활성화 여부
+        m_Combat.SetAming(m_Combat.IsAim);
+
         if (m_Combat.CurrentWeaponNum == 1)
         {
             m_Combat.SetIsAction(m_PlayerCore.AniController.GetIsMeleeAttackInfo(2));
         }
-
-        m_Combat.SetAming(m_Combat.IsAim);
-        
     }
     public override void Exit()
     {
@@ -69,6 +75,8 @@ public class PlayerInCombatState : PlayerCombatState
         m_Combat.IsActioning = false;
         m_Combat.ExitInCombat(m_Locomotion.IsFlying);
         m_Combat.SetAming(false, true);
+
+        m_Combat.SetIKRigWeight(RigType.Aim, false);
     }
 
 }
