@@ -94,8 +94,19 @@ public class RangeWeapon : Weapon
 
         if (Physics.Raycast(_rayOrigin, _rayDirection, out _hit, m_maxDistance))
         {
-            //테스트
+            //10_13 won 수정사항
             print("테스트 이름: "+ _hit.collider.name);
+            if (_hit.collider.TryGetComponent<HitBox>(out HitBox _hitBox))
+            {
+                DamageMassage _damageMassage = new DamageMassage();
+                //_damageMassage.Damager = damager;
+                _damageMassage.HitNormal = _hit.normal;
+                _damageMassage.HitPoint = _hit.point;
+                _damageMassage.damage = this.WeaponData.AttackDamage;
+                
+                _hitBox.damageable.ApplyDamage(_damageMassage);
+                print("히트박스 데미지 완료");
+            }
             
             Debug.DrawLine(_rayOrigin, _hit.point, Color.red);
             // 데미지 받을 타겟

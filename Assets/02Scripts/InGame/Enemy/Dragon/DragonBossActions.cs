@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class DragonBossActions : MonoBehaviour,IDamageable
@@ -7,7 +9,8 @@ public class DragonBossActions : MonoBehaviour,IDamageable
     public float hoverHeight = 5f;
     public float moveSpeed = 5f;
     public float turnSpeed = 3f;
-
+    
+    
     private Blackboard BB;
     [SerializeField]private bool _attackStarted;
     
@@ -48,10 +51,17 @@ public class DragonBossActions : MonoBehaviour,IDamageable
 
     private int _firePointIndex = 0;
     private float _fireTimer;
+    
+    private Rigidbody rb;
 
     public void SetBlackboard(Blackboard bb)
     {
         BB = bb;
+    }
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
     }
 
     private Transform GetNextFirePoint()
@@ -235,7 +245,7 @@ public class DragonBossActions : MonoBehaviour,IDamageable
         float elapsed = Time.time - lastBreathTime;
         bool canUse = elapsed >= breathCooldown;
 
-        Debug.Log($"[CheckBreath] elapsed={elapsed:F2} / cooldown={breathCooldown} / useBreath={useBreath}");
+        /*Debug.Log($"[CheckBreath] elapsed={elapsed:F2} / cooldown={breathCooldown} / useBreath={useBreath}");*/
 
         if (!useBreath && canUse)
         {
@@ -276,7 +286,7 @@ public class DragonBossActions : MonoBehaviour,IDamageable
         }
 
         var state = animator.GetCurrentAnimatorStateInfo(0);
-        Debug.Log($"[BreatheFire] 현재 상태: {state.fullPathHash}, normalizedTime={state.normalizedTime:F2}");
+        /*Debug.Log($"[BreatheFire] 현재 상태: {state.fullPathHash}, normalizedTime={state.normalizedTime:F2}");*/
 
         if (state.IsName("FireBreath"))
         {
@@ -305,26 +315,41 @@ public class DragonBossActions : MonoBehaviour,IDamageable
 
     public NodeState Fall()
     {
+        // 아직 착지하지 않았다면 낙하 활성화
         if (!hasLanded)
         {
-            // 아래로 직접 이동
-            transform.position += Vector3.down * 15f * Time.deltaTime;
+            rb.isKinematic = false;
+            rb.useGravity = true;
 
-            // 땅 감지
-            if (Physics.Raycast(transform.position, Vector3.down, 2f, groundLayer))
+            // Raycast로 바닥 체크 (콜리전 대신)
+            if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 0.5f, groundLayer))
             {
-                hasLanded = true;
-                animator.SetBool("Dodie", true);
-                
-                // 트리 정지
-                var runner = GetComponent<BehaviorTreeRunner>();
-                if (runner != null)
-                    runner.StopTree();
-                
+                Land();
                 return NodeState.Success;
             }
+
+            return NodeState.Running;
         }
-        return NodeState.Running;
+
+        // 이미 착지한 상태라면 성공 처리
+        return NodeState.Success;
+    }
+    
+    private void Land()
+    {
+        hasLanded = true;
+        rb.isKinematic = true;
+        rb.useGravity = false;
+
+        // 애니메이션 재생
+        animator.SetBool("Dodie", true);
+
+        // 트리 정지
+        var runner = GetComponent<BehaviorTreeRunner>();
+        if (runner != null)
+            runner.StopTree();
+
+        Debug.Log("뒤졌음 ㅇㅇ");
     }
 
     public NodeState Die()
