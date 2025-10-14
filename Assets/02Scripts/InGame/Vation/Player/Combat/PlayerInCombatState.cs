@@ -31,32 +31,32 @@ public class PlayerInCombatState : PlayerCombatState
         
 
         //|| (!m_Combat.IsAttack && !m_Combat.IsAiming && m_Combat.CurrentWeaponNum == 3)
-        if (m_Locomotion.IsCombatStop || m_NextStateDelay >= 1.5f )
+        if (m_Locomotion.IsCombatStop || (!m_Combat.IsAiming && !m_Combat.IsAttack))
         {
             m_PlayerCore.SwitchCombatState(CombatStateType.NonCombat);
             // TODO : 모든 애니메이션 및 레이어 초기화 & 중단
             return;
         }
 
-        if (m_Combat.IsAiming || m_Combat.IsAttack) m_NextStateDelay = 0;
-        else m_NextStateDelay += Time.deltaTime;
+        /*if (m_Combat.IsAiming || m_Combat.IsAttack) m_NextStateDelay = 0;
+        else m_NextStateDelay += Time.deltaTime;*/
 
         m_PlayerCore.AniController.SetAttackAni(m_Combat.IsAttack);
 
         if (m_Combat.IsSwap)
         {
             m_PlayerCore.SwitchCombatState(CombatStateType.SwapWeapon);
-            m_PlayerCore.AniController.SetAttackAni(false);
+            //m_PlayerCore.AniController.SetAttackAni(false);
         }
         else if (m_Combat.IsReload)
         {
             m_PlayerCore.SwitchCombatState(CombatStateType.Reload);
-            m_PlayerCore.AniController.SetAttackAni(false);
+            //m_PlayerCore.AniController.SetAttackAni(false);
         }
         else if(m_Combat.IsSkill)
         {
             m_PlayerCore.SwitchCombatState(CombatStateType.Skill);
-            m_PlayerCore.AniController.SetAttackAni(false);
+            //m_PlayerCore.AniController.SetAttackAni(false);
         }
         else if(m_Combat.IsAttack)
         {
@@ -66,19 +66,6 @@ public class PlayerInCombatState : PlayerCombatState
         // Aim 활성화 여부
         if (m_Combat.IsAim)
             m_Combat.SetAming();
-
-        /*if (m_Combat.IsAiming)
-        {
-            m_isSniperAiming = true;
-        }
-         
-        if(m_isSniperAiming)
-        {
-            if (!m_Combat.IsAiming) m_NextStateDelay = 1.5f;
-        }*/
-
-        // 사나이퍼에서 Aiming를 했다가 해제했을 때만 바로 m_NextStateDelay =1.5f
-
 
         if (m_currentWeapon == 1)
         {

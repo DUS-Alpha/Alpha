@@ -265,7 +265,7 @@ public class PlayerCombat : MonoBehaviour
     public void ExitReload(bool isFlying)
     {
         if(!isFlying)
-        m_aniController.SetAnimatorWeight(2, 0);
+        m_aniController.SetAnimatorWeight(1, 0);
     }
 
     public void EnterSkill()
