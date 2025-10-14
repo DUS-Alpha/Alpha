@@ -3,6 +3,7 @@ using UnityEngine;
 public class Weapon : Equipment, IAttack
 {
     public WeaponDataSO WeaponData => (Data as WeaponDataSO);
+    public float m_maxDistance;
     /*public Transform LeftHandIK;
     public Transform RightHandIK;
     public Transform LeftHintIK;

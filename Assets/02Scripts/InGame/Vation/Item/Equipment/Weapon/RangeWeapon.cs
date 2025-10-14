@@ -16,33 +16,36 @@ public class RangeWeapon : Weapon
 
     [Header("[ Range ]")]
     public RangeTypes RangeType;
-    [SerializeField]
-    private float m_maxDistance = 40f;
+
     [SerializeField]
     private int m_maxAmmo;
     [SerializeField]
     private int m_currentAmmo;
     [SerializeField]
     private int m_saveAmmo;
+
+    [SerializeField]
+    private LayerMask m_layer;
     public int MaxAmmo => m_maxAmmo;
     public int CurrentAmmo => m_currentAmmo;
     public int SaveAmmo => m_saveAmmo;
     
     public AudioSource m_audioSource;
     [SerializeField]
+    private AudioClip m_audioClip;
+    [SerializeField]
     private Transform m_bulletFirePos; //이펙트 효과만
     [SerializeField]
     private ParticleSystem m_muzzleFlashEffect;
     
     private bool m_isFire;
-    public bool IsDistance => m_isDistance;
-    private bool m_isDistance;
     private bool m_canNeedReload;
     public bool IsNeedReload => m_canNeedReload;
 
     private void Awake()
     {
         m_currentAmmo = m_maxAmmo;
+        m_audioSource.clip = m_audioClip;
     }
 
     public override void Attack(bool isAttackInput, PlayerAnimationController anim)
@@ -55,14 +58,12 @@ public class RangeWeapon : Weapon
         m_isFire = isAttackInput;
 
         if (!m_isFire) return;
-        anim.AttackAni(m_isFire, 2);
+        anim.RangeShootingAni();
         m_audioSource.PlayOneShot(m_audioSource.clip);
         m_muzzleFlashEffect.Play();
 
         if(m_currentAmmo > 0)
             m_currentAmmo -= 1;
-
-        ApplyDamageInfo();
     }
     public override bool IsInAction(PlayerAnimationController anim)
     {
@@ -86,33 +87,24 @@ public class RangeWeapon : Weapon
         }
         return true;
     }
-    public void ApplyDamageInfo()
+    
+
+    /// <summary>
+    /// 실제 데미지를 적용하는 메서드 (거리 체크 통과 후 호출)
+    /// </summary>
+    public void ApplyDamage(RaycastHit hit)
     {
-        Vector3 _rayOrigin = Camera.main.transform.position;
-        Vector3 _rayDirection = Camera.main.transform.forward; // 화면 중앙 기준
-        RaycastHit _hit;
-
-        if (Physics.Raycast(_rayOrigin, _rayDirection, out _hit, m_maxDistance))
+        if (hit.collider.TryGetComponent<IDamageable>(out IDamageable target))
         {
-            Debug.DrawLine(_rayOrigin, _hit.point, Color.red);
-            // 데미지 받을 타겟
-            IDamageable _damageableTarget;
-            if (_hit.collider.TryGetComponent<IDamageable>(out _damageableTarget))
+            DamageMassage msg = new DamageMassage
             {
-                m_isDistance = true;
-                // 데미지 정보
-                DamageMassage _damageMassage = new DamageMassage();
-                //_damageMassage.Damager = damager;
-                _damageMassage.HitNormal = _hit.normal;
-                _damageMassage.HitPoint = _hit.point;
-                _damageMassage.damage = this.WeaponData.AttackDamage;
+                HitNormal = hit.normal,
+                HitPoint = hit.point,
+                damage = WeaponData.AttackDamage
+            };
 
-                // 데미지 전달
-                _damageableTarget.ApplyDamage(_damageMassage);
-
-                // 맞은 곳에 BloodEffect 재생(몬스터쪽에서해도 괜찮음)
-            }
+            target.ApplyDamage(msg);
+            // TODO: 피격 이펙트 재생 등
         }
-        else m_isDistance = false;
     }
 }

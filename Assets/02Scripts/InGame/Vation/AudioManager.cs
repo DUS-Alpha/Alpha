@@ -8,6 +8,8 @@ public enum SFXLomotionType
     FlyUp,
     FlyMove,
     Land,
+    Dash,
+    FlyDash,
     Die,
 }
 public enum SFXCombatType
@@ -55,12 +57,19 @@ public class AudioManager : MonoBehaviour
     {
 
     }
-
+    public void SetSFXLocomotionAudioLoop(bool isLoop)
+    {
+        m_sfxLocomotionAudio.loop = isLoop;
+    }
     // TODO 재활용성을 위해 PlaySFX로 통합할지 고민
     public void PlaySFXLocomotionAudio(SFXLomotionType sfxType, bool isStop = false, bool isPlayOneShot = false)
     {
-        if (isStop) m_sfxLocomotionAudio.Stop();
-
+        if (isStop)
+        {
+            m_sfxLocomotionAudio.Stop();
+            return;
+        }
+        
         AudioClip _clip = m_sfxLocomotionClips[(int)sfxType-1];
 
         if(m_sfxLocomotionAudio.clip != _clip) m_sfxLocomotionAudio.Stop();
@@ -94,4 +103,6 @@ public class AudioManager : MonoBehaviour
             }
         }
     }
+
+    // TODO : 사운드 페이드인아웃 효과 적용 필요
 }

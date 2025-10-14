@@ -47,10 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Data: {fileID: 11400000, guid: fe27a9a9c3cb378428eddfed6862e47a, type: 2}
-  LeftHandIK: {fileID: 0}
-  RightHandIK: {fileID: 0}
-  LeftHintIK: {fileID: 0}
-  RightHintIK: {fileID: 0}
+  m_maxDistance: 5
   m_collider: {fileID: 5876198709961441913}
 --- !u!65 &5876198709961441913
 BoxCollider:

@@ -4,20 +4,21 @@ using UnityEngine.Rendering.VirtualTexturing;
 public class PlayerInCombatState : PlayerCombatState
 {
     public PlayerInCombatState(PlayerCore playerCore) : base(playerCore){}
-    protected override InputLocoLockType m_LockOnEnter => InputLocoLockType.Jump | InputLocoLockType.FlyUp;
-    protected override InputLocoLockType m_LockOnExit => InputLocoLockType.Jump | InputLocoLockType.FlyUp;
+    protected override InputLocoLockType m_LockOnEnter => InputLocoLockType.None;
+    protected override InputLocoLockType m_LockOnExit => InputLocoLockType.None;
+    private bool m_isSniperAiming;
 
-    private int m_currentWeaponNum;
-    private float m_nextDely;
-    private bool m_isReloading;
+    private int m_currentWeapon;
     public override void Enter()
     {
         base.Enter();
-        m_Combat.SetUpperAnimatorLayer(1);
         m_Combat.EnterInCombat();
-        m_currentWeaponNum = m_Combat.CurrentWeaponNum;
-        m_nextDely = 0;
-        //m_isReloading = false;
+        m_NextStateDelay = 0;
+
+        m_currentWeapon = m_Combat.CurrentWeaponNum;
+        // IK Rig 활성화
+        if (m_currentWeapon > 1)
+            m_Combat.SetIKRigWeight(RigType.Aim, true);
     }
     public override void FixedUpdate()
     {
@@ -26,51 +27,63 @@ public class PlayerInCombatState : PlayerCombatState
 
     public override void Update()
     {
-        if(m_Locomotion.IsAction || m_nextDely > 1)
+        base.Update();
+        
+
+        //|| (!m_Combat.IsAttack && !m_Combat.IsAiming && m_Combat.CurrentWeaponNum == 3)
+        if (m_Locomotion.IsCombatStop || (!m_Combat.IsAiming && !m_Combat.IsAttack))
         {
             m_PlayerCore.SwitchCombatState(CombatStateType.NonCombat);
+            // TODO : 모든 애니메이션 및 레이어 초기화 & 중단
             return;
         }
 
-        if (m_Combat.IsSwapWeapon())
+        /*if (m_Combat.IsAiming || m_Combat.IsAttack) m_NextStateDelay = 0;
+        else m_NextStateDelay += Time.deltaTime;*/
+
+        m_PlayerCore.AniController.SetAttackAni(m_Combat.IsAttack);
+
+        if (m_Combat.IsSwap)
         {
-            m_Combat.SetIsAction(true);
-            m_PlayerCore.SwitchCombatState(CombatStateType.Upper_SwapWeapon);
+            m_PlayerCore.SwitchCombatState(CombatStateType.SwapWeapon);
+            //m_PlayerCore.AniController.SetAttackAni(false);
         }
         else if (m_Combat.IsReload)
         {
-            m_Combat.SetIsAction(true);
-            //m_isReloading = true;
-            m_PlayerCore.SwitchCombatState(CombatStateType.Upper_Reload);
+            m_PlayerCore.SwitchCombatState(CombatStateType.Reload);
+            //m_PlayerCore.AniController.SetAttackAni(false);
         }
         else if(m_Combat.IsSkill)
         {
             m_PlayerCore.SwitchCombatState(CombatStateType.Skill);
+            //m_PlayerCore.AniController.SetAttackAni(false);
         }
-        else if (m_Combat.IsAttack)
+        else if(m_Combat.IsAttack)
         {
-            m_nextDely = 0;
             m_Combat.Attack();
         }
-        else
+
+        // Aim 활성화 여부
+        if (m_Combat.IsAim)
+            m_Combat.SetAming();
+
+        if (m_currentWeapon == 1)
         {
-            if (m_Combat.IsScope) m_nextDely = 0;
-            else m_nextDely += Time.deltaTime;
+            m_Combat.SetIsAction(m_PlayerCore.AniController.GetIsMeleeAttackInfo(2));
         }
 
-        if (m_currentWeaponNum > 1) m_Combat.SetAming(m_Combat.IsScope);
-        else m_Combat.SetAming(false);
+        
     }
     public override void Exit()
     {
         base.Exit();
-        if(m_Combat.IsAction) m_Combat.SetUpperAnimatorLayer(1);
-        else if(!m_Locomotion.IsFlying)
-            m_Combat.SetUpperAnimatorLayer(0);
+        m_PlayerCore.AniController.SetAttackAni(false);
 
-        m_Combat.ExitInCombat(m_Combat.IsAction);
+        m_Combat.IsActioning = false;
+        m_Combat.ExitInCombat(m_Locomotion.IsFlying);
+        m_Combat.SetAming(true);
 
-        m_Combat.SetAming(false);
+        m_Combat.SetIKRigWeight(RigType.Aim, false);
     }
 
 }

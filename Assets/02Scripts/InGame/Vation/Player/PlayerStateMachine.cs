@@ -38,7 +38,7 @@ public class PlayerStateMachine
             {LocomotionStateType.Move, ()=> new PlayerMoveState(m_playerCore) },
             {LocomotionStateType.Jump, () => new PlayerJumpState(m_playerCore) },
             {LocomotionStateType.Land, () => new PlayerLandState(m_playerCore) },
-            {LocomotionStateType.Dash, () => new PlayerDodgeState(m_playerCore) },
+            {LocomotionStateType.Dash, () => new PlayerDashState(m_playerCore) },
             {LocomotionStateType.Fall, () => new PlayerFallState(m_playerCore) },
             {LocomotionStateType.FlyUp, () => new PlayerFlyUpState(m_playerCore) },
             {LocomotionStateType.FlightMove, () => new PlayerFlightMoveState(m_playerCore) },
@@ -48,10 +48,12 @@ public class PlayerStateMachine
         m_combatStateCreateDic = new Dictionary<CombatStateType, Func<PlayerState>>
         {
             { CombatStateType.NonCombat, ()=>  new PlayerNonCombatState(m_playerCore) },
-            { CombatStateType.Upper_InCombat, ()=> new PlayerInCombatState(m_playerCore)},
-            {CombatStateType.Upper_SwapWeapon, ()=> new PlayerSwapWeaponState(m_playerCore) },
-            { CombatStateType.Upper_Reload, ()=>  new PlayerReloadState(m_playerCore) },
-            { CombatStateType.Skill, ()=>  new PlayerSkillState(m_playerCore) }
+            { CombatStateType.InCombat, ()=> new PlayerInCombatState(m_playerCore)},
+            {  CombatStateType.Attack, ()=> new PlayerAttackState(m_playerCore)},
+            {CombatStateType.SwapWeapon, ()=> new PlayerSwapWeaponState(m_playerCore) },
+            { CombatStateType.Reload, ()=>  new PlayerReloadState(m_playerCore) },
+            { CombatStateType.Skill, ()=>  new PlayerSkillState(m_playerCore) },
+            { CombatStateType.Dodge, ()=>  new PlayerDodgeState(m_playerCore) }
         };
     }
 
