@@ -36,13 +36,15 @@ public class DragonBTController : MonoBehaviour
         );
 
         INode root = new SelectorNode(
-            new SequenceNode(                     // 죽음 처리 시퀀스
-                new ActionNode(m_actions.CheckDeath), 
+            new SequenceNode(
+                new ActionNode(m_actions.CheckDeath),
                 new ActionNode(m_actions.Fall)
             ),
-            new ActionNode(m_actions.CheckHitReaction), 
-            new ActionNode(m_actions.CheckBreath),         
-            new ActionNode(m_actions.BreatheFire),         
+            new ActionNode(m_actions.CheckHitReaction),
+            new SequenceNode(
+                new ActionNode(m_actions.CheckBreath),
+                new ActionNode(m_actions.BreatheFire)
+            ),
             new SequenceNode(
                 new ActionNode(m_actions.FlyTowardTarget),
                 new ActionNode(m_actions.FireballAttack)

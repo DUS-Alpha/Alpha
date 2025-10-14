@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class DragonBossActions : MonoBehaviour,IDamageable
@@ -7,7 +9,8 @@ public class DragonBossActions : MonoBehaviour,IDamageable
     public float hoverHeight = 5f;
     public float moveSpeed = 5f;
     public float turnSpeed = 3f;
-
+    
+    
     private Blackboard BB;
     [SerializeField]private bool _attackStarted;
     
@@ -34,21 +37,31 @@ public class DragonBossActions : MonoBehaviour,IDamageable
     private bool wasHit = false;                         // 직전에 데미지 받은 여부
     
     [SerializeField] public bool useBreath = false; // 브레스 패턴 플래그
-    [SerializeField] private float breathCooldown = 70f;  // 브레스 쿨타임
-    private float lastBreathTime = 100f;                 // 마지막 브레스 사용 시각
+    [SerializeField] private float breathCooldown = 5f;  // 브레스 쿨타임
+    private float lastBreathTime = 5f;                 // 마지막 브레스 사용 시각
     
     [SerializeField] private LayerMask groundLayer;
     private bool hasLanded = false;
 
     //죽었는지 확인하는 방법
     [SerializeField]private bool isDead = false;
+    
+    private float wingSoundTimer = 0f;
+    [SerializeField] private float wingSoundInterval = 2f;
 
     private int _firePointIndex = 0;
     private float _fireTimer;
+    
+    private Rigidbody rb;
 
     public void SetBlackboard(Blackboard bb)
     {
         BB = bb;
+    }
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
     }
 
     private Transform GetNextFirePoint()
@@ -169,10 +182,10 @@ public class DragonBossActions : MonoBehaviour,IDamageable
             
             fireball.GetComponent<PooledProjectile>().Launch(dir, fireSpeed, false);
             
-
+            bossAudio.Play("Projectile_Explosion");
             Debug.Log("🔥 Fireball launched!");
         }
-
+        
         return NodeState.Success;
     }
 
@@ -198,7 +211,8 @@ public class DragonBossActions : MonoBehaviour,IDamageable
 
         // 이동
         transform.position = Vector3.MoveTowards(MyTransform, BB.Target.position, Time.deltaTime * moveSpeed);
-
+        
+        wingSoundTimer += Time.deltaTime;
         return NodeState.Success; 
     }
     
@@ -228,14 +242,20 @@ public class DragonBossActions : MonoBehaviour,IDamageable
     
     public NodeState CheckBreath()
     {
-        // 쿨타임이 지났다면 브레스 준비 상태 ON
-        if (!useBreath && Time.time - lastBreathTime >= breathCooldown)
+        float elapsed = Time.time - lastBreathTime;
+        bool canUse = elapsed >= breathCooldown;
+
+        /*Debug.Log($"[CheckBreath] elapsed={elapsed:F2} / cooldown={breathCooldown} / useBreath={useBreath}");*/
+
+        if (!useBreath && canUse)
         {
             useBreath = true;
-            return NodeState.Success; // 브레스 발동 가능
+            Debug.Log("[CheckBreath] ✅ 브레스 발동 준비 완료");
+            return NodeState.Success;
         }
 
-        return NodeState.Failure; // 아직 쿨타임 중이거나 이미 준비됨
+        Debug.Log("[CheckBreath] ❌ 실패 (쿨타임 중이거나 이미 발동됨)");
+        return NodeState.Failure;
     }
 
     public void trueBreathParticles()
@@ -249,35 +269,45 @@ public class DragonBossActions : MonoBehaviour,IDamageable
 
     public NodeState BreatheFire()
     {
+        Debug.Log($"[BreatheFire] useBreath={useBreath}, attackStarted={_attackStarted}");
+
         if (!useBreath) 
-            return NodeState.Failure; // 준비 상태가 아닐 때는 실행 안 함
+        {
+            Debug.Log("[BreatheFire] ❌ 발동 조건 미충족 (useBreath == false)");
+            return NodeState.Failure;
+        }
 
         if (!_attackStarted)
         {
+            Debug.Log("[BreatheFire] ▶ FireBreath 애니메이션 트리거 발동");
             animator.SetTrigger("FireBreath");
             _attackStarted = true;
             return NodeState.Running;
         }
-        
-        // 현재 상태 정보 가져오기
-        var state = animator.GetCurrentAnimatorStateInfo(0);
 
-        // 🔥 FireBreath 애니메이션일 때만 진행률 확인
+        var state = animator.GetCurrentAnimatorStateInfo(0);
+        /*Debug.Log($"[BreatheFire] 현재 상태: {state.fullPathHash}, normalizedTime={state.normalizedTime:F2}");*/
+
         if (state.IsName("FireBreath"))
         {
-            Debug.Log($"🔥 FireBreath 진행률: {state.normalizedTime}");
-
             if (state.normalizedTime >= 0.95f)
             {
-                // 애니메이션 종료 → 플래그 해제 및 쿨타임 갱신
+                Debug.Log("[BreatheFire] ✅ 브레스 완료");
                 _attackStarted = false;
                 useBreath = false;
                 lastBreathTime = Time.time;
                 return NodeState.Success;
             }
+            else
+            {
+                Debug.Log("[BreatheFire] ⏳ 브레스 애니메이션 진행 중");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("[BreatheFire] ⚠ FireBreath 상태가 아님 — Animator 상태 이름 확인 필요");
         }
 
-        print("브레스 실행 중");
         return NodeState.Running;
     }
 
@@ -285,26 +315,41 @@ public class DragonBossActions : MonoBehaviour,IDamageable
 
     public NodeState Fall()
     {
+        // 아직 착지하지 않았다면 낙하 활성화
         if (!hasLanded)
         {
-            // 아래로 직접 이동
-            transform.position += Vector3.down * 15f * Time.deltaTime;
+            rb.isKinematic = false;
+            rb.useGravity = true;
 
-            // 땅 감지
-            if (Physics.Raycast(transform.position, Vector3.down, 2f, groundLayer))
+            // Raycast로 바닥 체크 (콜리전 대신)
+            if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 0.5f, groundLayer))
             {
-                hasLanded = true;
-                animator.SetBool("Dodie", true);
-                
-                // 트리 정지
-                var runner = GetComponent<BehaviorTreeRunner>();
-                if (runner != null)
-                    runner.StopTree();
-                
+                Land();
                 return NodeState.Success;
             }
+
+            return NodeState.Running;
         }
-        return NodeState.Running;
+
+        // 이미 착지한 상태라면 성공 처리
+        return NodeState.Success;
+    }
+    
+    private void Land()
+    {
+        hasLanded = true;
+        rb.isKinematic = true;
+        rb.useGravity = false;
+
+        // 애니메이션 재생
+        animator.SetBool("Dodie", true);
+
+        // 트리 정지
+        var runner = GetComponent<BehaviorTreeRunner>();
+        if (runner != null)
+            runner.StopTree();
+
+        Debug.Log("뒤졌음 ㅇㅇ");
     }
 
     public NodeState Die()
@@ -320,7 +365,7 @@ public class DragonBossActions : MonoBehaviour,IDamageable
             // 죽었을 때는 Die가 아니라 Fall부터 실행
             animator.SetTrigger("Fall");
             deathAnimPlayed = true;
-
+            bossAudio.Play("Death");
             return NodeState.Success; // 성공하면 트리에서 Fall 노드로 넘어감
         }
         return NodeState.Failure;

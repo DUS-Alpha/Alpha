@@ -96,7 +96,27 @@ public class RangeWeapon : Weapon
     {
         if (hit.collider.TryGetComponent<IDamageable>(out IDamageable target))
         {
+            //10_13 won 수정사항
+            print("테스트 이름: "+ _hit.collider.name);
+            if (_hit.collider.TryGetComponent<HitBox>(out HitBox _hitBox))
+            {
+                DamageMassage _damageMassage = new DamageMassage();
+                //_damageMassage.Damager = damager;
+                _damageMassage.HitNormal = _hit.normal;
+                _damageMassage.HitPoint = _hit.point;
+                _damageMassage.damage = this.WeaponData.AttackDamage;
+                
+                _hitBox.damageable.ApplyDamage(_damageMassage);
+                print("히트박스 데미지 완료");
+            }
+            
+            Debug.DrawLine(_rayOrigin, _hit.point, Color.red);
+            // 데미지 받을 타겟
+            //부위별 콜라이더 추가로인한 컴포넌트 받아오는 구문 변경
+            IDamageable _damageableTarget;
+            if (_hit.collider.TryGetComponent<IDamageable>(out _damageableTarget))
             DamageMassage msg = new DamageMassage
+
             {
                 HitNormal = hit.normal,
                 HitPoint = hit.point,

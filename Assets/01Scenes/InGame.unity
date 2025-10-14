@@ -876,18 +876,6 @@ PrefabInstance:
       propertyPath: hoverCenter
       value: 
       objectReference: {fileID: 396821105}
-    - target: {fileID: 5698354675027720775, guid: 47f717d724087464fbd25297b9f88f65, type: 3}
-      propertyPath: breathCooldown
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8368769490236981186, guid: 47f717d724087464fbd25297b9f88f65, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8368769490236981186, guid: 47f717d724087464fbd25297b9f88f65, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8466629950565329391, guid: 47f717d724087464fbd25297b9f88f65, type: 3}
       propertyPath: m_Name
       value: Bone Dragon
@@ -906,7 +894,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 655283352}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: LevelDesign
   m_TagString: Untagged
   m_Icon: {fileID: 0}

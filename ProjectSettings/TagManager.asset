@@ -5,6 +5,14 @@ TagManager:
   serializedVersion: 3
   tags:
   - Enemy
+  - Head
+  - body
+  - neck
+  - Tail
+  - Wing
+  - Leg
+  - armpit
+  - Foot
   layers:
   - Default
   - TransparentFX

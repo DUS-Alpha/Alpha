@@ -48,7 +48,7 @@ public class PooledProjectile : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        ReturnToPool();
+       
         if (other.CompareTag("Player"))
         {
             IDamageable _damageableTarget;
@@ -62,6 +62,8 @@ public class PooledProjectile : MonoBehaviour
 
                 Debug.Log(other.name);
             }
+
+            ReturnToPool();
         }
     }
 

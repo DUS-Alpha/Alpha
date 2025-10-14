@@ -31,4 +31,14 @@ public class BossAudio : MonoBehaviour
             sfxSource.PlayOneShot(s.clip, s.volume);
         }
     }
+
+    public void WingSoundUp()
+    {
+        
+    }
+
+    public void WingSoundDown()
+    {
+        
+    }
 }
