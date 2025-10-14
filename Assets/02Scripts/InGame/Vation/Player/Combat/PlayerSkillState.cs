@@ -49,7 +49,7 @@ public class PlayerSkillState : PlayerCombatState
         if (m_nextDelay < m_aniLength + 1.3f) return;
 
         m_PlayerCore.SwitchCombatState(CombatStateType.InCombat);
-        Debug.Log(m_Combat.IsAction);
+        //Debug.Log(m_Combat.IsAction);
     }
     
 

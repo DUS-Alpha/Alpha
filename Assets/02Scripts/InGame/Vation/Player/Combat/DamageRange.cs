@@ -68,19 +68,32 @@ public class DamageRange : MonoBehaviour
             m_moveT = 0;
         }
     }
+    public bool TryGetTarget(out RaycastHit hit, float maxDistance)
+    {
+        Vector3 origin = Camera.main.transform.position;
+        Vector3 dir = Camera.main.transform.forward;
+
+        bool isHit = Physics.Raycast(origin, dir, out hit, maxDistance, 1 << LayerMask.NameToLayer("Enemy"));
+
+        return isHit;
+    }
 
     public void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Enemy"))
         {
-            IDamageable _damageableTarget;
-            if (other.TryGetComponent<IDamageable>(out _damageableTarget))
+            if (other.TryGetComponent<HitBox>(out HitBox _hitBox))
             {
                 DamageMassage _damageMassage = new DamageMassage();
+                //_damageMassage.Damager = damager;
+                //_damageMassage.HitNormal = hit.normal;
+                //_damageMassage.HitPoint = hit.point;
+                //RangeWeapon _range = CurrentWeapon as RangeWeapon;
                 _damageMassage.damage = damage;
 
-                // 데미지 전달
-                _damageableTarget.ApplyDamage(_damageMassage);
+                _hitBox.damageable.ApplyDamage(_damageMassage);
+                print("히트박스 데미지 완료");
+
             }
         }
     }

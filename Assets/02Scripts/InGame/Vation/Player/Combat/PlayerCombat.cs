@@ -111,8 +111,27 @@ public class PlayerCombat : MonoBehaviour
     {
         m_ikController.SetRigWeight(rigType, isWeight);
     }
+    /// <summary>
+    /// 실제 데미지를 적용하는 메서드 (거리 체크 통과 후 호출)
+    /// </summary>
+    public void ApplyDamage(RaycastHit hit)
+    {
+            if(hit.collider.TryGetComponent<HitBox>(out HitBox _hitBox))
+            {
+                DamageMassage _damageMassage = new DamageMassage();
+                //_damageMassage.Damager = damager;
+                _damageMassage.HitNormal = hit.normal;
+                _damageMassage.HitPoint = hit.point;
+                RangeWeapon _range = CurrentWeapon as RangeWeapon;
+                _damageMassage.damage = _range.WeaponData.AttackDamage;
 
+                _hitBox.damageable.ApplyDamage(_damageMassage);
+                print("히트박스 데미지 완료");
 
+            }
+            // TODO: 피격 이펙트 재생 등
+        
+    }
 
     #region ================================================ Enter, Exit State
     public void EnterInCombat()
@@ -164,12 +183,10 @@ public class PlayerCombat : MonoBehaviour
                 _rangeWeapon.Attack(IsAttack, m_aniController);
                 if (TryGetTarget(out RaycastHit hit, currentWeapon.m_maxDistance))
                 {
-                    _rangeWeapon.ApplyDamage(hit);
+                    ApplyDamage(hit);
                 }
             }
-        }
-        
-            
+        }      
     }
     /// <summary>
     /// 거리 내 맞은 대상이 있는지 확인 (단순 체크용)

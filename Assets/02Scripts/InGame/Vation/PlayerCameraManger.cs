@@ -13,7 +13,7 @@ public enum CMType
 public class PlayerCameraManger : MonoBehaviour
 {
     public Camera MainCamera { get; private set; }
-
+    private GameObject m_player;
     [SerializeField]
     private CinemachineBrain m_mainCMB;
     [SerializeField]
@@ -50,8 +50,11 @@ public class PlayerCameraManger : MonoBehaviour
 
     private void Awake()
     {
+        m_player = GameObject.FindGameObjectWithTag("Player");
         MainCamera = m_mainCMB.GetComponent<Camera>();
         m_sniperCM.gameObject.SetActive(false);
+        m_baseCM.Target.TrackingTarget = m_player.transform;
+        //m_baseCM.Target.LookAtTarget = 
     }
 
     private void Start()
