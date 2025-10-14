@@ -21,7 +21,7 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
     public PlayerStateMachine StateMachine { get; private set; }
     public PlayerLocomotion Locomotion { get; private set; }
     public PlayerCombat Combat { get; private set; }
-    
+    public PlayerAudioPlay playerAudio { get; private set;}
     public PlayerInventoryManager InventoryManager { get; private set; }
     public PlayerEquipmentController EquipmentController { get; private set; }
     public PlayerIKController IKController { get; private set; }
@@ -43,6 +43,7 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
         InventoryManager = GetComponent<PlayerInventoryManager>();
         EquipmentController = GetComponent<PlayerEquipmentController>();
         IKController = GetComponentInChildren<PlayerIKController>();
+        playerAudio = GetComponent<PlayerAudioPlay>();
 
         StateMachine = new PlayerStateMachine();
         InitializeModule();
@@ -93,5 +94,6 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
     {
         StateMachine.Update();
         CheckInputAction?.Invoke();
+        //playerAudio.FootStepAudio();
     }
 }

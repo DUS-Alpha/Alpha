@@ -2,20 +2,19 @@ using UnityEngine;
 
 public class PlayerSwapWeaponState : PlayerCombatState
 {
-    public PlayerSwapWeaponState(PlayerCore playerCore) : base(playerCore)
-    {
-    }
+    public PlayerSwapWeaponState(PlayerCore playerCore) : base(playerCore){}
 
-    protected override InputLocoLockType m_LockOnEnter => InputLocoLockType.Dodge;
+    protected override InputLocoLockType m_LockOnEnter => InputLocoLockType.None;
 
-    protected override InputLocoLockType m_LockOnExit => InputLocoLockType.Dodge;
-    private float m_delayT;
+    protected override InputLocoLockType m_LockOnExit => InputLocoLockType.None;
 
     public override void Enter()
     {
         base.Enter();
-        m_delayT = 0f;
-        m_Combat.EnterSwapWeapon();
+        m_NextStateDelay = 0f;
+        m_Combat.EnterSwapWeapon(m_Locomotion.IsFlying);
+        
+        m_PlayerCore.CameraManger.ChangeCM(CMType.BaseCM);
     }
     public override void FixedUpdate()
     {
@@ -24,21 +23,20 @@ public class PlayerSwapWeaponState : PlayerCombatState
 
     public override void Update()
     {
+        m_NextStateDelay += Time.deltaTime;
 
-        m_delayT += Time.deltaTime;
-
-        if (m_delayT < 0.7f) return;
-
-        if(m_Combat.IsCombating)
-            m_PlayerCore.SwitchCombatState(CombatStateType.Upper_InCombat);
-        else
-            m_PlayerCore.SwitchCombatState(CombatStateType.NonCombat);
-
+        if (m_NextStateDelay < 0.3f)
+            m_Combat.SwapInventoryWeapon();
+        
+        if (m_NextStateDelay < 0.7f) return;
+        
+        m_PlayerCore.SwitchCombatState(CombatStateType.NonCombat);
     }
+
+
     public override void Exit()
     {
         base.Exit();
-        m_Combat.ExitSwapWeapon();
-        m_Combat.SetIsAction(false);
+        m_Combat.ExitSwapWeapon(m_Locomotion.IsFlying);
     }
 }

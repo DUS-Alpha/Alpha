@@ -76,7 +76,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 03babb589dde27a429dffced8690a797, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -184,13 +184,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3517815349344048635}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.026856247, y: 0.99943984, z: -0.012378909, w: 0.015669644}
+  m_LocalRotation: {x: 0, y: 0.99999386, z: -0, w: -0.003499386}
   m_LocalPosition: {x: -0.027, y: 0.476, z: -2.752}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1517455444879191236}
-  m_LocalEulerAnglesHint: {x: 1.37, y: 178.166, z: -3.1}
+  m_LocalEulerAnglesHint: {x: 0, y: 180.401, z: 0}
 --- !u!1 &4817347068994847213
 GameObject:
   m_ObjectHideFlags: 0
@@ -240,12 +240,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Data: {fileID: 11400000, guid: 75b56d680a506434eadf4ccfcd280e0c, type: 2}
-  RangeType: 1
   m_maxDistance: 45
+  RangeType: 1
   m_maxAmmo: 40
   m_currentAmmo: 0
   m_saveAmmo: 200
+  m_layer:
+    serializedVersion: 2
+    m_Bits: 0
   m_audioSource: {fileID: 7320850594030909362}
+  m_audioClip: {fileID: 8300000, guid: adc171bd21d9a954a82a2b4d22233891, type: 3}
   m_bulletFirePos: {fileID: 8068424206098908719}
   m_muzzleFlashEffect: {fileID: 2668514958684811738}
 --- !u!1 &6770055110033074608
@@ -272,14 +276,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6770055110033074608}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.03198148, y: 0.99840325, z: 0.0439983, w: 0.015242815}
+  m_LocalRotation: {x: 0, y: 0.9999872, z: -0, w: -0.0050700544}
   m_LocalPosition: {x: -0.027, y: 0.476, z: -2.752}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2866394301720805524}
   m_Father: {fileID: 1517455444879191236}
-  m_LocalEulerAnglesHint: {x: -5.096, y: 178.411, z: -3.599}
+  m_LocalEulerAnglesHint: {x: 0, y: 180.581, z: 0}
 --- !u!1 &9100240148756764709
 GameObject:
   m_ObjectHideFlags: 0
@@ -321,43 +325,43 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 892785352532857303, guid: 88e1b14468d4ff443aee551ebf0c482d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.004
       objectReference: {fileID: 0}
     - target: {fileID: 892785352532857303, guid: 88e1b14468d4ff443aee551ebf0c482d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.014
       objectReference: {fileID: 0}
     - target: {fileID: 892785352532857303, guid: 88e1b14468d4ff443aee551ebf0c482d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.009
       objectReference: {fileID: 0}
     - target: {fileID: 892785352532857303, guid: 88e1b14468d4ff443aee551ebf0c482d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7424827
+      value: 0.69335985
       objectReference: {fileID: 0}
     - target: {fileID: 892785352532857303, guid: 88e1b14468d4ff443aee551ebf0c482d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.06346189
+      value: 0.046669677
       objectReference: {fileID: 0}
     - target: {fileID: 892785352532857303, guid: 88e1b14468d4ff443aee551ebf0c482d, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.6653708
+      value: -0.7174553
       objectReference: {fileID: 0}
     - target: {fileID: 892785352532857303, guid: 88e1b14468d4ff443aee551ebf0c482d, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.044426173
+      value: -0.048291225
       objectReference: {fileID: 0}
     - target: {fileID: 892785352532857303, guid: 88e1b14468d4ff443aee551ebf0c482d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 8.822
+      value: -0.262
       objectReference: {fileID: 0}
     - target: {fileID: 892785352532857303, guid: 88e1b14468d4ff443aee551ebf0c482d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -83.812
+      value: -91.939
       objectReference: {fileID: 0}
     - target: {fileID: 892785352532857303, guid: 88e1b14468d4ff443aee551ebf0c482d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: -1.072
+      value: -7.697
       objectReference: {fileID: 0}
     - target: {fileID: 9078744973848545280, guid: 88e1b14468d4ff443aee551ebf0c482d, type: 3}
       propertyPath: m_Name

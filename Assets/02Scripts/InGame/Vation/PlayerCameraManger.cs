@@ -1,23 +1,36 @@
+using System.Buffers.Text;
 using System.Collections;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+public enum CMType
+{
+    None = 0,
+    BaseCM,
+    SniperCM
+}
 public class PlayerCameraManger : MonoBehaviour
 {
-    public Camera MainCamera;
-    public Camera SniperCamera;
+    public Camera MainCamera { get; private set; }
+
     [SerializeField]
-    private CinemachineCamera m_freeLook;
+    private CinemachineBrain m_mainCMB;
+    [SerializeField]
+    private CinemachineCamera m_baseCM;
+    [SerializeField]
+    private CinemachineCamera m_sniperCM;
     [Space(10)]
 
-    [Header("[ FOV ]")]
+    [Header("[Scope FOV ]")]
     [SerializeField]
     private float m_originFOV = 60;
     [SerializeField]
     private float m_aimFOV = 35;
     [SerializeField]
-    private float m_sniperFOV = 10;
+    private float m_sniperFOV = 15;
+
+    public float m_sensitivity;
 
     [Header("[ Effect ]")]
     [SerializeField]
@@ -26,7 +39,6 @@ public class PlayerCameraManger : MonoBehaviour
     [SerializeField]
     private bool m_isCursorLock;
 
-    
     // 허용 오차
     private float m_currentFOV;
     private float m_targetFOV;
@@ -35,44 +47,77 @@ public class PlayerCameraManger : MonoBehaviour
 
     // Shak
     private Vector3 m_shakeVector;
-    private bool m_isSniper;
+
+    private void Awake()
+    {
+        MainCamera = m_mainCMB.GetComponent<Camera>();
+        m_sniperCM.gameObject.SetActive(false);
+    }
+
     private void Start()
     {
         m_currentFOV = m_originFOV;
         m_targetFOV = m_originFOV;
-        m_freeLook.Lens.FieldOfView = m_currentFOV;
 
-        SniperCamera.gameObject.SetActive(false);
+        m_baseCM.Lens.FieldOfView = m_currentFOV;
+        m_baseCM.Priority = 11;
+
         m_isCursorLock = true;
     }
-    public void AimFOV(bool isAim, int currentWeaponNum)
+
+    public void ChangeCM(CMType cm)
     {
-        /*if (isAim)
+        switch (cm)
         {
-            if (currentWeaponNum == 3)
+            case CMType.None:
+            case CMType.BaseCM:
+                m_baseCM.Priority = 10;
+                m_sniperCM.Priority = 0;
+                m_sniperCM.gameObject.SetActive(false);
+                Sniper(false);
+                break;
+            case CMType.SniperCM:
+                m_baseCM.Priority = 0;
+                m_sniperCM.Priority = 10;
+                m_sniperCM.gameObject.SetActive(true);
+                Sniper(true);
+                break;
+        }
+    }
+    private void Sniper(bool isSniper)
+    {
+        if (isSniper)
+        {
+            m_mainCMB.DefaultBlend.Style = CinemachineBlendDefinition.Styles.Cut;
+        }
+        else
+        {
+            m_mainCMB.DefaultBlend.Style = CinemachineBlendDefinition.Styles.EaseInOut;
+        }
+    }
+
+    public void AimFOV(bool isAiming, bool isSniper)
+    {
+        if (isAiming)
+        {
+            if (isSniper)
             {
-                m_isSniper = true;
-                PlayerUIManager.Instance.ChangeSniperAimUI(true);
-                MainCamera.gameObject.SetActive(!m_isSniper);
-                SniperCamera.gameObject.SetActive(m_isSniper);
+                ChangeCM(CMType.SniperCM);
             }
         }
         else
         {
-            m_isSniper = false;
-            PlayerUIManager.Instance.ChangeSniperAimUI(m_isSniper);
-            MainCamera.gameObject.SetActive(!m_isSniper);
-            SniperCamera.gameObject.SetActive(m_isSniper);
-        }*/
+            ChangeCM(CMType.BaseCM);
+        }
 
-        m_targetFOV = isAim ? m_aimFOV : m_originFOV;
+        m_targetFOV = isAiming ? (isSniper ? m_sniperFOV : m_aimFOV) : m_originFOV;
     }
+ 
     private void Update()
     {
         SetCursorLock(m_isCursorLock);
-
         m_currentFOV = Mathf.SmoothDamp(m_currentFOV, m_targetFOV, ref m_velocity, m_smoothTime);
-        m_freeLook.Lens.FieldOfView = m_currentFOV;
+        m_baseCM.Lens.FieldOfView = m_currentFOV;
     }
 
     private void SetCursorLock(bool isCursorLock)

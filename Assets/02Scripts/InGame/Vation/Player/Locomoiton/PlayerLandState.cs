@@ -13,6 +13,7 @@ public class PlayerLandState : PlayerLocomotionState
     {
         base.Enter();
         m_Locomotion.SetIsAction(true);
+
         m_delayT = 0;
         m_Locomotion.EnterLanding();
         if (m_Locomotion.IsFlyFall) m_duration = 0.8f;

@@ -26,24 +26,24 @@ public class PlayerMoveState : PlayerLocomotionState
             return;
         }
 
-        m_Locomotion.Movement(m_Combat.IsCombating, m_Combat.IsSniper);
-        if (m_Locomotion.IsMoving)
+        m_Locomotion.Movement(m_Combat.IsInCombat, m_Combat.IsAction);
+        if (m_Locomotion.IsMove)
         {
-            m_Locomotion.MoveEffect();
+            //m_Locomotion.MoveEffect();
         }
 
         m_Locomotion.ApplyGravity();
 
         if (m_Locomotion.IsJump)
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Jump);
-        else if (m_Locomotion.IsDodge)
+        else if (m_Locomotion.IsDash)
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Dash);
         else if (m_Locomotion.IsFlyUp)
         {
             if(m_Locomotion.FlyingGauge > 0)
                 m_PlayerCore.SwitchLocomotionState(LocomotionStateType.FlyUp);
         }
-        else if (!m_Locomotion.IsMoving)
+        else if (!m_Locomotion.IsMove)
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Idle);
 
         

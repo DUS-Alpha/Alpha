@@ -45,7 +45,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -174,7 +174,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -309,17 +309,17 @@ MonoBehaviour:
   m_bgmClips: []
   m_sfxLocomotionAudio: {fileID: 5509685755793059677}
   m_sfxLocomotionClips:
-  - {fileID: 8300000, guid: 47a8c58673c77d14cbbea632085f3994, type: 3}
-  - {fileID: 8300000, guid: 8673db3e15e78b145bd6ba071c259c9e, type: 3}
+  - {fileID: 8300000, guid: 83a3f2648f637f14b8da0af8d01daef5, type: 3}
+  - {fileID: 8300000, guid: 50d26f0f6b21c9e4488c6a68cddf35ac, type: 3}
   - {fileID: 8300000, guid: d3598ea5d057015409d561ddeab6f0a6, type: 3}
-  - {fileID: 8300000, guid: 4a3150154d17c5740b5de2bae0edfd1b, type: 3}
+  - {fileID: 8300000, guid: dfef35b44831c4c49920398f4931d7d4, type: 3}
   - {fileID: 8300000, guid: 8c658ba04b78a26419d3a31c17c42260, type: 3}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 76e166b695bd9d740ac06888f42f3a9a, type: 3}
   m_sfxCombatAudio: {fileID: 7801665313077095424}
   m_sfxCombatClips:
   - {fileID: 8300000, guid: 8b83980ce3192b344a10649362e146cd, type: 3}
   - {fileID: 8300000, guid: 8ee672cb92628a84ba238154875ecf36, type: 3}
-  - {fileID: 8300000, guid: fcea7f1f5f7679d4587cf00e9e94fe50, type: 3}
+  - {fileID: 8300000, guid: b613757288cde8841924e39abda3aefe, type: 3}
   - {fileID: 8300000, guid: c66566d1f13338e449449523b88a8355, type: 3}
   - {fileID: 0}
   - {fileID: 0}

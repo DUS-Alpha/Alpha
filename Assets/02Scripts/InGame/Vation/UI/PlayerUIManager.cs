@@ -1,12 +1,23 @@
 using System;
+using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+
+[Serializable]
+public struct CrossHairUI
+{
+    public Image[] Icons;
+}
 
 public class PlayerUIManager : MonoBehaviour
 {
     public static PlayerUIManager Instance;
+
     [SerializeField]
-    private GameObject[] m_crossHeadUIs;
+    private Image[] m_crossHairIcon;
+    [SerializeField]
+    private Image[] m_sniperUI;
 
     [SerializeField]
     private PlayerInventoryUI m_inventoryUI;
@@ -56,8 +67,24 @@ public class PlayerUIManager : MonoBehaviour
     }
     public void ChangeSniperAimUI(bool isSniper)
     {
-        m_crossHeadUIs[0].SetActive(!isSniper);
-        m_crossHeadUIs[1].SetActive(isSniper);
+        m_crossHairIcon[0].gameObject.SetActive(!isSniper);
+        m_sniperUI[0].gameObject.SetActive(isSniper);
+    }
+
+    public void SetColorMarkCrossHead(bool isDistance, bool isSniper=false)
+    {
+        Image[] _targetImage;
+        if (isSniper)
+            _targetImage = m_sniperUI;
+        else
+            _targetImage = m_crossHairIcon;
+
+        for (int i = 0; i < _targetImage.Length; i++)
+        {
+            Color _color = _targetImage[i].color;
+            _color = isDistance ? Color.green : Color.white;
+            _targetImage[i].color = _color;
+        }
     }
 
     public void EquipInventory(EquipmentDataSO equipmentData)
