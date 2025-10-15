@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Description: 
   ItemType: 2
-  ItemPrefab: {fileID: 2061332541191704801, guid: ae9adfd88c9b51c4ba9c4a5a3b194afa, type: 3}
+  ItemPrefab: {fileID: 7379654183871346297, guid: 6ac4f265645f71346bfbfbf509d9b03e, type: 3}
   ID: 10
   Name: FFSword
   Grade: 0

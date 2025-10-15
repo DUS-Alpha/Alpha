@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Description: 
   ItemType: 2
-  ItemPrefab: {fileID: 4817347068994847213, guid: e99434ced7dceb744a32e6e3ce2fb845, type: 3}
+  ItemPrefab: {fileID: 8217881269627586726, guid: 16ca11bc6385d984f9555d4496ad970f, type: 3}
   ID: 20
   Name: Rifle
   Grade: 0
