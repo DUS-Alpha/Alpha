@@ -52,7 +52,7 @@ public class PlayerCameraManger : MonoBehaviour
     {
         m_player = GameObject.FindGameObjectWithTag("Player");
         MainCamera = m_mainCMB.GetComponent<Camera>();
-        m_sniperCM.gameObject.SetActive(false);
+        //m_sniperCM.gameObject.SetActive(false);
         m_baseCM.Target.TrackingTarget = m_player.transform;
         //m_baseCM.Target.LookAtTarget = 
     }
@@ -76,13 +76,13 @@ public class PlayerCameraManger : MonoBehaviour
             case CMType.BaseCM:
                 m_baseCM.Priority = 10;
                 m_sniperCM.Priority = 0;
-                m_sniperCM.gameObject.SetActive(false);
+                //m_sniperCM.gameObject.SetActive(false);
                 Sniper(false);
                 break;
             case CMType.SniperCM:
                 m_baseCM.Priority = 0;
                 m_sniperCM.Priority = 10;
-                m_sniperCM.gameObject.SetActive(true);
+                //m_sniperCM.gameObject.SetActive(true);
                 Sniper(true);
                 break;
         }
