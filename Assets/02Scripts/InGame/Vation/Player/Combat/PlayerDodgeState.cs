@@ -21,6 +21,7 @@ public class PlayerDodgeState : PlayerLocomotionState
 
     public override void Update()
     {
+        if (m_Locomotion.IsDie) return;
         m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Idle);
     }
     public override void Exit()

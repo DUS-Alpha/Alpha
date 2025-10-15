@@ -26,6 +26,11 @@ public class PlayerLandState : PlayerLocomotionState
     public override void Update()
     {
         m_delayT += Time.deltaTime;
+        if (m_Locomotion.IsDie)
+        {
+            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Die);
+            return;
+        }
         if (m_delayT < m_duration) return;
 
         m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Idle);

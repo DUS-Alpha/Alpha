@@ -24,6 +24,12 @@ public class PlayerJumpState : PlayerLocomotionState
     {
         m_Locomotion.ApplyGravity();
         m_Locomotion.AirMovement();
+
+        if (m_Locomotion.IsDie)
+        {
+            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Die);
+            return;
+        }
         if (m_Locomotion.Velocity.y <= 0 && !m_Locomotion.IsGrounded)
         {
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Fall);

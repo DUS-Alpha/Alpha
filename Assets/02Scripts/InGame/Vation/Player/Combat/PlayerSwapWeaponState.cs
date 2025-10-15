@@ -23,6 +23,8 @@ public class PlayerSwapWeaponState : PlayerCombatState
 
     public override void Update()
     {
+        if (m_Locomotion.IsDie) return;
+
         m_NextStateDelay += Time.deltaTime;
 
         if (m_NextStateDelay < 0.3f)

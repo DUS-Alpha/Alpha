@@ -23,7 +23,8 @@ public class PlayerReloadState : PlayerCombatState
 
     public override void Update()
     {
-        if(!m_canReload)
+        if (m_Locomotion.IsDie) return;
+        if (!m_canReload)
         {
             m_PlayerCore.SwitchCombatState(CombatStateType.NonCombat);
             return;

@@ -404,6 +404,7 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
     public void EnterDie()
     {
         m_animationController.DieTriggerAni();
+
     }
 
     public void OnAnimatorMove()
@@ -436,7 +437,8 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
             }
            
         }
-        else if (m_status.HP <= 0)
+
+        if (m_status.HP <= 0)
         {
             IsDie = true;
             m_status.HP = 0;

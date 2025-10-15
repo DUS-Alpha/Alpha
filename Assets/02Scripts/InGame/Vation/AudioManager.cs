@@ -42,9 +42,16 @@ public class AudioManager : MonoBehaviour
     private AudioSource m_sfxCombatAudio;
     [SerializeField]
     private AudioClip[] m_sfxCombatClips;
-    void Start()
+
+    private void Awake()
     {
         
+    }
+
+    void Start()
+    {
+        m_bgmAudio.loop = true;
+        PlayBGMAudio(m_bgmClips[1]);
     }
 
     // Update is called once per frame
@@ -53,9 +60,10 @@ public class AudioManager : MonoBehaviour
         
     }
 
-    public void PlayBGMAudio()
+    public void PlayBGMAudio(AudioClip clip)
     {
-
+        m_bgmAudio.clip = clip;
+        m_bgmAudio.Play();
     }
     public void SetSFXLocomotionAudioLoop(bool isLoop)
     {

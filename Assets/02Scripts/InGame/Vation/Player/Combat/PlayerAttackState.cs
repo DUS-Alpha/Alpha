@@ -21,6 +21,10 @@ public class PlayerAttackState : PlayerCombatState
     public override void Update()
     {
         base.Update();
+        if (m_Locomotion.IsDie) return;
+        
+        
+
         if (m_Combat.IsSwap)
         {
             m_PlayerCore.SwitchCombatState(CombatStateType.SwapWeapon);

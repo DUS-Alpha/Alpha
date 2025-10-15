@@ -31,6 +31,9 @@ public class PlayerFlyUpState : PlayerLocomotionState
         // 애니메이션 모션 자연스럽게하기 위해 딜레이
         m_NextStateDelay += Time.deltaTime;
 
+        if (m_Locomotion.IsDie)
+            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Die);
+        
         if (m_NextStateDelay < 0.4f) return;
         m_Locomotion.UpdateFlyUp();
 

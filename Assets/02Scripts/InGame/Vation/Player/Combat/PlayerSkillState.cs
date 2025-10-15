@@ -43,6 +43,7 @@ public class PlayerSkillState : PlayerCombatState
 
     public override void Update()
     {
+        if (m_Locomotion.IsDie) return;
         m_Combat.SetIsAction(true);
         m_aniLength = m_PlayerCore.AniController.GetCurrentAniInfo(2);
         m_nextDelay += Time.deltaTime;
