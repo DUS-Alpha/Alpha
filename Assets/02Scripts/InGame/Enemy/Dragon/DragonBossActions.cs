@@ -250,11 +250,11 @@ public class DragonBossActions : MonoBehaviour,IDamageable
         if (!useBreath && canUse)
         {
             useBreath = true;
-            Debug.Log("[CheckBreath] ✅ 브레스 발동 준비 완료");
+            //Debug.Log("[CheckBreath] ✅ 브레스 발동 준비 완료");
             return NodeState.Success;
         }
 
-        Debug.Log("[CheckBreath] ❌ 실패 (쿨타임 중이거나 이미 발동됨)");
+        //Debug.Log("[CheckBreath] ❌ 실패 (쿨타임 중이거나 이미 발동됨)");
         return NodeState.Failure;
     }
 
@@ -273,13 +273,13 @@ public class DragonBossActions : MonoBehaviour,IDamageable
 
         if (!useBreath) 
         {
-            Debug.Log("[BreatheFire] ❌ 발동 조건 미충족 (useBreath == false)");
+            //Debug.Log("[BreatheFire] ❌ 발동 조건 미충족 (useBreath == false)");
             return NodeState.Failure;
         }
 
         if (!_attackStarted)
         {
-            Debug.Log("[BreatheFire] ▶ FireBreath 애니메이션 트리거 발동");
+            //Debug.Log("[BreatheFire] ▶ FireBreath 애니메이션 트리거 발동");
             animator.SetTrigger("FireBreath");
             _attackStarted = true;
             return NodeState.Running;

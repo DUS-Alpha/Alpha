@@ -33,6 +33,11 @@ public class PlayerMoveState : PlayerLocomotionState
         }
 
         m_Locomotion.ApplyGravity();
+        if (m_Locomotion.IsDie)
+        {
+            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Die);
+            return;
+        }
 
         if (m_Locomotion.IsJump)
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Jump);

@@ -80,8 +80,17 @@ public class DamageRange : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Enemy"))
+        //if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        if (other.gameObject.CompareTag("BossMeleeRange"))
         {
+            /*IDamageable damageable;
+            if (other.TryGetComponent<IDamageable>(out damageable))
+            {
+                DamageMassage _damageMassage = new DamageMassage();
+                _damageMassage.damage = 10;
+                damageable.ApplyDamage(_damageMassage);
+            }*/
+            Debug.Log("ggg");
             if (other.TryGetComponent<HitBox>(out HitBox _hitBox))
             {
                 DamageMassage _damageMassage = new DamageMassage();

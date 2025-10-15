@@ -28,18 +28,17 @@ public class PlayerInCombatState : PlayerCombatState
     public override void Update()
     {
         base.Update();
-        
-
-        //|| (!m_Combat.IsAttack && !m_Combat.IsAiming && m_Combat.CurrentWeaponNum == 3)
-        if (m_Locomotion.IsCombatStop || (!m_Combat.IsAiming && !m_Combat.IsAttack))
+        if (m_Locomotion.IsDie) return;
+        //(!m_Combat.IsAiming && !m_Combat.IsAttack)
+        if (m_Locomotion.IsCombatStop || m_NextStateDelay > 1.8f)
         {
             m_PlayerCore.SwitchCombatState(CombatStateType.NonCombat);
             // TODO : 모든 애니메이션 및 레이어 초기화 & 중단
             return;
         }
 
-        /*if (m_Combat.IsAiming || m_Combat.IsAttack) m_NextStateDelay = 0;
-        else m_NextStateDelay += Time.deltaTime;*/
+        if (m_Combat.IsAiming || m_Combat.IsAttack) m_NextStateDelay = 0;
+        else m_NextStateDelay += Time.deltaTime;
 
         m_PlayerCore.AniController.SetAttackAni(m_Combat.IsAttack);
 

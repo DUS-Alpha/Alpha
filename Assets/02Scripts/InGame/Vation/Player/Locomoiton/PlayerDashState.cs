@@ -25,6 +25,12 @@ public class PlayerDashState : PlayerLocomotionState
         m_Locomotion.UpdateDashMove();
         m_NextStateDelay += Time.deltaTime;
 
+        if (m_Locomotion.IsDie)
+        {
+            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Die);
+            return;
+        }
+
         if (m_NextStateDelay > 0.45f)
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Idle);
 

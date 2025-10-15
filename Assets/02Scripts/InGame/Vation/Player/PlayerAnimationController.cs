@@ -37,7 +37,14 @@ public class PlayerAnimationController : MonoBehaviour
     }
     public void SetAnimatorWeight(int index, float value)
     {
-        m_animator.SetLayerWeight(index, value);
+        if(index == -1)
+        {
+            m_animator.SetLayerWeight(0, value);
+            SetAnimatorWeight(2, value);
+            SetAnimatorWeight(3, value);
+        }
+        else
+            m_animator.SetLayerWeight(index, value);
     }
     public float GetCurrentAniInfo(int index)
     {
@@ -111,13 +118,15 @@ public class PlayerAnimationController : MonoBehaviour
     }
     public void DieTriggerAni()
     {
+        SetAnimatorWeight(-1, 0);
+        m_animator.StopPlayback();
         m_animator.Play("Die");
     }
     #endregion ================================================================================ /Locomotion
 
 
     #region ================================================================================ CombatFlags
-
+    
     public void SwapWeaponAni(int currentNum, bool isFlying)
     {
         m_animator.Play("SwapWeapon", 1);
