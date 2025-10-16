@@ -1,4 +1,4 @@
-﻿#if UNITY_EDITOR
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
 
@@ -44,7 +44,7 @@ namespace FirstGearGames.SmoothCameraShaker.EditorDesign
 
             //Only allow changing when not in play mode. This will be done for all scripts once their editors are made.
             EditorGUI.BeginDisabledGroup(Application.isPlaying);
-            EditorGUILayout.PropertyField(_shakerType, new GUIContent("Shaker Type", "Shaker type to use. CameraShaker will subscribe to your current or otherwise configured CameraShaker. ObjectShaker will subscribe to the first ObjectShaker found on or in parented objects."));
+            EditorGUILayout.PropertyField(_shakerType, new GUIContent("Shaker Type", "Shaker Type to use. CameraShaker will subscribe to your current or otherwise configured CameraShaker. ObjectShaker will subscribe to the first ObjectShaker found on or in parented objects."));
             EditorGUI.EndDisabledGroup();
 
             EditorGUILayout.Space();

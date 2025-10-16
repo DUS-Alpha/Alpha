@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using UnityEngine;
 using System.Collections.Generic;
@@ -444,7 +444,7 @@ public class SFB_AudioSnapshotExporter : MonoBehaviour {
 		Byte[] bitsPerSample = BitConverter.GetBytes(bps);
 		fileStream.Write(bitsPerSample, 0, 2);
 
-		Byte[] datastring = System.Text.Encoding.UTF8.GetBytes("data");
+		Byte[] datastring = System.Text.Encoding.UTF8.GetBytes("Data");
 		fileStream.Write(datastring, 0, 4);
 
 		Byte[] subChunk2 = BitConverter.GetBytes(sampleCount * channelCount * 1);

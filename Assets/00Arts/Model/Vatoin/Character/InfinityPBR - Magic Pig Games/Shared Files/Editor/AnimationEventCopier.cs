@@ -1,4 +1,4 @@
-﻿using UnityEditor;
+using UnityEditor;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Reflection;
@@ -162,7 +162,7 @@ public class AnimationEventCopier : EditorWindow
 	void CopyAllData(GameObject source, GameObject target){
 		AnimationClip[] animationClipsSource = AnimationUtility.GetAnimationClips (source);									// Get all source clips
 		AnimationClip[] animationClipsTarget = AnimationUtility.GetAnimationClips (target);									// Get all target Clips
-		Debug.Log ("Copying data from " + animationClipsSource.Length + " clips in " + source.name + " to " + animationClipsTarget.Length + " clips in " + target.name);
+		Debug.Log ("Copying Data from " + animationClipsSource.Length + " clips in " + source.name + " to " + animationClipsTarget.Length + " clips in " + target.name);
 		for (int i = 0; i < animationClipsSource.Length; i++) {																// For each source Clip...
 			bool foundMatch = false;																						// Check to make sure we found a match
 			for (int n = 0; n < animationClipsTarget.Length; n++) {															// ... & For each target clip...

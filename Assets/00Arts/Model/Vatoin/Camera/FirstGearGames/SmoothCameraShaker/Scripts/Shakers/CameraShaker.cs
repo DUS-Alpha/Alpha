@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 using System;
 using FirstGearGames.Utilities.Maths;
@@ -488,12 +488,12 @@ namespace FirstGearGames.SmoothCameraShaker
 
             if (data.TotalDuration == 0f && data.FadeInDuration == 0f && data.FadeOutDuration == 0f)
             {
-                if (Debug.isDebugBuild) Debug.LogWarning("No durations are specified in data; cannot generate a ShakerInstance.");
+                if (Debug.isDebugBuild) Debug.LogWarning("No durations are specified in Data; cannot generate a ShakerInstance.");
                 return null;
             }
             if (data.PositionalInfluence == Vector3.zero && data.RotationalInfluence == Vector3.zero)
             {
-                if (Debug.isDebugBuild) Debug.LogWarning("No influences are specified in data; cannot generate a ShakerInstance.");
+                if (Debug.isDebugBuild) Debug.LogWarning("No influences are specified in Data; cannot generate a ShakerInstance.");
                 return null;
             }
 

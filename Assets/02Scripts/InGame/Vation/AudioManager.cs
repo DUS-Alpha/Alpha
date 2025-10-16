@@ -1,41 +1,51 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-public enum SFXLomotionType
+
+
+
+public enum BGMType
 {
     None,
-    Foot,
-    Jump,
-    FlyUp,
-    FlyMove,
-    Land,
-    Dash,
-    FlyDash,
-    Die,
+    AirField,
+    BossField1,
+    BossField2
 }
-public enum SFXCombatType
+[Serializable]
+public struct BGMMapping
+{
+    public BGMType Type;
+    public AudioClip AudioClip;
+}
+
+public enum SFX_WorldType
 {
     None,
-    MeleeAttack,
-    RangeRifltAttack,
-    RangeSniperAttack,
-    Reload,
-    SwapWeapon,
-    Dodge,
-    Skill
 }
+[Serializable]
+public struct SFX_WorldMapping
+{
+    public SFX_WorldType Type;
+    public AudioClip AudioClip;
+}
+
 
 public class AudioManager : MonoBehaviour
 {
     [SerializeField]
-    private AudioSource m_bgmAudio;
+    private AudioSource[] m_bgmAudioSource;
     [SerializeField]
-    private AudioClip[] m_bgmClips;
+    private BGMMapping[] m_bgmMappings;
+    private Dictionary<BGMType, AudioClip> m_bgmAudioDic;
     [Space(10)]
 
+
     [SerializeField]
-    private AudioSource m_sfxLocomotionAudio;
+    private AudioSource[] m_sfxWorldAudioSource;
     [SerializeField]
-    private AudioClip[] m_sfxLocomotionClips;
+    SFX_WorldMapping[] m_sfxWorldMappings;
+    private Dictionary<SFX_WorldType, AudioClip> m_sfxWorldAudioDic;
     [Space(10)]
     
     [SerializeField]
@@ -45,14 +55,38 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
-        
+        m_bgmAudioDic = new Dictionary<BGMType, AudioClip>();
+        m_sfxWorldAudioDic = new Dictionary<SFX_WorldType, AudioClip>();
+
+        foreach (var map in m_bgmMappings)
+        {
+            if(m_bgmAudioDic.ContainsKey(map.Type))
+            {
+                m_bgmAudioDic.Add(map.Type, map.AudioClip);
+            }
+        }
+
+        foreach (var map in m_sfxWorldMappings)
+        {
+            if (m_sfxWorldAudioDic.ContainsKey(map.Type))
+            {
+                m_sfxWorldAudioDic.Add(map.Type, map.AudioClip);
+            }
+        }
+
     }
+    private AudioClip GetBGMClip(BGMType type) => m_bgmAudioDic.TryGetValue(type, out AudioClip audioClip)? audioClip : null;
+    private AudioClip GetSFXWorldClip(SFX_WorldType type) => m_sfxWorldAudioDic.TryGetValue(type, out AudioClip audioclip)? audioclip : null;
+
 
     void Start()
     {
-        m_bgmAudio.volume = 0.1f;
-        m_bgmAudio.loop = true;
-        PlayBGMAudio(m_bgmClips[1]);
+        m_bgmAudioSource[0].volume = 0.1f;
+        m_bgmAudioSource[1].volume = 0.5f;
+        m_bgmAudioSource[0].loop = true;
+        m_bgmAudioSource[1].loop = true;
+
+        PlayBGMAudio(0, BGMType.BossField2);
     }
 
     // Update is called once per frame
@@ -61,41 +95,35 @@ public class AudioManager : MonoBehaviour
         
     }
 
-    public void PlayBGMAudio(AudioClip clip)
+
+    public void PlayBGMAudio(int num, BGMType bgmType)
     {
-        m_bgmAudio.clip = clip;
-        m_bgmAudio.Play();
+        AudioClip _clip = GetBGMClip(bgmType);
+        if (_clip == null) return;
+
+        m_bgmAudioSource[num].clip = _clip;
+        m_bgmAudioSource[num].Play();
     }
-    public void SetSFXLocomotionAudioLoop(bool isLoop)
+    public void StopSFX(int num)
     {
-        m_sfxLocomotionAudio.loop = isLoop;
+        m_sfxWorldAudioSource[num].Stop();
     }
     // TODO 재활용성을 위해 PlaySFX로 통합할지 고민
-    public void PlaySFXLocomotionAudio(SFXLomotionType sfxType, bool isStop = false, bool isPlayOneShot = false)
+    public void PlaySFXLocomotionAudio(int num ,SFX_WorldType sfxType, bool isPlayOneShot = false)
     {
-        if (isStop)
-        {
-            m_sfxLocomotionAudio.Stop();
-            return;
-        }
-        
-        AudioClip _clip = m_sfxLocomotionClips[(int)sfxType-1];
+        AudioClip _clip = GetSFXWorldClip(sfxType);
+        if (_clip == null) return;
 
-        if(m_sfxLocomotionAudio.clip != _clip) m_sfxLocomotionAudio.Stop();
-
-        m_sfxLocomotionAudio.clip = _clip;
-        if (isPlayOneShot)
-        m_sfxLocomotionAudio.PlayOneShot(_clip);
+        if (isPlayOneShot) m_sfxWorldAudioSource[num].PlayOneShot(_clip);
         else
         {
-            if(!m_sfxLocomotionAudio.isPlaying)
-            {
-                m_sfxLocomotionAudio.Play();
-            }
+            if(!m_sfxWorldAudioSource[num].isPlaying)
+            m_sfxWorldAudioSource[num].clip = _clip;
+            m_sfxWorldAudioSource[num].Play();
         }
     }
     
-    public void PlaySFXCombatAudio(SFXCombatType sfxType, bool isStop = false, bool isPlayOneShot = false)
+    public void PlaySFXCombatAudio(SFX_CombatType sfxType, bool isStop = false, bool isPlayOneShot = false)
     {
         if (isStop) m_sfxCombatAudio.Stop();
 

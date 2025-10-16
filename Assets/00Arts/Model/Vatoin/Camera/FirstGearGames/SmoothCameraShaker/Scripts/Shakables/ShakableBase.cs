@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 
 namespace FirstGearGames.SmoothCameraShaker
@@ -20,7 +20,7 @@ namespace FirstGearGames.SmoothCameraShaker
 		/// <summary>
 		/// 
 		/// </summary>
-		[Tooltip("Shaker type to use. CameraShaker will subscribe to your current or otherwise configured CameraShaker. ObjectShaker will subscribe to the first ObjectShaker found on or in parented objects.")]
+		[Tooltip("Shaker Type to use. CameraShaker will subscribe to your current or otherwise configured CameraShaker. ObjectShaker will subscribe to the first ObjectShaker found on or in parented objects.")]
 		[SerializeField]
 		private ShakerTypes _shakerType = ShakerTypes.CameraShaker;
 		/// <summary>

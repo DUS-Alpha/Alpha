@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEditor;
 using System;
 using System.Collections.Generic;
@@ -247,8 +247,8 @@ namespace InfinityPBR
            ShowHelpMessage("LOAD BLEND SHAPES DATA\nThis will load blend shapes from new objects, and remove any objects from " +
                        "the list that are no longer in the scene. It will not overwrite or update existing " +
                        "objects, and will attempt to re-link any missing objects.\n\n" +
-                       "SET ALL VALUES TO 0\nThis will set all shape values to zero; will not change other settings or data.\n\n" +
-                       "RELOAD BLEND SHAPE DATA\nWARNING: This will delete and reload all blend shape data!", MessageType.None);
+                       "SET ALL VALUES TO 0\nThis will set all shape values to zero; will not change other settings or Data.\n\n" +
+                       "RELOAD BLEND SHAPE DATA\nWARNING: This will delete and reload all blend shape Data!", MessageType.None);
 
            EditorGUILayout.BeginHorizontal();
            if (GUILayout.Button("Load Blend Shape Data", GUILayout.Width(200), GUILayout.Height(50)))

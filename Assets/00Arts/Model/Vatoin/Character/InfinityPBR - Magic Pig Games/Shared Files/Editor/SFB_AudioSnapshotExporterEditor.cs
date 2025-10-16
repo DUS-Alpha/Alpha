@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -47,7 +47,7 @@ public class SFB_AudioSnapshotExporterEditor : Editor {
 			{
 				EditorGUILayout.BeginHorizontal (GUILayout.Width(newWidth));
 				// Display a dialogue box describing what the Reload Data button does and when to use it.
-				EditorGUILayout.HelpBox("Data will be loaded when you select or change the Audio Mixer.  If you change Mixer data, press button to reload.", MessageType.Info);
+				EditorGUILayout.HelpBox("Data will be loaded when you select or change the Audio Mixer.  If you change Mixer Data, press button to reload.", MessageType.Info);
 				if(GUILayout.Button("Reload AudioMixer Data"))											// If this button is clicked...
 					myScript.ReloadData();																// Call the function
 				EditorGUILayout.EndHorizontal ();

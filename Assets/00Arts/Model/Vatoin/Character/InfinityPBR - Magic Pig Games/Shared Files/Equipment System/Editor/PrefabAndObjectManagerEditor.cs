@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEditor;
 using System;
 using System.Collections.Generic;
@@ -444,12 +444,12 @@ namespace InfinityPBR
             if (!EditorPrefs.GetBool("Prefab Manager Show Group Types")) return;
 
             HelpBoxMessage("Organize your groups into types, often used to ensure that only one group " +
-                           "of each type is active at a time. An example would be \"Hair\" for characters, or " +
-                           "perhaps \"Table Items\" for props on the top of a table. You can update the name of a type" +
+                           "of each Type is active at a time. An example would be \"Hair\" for characters, or " +
+                           "perhaps \"Table Items\" for props on the top of a table. You can update the name of a Type" +
                            "here.\n\n" +
-                           "To add a new type, simply write it into the \"Type\" field when viewing your prefab groups. " +
-                           "Each group starts without a type.\n\n" +
-                           "To delete a type, remove all groups of that type, or change all groups to a different type.", MessageType.Info);
+                           "To add a new Type, simply write it into the \"Type\" field when viewing your prefab groups. " +
+                           "Each group starts without a Type.\n\n" +
+                           "To delete a Type, remove all groups of that Type, or change all groups to a different Type.", MessageType.Info);
 
             foreach (var typeName in GroupTypeNames)
                 DisplayGroupType(typeName);
@@ -519,7 +519,7 @@ namespace InfinityPBR
             
             StartRow();
             BackgroundColor(Color.yellow);
-            if (Button("Create New Group (with no type)", 200))
+            if (Button("Create New Group (with no Type)", 200))
             {
                 Manager.CreateNewPrefabGroup();
                 DoCache();
@@ -568,7 +568,7 @@ namespace InfinityPBR
                 ToggleBool(prefsString);
             }
             ContentColor(Color.white);
-            LabelBig($"{(!String.IsNullOrWhiteSpace(typeName) ? $"{typeName}" : "[No type]")} ({typeDetails})", 200, 14,true);
+            LabelBig($"{(!String.IsNullOrWhiteSpace(typeName) ? $"{typeName}" : "[No Type]")} ({typeDetails})", 200, 14,true);
             ContentColorIf(Manager.CanRandomize(typeName), Color.white, Color.grey);
             if (Button("Random", 60) && Manager.CanRandomize(typeName))
             {
@@ -981,7 +981,7 @@ namespace InfinityPBR
                 StartRow();
                 ShowSelectionPopup(prefabGroup); // The list of found objects available to be added
                 Label($"Add {symbolInfo}: ", $"\"Add\" will add only the selected object. \"Add All\" will prompt for confirmation before " +
-                                             $"adding all objects in the list.\n\n\"Add each to new group\" will create a new group of this type " +
+                                             $"adding all objects in the list.\n\n\"Add each to new group\" will create a new group of this Type " +
                                              $"for each object.", 50);
             
                 BackgroundColor(Color.yellow);
@@ -1589,7 +1589,7 @@ namespace InfinityPBR
             { 
                 EditorGUILayout.LabelField(new GUIContent($"{symbolStarClosed} {symbolInfo}", $"Optional. Toggle one group to " +
                                                                                    $"be the default group. When a group of this " +
-                                                                                   $"type is deactivated, the default group will " +
+                                                                                   $"Type is deactivated, the default group will " +
                                                                                    $"automatically be activated.\n\nThis option is " +
                                                                                    $"only available for groups with a \"Type\"."), GUILayout.Width(fieldWidth));
                 return;
@@ -1627,7 +1627,7 @@ namespace InfinityPBR
             var fieldWidth = 100;
             if (header)
             { 
-                EditorGUILayout.LabelField(new GUIContent($"Type {symbolInfo}", $"You can group Prefab Groups by type, making " +
+                EditorGUILayout.LabelField(new GUIContent($"Type {symbolInfo}", $"You can group Prefab Groups by Type, making " +
                                                                    $"it easier to have only one active at a time, or simply for " +
                                                                    $"organization purposes."), GUILayout.Width(fieldWidth));
                 return;
@@ -1718,13 +1718,13 @@ namespace InfinityPBR
                     EditorPrefs.GetBool("Prefab Manager Show Help Boxes")));
             EditorPrefs.SetBool("Prefab Manager Show Full Inspector", 
                 EditorGUILayout.Toggle(new GUIContent($"Show Full Inspector {symbolInfo}", "If true, will show the full default inspector at the bottom" +
-                                                                               "of the window. Use for debugging, not for editing data!"), 
+                                                                               "of the window. Use for debugging, not for editing Data!"), 
                     EditorPrefs.GetBool("Prefab Manager Show Full Inspector")));
             Manager.instantiatePrefabsAsAdded =  
                 EditorGUILayout.Toggle(new GUIContent($"Instantiate Prefabs when Added to Group {symbolInfo}", "If true, prefabs that are added to a group " +
                     "will be instantiated into the scene."), Manager.instantiatePrefabsAsAdded);
             Manager.onlyOneGroupActivePerType =  
-                EditorGUILayout.Toggle(new GUIContent($"Only one group active per type {symbolInfo}", "If true, only one group per named \"type\" can be active " +
+                EditorGUILayout.Toggle(new GUIContent($"Only one group active per Type {symbolInfo}", "If true, only one group per named \"Type\" can be active " +
                           "at a time, and any active group will be deactivated when a new one is " +
                           "activated. This means you only have to call the \"Activate\" method, and " +
                           "the rest is handled for you."), Manager.onlyOneGroupActivePerType);
@@ -1742,7 +1742,7 @@ namespace InfinityPBR
                 RemoveInGameObjectLinks();
             }
             
-            HelpBoxMessage("If you've copied another objects data or added the component from another object " +
+            HelpBoxMessage("If you've copied another objects Data or added the component from another object " +
                            "as new to this object, use this option to relink all the available objects to the new object.\n\n " +
                            "HINT: If you hold shift while you replace the transform in the list, all transforms will be updated to " +
                            "the new selection.");

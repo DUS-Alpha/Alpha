@@ -275,7 +275,7 @@ public class PlayerCombat : MonoBehaviour
 
         m_aniController.SetAnimatorWeight(1, 1);
         m_aniController.ReloadAni();
-        m_audioManager.PlaySFXCombatAudio(SFXCombatType.Reload);
+        m_audioManager.PlaySFXCombatAudio(SFX_CombatType.Reload);
         return true;
     }
     public void ExitReload(bool isFlying)

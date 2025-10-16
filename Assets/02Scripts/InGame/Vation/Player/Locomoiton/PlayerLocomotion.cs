@@ -16,6 +16,12 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
     private PlayerCameraManger m_cameraManager;
     private AudioManager m_audioManager;
 
+    [Header("[ Ref Component ]")]
+    [SerializeField]
+    private PlayerAudioController m_playerAudioController;
+    [SerializeField]
+    private EffectManager m_effectManager;
+
     [Header("[ Status ]")]
     [SerializeField]
     private PlayerStatus m_status;
@@ -65,10 +71,10 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
     [SerializeField]
     private float m_maxFlyingGauge;
     public float MaxFlyingGauge => m_maxFlyingGauge;
-    private float m_flyingGauge;
-    public float FlyingGauge=> m_flyingGauge;
     [SerializeField]
     private TextMeshProUGUI m_gaugeTMP;
+    public float FlyingGauge { get; private set; }
+    
     private float m_currentFlyHeight = 0f;      // 현재 FlyUp 높이
 
 
@@ -88,19 +94,19 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
     public bool IsJump { get; private set; }
     private bool m_isJumping;
     public bool IsFlyUp { get; private set; }
-    public bool IsFlying => m_isFlying;
-    private bool m_isFlying;
-    public bool IsFlyFall => m_isFlyFall;
-    private bool m_isFlyFall;
+    public bool IsFlying { get; private set; }
+    public bool IsFlyFall { get; private set; }
+    public bool IsFlyingGaugeZero { get; private set; }
+
     public bool IsDash { get; private set; }
     private bool m_isDashing;
     public bool IsDie;
-    private bool m_isUnCheckGround => m_isFlying || m_isJumping || m_isDashing;
+    private bool m_isUnCheckGround => IsFlying || m_isJumping || m_isDashing;
     private void Awake()
     {
         m_movementUtility = new PlayerMovementUitility();
         m_characterController = GetComponent<CharacterController>();
-        m_flyingGauge = m_maxFlyingGauge;
+        FlyingGauge = m_maxFlyingGauge;
     }
 
     public void InitializeModule(PlayerInputHandler inputHandler,PlayerAnimationController animationController, PlayerCameraManger playerCameraManger, AudioManager audioManager)
@@ -130,7 +136,7 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
         IsDash = false;
         IsJump = false;
         m_isJumping = false;
-        m_isFlying = false;
+        IsFlying = false;
         m_currentSpeed = 0;
     }
 
@@ -165,8 +171,8 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
         }
         else
         {
-            if (m_moveDir.z > 0 && !isInCombat) _targetSpeed = m_isFlying? m_flySpeed : m_baseSpeed;
-            else _targetSpeed = isInCombat? (m_isFlying? m_flightCombatSpeed : m_combatSpeed) : m_baseBackMovingSpeed;
+            if (m_moveDir.z > 0 && !isInCombat) _targetSpeed = IsFlying? m_flySpeed : m_baseSpeed;
+            else _targetSpeed = isInCombat? (IsFlying? m_flightCombatSpeed : m_combatSpeed) : m_baseBackMovingSpeed;
         }
         m_currentSpeed = Mathf.Lerp(m_currentSpeed, _targetSpeed, Time.deltaTime * _speedLerpRate);
 
@@ -182,7 +188,7 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
 
 
         HandleMove(m_currentSpeed);
-        m_animationController.MoveAni(m_moveDir.x, m_moveDir.z, m_isFlying, isInCombat);
+        m_animationController.MoveAni(m_moveDir.x, m_moveDir.z, IsFlying, isInCombat);
 
         if (IsMove) 
         { 
@@ -192,19 +198,19 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
 
     private void HandleMove(float targetSpeed)
     {
-        m_lastMoveDir = m_movementUtility.HandleMove(this.gameObject, m_moveDir, targetSpeed, m_characterController, m_isFlying);
+        m_lastMoveDir = m_movementUtility.HandleMove(this.gameObject, m_moveDir, targetSpeed, m_characterController, IsFlying);
     }
 
     // FlyRotate와 리팩토링
     private void HandleRotate(bool isSniper = false)
     {
         Camera _camera = m_cameraManager.MainCamera;
-        m_movementUtility.HandleRotate(this.gameObject, m_moveDir, _camera, m_isFlying);
+        m_movementUtility.HandleRotate(this.gameObject, m_moveDir, _camera, IsFlying);
     }
 
     public void AniKeyFrameMoveAudio()
     {
-        m_audioManager.PlaySFXLocomotionAudio(SFXLomotionType.Foot);
+        //m_audioManager.PlaySFXLocomotionAudio(SFXLomotionType.Foot);
     }
     #endregion ================================================================================ /Movement
     private void Update()
@@ -237,7 +243,7 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
         }
             // Ground Anim Parameter
         m_animationController.SetIsGroundAni(IsGrounded);
-        if(m_flyingGauge >= m_maxFlyingGauge) m_flyingGauge = m_maxFlyingGauge;
+        if(FlyingGauge >= m_maxFlyingGauge) FlyingGauge = m_maxFlyingGauge;
         //m_gaugeTMP.text = m_flyingGauge.ToString();
         Debug.DrawLine(_colliderButtomtr, _colliderButtomtr + (Vector3.down * m_groundDistance), Color.red);
     }
@@ -258,7 +264,7 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
 
         m_animationController.JumpTriggerAni();
         m_animationController.SetIsGroundAni(IsGrounded);
-        m_audioManager.PlaySFXLocomotionAudio(SFXLomotionType.Jump);
+        m_playerAudioController.PlayLocomotionAudio(0,SFX_LomotionType.Jump);
     }
     public void JumpExit()
     {
@@ -284,11 +290,11 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
         m_animationController.DashTriggerAni();
         
         gameObject.transform.rotation = Quaternion.LookRotation(m_lastMoveDir);
-
+        
+        m_effectManager.DashEffect();
         m_isDashing = true;
         // Audio;
-        
-        m_audioManager.PlaySFXLocomotionAudio(SFXLomotionType.Dash,false,true);
+        m_playerAudioController.PlayLocomotionAudio(0, SFX_LomotionType.Dash, true);
     }
 
     public void UpdateDashMove()
@@ -322,18 +328,38 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
 
     #region ================================================================================ Fly
     private float m_flyUpSpeed;
+    // 충전
     public void ChargingFlyingGauge()
     {
-        if (m_flyingGauge <= m_maxFlyingGauge)
-            m_flyingGauge += Time.deltaTime;
-        else m_flyingGauge = m_maxFlyingGauge;
+        if (FlyingGauge < m_maxFlyingGauge)
+        {
+            FlyingGauge += Time.deltaTime;
+            IsFlyingGaugeZero = false;
+        }
+        else 
+            FlyingGauge = m_maxFlyingGauge;
+
+        m_gaugeTMP.text = FlyingGauge.ToString();
+    }
+    // 감소
+    public void DecreaseFlyingGauge()
+    {
+        if (FlyingGauge > 0)
+            FlyingGauge -= Time.deltaTime;
+        else
+        { 
+            FlyingGauge = 0;
+            IsFlyingGaugeZero = true;
+        }
+
+        m_gaugeTMP.text = FlyingGauge.ToString();
     }
 
     public void EnterFlyUp(bool isWeapon)
     {
         IsGrounded = false;
-        m_isFlying = true;
-        m_isFlyFall = true;     // Jump, Fly Fall 구분
+        IsFlying = true;
+        IsFlyFall = true;     // Jump, Fly Fall 구분
         m_currentFlyHeight = 0f;
         m_flyUpSpeed = m_initialFlySpeed;
 
@@ -344,7 +370,9 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
         m_animationController.SetAnimatorWeight(1, 1);
 
         m_animationController.FlyUpTriggerAni();
-        m_audioManager.PlaySFXLocomotionAudio(SFXLomotionType.FlyUp);
+
+        m_playerAudioController.PlayLocomotionAudio(0,SFX_LomotionType.FlyUp);
+        //m_audioManager.PlaySFXLocomotionAudio(SFXLomotionType.FlyUp);
     }
 
     public void UpdateFlyUp()
@@ -367,20 +395,18 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
 
     public void EnterFlightMove()
     {
-        m_audioManager.PlaySFXLocomotionAudio(SFXLomotionType.FlyMove);
-        m_audioManager.SetSFXLocomotionAudioLoop(true);
+        m_audioManager.PlayBGMAudio(1,BGMType.AirField);
     }
     // Flying
-    public void UpdateFlightMove(bool hasWeapon)
+    public void UpdateFlightMove()
     {
-        // 이동이 없을 경우 사운드 끄기
-        //m_audioManager.PlaySFXLocomotionAudio(SFXLomotionType.FlyMove, m_moveDir.sqrMagnitude < 0.1f);
+        DecreaseFlyingGauge();
     }
     
     public void ExitFlightMove()
     {
-        if(!IsDie) m_isFlying = false;
-        m_animationController.SetFlyingAni(m_isFlying);
+        if(!IsDie) IsFlying = false;
+        m_animationController.SetFlyingAni(IsFlying);
         m_animationController.FlyFallAni();
         m_animationController.SetAnimatorWeight(1, 0);
 
@@ -394,12 +420,11 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
     #endregion ================================================================================ /Fly
     public void EnterLanding()
     {
-        m_audioManager.SetSFXLocomotionAudioLoop(false);
-        m_audioManager.PlaySFXLocomotionAudio(SFXLomotionType.Land);
+        m_playerAudioController.PlayLocomotionAudio(0, SFX_LomotionType.Land);
     }
     public void ExitLanding()
     {
-        m_isFlyFall = false;
+        IsFlyFall = false;
     }
     public void EnterDie()
     {

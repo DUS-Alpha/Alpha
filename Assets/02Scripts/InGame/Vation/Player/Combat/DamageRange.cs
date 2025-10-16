@@ -91,7 +91,7 @@ public class DamageRange : MonoBehaviour
                 _damageMassage.damage = 10;
                 damageable.ApplyDamage(_damageMassage);
             }*/
-            Debug.Log("ggg");
+            CameraShakeManager.Instance.Shake(ShakeType.Blow);
             if (other.TryGetComponent<HitBox>(out HitBox _hitBox))
             {
                 DamageMassage _damageMassage = new DamageMassage();

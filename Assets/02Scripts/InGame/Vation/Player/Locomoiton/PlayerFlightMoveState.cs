@@ -20,14 +20,16 @@ public class PlayerFlightMoveState : PlayerLocomotionState
     public override void Update()
     {
         m_Locomotion.Movement(m_Combat.IsInCombat, m_Combat.IsAction);
-        //m_Locomotion.UpdateFlightMove(m_Combat.CurrentWeaponNum > 0);
+        m_Locomotion.UpdateFlightMove();
+
 
         if(m_Locomotion.IsDie)
         {
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Die);
+            return;
         }
 
-        if (m_Locomotion.IsFlyUp || m_Locomotion.FlyingGauge <= 0)
+        if (m_Locomotion.IsFlyUp || m_Locomotion.IsFlyingGaugeZero)
         {
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Fall);
             m_Locomotion.SetVelocityY(2.5f);

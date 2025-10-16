@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEditor;
 using System;
 using System.Collections.Generic;
@@ -59,8 +59,8 @@ namespace InfinityPBR
             if (EditorPrefs.GetBool("Wardrobe Prefab Manager Show Help Boxes"))
             {
                 HelpBoxMessage("WARDROBE PREFAB MANAGER\n\n" +
-                               "While this script holds data which you can see if you toggle on \"Show full inspector\", the " +
-                               "data is managed by the Prefab And Object Manager. New options will be visible when this component " +
+                               "While this script holds Data which you can see if you toggle on \"Show full inspector\", the " +
+                               "Data is managed by the Prefab And Object Manager. New options will be visible when this component " +
                                "is also attached.\n\n" +
                                "-- Required Component: Prefab And Object Manager\n" +
                                "-- Required Component: Blend Shapes Manager\n\n" +
@@ -185,7 +185,7 @@ namespace InfinityPBR
             
             var typeDetails = $"{groupsOfType.Count}";
 
-            EditorPrefs.SetBool($"Prefab Manager Show Type {typeName}", EditorGUILayout.Foldout(EditorPrefs.GetBool($"Prefab Manager Show Type {typeName}"), $"{(!String.IsNullOrWhiteSpace(typeName) ? $"{typeName}" : "[No type]")} ({typeDetails})"));
+            EditorPrefs.SetBool($"Prefab Manager Show Type {typeName}", EditorGUILayout.Foldout(EditorPrefs.GetBool($"Prefab Manager Show Type {typeName}"), $"{(!String.IsNullOrWhiteSpace(typeName) ? $"{typeName}" : "[No Type]")} ({typeDetails})"));
             if (!EditorPrefs.GetBool($"Prefab Manager Show Type {typeName}")) return;
             
             for (int g = 0; g < Manager.blendShapeGroups.Count; g++)

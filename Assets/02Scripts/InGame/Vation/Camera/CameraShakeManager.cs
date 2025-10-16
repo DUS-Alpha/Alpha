@@ -5,15 +5,17 @@ using System.Collections.Generic;
 public enum ShakeType
 {
     None,
-    Shooting,
     FootStep,
-    Explosion
+    Shooting,
+    Explosion,
+    Blow
 }
+
 [System.Serializable]
 public class ShakeMapping
 {
-    public ShakeType type;
-    public ShakeData data;
+    public ShakeType Type;
+    public ShakeData Data;
 }
 
 public class CameraShakeManager : MonoBehaviour
@@ -22,7 +24,7 @@ public class CameraShakeManager : MonoBehaviour
 
     [SerializeField]
     private ShakeMapping[] m_shakeMappings;
-    public Dictionary<ShakeType, ShakeData> m_shakeDic;
+    private Dictionary<ShakeType, ShakeData> m_shakeDic;
 
     private void Awake()
     {
@@ -31,8 +33,8 @@ public class CameraShakeManager : MonoBehaviour
         m_shakeDic = new Dictionary<ShakeType, ShakeData>();
         foreach (var map in m_shakeMappings)
         {
-            if (!m_shakeDic.ContainsKey(map.type))
-                m_shakeDic.Add(map.type, map.data);
+            if (!m_shakeDic.ContainsKey(map.Type))
+                m_shakeDic.Add(map.Type, map.Data);
         }
     }
 
@@ -40,7 +42,8 @@ public class CameraShakeManager : MonoBehaviour
 
     public void Shake(ShakeType type)
     {
-        if(GetShkeData(type) == null) return;
-        CameraShakerHandler.Shake(GetShkeData(type));
+        ShakeData _shakeData = GetShkeData(type);
+        if (_shakeData == null) return;
+        CameraShakerHandler.Shake(_shakeData);
     }
 }

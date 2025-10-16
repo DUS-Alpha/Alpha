@@ -30,7 +30,7 @@ public class PlayerInCombatState : PlayerCombatState
         base.Update();
         if (m_Locomotion.IsDie) return;
         //(!m_Combat.IsAiming && !m_Combat.IsAttack)
-        if (m_Locomotion.IsCombatStop || m_NextStateDelay > 1.8f)
+        if (m_Locomotion.IsCombatStop || m_NextStateDelay > 1f)
         {
             m_PlayerCore.SwitchCombatState(CombatStateType.NonCombat);
             // TODO : 모든 애니메이션 및 레이어 초기화 & 중단
