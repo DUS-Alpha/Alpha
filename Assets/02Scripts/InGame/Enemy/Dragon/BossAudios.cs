@@ -26,19 +26,11 @@ public class BossAudio : MonoBehaviour
 
     public void Play(string key)
     {
+        print(key+"실행");
         if (soundDict.TryGetValue(key, out BossSound s))
         {
             sfxSource.PlayOneShot(s.clip, s.volume);
         }
     }
-
-    public void WingSoundUp()
-    {
-        
-    }
-
-    public void WingSoundDown()
-    {
-        
-    }
+    
 }
