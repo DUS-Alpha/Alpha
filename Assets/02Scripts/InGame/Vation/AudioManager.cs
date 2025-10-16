@@ -50,6 +50,7 @@ public class AudioManager : MonoBehaviour
 
     void Start()
     {
+        m_bgmAudio.volume = 0.1f;
         m_bgmAudio.loop = true;
         PlayBGMAudio(m_bgmClips[1]);
     }

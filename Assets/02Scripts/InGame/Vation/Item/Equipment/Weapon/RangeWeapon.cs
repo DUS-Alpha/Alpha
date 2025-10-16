@@ -61,6 +61,7 @@ public class RangeWeapon : Weapon
         anim.RangeShootingAni();
         m_audioSource.PlayOneShot(m_audioSource.clip);
         m_muzzleFlashEffect.Play();
+        CameraShakeManager.Instance.Shake(ShakeType.Shooting);
 
         if(m_currentAmmo > 0)
             m_currentAmmo -= 1;
