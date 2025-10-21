@@ -6,7 +6,7 @@ using UnityEngine;
 [ExecuteAlways] // 에디터 실행을 안해도 바로 실행 
 public class BossDebugGizmos : MonoBehaviour
 {
-    public BossAction actions;
+    public DragonBossActions actions;
     public Color MidColor = new Color(0.2f, 1f, 0.4f, 0.4f);
     public Color CloseColor = new Color(1f, 0.3f, 0.3f, 0.4f);
     public Color StopColor = Color.magenta;
@@ -17,24 +17,19 @@ public class BossDebugGizmos : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (!actions) actions = GetComponent<BossAction>();
+        if (!actions) actions = GetComponent<DragonBossActions>();
         if (!actions) return;
         
         // 실제로 움직이는 기준(Animator가 손자라면 그 트랜스폼)
         
         
         // 원 그리기
-        DrawCircle(actions.animator.transform.position, actions.MidRange, MidColor);
-        DrawCircle(actions.animator.transform.position, actions.CloseRange, CloseColor);
-        DrawCircle(actions.BB.Target.position, actions.StopRange, StopColor);
+        DrawCircle(actions.animator.transform.position, actions.checkDistanceSetting._maxRange, MidColor);
+        DrawCircle(actions.animator.transform.position, actions.checkDistanceSetting._minRange, CloseColor);
         
-
-        // 타깃 방향선
-        if (actions.BB != null && actions.BB.Target)
-        {
-            Gizmos.color = lineColor;
-            Gizmos.DrawLine(actions.animator.transform.position, actions.BB.Target.position);
-        }
+        Gizmos.color = lineColor;
+        
+        
     }
 
     private void DrawCircle(Vector3 center, float radius, Color c, int seg = 48)

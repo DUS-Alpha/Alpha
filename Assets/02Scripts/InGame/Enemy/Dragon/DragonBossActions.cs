@@ -2,13 +2,89 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public enum DistanceCheckType
+{
+    Far,    // > n2
+    Mid,    // n < distance ≤ n2
+    Close,  // ≤ n
+    Unknown // 초기값/타겟 없음
+}
+[System.Serializable]
+public class CheckDistanceSetting // ⬅️ 참조 타입 (class)
+{
+    public float _minRange;
+    public float _maxRange;
+    public DistanceCheckType _type;
+}
+
+[System.Serializable]
+public class FlySettings // ⬅️ 참조 타입 (class)
+{
+    public float hoverHeight = 5f; // 기본값 유지
+    public float moveSpeed = 5f;   // 기본값 유지
+    public float turnSpeed = 3f;   // 기본값 유지
+    public Transform hoverCenter;
+}
+
+[System.Serializable]
+public class DeathSetting 
+{
+    public bool isDead = false;
+    public bool deathAnimPlayed = false;
+    public bool hasLanded = false; 
+    public LayerMask groundLayer;
+}
+
+public class AttackSetting
+{
+    public GameObject fireballPrefab;
+    public Transform[] firePoints; // 여러 발사구 지원
+    public float _fireTimer;
+    public float fireInterval = 3f;
+    public float fireSpeed = 30f;
+    
+    public int _firePointIndex = 0;
+}
+
+[System.Serializable]
+public class BreathSetting
+{
+    public bool useBreath = false; // 브레스 패턴 플래그
+    public float breathCooldown = 5f; // 브레스 쿨타임
+    public float lastBreathTime = 5f; // 마지막 브레스 사용 시각
+    public bool _breathStarted;
+}
+
 public class DragonBossActions : MonoBehaviour,IDamageable
 {
     public Animator animator;
-    public Transform hoverCenter;
-    public float hoverHeight = 5f;
-    public float moveSpeed = 5f;
-    public float turnSpeed = 3f;
+    
+    [Header("(Fly Settings)")]
+     public FlySettings currentFlySettings = new FlySettings(); 
+
+    [Header("(Death Settings)")]
+    public DeathSetting currentDeathSettings = new DeathSetting(); 
+
+    [Header("(Attack Settings)")] 
+    public AttackSetting currentAttacksettings = new AttackSetting();
+    
+    [Header("(Breath Settings)")]
+    public BreathSetting currentBreathsetting = new BreathSetting(); 
+   
+    [Header("(CheckDistance Settings)")]
+    public CheckDistanceSetting  checkDistanceSetting= new CheckDistanceSetting(); 
+    
+    
+    public FlyTowardTarget flyTowardCyle;
+    
+    public DeathCycle deathCycle;
+
+    public AttackCycle attackCycle;
+    
+    public BreathCycle breathCycle;
+    
+    public CheckRangeCycle checkRangeCycle;
     
     
     private Blackboard BB;
@@ -46,9 +122,6 @@ public class DragonBossActions : MonoBehaviour,IDamageable
     //죽었는지 확인하는 방법
     [SerializeField]private bool isDead = false;
     
-    private float wingSoundTimer = 0f;
-    [SerializeField] private float wingSoundInterval = 2f;
-
     private int _firePointIndex = 0;
     private float _fireTimer;
     
@@ -63,81 +136,44 @@ public class DragonBossActions : MonoBehaviour,IDamageable
     {
         rb = GetComponent<Rigidbody>();
     }
+    
 
-    private Transform GetNextFirePoint()
+    public NodeState FlyTowardTarget()
     {
-        if (firePoints == null || firePoints.Length == 0)
-            return transform; // 기본값: 자기 자신
+        return flyTowardCyle.Execute(BB,currentFlySettings);
+    }
 
+    public NodeState TestCheckDeath()
+    {
+        return deathCycle.CheckDeath(animator,currentDeathSettings);
+    }
 
-        Transform point = firePoints[_firePointIndex];
-        _firePointIndex = (_firePointIndex + 1) % firePoints.Length;
-        return point;
+    public NodeState TestFall()
+    {
+        return deathCycle.Fall(animator,currentDeathSettings);
+    }
+
+    public NodeState AttackFireBall()
+    {
+        return attackCycle.FireballAttack(BB, currentAttacksettings);
     }
     
-    public NodeState AscendToHoverHeight()
+    public NodeState DoCheckBreath()
     {
-        if (hoverCenter == null) return NodeState.Failure;
-
-        float targetY = hoverCenter.position.y + hoverHeight;
-        Vector3 current = transform.position;
-        Vector3 target = new Vector3(current.x, targetY, current.z);
-
-        transform.position = Vector3.MoveTowards(current, target, Time.deltaTime * moveSpeed);
-
-        if (Mathf.Abs(transform.position.y - targetY) < 0.1f)
-        {
-            print("성공");
-            return NodeState.Success;
-        }
-        
-        return NodeState.Running;
+        return breathCycle.CheckBreath(currentBreathsetting);
     }
     
-    public NodeState FlyTowardTargetAndFire()
+    public NodeState DoBreatheFire()
     {
-        if (BB?.Target == null || hoverCenter == null || fireballPrefab == null || firePoints.Length == 0)
-            return NodeState.Failure;
-
-        // 1. 위치 추적
-        Vector3 target = new Vector3(BB.Target.position.x, BB.Target.position.y + hoverHeight, BB.Target.position.z);
-        Vector3 direction = target - transform.position;
-        Vector3 MyTransform = new Vector3(transform.position.x, BB.Target.position.y + hoverHeight, transform.position.z);
-        Vector3 flatDirection = direction;
-        flatDirection.y = 0f;
-        if (flatDirection != Vector3.zero)
-        {
-            Quaternion rot = Quaternion.LookRotation(flatDirection);
-            transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * turnSpeed);
-        }
-
-        transform.position = Vector3.MoveTowards(MyTransform, BB.Target.position, Time.deltaTime * moveSpeed);
-
-        // 2. 타이머 체크 후 투사체 발사
-        _fireTimer += Time.deltaTime;
-        if (_fireTimer >= fireInterval)
-        {
-            _fireTimer = 0f;
-
-            Transform point = GetNextFirePoint();
-            // 풀에서 꺼내오기
-            Vector3 dir = (BB.Target.position - point.position).normalized;
-            GameObject fireball = PoolManager.Instance.Spawn(fireballPrefab, point.position, Quaternion.LookRotation(dir));
-
-            var pp = fireball.GetComponent<PooledProjectile>();
-            if (pp != null)
-            {
-                pp.Launch(dir, fireSpeed, false);
-            }
-
-            Debug.Log("🔥 Fireball launched!");
-        }
-
-        return NodeState.Success;
+        return breathCycle.BreatheFire(animator,currentBreathsetting);
     }
-    
-   
-    
+
+    public NodeState CheckRangeCycle()
+    {
+        return checkRangeCycle.CheckRange(BB, checkDistanceSetting);
+    }
+
+
     public NodeState CheckHitReaction()
     {
         if (wasHit) // 피격 받은 경우만 체크
@@ -160,8 +196,20 @@ public class DragonBossActions : MonoBehaviour,IDamageable
         return NodeState.Failure; // 맞지 않았음
     }
 
+    #region 리펙토링된 함수들 잘되는거 확인 후 제거 예정
     
+    private Transform GetNextFirePoint()
+    {
+        if (firePoints == null || firePoints.Length == 0)
+            return transform; // 기본값: 자기 자신
+
+
+        Transform point = firePoints[_firePointIndex];
+        _firePointIndex = (_firePointIndex + 1) % firePoints.Length;
+        return point;
+    }
     
+
     
     public NodeState FireballAttack()
     {
@@ -188,8 +236,8 @@ public class DragonBossActions : MonoBehaviour,IDamageable
         
         return NodeState.Success;
     }
-
-
+    
+    /*
     public NodeState FlyTowardTarget()
     {
         if (BB?.Target == null || hoverCenter == null)
@@ -212,33 +260,92 @@ public class DragonBossActions : MonoBehaviour,IDamageable
         // 이동
         transform.position = Vector3.MoveTowards(MyTransform, BB.Target.position, Time.deltaTime * moveSpeed);
         
-        wingSoundTimer += Time.deltaTime;
         return NodeState.Success; 
     }
+    */
     
     
-    public NodeState HoverIdle()
+    /*public NodeState CheckDeath()
     {
-        if (hoverCenter == null) return NodeState.Failure;
-
-        float sin = Mathf.Sin(Time.time * 2f) * 0.5f;
-        Vector3 target = new Vector3(hoverCenter.position.x, hoverCenter.position.y + hoverHeight + sin, hoverCenter.position.z);
-
-        if (BB?.Target != null)
+        if (isDead && !deathAnimPlayed)
         {
-            Vector3 lookDir = BB.Target.position - transform.position;
-            lookDir.y = 0f;
-            if (lookDir != Vector3.zero)
-            {
-                Quaternion rot = Quaternion.LookRotation(lookDir);
-                transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * turnSpeed);
-            }
+            // 죽었을 때는 Die가 아니라 Fall부터 실행
+            animator.SetTrigger("Fall");
+            deathAnimPlayed = true;
+            bossAudio.Play("Death");
+            return NodeState.Success; // 성공하면 트리에서 Fall 노드로 넘어감
+        }
+        return NodeState.Failure;
+    }*/
+
+    /*public NodeState Fall()
+{
+    // 이미 착지한 상태라면 성공 처리
+    if (hasLanded)
+    {
+        return NodeState.Success;
+    }
+
+    // 아직 착지하지 않았다면 낙하 활성화
+    rb.isKinematic = false;
+    rb.useGravity = true;
+
+    // 💡 새로운 바닥 체크 로직: SphereCast 사용 (더 안정적임)
+    if (CheckGroundWithSphereCast())
+    {
+        Land();
+        print("바닥 착지 (SphereCast)"); // 출력 메시지 수정
+        return NodeState.Success;
+    }
+
+    // 착지하지 않았다면 계속 낙하 중
+    return NodeState.Running;
+}*/
+    
+    /*
+    private bool CheckGroundWithSphereCast()
+    {
+        // ⚠️ 이 값들은 캐릭터 컨트롤러 또는 콜라이더 컴포넌트에서 가져와야 정확함
+        // 여기서는 예시로 값 설정 (캐릭터 크기에 맞게 조정 필요)
+        float characterRadius = 0.5f;  // 캐릭터 콜라이더의 반지름
+        float checkDistance = 0.2f;    // 바닥과 아주 가까운 거리만 체크 (RaycastDistance)
+
+        // Raycast의 시작점: 캐릭터의 중심이 아닌, 콜라이더의 밑 부분 바로 위
+        Vector3 origin = transform.position;
+
+        // 💡 디버그용 시각화
+        Debug.DrawRay(origin, Vector3.down * (characterRadius + checkDistance), Color.yellow);
+
+        // SphereCastAll을 사용하여 구체가 바닥에 닿는지 체크
+        // (시작 위치, 반지름, 방향, 최대 거리, 레이어마스크)
+        if (Physics.SphereCast(origin, characterRadius, Vector3.down, out RaycastHit hit, checkDistance, groundLayer))
+        {
+            // Debug.DrawLine(origin, hit.point, Color.green, 0.5f); // 착지 성공 시 디버그
+            return true;
         }
 
-        transform.position = Vector3.Lerp(transform.position, target, Time.deltaTime * 2f);
-
-        return NodeState.Running;
+        return false;
     }
+
+    private void Land()
+    {
+        hasLanded = true;
+        rb.isKinematic = true;
+        rb.useGravity = false;
+
+        // 애니메이션 재생
+        animator.SetBool("Dodie", true);
+
+        // 트리 정지
+        var runner = GetComponent<BehaviorTreeRunner>();
+        if (runner != null)
+            runner.StopTree();
+
+        Debug.Log("뒤졌음 ㅇㅇ");
+    }
+    */
+  
+    
     
     public NodeState CheckBreath()
     {
@@ -257,16 +364,7 @@ public class DragonBossActions : MonoBehaviour,IDamageable
         //Debug.Log("[CheckBreath] ❌ 실패 (쿨타임 중이거나 이미 발동됨)");
         return NodeState.Failure;
     }
-
-    public void trueBreathParticles()
-    {
-        BreathsPrefab.SetActive(true);
-    }
-    public void falseBreathParticles()
-    {
-        BreathsPrefab.SetActive(false);
-    }
-
+    
     public NodeState BreatheFire()
     {
         Debug.Log($"[BreatheFire] useBreath={useBreath}, attackStarted={_attackStarted}");
@@ -311,93 +409,23 @@ public class DragonBossActions : MonoBehaviour,IDamageable
         return NodeState.Running;
     }
 
-   
 
-    public NodeState Fall()
+    #endregion
+    
+    
+    public void trueBreathParticles()
     {
-        // 이미 착지한 상태라면 성공 처리
-        if (hasLanded)
-        {
-            return NodeState.Success;
-        }
-
-        // 아직 착지하지 않았다면 낙하 활성화
-        rb.isKinematic = false;
-        rb.useGravity = true;
-
-        // 💡 새로운 바닥 체크 로직: SphereCast 사용 (더 안정적임)
-        if (CheckGroundWithSphereCast())
-        {
-            Land();
-            print("바닥 착지 (SphereCast)"); // 출력 메시지 수정
-            return NodeState.Success;
-        }
-
-        // 착지하지 않았다면 계속 낙하 중
-        return NodeState.Running;
+        BreathsPrefab.SetActive(true);
     }
-    
-    private bool CheckGroundWithSphereCast()
+    public void falseBreathParticles()
     {
-        // ⚠️ 이 값들은 캐릭터 컨트롤러 또는 콜라이더 컴포넌트에서 가져와야 정확함
-        // 여기서는 예시로 값 설정 (캐릭터 크기에 맞게 조정 필요)
-        float characterRadius = 0.5f;  // 캐릭터 콜라이더의 반지름
-        float checkDistance = 0.2f;    // 바닥과 아주 가까운 거리만 체크 (RaycastDistance)
-
-        // Raycast의 시작점: 캐릭터의 중심이 아닌, 콜라이더의 밑 부분 바로 위
-        Vector3 origin = transform.position;
-    
-        // 💡 디버그용 시각화
-        Debug.DrawRay(origin, Vector3.down * (characterRadius + checkDistance), Color.yellow);
-
-        // SphereCastAll을 사용하여 구체가 바닥에 닿는지 체크
-        // (시작 위치, 반지름, 방향, 최대 거리, 레이어마스크)
-        if (Physics.SphereCast(origin, characterRadius, Vector3.down, out RaycastHit hit, checkDistance, groundLayer))
-        {
-            // Debug.DrawLine(origin, hit.point, Color.green, 0.5f); // 착지 성공 시 디버그
-            return true;
-        }
-    
-        return false;
-    }
-    
-    private void Land()
-    {
-        hasLanded = true;
-        rb.isKinematic = true;
-        rb.useGravity = false;
-
-        // 애니메이션 재생
-        animator.SetBool("Dodie", true);
-
-        // 트리 정지
-        var runner = GetComponent<BehaviorTreeRunner>();
-        if (runner != null)
-            runner.StopTree();
-
-        Debug.Log("뒤졌음 ㅇㅇ");
+        BreathsPrefab.SetActive(false);
     }
 
-    public NodeState Die()
-    {
-        return NodeState.Success;
-    }
-
-
-    public NodeState CheckDeath()
-    {
-        if (isDead && !deathAnimPlayed)
-        {
-            // 죽었을 때는 Die가 아니라 Fall부터 실행
-            animator.SetTrigger("Fall");
-            deathAnimPlayed = true;
-            bossAudio.Play("Death");
-            return NodeState.Success; // 성공하면 트리에서 Fall 노드로 넘어감
-        }
-        return NodeState.Failure;
-    }
+  
 
     
+ 
     public void ApplyDamage(DamageMassage damageMassage)
     {
         if (isDead) return; // 이미 죽었으면 무시

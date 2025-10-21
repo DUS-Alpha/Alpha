@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class SequenceNode : INode
 {
     private readonly List<INode> _children = new();
-    private int _currentIndex = 0; // ★ 진행상태 기억
+    private int _currentIndex = 0; // 진행상태 기억
 
     //생성자
     //SequenceNode가 생성될 때 자식 노드들을 받아서 리스트에 저장하는 것

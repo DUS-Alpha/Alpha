@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ public class DragonBTController : MonoBehaviour
     private DragonBossActions m_actions;
     [SerializeField] private Transform m_player;
 
-    void Start()
+    private void Awake()
     {
         m_runner = GetComponent<BehaviorTreeRunner>();
         m_actions = GetComponent<DragonBossActions>();
@@ -19,23 +20,16 @@ public class DragonBTController : MonoBehaviour
             OwnerTransform = transform,
         };
         m_actions.SetBlackboard(bb);
+    }
 
-        // ── 행동 노드들 구성
-        var idleHover = new ActionNode(m_actions.HoverIdle);
-        var deathBranch = new ActionNode(m_actions.CheckDeath);
-        var ascendToHover = new ActionNode(m_actions.AscendToHoverHeight);
-        var flyToTargetAttack = new ActionNode(m_actions.FlyTowardTargetAndFire);
-        var breatheFire = new ActionNode(m_actions.BreatheFire);
-        var fireballAttack = new ActionNode(m_actions.FireballAttack);
-        var flyToTarget = new ActionNode(m_actions.FlyTowardTarget);
+    void Start()
+    {
+    
 
-        var flySequence = new SequenceNode(
-            ascendToHover,
-            flyToTarget,
-            breatheFire
-        );
+     
+        
 
-        INode root = new SelectorNode(
+        /*INode root = new SelectorNode(
             new SequenceNode(
                 new ActionNode(m_actions.CheckDeath),
                 new ActionNode(m_actions.Fall)
@@ -49,12 +43,18 @@ public class DragonBTController : MonoBehaviour
                 new ActionNode(m_actions.FlyTowardTarget),
                 new ActionNode(m_actions.FireballAttack)
             )
+        );*/
+        
+        INode Testroot = new SelectorNode(
+            new ActionNode(m_actions.CheckRangeCycle)
         );
+        
 
 
 
 
-        m_runner.SetTree(root);
+
+        m_runner.SetTree(Testroot);
        
         m_runner.StartTree();
     }
