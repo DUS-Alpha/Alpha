@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public enum AttackTypes
@@ -7,7 +8,8 @@ public enum AttackTypes
     AoE    // 광역 (Area of Effect)
 }
 
-public class CombatDataStatus : MonoBehaviour
+[CreateAssetMenu(fileName = "CombatStatusSO", menuName = "Scriptable Objects/CombatData/CombatStatusSO")]
+public class CombatDataStatusSO : ScriptableObject
 {
     public string CombatName;
     public int CombatID;

@@ -20,14 +20,16 @@ public class PlayerInventoryManager : MonoBehaviour
     [SerializeField]
     private Transform[] m_weaponHoderTrs;
 
-    [SerializeField]
+    [Tooltip(" 하이어라키검색용 "),SerializeField]
     private ItemHolder[] m_itemHolders;
     public bool IsInventory { get; private set;}
 
+    public Weapon[] Weapons;
     public void InitializeModule(PlayerCore playerCore)
     {
         m_playerCore = playerCore;
     }
+
     public void InitializeEvents(IPlayerEvents events)
     {
         events.CheckInputAction += CheckInput;
@@ -36,8 +38,8 @@ public class PlayerInventoryManager : MonoBehaviour
 
     private void Awake()
     {
-       
-
+        Weapons = new Weapon[3];
+        // HolderTr들 EquipmentController로 전달
         EquipmentController = new PlayerEquipmentController(m_equipmentHoderTrs, m_weaponHoderTrs);
         EquipmentController.InitializeModule();
     }
@@ -74,10 +76,10 @@ public class PlayerInventoryManager : MonoBehaviour
 
     public void SwapWeapon(int weaponNum)
     {
-
-
         EquipmentController.SwapWeapon(weaponNum);
+        Weapons = EquipmentController.CurrentEquipWeapons;
     }
+
 
     public void RemoveItem(Item item)
     {

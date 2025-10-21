@@ -13,16 +13,16 @@ MonoBehaviour:
   m_Name: RifleDataSO
   m_EditorClassIdentifier: 
   Description: 
-  ItemType: 2
+  ItemType: 1
   ItemPrefab: {fileID: 8217881269627586726, guid: 16ca11bc6385d984f9555d4496ad970f, type: 3}
+  SerialNumber: 0
   ID: 20
   Name: Rifle
   Grade: 0
   Icon: {fileID: 0}
-  ApplicableSlot: 5
+  EquipType: 4
   UsageLevel: 0
   Weight: 0
   Durability: 0
-  WeaponType: 2
-  AttackDamage: 10
-  AttackDelay: 0.1
+  WeaponType: 1
+  CombatData: {fileID: 11400000, guid: 31de77bfaa5e6ec4e899088eb4567bab, type: 2}

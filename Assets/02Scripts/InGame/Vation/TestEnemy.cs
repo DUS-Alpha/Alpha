@@ -11,7 +11,7 @@ public class TestEnemy : MonoBehaviour, IDamageable
     {
         if (m_hp > 0)
         {
-            m_hp -= damageMassage.damage;
+            m_hp -= damageMassage.Damage;
             Debug.Log($"Enmey HP : {m_hp}");
         }
 
@@ -41,7 +41,7 @@ public class TestEnemy : MonoBehaviour, IDamageable
             if (other.TryGetComponent<IDamageable>(out _damageableTarget))
             {
                 DamageMassage _damageMassage = new DamageMassage();
-                _damageMassage.damage = 5;
+                _damageMassage.Damage = 5;
 
                 // 데미지 전달
                 _damageableTarget.ApplyDamage(_damageMassage);
@@ -64,7 +64,7 @@ public class TestEnemy : MonoBehaviour, IDamageable
             if (other.TryGetComponent<IDamageable>(out _damageableTarget))
             {
                 DamageMassage _damageMassage = new DamageMassage();
-                _damageMassage.damage = 5;
+                _damageMassage.Damage = 5;
 
                 // 데미지 전달
                 _damageableTarget.ApplyDamage(_damageMassage);

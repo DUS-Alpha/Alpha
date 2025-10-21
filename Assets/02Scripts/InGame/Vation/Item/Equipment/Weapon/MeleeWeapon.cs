@@ -39,7 +39,7 @@ public class MeleeWeapon : Weapon
             if (other.TryGetComponent<IDamageable>(out _damageableTarget))
             {
                 DamageMassage _damageMassage = new DamageMassage();
-                _damageMassage.damage = this.WeaponData.CombatData.damage;
+                _damageMassage.Damage = this.WeaponData.CombatData.damage;
 
                 // 데미지 전달
                 _damageableTarget.ApplyDamage(_damageMassage);
@@ -60,7 +60,7 @@ public class MeleeWeapon : Weapon
                 {
                     //HitNormal = hit.normal,
                     //HitPoint = hit.point,
-                    damage = WeaponData.CombatData.damage
+                    Damage = WeaponData.CombatData.damage
                 };
                 _damageableTarget.ApplyDamage(_damassage);
             }

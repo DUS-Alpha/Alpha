@@ -19,8 +19,7 @@ public class PlayerCombat : MonoBehaviour
     private Action<int> m_swapAction;
     private int m_swapWeaponNum = 0;
     public int CurrentWeaponNum { get; private set; } = 0;
-    public Weapon CurrentWeapon => currentWeapon;
-    public Weapon currentWeapon => CurrentWeaponNum > 0 ? m_equipmentWeapons[CurrentWeaponNum] : null;
+    public Weapon CurrentWeapon;
 
     public bool IsInCombat => m_isInCombat;
     private bool m_isInCombat;
@@ -33,9 +32,6 @@ public class PlayerCombat : MonoBehaviour
     public string SkillKey;
 
     public bool IsReload { get; private set; }
-    // 무기 관리
-    
-    private Weapon[] m_equipmentWeapons = new Weapon[4]; // 착용중인 무기
 
     public Queue<int> SkillQueue = new Queue<int>();
     public bool IsAction;
@@ -60,8 +56,8 @@ public class PlayerCombat : MonoBehaviour
     }
     private void Update()
     {
-        if(currentWeapon == null) return;
-        m_isAttackDistance = TryGetTarget(out RaycastHit hit, currentWeapon.m_maxDistance);
+        if(CurrentWeapon == null) return;
+        m_isAttackDistance = TryGetTarget(out RaycastHit hit, CurrentWeapon.m_maxDistance);
         SetColorMarkCrossHeadUI(m_isAttackDistance);
     }
     /// <summary>
@@ -123,7 +119,7 @@ public class PlayerCombat : MonoBehaviour
                 _damageMassage.HitNormal = hit.normal;
                 _damageMassage.HitPoint = hit.point;
                 RangeWeapon _range = CurrentWeapon as RangeWeapon;
-                _damageMassage.damage = _range.WeaponData.CombatData.damage;
+                _damageMassage.Damage = _range.WeaponData.CombatData.damage;
 
                 _hitBox.damageable.ApplyDamage(_damageMassage);
                 print("히트박스 데미지 완료");
@@ -167,7 +163,7 @@ public class PlayerCombat : MonoBehaviour
             
             if (!IsActioning)
             {
-                currentWeapon.Attack(IsAttack, m_playerCore.AniController);
+                _meleeWeapon.Attack(IsAttack, m_playerCore.AniController);
             }
         }
         else if (CurrentWeaponNum > 1)
@@ -178,10 +174,10 @@ public class PlayerCombat : MonoBehaviour
             m_playerCore.AniController.SetAnimatorWeight(1, 1);
             if (Time.time >= m_nextAttakTime)
             {
-                m_nextAttakTime = Time.time + currentWeapon.WeaponData.CombatData.cooldown;
+                m_nextAttakTime = Time.time + _rangeWeapon.WeaponData.CombatData.cooldown;
                 // 무기 Swap시 마다 스나이퍼 같은 총의 경우 바로 발사를 하면 안되기에 계속 현재 무기값으로
                 _rangeWeapon.Attack(IsAttack, m_playerCore.AniController);
-                if (TryGetTarget(out RaycastHit hit, currentWeapon.m_maxDistance))
+                if (TryGetTarget(out RaycastHit hit, CurrentWeapon.m_maxDistance))
                 {
                     ApplyDamage(hit);
                 }
@@ -214,10 +210,17 @@ public class PlayerCombat : MonoBehaviour
         int _swapNum = m_playerCore.InputHandler.SwapWeaponNum;
         // 같은 번호 입력시 리턴
         if (_swapNum == CurrentWeaponNum) return false;
-        // 무기가 없을경우 리턴
-        if (m_equipmentWeapons[_swapNum] == null) return false;
 
-        CurrentWeaponNum = _swapNum;
+        WeaponTypes type = (WeaponTypes)_swapNum-1;
+        PlayerEquipmentController _equipController = m_playerCore.InventoryManager.EquipmentController;
+        // 무기가 없을경우 리턴
+        if (_equipController.CurrentEquipWeaponDic.TryGetValue(type, out var waepon))
+        {
+            CurrentWeaponNum = _swapNum;
+            CurrentWeapon = waepon;
+        }
+        else return false;
+        
         return true;
     }
 
@@ -236,6 +239,7 @@ public class PlayerCombat : MonoBehaviour
     public void SwapInventoryWeapon()
     {
         m_swapAction?.Invoke(CurrentWeaponNum);
+        
     }
 
     public void ExitSwapWeapon(bool isFlying)

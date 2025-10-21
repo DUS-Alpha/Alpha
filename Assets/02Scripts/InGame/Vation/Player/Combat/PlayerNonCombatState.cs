@@ -24,7 +24,9 @@ public class PlayerNonCombatState : PlayerCombatState
     {
         if (m_Locomotion.IsDie) return;
         if (m_Combat.IsSwap)
+        {
             m_PlayerCore.SwitchCombatState(CombatStateType.SwapWeapon);
+        }
         else if (m_Combat.IsReload)
             m_PlayerCore.SwitchCombatState(CombatStateType.Reload);
         else if (m_Combat.IsAttack || m_Combat.IsAim)

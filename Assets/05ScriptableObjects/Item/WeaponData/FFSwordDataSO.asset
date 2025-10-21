@@ -13,16 +13,16 @@ MonoBehaviour:
   m_Name: FFSwordDataSO
   m_EditorClassIdentifier: 
   Description: 
-  ItemType: 2
+  ItemType: 1
   ItemPrefab: {fileID: 7379654183871346297, guid: 6ac4f265645f71346bfbfbf509d9b03e, type: 3}
+  SerialNumber: 0
   ID: 10
   Name: FFSword
   Grade: 0
   Icon: {fileID: 0}
-  ApplicableSlot: 4
+  EquipType: 4
   UsageLevel: 0
   Weight: 0
   Durability: 0
-  WeaponType: 1
-  AttackDamage: 30
-  AttackDelay: 0
+  WeaponType: 0
+  CombatData: {fileID: 11400000, guid: db7e333ec9b4f2f49af26b976d5f8903, type: 2}

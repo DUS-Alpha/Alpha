@@ -13,15 +13,16 @@ MonoBehaviour:
   m_Name: SniperDataSO
   m_EditorClassIdentifier: 
   Description: 
-  ItemType: 2
+  ItemType: 1
   ItemPrefab: {fileID: 4092560987667714750, guid: e83fd72c72167ff4ea7d756ab1cb1e61, type: 3}
+  SerialNumber: 0
   ID: 30
   Name: Sniper
   Grade: 0
   Icon: {fileID: 0}
-  ApplicableSlot: 6
+  EquipType: 4
   UsageLevel: 0
   Weight: 0
   Durability: 0
-  WeaponType: 3
-  CombatData: {fileID: 0}
+  WeaponType: 2
+  CombatData: {fileID: 11400000, guid: e2b34a089a94d1b40833515eadfddf07, type: 2}

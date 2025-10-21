@@ -38,7 +38,7 @@ public class TestApplyDamage : MonoBehaviour
         var damagemessage = new DamageMassage()
         {
             Damager =  target,
-            damage = target.GetComponent<TestPlayerController>().damage
+            Damage = target.GetComponent<TestPlayerController>().damage
         };
         
         dragon.ApplyDamage(damagemessage);

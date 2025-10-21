@@ -99,7 +99,7 @@ public class DamageRange : MonoBehaviour
                 //_damageMassage.HitNormal = hit.normal;
                 //_damageMassage.HitPoint = hit.point;
                 //RangeWeapon _range = CurrentWeapon as RangeWeapon;
-                _damageMassage.damage = damage;
+                _damageMassage.Damage = damage;
 
                 _hitBox.damageable.ApplyDamage(_damageMassage);
                 print("히트박스 데미지 완료");

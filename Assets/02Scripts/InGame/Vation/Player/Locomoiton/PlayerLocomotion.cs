@@ -453,7 +453,7 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
 
         if(m_status.HP > 0)
         {
-            m_status.HP -= damageMassage.damage;
+            m_status.HP -= damageMassage.Damage;
             if(m_status.HP%2 == 0)
             {
                 m_animationController.HitTriggerAni();

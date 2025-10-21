@@ -11,6 +11,9 @@ public class PlayerEquipmentController
     private Dictionary<EquipTypes, Transform> m_ammorTypeHolderDic;
     private Dictionary<WeaponTypes, Transform> m_weaponTypeHolderDic;
 
+    public Weapon[] CurrentEquipWeapons = new Weapon[3];
+    public Dictionary<WeaponTypes, Weapon> CurrentEquipWeaponDic;
+
     public PlayerEquipmentController(Transform[] equipmentHoderTrs, Transform[] weaponHoderTrs)
     {
         m_equipmentHoderTrs = equipmentHoderTrs;
@@ -32,6 +35,49 @@ public class PlayerEquipmentController
             { WeaponTypes.MainRange, m_weaponHoderTrs[1] },
             { WeaponTypes.SubRange, m_weaponHoderTrs[2] },
         };
+
+        CurrentEquipWeaponDic = new Dictionary<WeaponTypes, Weapon>
+        {
+            {WeaponTypes.Melee, CurrentEquipWeapons[0] },
+            {WeaponTypes.MainRange, CurrentEquipWeapons[1] },
+            {WeaponTypes.SubRange, CurrentEquipWeapons[2] },
+        };
+
+        // Melee만 Holder 활성화
+        foreach (var tr in m_weaponHoderTrs)
+        {
+            tr.gameObject.SetActive(false);
+        }
+    }
+
+    // 픽업한 아이템의 데이터에 대한 아이템 정보 생성
+    // 저장은 픽업아이템에서 직접 플레이어 인벤토리 클래스로 정보를 보냄
+    private Item CreateItem(ItemDataSO data)
+    {
+        GameObject ItemObj = new GameObject(data.Name);
+        Item ItemBase = null;
+
+        if (data is WeaponDataSO weaponData)
+        {
+            switch (weaponData.WeaponType)
+            {
+                case WeaponTypes.Melee:
+                    ItemBase = ItemObj.AddComponent<MeleeWeapon>();
+                    break;
+                case WeaponTypes.MainRange:
+                case WeaponTypes.SubRange:
+                    ItemBase = ItemObj.AddComponent<RangeWeapon>();
+                    break;
+            }
+        }
+        else if (data is EquipmentDataSO equipData)
+            ItemBase = ItemObj.AddComponent<Equipment>();
+        else
+            ItemBase = ItemObj.AddComponent<Item>();
+
+        ItemBase.Initialize(data);
+
+        return ItemBase;
     }
 
     /// <summary>
@@ -45,19 +91,55 @@ public class PlayerEquipmentController
             return;
         }
 
-        // 실제 장비 생성
-        Item _item = CreateItem(equipment.EquipData);
+        // 실제 장비 아이템 생성
+        //Item _item = CreateItem(equipment.EquipData);
+        Item _equipItem = GameObject.Instantiate(equipment);
+
         Transform _parent = GetParentTransform(equipment);
 
         if (_parent == null)
         {
             Debug.LogWarning($"{equipment.EquipData.Name} 의 장착 위치를 찾지 못했습니다.");
-            UnityEngine.Object.Destroy(_item.gameObject);
+            UnityEngine.Object.Destroy(_equipItem.gameObject);
             return;
         }
 
-        _item.transform.SetParent(_parent);
+        _equipItem.transform.SetParent(_parent);
+
+        // 오브제트 초기화
+        _equipItem.transform.localPosition = Vector3.zero;
+        _equipItem.transform.localRotation = Quaternion.identity;
+        _equipItem.transform.localScale = Vector3.one;
+
+        if (_equipItem is Weapon weapon)
+        {
+            var _type = weapon.WeaponData.WeaponType;
+            // 기존 무기가 있다면 제거
+            if (CurrentEquipWeaponDic.ContainsKey(_type))
+            {
+                UnEquip(_type);
+            }
+
+            // 새로운 무기 등록
+            CurrentEquipWeaponDic[_type] = weapon;
+            int _index = (int)_type;
+            if (_index < CurrentEquipWeapons.Length)
+                CurrentEquipWeapons[_index] = weapon;
+        }
     }
+    public void UnEquip(WeaponTypes type)
+    {
+        if (CurrentEquipWeaponDic.TryGetValue(type, out var weapon))
+        {
+            if (weapon != null)
+                GameObject.Destroy(weapon.gameObject);
+        }
+
+        int _index = (int)type;
+        if (_index < CurrentEquipWeapons.Length)
+            CurrentEquipWeapons[_index] = null;
+    }
+
     private Transform GetParentTransform(Equipment equipment)
     {
         // 무기 장비인지 확인
@@ -70,6 +152,7 @@ public class PlayerEquipmentController
 
     private Transform GetWeaponHolder(WeaponTypes weaponType)
     {
+        
         return m_weaponTypeHolderDic.TryGetValue(weaponType, out var holder) ? holder : null;
 
         /*return weaponType switch
@@ -83,24 +166,21 @@ public class PlayerEquipmentController
 
     public void SwapWeapon(int weaponNum)
     {
+        weaponNum -= 1;
+        
+        // 해당 타입의 무기가 있는지 확인
+        if (!CurrentEquipWeapons[weaponNum])
+        {
+            Debug.Log($"[{weaponNum}] 타입의 무기가 없습니다.");
+            return;
+        }
+
+        for (int i = 0; i < m_weaponHoderTrs.Length; i++)
+        {
+            m_weaponHoderTrs[i].gameObject.SetActive(false);
+        }
+        m_weaponHoderTrs[weaponNum].gameObject.SetActive(true);
 
     }
 
-    // 픽업한 아이템의 데이터에 대한 아이템 정보 생성
-    // 저장은 픽업아이템에서 직접 플레이어 인벤토리 클래스로 정보를 보냄
-    private Item CreateItem(ItemDataSO data)
-    {
-        GameObject ItemObj = new GameObject(data.Name);
-        Item ItemBase;
-
-        if (data is WeaponDataSO weaponData)
-            ItemBase = ItemObj.AddComponent<Weapon>();
-        else if (data is EquipmentDataSO equipData)
-            ItemBase = ItemObj.AddComponent<Equipment>();
-        else
-            ItemBase = ItemObj.AddComponent<Item>();
-
-        ItemBase.Initialize(data);
-        return ItemBase;
-    }
 }

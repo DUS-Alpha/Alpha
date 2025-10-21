@@ -8,9 +8,16 @@ public interface IDamageable
 public struct DamageMassage
 {
     public GameObject Damager;
-    public float damage;
-
+    public float Damage;
+    public DamageTypes DamageType;
     public Vector3 HitPoint;
     public Vector3 HitNormal;
 }
 
+public enum DamageTypes
+{
+    None,
+    Base,
+    AirBone,
+    KnockBack
+}
