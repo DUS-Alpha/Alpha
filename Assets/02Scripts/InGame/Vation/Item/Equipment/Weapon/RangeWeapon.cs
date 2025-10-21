@@ -14,7 +14,7 @@ public class RangeWeapon : Weapon
 {
     [Space(10)]
 
-    [Header("[ Range ]")]
+    [Header("[ MainRange ]")]
     public RangeTypes RangeType;
 
     [SerializeField]

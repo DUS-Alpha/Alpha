@@ -3,15 +3,16 @@ using UnityEngine;
 // TODO : 장비관련해서는 차후에
 public enum WeaponTypes
 {
-    Hand,
     Melee,
-    Range,
+    MainRange,
+    SubRange
 }
-[CreateAssetMenu(fileName = "WeaponDataSO", menuName = "Scriptable Objects/WeaponDataSO")]
+
+[CreateAssetMenu(fileName = "WeaponDataSO", menuName = "Scriptable Objects/Item/WeaponDataSO")]
 public class WeaponDataSO : EquipmentDataSO
 {
-    [Header("[ Weapon Info ]"),Space(10)]
+    [Header("[ MeleeWeapon Info ]"), Space(10)]
+
     public WeaponTypes WeaponType;
-    public int AttackDamage;
-    public float AttackDelay;
+    public CombatDataStatus CombatData;
 }

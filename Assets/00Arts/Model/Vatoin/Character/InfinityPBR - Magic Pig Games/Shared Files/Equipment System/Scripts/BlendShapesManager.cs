@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using InfinityPBR;
 using UnityEditor;
@@ -259,7 +259,7 @@ namespace InfinityPBR
 
         public void LoadRangeFile(TextAsset rangeFile)
         {
-            Debug.Log("Loading Range File: " + rangeFile.name);
+            Debug.Log("Loading MainRange File: " + rangeFile.name);
             string contents = rangeFile.text;
             if (ImportRangeFileFromV2(rangeFile))
                 return;
@@ -306,7 +306,7 @@ namespace InfinityPBR
             string[] splitText = textAsset.text.Split(new string[] { "," }, System.StringSplitOptions.None);
             if (splitText[0] == "InfinityPBR_BlendShapesManager_RangeFile")
             {
-                Debug.Log("Range File Version: " + splitText[0]);
+                Debug.Log("MainRange File Version: " + splitText[0]);
                 for (int i = 1; i < splitText.Length; i++)
                 {
                     string gameObjectName = splitText[i];

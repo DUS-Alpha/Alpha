@@ -71,8 +71,6 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
     [SerializeField]
     private float m_maxFlyingGauge;
     public float MaxFlyingGauge => m_maxFlyingGauge;
-    [SerializeField]
-    private TextMeshProUGUI m_gaugeTMP;
     public float FlyingGauge { get; private set; }
     
     private float m_currentFlyHeight = 0f;      // 현재 FlyUp 높이
@@ -144,7 +142,7 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
     {
         m_moveDir = m_InputHandler.MoveDir;
         IsMove = m_InputHandler.IsMove;
-        IsRot = m_InputHandler.ISRot;
+        IsRot = m_InputHandler.IsRotLock;
         IsFlyUp = m_InputHandler.IsFlyUp;
         IsDash = m_InputHandler.IsDash;
         IsJump = m_InputHandler.IsJump;
@@ -339,7 +337,7 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
         else 
             FlyingGauge = m_maxFlyingGauge;
 
-        m_gaugeTMP.text = FlyingGauge.ToString();
+        RealTimeUIManager.Instance.FlyGaugeUI(FlyingGauge);
     }
     // 감소
     public void DecreaseFlyingGauge()
@@ -352,7 +350,7 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
             IsFlyingGaugeZero = true;
         }
 
-        m_gaugeTMP.text = FlyingGauge.ToString();
+        RealTimeUIManager.Instance.FlyGaugeUI(FlyingGauge);
     }
 
     public void EnterFlyUp(bool isWeapon)

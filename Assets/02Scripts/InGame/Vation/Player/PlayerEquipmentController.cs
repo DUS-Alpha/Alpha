@@ -1,140 +1,106 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 // 실제 장비(모델)를 플레이어에 장착하거나 교체, 해제
-public class PlayerEquipmentController : MonoBehaviour
+public class PlayerEquipmentController
 {
-    private Dictionary<ApplicableSlots, Equipment> m_currentEquippedItemDic = new Dictionary<ApplicableSlots, Equipment>();
-    private Dictionary<ApplicableSlots, Transform> m_holderTrDic;
-    [SerializeField]
-    private Transform m_headHolderTr;
-    [SerializeField]
-    private Transform m_chestHolderTr;
-    [SerializeField]
-    private Transform m_handHolderTr;
-    [SerializeField]
-    private Transform m_feetHolderTr;
+    private Transform[] m_equipmentHoderTrs;
+    private Transform[] m_weaponHoderTrs;
 
-    [Tooltip("모델 RightAttach 0:Hand, 1:Melee, 2:Rifle, 3:Sniper"),SerializeField]  
-    private Transform[] m_weaponHolderTr = new Transform[4];
+    private Dictionary<EquipTypes, Transform> m_ammorTypeHolderDic;
+    private Dictionary<WeaponTypes, Transform> m_weaponTypeHolderDic;
 
-    // TODO m_currentEquippedItemDic 차후로 관리
-    public Weapon[] Weapons => m_weapons;
-    private Weapon[] m_weapons = new Weapon[4];
+    public PlayerEquipmentController(Transform[] equipmentHoderTrs, Transform[] weaponHoderTrs)
+    {
+        m_equipmentHoderTrs = equipmentHoderTrs;
+        m_weaponHoderTrs = weaponHoderTrs;
+    }
 
-    
     public void InitializeModule()
     {
-        
-    }
-
-    public void InitializeEvents(IPlayerEvents events)
-    {
-        events.SwapWeaponAction += SwapWeapon;
-    }
-
-    private void Awake()
-    {
-        m_holderTrDic = new Dictionary<ApplicableSlots, Transform>
+        m_ammorTypeHolderDic = new Dictionary<EquipTypes, Transform>()
         {
-            { ApplicableSlots.Head, m_headHolderTr},
-            { ApplicableSlots.Chest, m_chestHolderTr},
-            { ApplicableSlots.Hands, m_chestHolderTr},
-            { ApplicableSlots.Feets, m_headHolderTr},
-            { ApplicableSlots.MeleeWeapon, m_weaponHolderTr[1]},
-            { ApplicableSlots.RifleWeapon, m_weaponHolderTr[2]},
-            { ApplicableSlots.SniperWeapon, m_weaponHolderTr[3]},
+            {EquipTypes.Head,  m_equipmentHoderTrs[0]},
+            {EquipTypes.Chest,  m_equipmentHoderTrs[1]},
+            {EquipTypes.Gloves,  m_equipmentHoderTrs[2]},
+            {EquipTypes.Feets,  m_equipmentHoderTrs[3]},
+        };
+        m_weaponTypeHolderDic = new Dictionary<WeaponTypes, Transform>
+        {
+            { WeaponTypes.Melee, m_weaponHoderTrs[0] },
+            { WeaponTypes.MainRange, m_weaponHoderTrs[1] },
+            { WeaponTypes.SubRange, m_weaponHoderTrs[2] },
         };
     }
 
-    private void Start()
-    {
-        SwapWeapon(0);
-    }
-
     /// <summary>
-    /// 장비 장착
+    /// 아이템 장착 (아이템 픽업시, 인벤토리에서 장착시)
     /// </summary>
-    /// <param name="equipment"></param>
     public void EquipItem(Equipment equipment)
     {
-        ApplicableSlots _slot = equipment.EquipData.ApplicableSlot;
-
-        // 해당 장비슬롯에 아이템있으면 슬롯에서 해제
-        if (m_currentEquippedItemDic.ContainsKey(_slot)){UnequipItem(_slot);}
-
-        // _slot키값의 equippedItems공간에 아이템(Equipment) 저장
-        m_currentEquippedItemDic[_slot] = equipment;
-
-        // 실제 무기 생성(실제 무기의 Equipment를 가져와야함 그래야 참조가됨)
-        Equipment _equipment = CreateEquipment(equipment);
-
-        _equipment.Equip(gameObject);
-        //Debug.Log($"{equipment.EquipData.Name} 장착 완료");
-
-        // 현재 장착된 무기 저장(Combat에서 각 무기에 따른 처리)
-        switch (_slot)
+        if (equipment == null || equipment.EquipData == null)
         {
-            case ApplicableSlots.MeleeWeapon:
-                m_weapons[1] = _equipment as Weapon;
-                break;
-            case ApplicableSlots.RifleWeapon:
-                m_weapons[2] = _equipment as Weapon;
-                break;
-            case ApplicableSlots.SniperWeapon:
-                m_weapons[3] = _equipment as Weapon;
-                break;
-        }
-    }
-
-    public void UnequipItem(ApplicableSlots slot)
-    {
-        if (m_currentEquippedItemDic.ContainsKey(slot))
-        {
-            m_currentEquippedItemDic[slot].Unequip(gameObject);
-            Debug.Log($"{m_currentEquippedItemDic[slot].EquipData.Name} 해제 완료");
-
-            // 첫번째 자식 삭제 (현재 장착되어 있는)
-            RemoveEquipment(slot);
-
-            m_currentEquippedItemDic.Remove(slot);
-        }
-    }
-
-    public void SwapWeapon(int weaponSlotIndex)
-    {
-        for (int i = 0; i < m_weaponHolderTr.Length; i++)
-        {
-            if(weaponSlotIndex == i)
-                m_weaponHolderTr[i].gameObject.SetActive(true);
-            else
-                m_weaponHolderTr[i].gameObject.SetActive(false);
+            Debug.LogWarning("잘못된 Equipment 또는 EquipData입니다.");
+            return;
         }
 
-        // TODO : 리팩토링때 자세히 처리
-        /*// 무기 슬롯 정의
-        ApplicableSlots weaponSlot = ApplicableSlots.Weapon;
+        // 실제 장비 생성
+        Item _item = CreateItem(equipment.EquipData);
+        Transform _parent = GetParentTransform(equipment);
 
-        // 기존 무기 해제
-        if (equippedItems.ContainsKey(weaponSlot))
+        if (_parent == null)
         {
-            UnequipItem(weaponSlot);
+            Debug.LogWarning($"{equipment.EquipData.Name} 의 장착 위치를 찾지 못했습니다.");
+            UnityEngine.Object.Destroy(_item.gameObject);
+            return;
         }
 
-        // 새 무기 장착
-        EquipItem(weapon);*/
+        _item.transform.SetParent(_parent);
     }
-    
-    public Equipment CreateEquipment(Equipment equipment)
+    private Transform GetParentTransform(Equipment equipment)
     {
-        Transform _parentHolder = m_holderTrDic[equipment.EquipData.ApplicableSlot];
-        GameObject item = Instantiate(equipment.Data.ItemPrefab, _parentHolder);
-        Equipment equip = item.GetComponent<Equipment>();
-        return equip;
+        // 무기 장비인지 확인
+        if (equipment.EquipData.EquipType == EquipTypes.Weapon && equipment is Weapon weapon)
+            return GetWeaponHolder(weapon.WeaponData.WeaponType);
+
+        // 일반 장비일 경우는 바로 TryGetValue로 값 적용
+        return m_ammorTypeHolderDic.TryGetValue(equipment.EquipData.EquipType, out var holder)? holder : null;  //Dic의 값을 out으로 holder변수에 대입
     }
-    public void RemoveEquipment(ApplicableSlots slot)
+
+    private Transform GetWeaponHolder(WeaponTypes weaponType)
     {
-        Transform _parentHolder = m_holderTrDic[slot];
-        Destroy(_parentHolder.GetChild(0).gameObject);
+        return m_weaponTypeHolderDic.TryGetValue(weaponType, out var holder) ? holder : null;
+
+        /*return weaponType switch
+        {
+            WeaponTypes.Melee => m_weaponHoderTrs[0],
+            WeaponTypes.MainRange => m_weaponHoderTrs[1],
+            WeaponTypes.SubRange => m_weaponHoderTrs[2],
+            _ => null
+        };*/
+    }
+
+    public void SwapWeapon(int weaponNum)
+    {
+
+    }
+
+    // 픽업한 아이템의 데이터에 대한 아이템 정보 생성
+    // 저장은 픽업아이템에서 직접 플레이어 인벤토리 클래스로 정보를 보냄
+    private Item CreateItem(ItemDataSO data)
+    {
+        GameObject ItemObj = new GameObject(data.Name);
+        Item ItemBase;
+
+        if (data is WeaponDataSO weaponData)
+            ItemBase = ItemObj.AddComponent<Weapon>();
+        else if (data is EquipmentDataSO equipData)
+            ItemBase = ItemObj.AddComponent<Equipment>();
+        else
+            ItemBase = ItemObj.AddComponent<Item>();
+
+        ItemBase.Initialize(data);
+        return ItemBase;
     }
 }

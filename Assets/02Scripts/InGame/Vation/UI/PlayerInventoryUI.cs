@@ -9,16 +9,14 @@ public class InventorytUIData : BaseUIData
 // TODO : 인벤토리 테스트를 위한 대충만든것이므로 차후 리팩토링
 public class PlayerInventoryUI : BaseUI
 {
-    [SerializeField]
-    private Sprite m_headSlot;
-    [SerializeField]
-    private Sprite m_chestSlot;
-    [SerializeField]
-    private Sprite m_handSlot;
-    [SerializeField]
-    private Sprite m_weaponSlot;
-    [SerializeField]
-    private Sprite m_feetSlot;
+    // ========================= Equipment
+    public EquipItemSlot HeadSlot;
+    public EquipItemSlot ShieldSlot;
+    public EquipItemSlot ChestArmorSlot;
+    public EquipItemSlot BootsSlot;
+    public EquipItemSlot GlovesSlot;
+    public EquipItemSlot WeaponSlot;
+    //========================= /Equipment
 
     private InventorytUIData m_inventoryUIData;
 
@@ -26,15 +24,16 @@ public class PlayerInventoryUI : BaseUI
     public override void SetInfo(BaseUIData uiData)
     {
         base.SetInfo(uiData);
-        m_inventoryUIData = uiData as InventorytUIData;
+
+
     }
 
     public void Equip(EquipmentDataSO equipmentData)
     {
         Sprite _icon = equipmentData.Icon;
-        switch (equipmentData.ApplicableSlot)
+        switch (equipmentData.EquipType)
         {
-            case ApplicableSlots.Head:
+            /*case ApplicableSlots.Head:
                 m_headSlot = _icon;
                 break;
             case ApplicableSlots.Chest:
@@ -43,9 +42,9 @@ public class PlayerInventoryUI : BaseUI
             case ApplicableSlots.Feets:
                 m_feetSlot = _icon;
                 break;
-            case ApplicableSlots.Hands:
+            case ApplicableSlots.Gloves:
                 m_handSlot = _icon;
-                break;
+                break;*/
         }
     }
     public void UnEquip(EquipmentDataSO equipmentData)

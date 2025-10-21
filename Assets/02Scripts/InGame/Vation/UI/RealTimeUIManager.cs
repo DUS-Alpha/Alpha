@@ -1,5 +1,4 @@
 using System;
-using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,17 +9,14 @@ public struct CrossHairUI
     public Image[] Icons;
 }
 
-public class PlayerUIManager : MonoBehaviour
+public class RealTimeUIManager : MonoBehaviour
 {
-    public static PlayerUIManager Instance;
+    public static RealTimeUIManager Instance;
 
     [SerializeField]
     private Image[] m_crossHairIcon;
     [SerializeField]
     private Image[] m_sniperUI;
-
-    [SerializeField]
-    private PlayerInventoryUI m_inventoryUI;
 
     [SerializeField]
     private TextMeshProUGUI m_ammoTMP;
@@ -29,41 +25,25 @@ public class PlayerUIManager : MonoBehaviour
     private TextMeshProUGUI m_locomotionTMP;
     [SerializeField]
     private TextMeshProUGUI m_combatTMP;
+
+    [SerializeField]
+    private TextMeshProUGUI m_flyGaugeTMP;
     private void Awake()
     {
-        Instance = this;
+        if(Instance == null)
+            Instance = this;
     }
-    private void Start()
+
+    void Start()
     {
         ChangeSniperAimUI(false);
         SetAmmo(0, 0, 0);
     }
-    private BaseUI GetUI<T>(out bool isAlreadyOpen) //out : 참조역할 이를 통해 BaseUI와 bool 두 타입을 반환
+
+    // Update is called once per frame
+    void Update()
     {
-        Type uiType = typeof(T);
-        BaseUI _ui = null;
-
-        isAlreadyOpen = false;
-
-        var _uiObj = m_inventoryUI;
-        _ui = _uiObj.GetComponent<BaseUI>();
-        return _ui;
-    }
-
-    // InputManager의 해당 키를 통해 동작
-    public void OpenUI<T>(BaseUIData uiData)
-    {
-        Type _uiType = typeof(T); //받아온 UI타입 저장
-
-        bool _isAlreadyOpen = false;
-        var _ui = GetUI<T>(out _isAlreadyOpen);
-
-        _ui.SetInfo(uiData);
-    }
-
-    public void CloseUI(BaseUI ui)
-    {
-
+        
     }
     public void ChangeSniperAimUI(bool isSniper)
     {
@@ -71,7 +51,7 @@ public class PlayerUIManager : MonoBehaviour
         m_sniperUI[0].gameObject.SetActive(isSniper);
     }
 
-    public void SetColorMarkCrossHead(bool isDistance, bool isSniper=false)
+    public void SetColorMarkCrossHead(bool isDistance, bool isSniper = false)
     {
         Image[] _targetImage;
         if (isSniper)
@@ -87,11 +67,6 @@ public class PlayerUIManager : MonoBehaviour
         }
     }
 
-    public void EquipInventory(EquipmentDataSO equipmentData)
-    {
-        m_inventoryUI.Equip(equipmentData);
-    }
-
     // 현재 Ammo와 SaveAmmo만 표기하면됨
     public void SetAmmo(int currentAmmo, int saveAmmo, int maxAmmo)
     {
@@ -105,5 +80,10 @@ public class PlayerUIManager : MonoBehaviour
     public void CurrentCombatState(string state)
     {
         m_combatTMP.text = "Combat \n" + state;
+    }
+
+    public void FlyGaugeUI(float t)
+    {
+        m_flyGaugeTMP.text = t.ToString();
     }
 }

@@ -2,9 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
-
 public enum BGMType
 {
     None,
@@ -19,20 +16,24 @@ public struct BGMMapping
     public AudioClip AudioClip;
 }
 
-public enum SFX_WorldType
+public enum SFX_UIType
 {
     None,
+    Open,
+    Close,
 }
 [Serializable]
-public struct SFX_WorldMapping
+public struct SFX_UIMapping
 {
-    public SFX_WorldType Type;
+    public SFX_UIType Type;
     public AudioClip AudioClip;
 }
 
 
 public class AudioManager : MonoBehaviour
 {
+    public static AudioManager Instance;
+
     [SerializeField]
     private AudioSource[] m_bgmAudioSource;
     [SerializeField]
@@ -42,10 +43,10 @@ public class AudioManager : MonoBehaviour
 
 
     [SerializeField]
-    private AudioSource[] m_sfxWorldAudioSource;
+    private AudioSource[] m_sfxUIAudioSource;
     [SerializeField]
-    SFX_WorldMapping[] m_sfxWorldMappings;
-    private Dictionary<SFX_WorldType, AudioClip> m_sfxWorldAudioDic;
+    SFX_UIMapping[] m_sfxUIMappings;
+    private Dictionary<SFX_UIType, AudioClip> m_sfxWorldAudioDic;
     [Space(10)]
     
     [SerializeField]
@@ -55,8 +56,10 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
+        Instance = this;
+
         m_bgmAudioDic = new Dictionary<BGMType, AudioClip>();
-        m_sfxWorldAudioDic = new Dictionary<SFX_WorldType, AudioClip>();
+        m_sfxWorldAudioDic = new Dictionary<SFX_UIType, AudioClip>();
 
         foreach (var map in m_bgmMappings)
         {
@@ -66,7 +69,7 @@ public class AudioManager : MonoBehaviour
             }
         }
 
-        foreach (var map in m_sfxWorldMappings)
+        foreach (var map in m_sfxUIMappings)
         {
             if (m_sfxWorldAudioDic.ContainsKey(map.Type))
             {
@@ -76,7 +79,7 @@ public class AudioManager : MonoBehaviour
 
     }
     private AudioClip GetBGMClip(BGMType type) => m_bgmAudioDic.TryGetValue(type, out AudioClip audioClip)? audioClip : null;
-    private AudioClip GetSFXWorldClip(SFX_WorldType type) => m_sfxWorldAudioDic.TryGetValue(type, out AudioClip audioclip)? audioclip : null;
+    private AudioClip GetSFXUIClip(SFX_UIType type) => m_sfxWorldAudioDic.TryGetValue(type, out AudioClip audioclip)? audioclip : null;
 
 
     void Start()
@@ -106,40 +109,21 @@ public class AudioManager : MonoBehaviour
     }
     public void StopSFX(int num)
     {
-        m_sfxWorldAudioSource[num].Stop();
+        m_sfxUIAudioSource[num].Stop();
     }
+
     // TODO 재활용성을 위해 PlaySFX로 통합할지 고민
-    public void PlaySFXLocomotionAudio(int num ,SFX_WorldType sfxType, bool isPlayOneShot = false)
+    public void PlaySFXUIAudio(int num ,SFX_UIType sfxType, bool isPlayOneShot = false)
     {
-        AudioClip _clip = GetSFXWorldClip(sfxType);
+        AudioClip _clip = GetSFXUIClip(sfxType);
         if (_clip == null) return;
 
-        if (isPlayOneShot) m_sfxWorldAudioSource[num].PlayOneShot(_clip);
+        if (isPlayOneShot) m_sfxUIAudioSource[num].PlayOneShot(_clip);
         else
         {
-            if(!m_sfxWorldAudioSource[num].isPlaying)
-            m_sfxWorldAudioSource[num].clip = _clip;
-            m_sfxWorldAudioSource[num].Play();
+            if(!m_sfxUIAudioSource[num].isPlaying)
+            m_sfxUIAudioSource[num].clip = _clip;
+            m_sfxUIAudioSource[num].Play();
         }
     }
-    
-    public void PlaySFXCombatAudio(SFX_CombatType sfxType, bool isStop = false, bool isPlayOneShot = false)
-    {
-        if (isStop) m_sfxCombatAudio.Stop();
-
-        AudioClip _clip = m_sfxCombatClips[(int)sfxType - 1];
-
-        m_sfxCombatAudio.clip = _clip;
-        if (isPlayOneShot)
-            m_sfxCombatAudio.PlayOneShot(_clip);
-        else
-        {
-            if(!m_sfxCombatAudio.isPlaying)
-            {
-                m_sfxCombatAudio.Play();
-            }
-        }
-    }
-
-    // TODO : 사운드 페이드인아웃 효과 적용 필요
 }

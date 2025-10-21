@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEditor;
 using UnityEngine;
 using InfinityPBR;
@@ -147,12 +147,12 @@ namespace InfinityPBR
             {
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.BeginVertical();
-                colorShifterObject.material.SetFloat("_ColorIDRange", EditorGUILayout.FloatField("Range",colorShifterObject.material.GetFloat("_ColorIDRange")));
+                colorShifterObject.material.SetFloat("_ColorIDRange", EditorGUILayout.FloatField("MainRange",colorShifterObject.material.GetFloat("_ColorIDRange")));
                 colorShifterObject.material.SetFloat("_ColorIDFuzziness",EditorGUILayout.FloatField("Fuzziness",colorShifterObject.material.GetFloat("_ColorIDFuzziness")));
 
                 EditorGUILayout.EndVertical();
                 EditorGUILayout.HelpBox(
-                    "In most cases Range and Fuzziness values should be set to 0.01.",
+                    "In most cases MainRange and Fuzziness values should be set to 0.01.",
                     MessageType.Warning);
                 EditorGUILayout.EndHorizontal();
             }

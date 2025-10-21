@@ -11,7 +11,7 @@ public class PlayerInputHandler : MonoBehaviour
     #region ==================== LocomotionInput
     public Vector3 MoveDir { get; private set; }
     public bool IsMove {  get; private set; }
-    public bool ISRot {  get; private set; }
+    public bool IsRotLock {  get; private set; }
     public bool IsDash { get; private set; }
     public bool IsJump { get; private set; }
     public bool IsFlyUp { get; private set; }
@@ -34,10 +34,7 @@ public class PlayerInputHandler : MonoBehaviour
     #endregion ==================== /CombatInput
 
     #region ==================== ETC
-    private bool m_isLocomotionLock;
-    private bool m_isCombatLock;
     public bool IsInventory { get; private set; }
-
     #endregion ==================== /ETC
 
     public void InitializeModule(PlayerCombat playerCombat, InputLockedFlagsController<InputLocoLockType> inputLocoflags, InputLockedFlagsController<InputCombatLockType> inputCombatflags)
@@ -56,15 +53,14 @@ public class PlayerInputHandler : MonoBehaviour
     {
         LocomotionInput();
         CombatInput();
-
-        IsInventory = Input.GetKeyDown(KeyCode.I);
+        ETCInput();
     }
-
+    #region ================================================================================ LOCOMOTION
     private void LocomotionInput()
     {
         HandleInputMove();
         bool _isRot = Input.GetKeyDown(KeyCode.LeftAlt);
-        if (_isRot) ISRot = !ISRot;
+        if (_isRot) IsRotLock = !IsRotLock;
         IsJump = Input.GetKeyDown(KeyCode.Space);
         IsFlyUp = Input.GetKeyDown(KeyCode.F);
         IsFlyOff = Input.GetKeyDown(KeyCode.E);
@@ -80,14 +76,15 @@ public class PlayerInputHandler : MonoBehaviour
 
         IsMove = MoveDir.sqrMagnitude > 0.1f;
     }
+    #endregion ================================================================================ /LOCOMOTION
 
+    #region ================================================================================ COMBAT
     private void CombatInput()
     {
         IsSwap = IsSwapInput();
         IsAttack = Input.GetMouseButton(0);
         IsAim = Input.GetMouseButtonDown(1) && m_combat.CurrentWeaponNum > 1;
         IsReload = Input.GetKeyDown(KeyCode.R);
-
         IsSkill = SkillKeyCode();
     }
 
@@ -117,4 +114,12 @@ public class PlayerInputHandler : MonoBehaviour
         }
         return false;
     }
+    #endregion ================================================================================ /COMBAT
+
+    #region ================================================================================ ETC
+    private void ETCInput()
+    {
+        IsInventory = Input.GetKeyDown(KeyCode.I);
+    }
+    #endregion ================================================================================ /ETC
 }

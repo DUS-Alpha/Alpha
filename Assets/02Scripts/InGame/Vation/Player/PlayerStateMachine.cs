@@ -63,8 +63,8 @@ public class PlayerStateMachine
         if (m_playerCore.Locomotion.IsDie) return;
         m_combatState.Update();
 
-        m_playerCore.UIManager.CurrentLocomotionState(m_currentLocoType.ToString());
-        m_playerCore.UIManager.CurrentCombatState(m_currentCombatType.ToString());
+        RealTimeUIManager.Instance.CurrentLocomotionState(m_currentLocoType.ToString());
+        RealTimeUIManager.Instance.CurrentCombatState(m_currentCombatType.ToString());
     }
 
     public void SwitchLocomotionState(LocomotionStateType newState)

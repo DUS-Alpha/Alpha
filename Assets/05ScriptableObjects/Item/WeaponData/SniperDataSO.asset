@@ -23,6 +23,5 @@ MonoBehaviour:
   UsageLevel: 0
   Weight: 0
   Durability: 0
-  WeaponType: 2
-  AttackDamage: 80
-  AttackDelay: 2
+  WeaponType: 3
+  CombatData: {fileID: 0}

@@ -71,23 +71,23 @@ namespace InfinityPBR
         {
             // Cache values
             var tempShapes = EditorPrefs.GetBool("Blend Shapes Manager Show Blend Shapes");
-            var tempRange = EditorPrefs.GetBool("Blend Shapes Manager Show Range Files");
+            var tempRange = EditorPrefs.GetBool("Blend Shapes Manager Show MainRange Files");
             var tempSetup = EditorPrefs.GetBool("Blend Shapes Manager Show Setup And Options");
             
             // Show buttons
             EditorGUILayout.BeginHorizontal();
             SectionButton($"Blend Shapes", "Blend Shapes Manager Show Blend Shapes");
-            SectionButton("Range Files", "Blend Shapes Manager Show Range Files");
+            SectionButton("MainRange Files", "Blend Shapes Manager Show MainRange Files");
             SectionButton("Setup & Options", "Blend Shapes Manager Show Setup And Options");
             EditorGUILayout.EndHorizontal();
             
             // Check for changes -- Ensure others are turned off
             if (!tempShapes && EditorPrefs.GetBool("Blend Shapes Manager Show Blend Shapes"))
             {
-                EditorPrefs.SetBool("Blend Shapes Manager Show Range Files", false);
+                EditorPrefs.SetBool("Blend Shapes Manager Show MainRange Files", false);
                 EditorPrefs.SetBool("Blend Shapes Manager Show Setup And Options", false);
             }
-            if (!tempRange && EditorPrefs.GetBool("Blend Shapes Manager Show Range Files"))
+            if (!tempRange && EditorPrefs.GetBool("Blend Shapes Manager Show MainRange Files"))
             {
                 EditorPrefs.SetBool("Blend Shapes Manager Show Blend Shapes", false);
                 EditorPrefs.SetBool("Blend Shapes Manager Show Setup And Options", false);
@@ -95,7 +95,7 @@ namespace InfinityPBR
             if (!tempSetup && EditorPrefs.GetBool("Blend Shapes Manager Show Setup And Options"))
             {
                 EditorPrefs.SetBool("Blend Shapes Manager Show Blend Shapes", false);
-                EditorPrefs.SetBool("Blend Shapes Manager Show Range Files", false);
+                EditorPrefs.SetBool("Blend Shapes Manager Show MainRange Files", false);
             }
         }
 
@@ -138,9 +138,9 @@ namespace InfinityPBR
 
         private void ShowRangeFiles()
         {
-            if (!EditorPrefs.GetBool("Blend Shapes Manager Show Range Files")) return;
+            if (!EditorPrefs.GetBool("Blend Shapes Manager Show MainRange Files")) return;
             
-            ShowHelpMessage("You are able to save and load \"Range\" files which contain predefined " +
+            ShowHelpMessage("You are able to save and load \"MainRange\" files which contain predefined " +
                         "values for min and max levels\n\nNOTE: For those who used the previous version of the Blend Shapes Manager, (" +
                         "\"SFB_BlendShapesManager.cs\"), you are able to import range settings exported from that script " +
                         "to migrate your settings to the new version. Use the new script \"Blend Shape Presets\" to create " +
@@ -151,7 +151,7 @@ namespace InfinityPBR
             // ADD NEW RANGE FILE
 
             EditorGUILayout.BeginHorizontal(EditorStyles.helpBox);
-            EditorGUILayout.LabelField("Drag & Drop Range File to Add");
+            EditorGUILayout.LabelField("Drag & Drop MainRange File to Add");
             TextAsset newRangeObject = null;
             newRangeObject =
                 EditorGUILayout.ObjectField(newRangeObject, typeof(TextAsset), false, GUILayout.Height(30)) as
@@ -202,7 +202,7 @@ namespace InfinityPBR
                 presetFileName = EditorGUILayout.TextField("Export Name", rangeFileName);
             else
                 EditorGUILayout.LabelField("You must select an export path before exporting.");
-            if (GUILayout.Button("Export Range File"))
+            if (GUILayout.Button("Export MainRange File"))
             {
                 ExportRangeFile();
             }
@@ -450,7 +450,7 @@ namespace InfinityPBR
                     "often be extreme.", MessageType.None);
 
                 EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField(new GUIContent($"Limit Random Range {symbolInfo}", $"Set minimum and maximum values for this shape. Sometimes it may be preferred " +
+                EditorGUILayout.LabelField(new GUIContent($"Limit Random MainRange {symbolInfo}", $"Set minimum and maximum values for this shape. Sometimes it may be preferred " +
                                                                                               $"to not allow the shape to go to the extreme values, and will help create a positive outcome when " +
                                                                                               $"using the \"Randomize\" methods.\n\nClick the \"Set Min\" and \"Set Max\" buttons with the slider " +
                                                                                               $"where you'd like those values to be to save them."), GUILayout.Width(250));
@@ -693,7 +693,7 @@ namespace InfinityPBR
 
         private string GetNewRangeFileName(BlendShapesManager blendShapesManager, string chosenName)
         {
-            string newName = string.IsNullOrEmpty(chosenName) ? "Exported Range File" : chosenName;
+            string newName = string.IsNullOrEmpty(chosenName) ? "Exported MainRange File" : chosenName;
             string cachedName = newName;
             int count = 1;
             while (File.Exists(blendShapesManager.exportPath + "/" + newName + ".txt"))
@@ -702,7 +702,7 @@ namespace InfinityPBR
                 newName = cachedName + "" + count;
 
                 if (count > 100)
-                    return "Range File";
+                    return "MainRange File";
             }
 
             return newName;
