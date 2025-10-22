@@ -444,12 +444,12 @@ namespace InfinityPBR
             if (!EditorPrefs.GetBool("Prefab Manager Show Group Types")) return;
 
             HelpBoxMessage("Organize your groups into types, often used to ensure that only one group " +
-                           "of each Type is active at a time. An example would be \"Hair\" for characters, or " +
-                           "perhaps \"Table Items\" for props on the top of a table. You can update the name of a Type" +
+                           "of each AttackType is active at a time. An example would be \"Hair\" for characters, or " +
+                           "perhaps \"Table Items\" for props on the top of a table. You can update the name of a AttackType" +
                            "here.\n\n" +
-                           "To add a new Type, simply write it into the \"Type\" field when viewing your prefab groups. " +
-                           "Each group starts without a Type.\n\n" +
-                           "To delete a Type, remove all groups of that Type, or change all groups to a different Type.", MessageType.Info);
+                           "To add a new AttackType, simply write it into the \"AttackType\" field when viewing your prefab groups. " +
+                           "Each group starts without a AttackType.\n\n" +
+                           "To delete a AttackType, remove all groups of that AttackType, or change all groups to a different AttackType.", MessageType.Info);
 
             foreach (var typeName in GroupTypeNames)
                 DisplayGroupType(typeName);
@@ -466,7 +466,7 @@ namespace InfinityPBR
             if (!UpdateGroupTypeName(oldName, newName))
                 return;
 
-            EditorPrefs.SetBool($"Prefab Manager Show Type {newName}", true);
+            EditorPrefs.SetBool($"Prefab Manager Show AttackType {newName}", true);
         }
 
         /*
@@ -519,7 +519,7 @@ namespace InfinityPBR
             
             StartRow();
             BackgroundColor(Color.yellow);
-            if (Button("Create New Group (with no Type)", 200))
+            if (Button("Create New Group (with no AttackType)", 200))
             {
                 Manager.CreateNewPrefabGroup();
                 DoCache();
@@ -546,7 +546,7 @@ namespace InfinityPBR
         {
             foreach (var typeName in GroupTypeNames)
             {
-                var prefsString = $"Prefab Manager Show Type {typeName}";
+                var prefsString = $"Prefab Manager Show AttackType {typeName}";
                 SetBool(prefsString, false);
             }
         }
@@ -557,7 +557,7 @@ namespace InfinityPBR
         {
             var groupsOfType = GroupsOfType(typeName);
             var typeDetails = $"{groupsOfType.Count} groups";
-            var prefsString = $"Prefab Manager Show Type {typeName}";
+            var prefsString = $"Prefab Manager Show AttackType {typeName}";
             
             
             StartRow();
@@ -568,7 +568,7 @@ namespace InfinityPBR
                 ToggleBool(prefsString);
             }
             ContentColor(Color.white);
-            LabelBig($"{(!String.IsNullOrWhiteSpace(typeName) ? $"{typeName}" : "[No Type]")} ({typeDetails})", 200, 14,true);
+            LabelBig($"{(!String.IsNullOrWhiteSpace(typeName) ? $"{typeName}" : "[No AttackType]")} ({typeDetails})", 200, 14,true);
             ContentColorIf(Manager.CanRandomize(typeName), Color.white, Color.grey);
             if (Button("Random", 60) && Manager.CanRandomize(typeName))
             {
@@ -981,7 +981,7 @@ namespace InfinityPBR
                 StartRow();
                 ShowSelectionPopup(prefabGroup); // The list of found objects available to be added
                 Label($"Add {symbolInfo}: ", $"\"Add\" will add only the selected object. \"Add All\" will prompt for confirmation before " +
-                                             $"adding all objects in the list.\n\n\"Add each to new group\" will create a new group of this Type " +
+                                             $"adding all objects in the list.\n\n\"Add each to new group\" will create a new group of this AttackType " +
                                              $"for each object.", 50);
             
                 BackgroundColor(Color.yellow);
@@ -1589,9 +1589,9 @@ namespace InfinityPBR
             { 
                 EditorGUILayout.LabelField(new GUIContent($"{symbolStarClosed} {symbolInfo}", $"Optional. Toggle one group to " +
                                                                                    $"be the default group. When a group of this " +
-                                                                                   $"Type is deactivated, the default group will " +
+                                                                                   $"AttackType is deactivated, the default group will " +
                                                                                    $"automatically be activated.\n\nThis option is " +
-                                                                                   $"only available for groups with a \"Type\"."), GUILayout.Width(fieldWidth));
+                                                                                   $"only available for groups with a \"AttackType\"."), GUILayout.Width(fieldWidth));
                 return;
             }
 
@@ -1627,7 +1627,7 @@ namespace InfinityPBR
             var fieldWidth = 100;
             if (header)
             { 
-                EditorGUILayout.LabelField(new GUIContent($"Type {symbolInfo}", $"You can group Prefab Groups by Type, making " +
+                EditorGUILayout.LabelField(new GUIContent($"AttackType {symbolInfo}", $"You can group Prefab Groups by AttackType, making " +
                                                                    $"it easier to have only one active at a time, or simply for " +
                                                                    $"organization purposes."), GUILayout.Width(fieldWidth));
                 return;
@@ -1639,7 +1639,7 @@ namespace InfinityPBR
             {
                 EnsureTypeNames();
                 DoCache();
-                EditorPrefs.SetBool($"Prefab Manager Show Type {group.groupType}", true);
+                EditorPrefs.SetBool($"Prefab Manager Show AttackType {group.groupType}", true);
             }
         }
 
@@ -1724,7 +1724,7 @@ namespace InfinityPBR
                 EditorGUILayout.Toggle(new GUIContent($"Instantiate Prefabs when Added to Group {symbolInfo}", "If true, prefabs that are added to a group " +
                     "will be instantiated into the scene."), Manager.instantiatePrefabsAsAdded);
             Manager.onlyOneGroupActivePerType =  
-                EditorGUILayout.Toggle(new GUIContent($"Only one group active per Type {symbolInfo}", "If true, only one group per named \"Type\" can be active " +
+                EditorGUILayout.Toggle(new GUIContent($"Only one group active per AttackType {symbolInfo}", "If true, only one group per named \"AttackType\" can be active " +
                           "at a time, and any active group will be deactivated when a new one is " +
                           "activated. This means you only have to call the \"Activate\" method, and " +
                           "the rest is handled for you."), Manager.onlyOneGroupActivePerType);
@@ -1766,7 +1766,7 @@ namespace InfinityPBR
             DefaultEditorBool("Prefab Manager Show Help Boxes", true);
             DefaultEditorBool("Prefab Manager Show Full Inspector", false);
             DefaultEditorBool("Prefab Manager Instantiate When Added", true);
-            DefaultEditorBool("Prefab Manager One Active Group Per Type", true);
+            DefaultEditorBool("Prefab Manager One Active Group Per AttackType", true);
             DefaultEditorBool("Prefab Manager Unpack Prefabs", true);
         }
 

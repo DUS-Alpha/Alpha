@@ -168,19 +168,11 @@ public class PlayerEquipmentController
     {
         weaponNum -= 1;
         
-        // 해당 타입의 무기가 있는지 확인
-        if (!CurrentEquipWeapons[weaponNum])
-        {
-            Debug.Log($"[{weaponNum}] 타입의 무기가 없습니다.");
-            return;
-        }
-
         for (int i = 0; i < m_weaponHoderTrs.Length; i++)
         {
             m_weaponHoderTrs[i].gameObject.SetActive(false);
         }
         m_weaponHoderTrs[weaponNum].gameObject.SetActive(true);
-
     }
 
 }

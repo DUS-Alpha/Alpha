@@ -1,5 +1,51 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &446901284284707858
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4875225812168555563}
+  - component: {fileID: 4245442276694265529}
+  m_Layer: 0
+  m_Name: Attack1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4875225812168555563
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 446901284284707858}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.01, y: 0.83, z: 1.5699999}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4916997399718454718}
+  m_Father: {fileID: 1522446058649352257}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4245442276694265529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 446901284284707858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba99c2d111fffdb40aea1949db6176f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distance: 0
 --- !u!1 &490067247980582288
 GameObject:
   m_ObjectHideFlags: 0
@@ -945,7 +991,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4916997399718454718}
+  - {fileID: 4875225812168555563}
   - {fileID: 328605014031651740}
   - {fileID: 92970296324072660}
   - {fileID: 4491781697744863451}
@@ -1473,13 +1519,14 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   m_weaponHoderTrs:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8653297437424576070}
+  - {fileID: 2729445786936002513}
+  - {fileID: 4428611334956580143}
   m_itemHolders:
   - {fileID: 2684152834521995391}
   - {fileID: 8698217380401527272}
   - {fileID: 6927416315786101526}
+  Weapons: []
 --- !u!114 &587818568328244339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1492,6 +1539,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2d790ccf400ffe438d6e6e013801bc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentWeapon: {fileID: 0}
   IsAim: 0
   SkillKey: 
   IsAction: 0
@@ -1675,6 +1723,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5357695526967143056}
+  - component: {fileID: 109613676372540946}
   m_Layer: 3
   m_Name: Skill1
   m_TagString: Untagged
@@ -1699,6 +1748,18 @@ Transform:
   - {fileID: 4472660585310079223}
   m_Father: {fileID: 629921120806769565}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &109613676372540946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7472965006149505596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcc61cab4a7c3374d999e776db5b0e60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8581476230177020339
 GameObject:
   m_ObjectHideFlags: 0
@@ -2153,6 +2214,26 @@ PrefabInstance:
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 198094294235037756, guid: c4d564b5d4682ad46b8621f0fa6f40d9, type: 3}
+      propertyPath: CollisionModule.type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198094294235037756, guid: c4d564b5d4682ad46b8621f0fa6f40d9, type: 3}
+      propertyPath: CollisionModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198094294235037756, guid: c4d564b5d4682ad46b8621f0fa6f40d9, type: 3}
+      propertyPath: CollisionModule.m_Bounce.scalar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198094294235037756, guid: c4d564b5d4682ad46b8621f0fa6f40d9, type: 3}
+      propertyPath: CollisionModule.collisionMessages
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198094294235037756, guid: c4d564b5d4682ad46b8621f0fa6f40d9, type: 3}
+      propertyPath: CollisionModule.collidesWith.m_Bits
+      value: 1048576
+      objectReference: {fileID: 0}
     - target: {fileID: 198228290782684382, guid: c4d564b5d4682ad46b8621f0fa6f40d9, type: 3}
       propertyPath: looping
       value: 0
@@ -2388,6 +2469,26 @@ PrefabInstance:
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 198815321472276864, guid: 3f0def245cefa134c838d34a7f6d2556, type: 3}
+      propertyPath: CollisionModule.type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198815321472276864, guid: 3f0def245cefa134c838d34a7f6d2556, type: 3}
+      propertyPath: CollisionModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198815321472276864, guid: 3f0def245cefa134c838d34a7f6d2556, type: 3}
+      propertyPath: CollisionModule.m_Bounce.scalar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198815321472276864, guid: 3f0def245cefa134c838d34a7f6d2556, type: 3}
+      propertyPath: CollisionModule.collisionMessages
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198815321472276864, guid: 3f0def245cefa134c838d34a7f6d2556, type: 3}
+      propertyPath: CollisionModule.collidesWith.m_Bits
+      value: 1048576
+      objectReference: {fileID: 0}
     - target: {fileID: 198875615928202638, guid: 3f0def245cefa134c838d34a7f6d2556, type: 3}
       propertyPath: looping
       value: 0
@@ -2543,6 +2644,22 @@ PrefabInstance:
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 198122840827383010, guid: 5ddce4a94a63ce14b9f717142ff9ba41, type: 3}
+      propertyPath: CollisionModule.type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198122840827383010, guid: 5ddce4a94a63ce14b9f717142ff9ba41, type: 3}
+      propertyPath: CollisionModule.m_Bounce.scalar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198122840827383010, guid: 5ddce4a94a63ce14b9f717142ff9ba41, type: 3}
+      propertyPath: CollisionModule.collisionMessages
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198122840827383010, guid: 5ddce4a94a63ce14b9f717142ff9ba41, type: 3}
+      propertyPath: CollisionModule.collidesWith.m_Bits
+      value: 1048576
+      objectReference: {fileID: 0}
     - target: {fileID: 198191693600269180, guid: 5ddce4a94a63ce14b9f717142ff9ba41, type: 3}
       propertyPath: looping
       value: 0
@@ -2598,6 +2715,30 @@ PrefabInstance:
     - target: {fileID: 198655242564314880, guid: 5ddce4a94a63ce14b9f717142ff9ba41, type: 3}
       propertyPath: playOnAwake
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198655242564314880, guid: 5ddce4a94a63ce14b9f717142ff9ba41, type: 3}
+      propertyPath: CollisionModule.type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198655242564314880, guid: 5ddce4a94a63ce14b9f717142ff9ba41, type: 3}
+      propertyPath: CollisionModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198655242564314880, guid: 5ddce4a94a63ce14b9f717142ff9ba41, type: 3}
+      propertyPath: CollisionModule.m_Bounce.scalar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198655242564314880, guid: 5ddce4a94a63ce14b9f717142ff9ba41, type: 3}
+      propertyPath: CollisionModule.collisionMessages
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198655242564314880, guid: 5ddce4a94a63ce14b9f717142ff9ba41, type: 3}
+      propertyPath: CollisionModule.collidesWith.m_Bits
+      value: 1048576
+      objectReference: {fileID: 0}
+    - target: {fileID: 198655242564314880, guid: 5ddce4a94a63ce14b9f717142ff9ba41, type: 3}
+      propertyPath: CollisionModule.m_EnergyLossOnCollision.scalar
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 198666009534400610, guid: 5ddce4a94a63ce14b9f717142ff9ba41, type: 3}
       propertyPath: looping
@@ -2944,6 +3085,34 @@ PrefabInstance:
     - target: {fileID: 198425313532396088, guid: 5e3170c6ef0f014409bd7423e3bb805a, type: 3}
       propertyPath: playOnAwake
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198425313532396088, guid: 5e3170c6ef0f014409bd7423e3bb805a, type: 3}
+      propertyPath: CollisionModule.type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198425313532396088, guid: 5e3170c6ef0f014409bd7423e3bb805a, type: 3}
+      propertyPath: CollisionModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198425313532396088, guid: 5e3170c6ef0f014409bd7423e3bb805a, type: 3}
+      propertyPath: CollisionModule.radiusScale
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 198425313532396088, guid: 5e3170c6ef0f014409bd7423e3bb805a, type: 3}
+      propertyPath: CollisionModule.m_Bounce.scalar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198425313532396088, guid: 5e3170c6ef0f014409bd7423e3bb805a, type: 3}
+      propertyPath: CollisionModule.collisionMessages
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198425313532396088, guid: 5e3170c6ef0f014409bd7423e3bb805a, type: 3}
+      propertyPath: CollisionModule.collidesWith.m_Bits
+      value: 1048576
+      objectReference: {fileID: 0}
+    - target: {fileID: 198425313532396088, guid: 5e3170c6ef0f014409bd7423e3bb805a, type: 3}
+      propertyPath: CollisionModule.m_EnergyLossOnCollision.scalar
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 198448007959773578, guid: 5e3170c6ef0f014409bd7423e3bb805a, type: 3}
       propertyPath: looping
@@ -3563,6 +3732,26 @@ PrefabInstance:
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 198659754889719218, guid: 09a2baab97fbf474f9499bf610686e4d, type: 3}
+      propertyPath: CollisionModule.type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198659754889719218, guid: 09a2baab97fbf474f9499bf610686e4d, type: 3}
+      propertyPath: CollisionModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198659754889719218, guid: 09a2baab97fbf474f9499bf610686e4d, type: 3}
+      propertyPath: CollisionModule.m_Bounce.scalar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198659754889719218, guid: 09a2baab97fbf474f9499bf610686e4d, type: 3}
+      propertyPath: CollisionModule.collisionMessages
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198659754889719218, guid: 09a2baab97fbf474f9499bf610686e4d, type: 3}
+      propertyPath: CollisionModule.collidesWith.m_Bits
+      value: 1048576
+      objectReference: {fileID: 0}
     - target: {fileID: 198795018253190524, guid: 09a2baab97fbf474f9499bf610686e4d, type: 3}
       propertyPath: looping
       value: 0
@@ -3660,7 +3849,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1522446058649352257}
+    m_TransformParent: {fileID: 4875225812168555563}
     m_Modifications:
     - target: {fileID: 1227018154236096, guid: 3f0def245cefa134c838d34a7f6d2556, type: 3}
       propertyPath: m_IsActive
@@ -3712,15 +3901,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4256832973525540, guid: 3f0def245cefa134c838d34a7f6d2556, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.01
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4256832973525540, guid: 3f0def245cefa134c838d34a7f6d2556, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.83
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4256832973525540, guid: 3f0def245cefa134c838d34a7f6d2556, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.57
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4256832973525540, guid: 3f0def245cefa134c838d34a7f6d2556, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3813,6 +4002,26 @@ PrefabInstance:
     - target: {fileID: 198815321472276864, guid: 3f0def245cefa134c838d34a7f6d2556, type: 3}
       propertyPath: playOnAwake
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198815321472276864, guid: 3f0def245cefa134c838d34a7f6d2556, type: 3}
+      propertyPath: CollisionModule.type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198815321472276864, guid: 3f0def245cefa134c838d34a7f6d2556, type: 3}
+      propertyPath: CollisionModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198815321472276864, guid: 3f0def245cefa134c838d34a7f6d2556, type: 3}
+      propertyPath: CollisionModule.m_Bounce.scalar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198815321472276864, guid: 3f0def245cefa134c838d34a7f6d2556, type: 3}
+      propertyPath: CollisionModule.collisionMessages
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198815321472276864, guid: 3f0def245cefa134c838d34a7f6d2556, type: 3}
+      propertyPath: CollisionModule.collidesWith.m_Bits
+      value: 1048576
       objectReference: {fileID: 0}
     - target: {fileID: 198875615928202638, guid: 3f0def245cefa134c838d34a7f6d2556, type: 3}
       propertyPath: looping
@@ -4129,6 +4338,34 @@ PrefabInstance:
     - target: {fileID: 198104556613700186, guid: a8a6ba91edbeef2439175ecf0e08e6fb, type: 3}
       propertyPath: playOnAwake
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198104556613700186, guid: a8a6ba91edbeef2439175ecf0e08e6fb, type: 3}
+      propertyPath: CollisionModule.type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198104556613700186, guid: a8a6ba91edbeef2439175ecf0e08e6fb, type: 3}
+      propertyPath: TriggerModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198104556613700186, guid: a8a6ba91edbeef2439175ecf0e08e6fb, type: 3}
+      propertyPath: CollisionModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198104556613700186, guid: a8a6ba91edbeef2439175ecf0e08e6fb, type: 3}
+      propertyPath: CollisionModule.m_Bounce.scalar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198104556613700186, guid: a8a6ba91edbeef2439175ecf0e08e6fb, type: 3}
+      propertyPath: CollisionModule.collisionMessages
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198104556613700186, guid: a8a6ba91edbeef2439175ecf0e08e6fb, type: 3}
+      propertyPath: CollisionModule.collidesWith.m_Bits
+      value: 1048576
+      objectReference: {fileID: 0}
+    - target: {fileID: 198104556613700186, guid: a8a6ba91edbeef2439175ecf0e08e6fb, type: 3}
+      propertyPath: CollisionModule.m_EnergyLossOnCollision.scalar
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 198225590370184974, guid: a8a6ba91edbeef2439175ecf0e08e6fb, type: 3}
       propertyPath: looping
@@ -4459,6 +4696,30 @@ PrefabInstance:
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 198317043341340416, guid: fb101b1453aec9747a5ed7244075b1a2, type: 3}
+      propertyPath: CollisionModule.type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198317043341340416, guid: fb101b1453aec9747a5ed7244075b1a2, type: 3}
+      propertyPath: CollisionModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198317043341340416, guid: fb101b1453aec9747a5ed7244075b1a2, type: 3}
+      propertyPath: CollisionModule.m_Bounce.scalar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198317043341340416, guid: fb101b1453aec9747a5ed7244075b1a2, type: 3}
+      propertyPath: CollisionModule.collisionMessages
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198317043341340416, guid: fb101b1453aec9747a5ed7244075b1a2, type: 3}
+      propertyPath: CollisionModule.collidesWith.m_Bits
+      value: 1048576
+      objectReference: {fileID: 0}
+    - target: {fileID: 198317043341340416, guid: fb101b1453aec9747a5ed7244075b1a2, type: 3}
+      propertyPath: CollisionModule.m_EnergyLossOnCollision.scalar
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 198763090609850768, guid: fb101b1453aec9747a5ed7244075b1a2, type: 3}
       propertyPath: looping
       value: 0
@@ -4474,6 +4735,22 @@ PrefabInstance:
     - target: {fileID: 198979535971578782, guid: fb101b1453aec9747a5ed7244075b1a2, type: 3}
       propertyPath: playOnAwake
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198979535971578782, guid: fb101b1453aec9747a5ed7244075b1a2, type: 3}
+      propertyPath: CollisionModule.type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198979535971578782, guid: fb101b1453aec9747a5ed7244075b1a2, type: 3}
+      propertyPath: CollisionModule.m_Bounce.scalar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198979535971578782, guid: fb101b1453aec9747a5ed7244075b1a2, type: 3}
+      propertyPath: CollisionModule.collisionMessages
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198979535971578782, guid: fb101b1453aec9747a5ed7244075b1a2, type: 3}
+      propertyPath: CollisionModule.collidesWith.m_Bits
+      value: 1048576
       objectReference: {fileID: 0}
     - target: {fileID: 199098841658027486, guid: fb101b1453aec9747a5ed7244075b1a2, type: 3}
       propertyPath: m_Materials.Array.size

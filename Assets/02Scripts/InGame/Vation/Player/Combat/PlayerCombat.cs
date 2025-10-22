@@ -119,7 +119,7 @@ public class PlayerCombat : MonoBehaviour
                 _damageMassage.HitNormal = hit.normal;
                 _damageMassage.HitPoint = hit.point;
                 RangeWeapon _range = CurrentWeapon as RangeWeapon;
-                _damageMassage.Damage = _range.WeaponData.CombatData.damage;
+                _damageMassage.Damage = _range.WeaponData.CombatData.Damage;
 
                 _hitBox.damageable.ApplyDamage(_damageMassage);
                 print("히트박스 데미지 완료");
@@ -174,7 +174,7 @@ public class PlayerCombat : MonoBehaviour
             m_playerCore.AniController.SetAnimatorWeight(1, 1);
             if (Time.time >= m_nextAttakTime)
             {
-                m_nextAttakTime = Time.time + _rangeWeapon.WeaponData.CombatData.cooldown;
+                m_nextAttakTime = Time.time + _rangeWeapon.WeaponData.CombatData.Cooldown;
                 // 무기 Swap시 마다 스나이퍼 같은 총의 경우 바로 발사를 하면 안되기에 계속 현재 무기값으로
                 _rangeWeapon.Attack(IsAttack, m_playerCore.AniController);
                 if (TryGetTarget(out RaycastHit hit, CurrentWeapon.m_maxDistance))
@@ -215,11 +215,10 @@ public class PlayerCombat : MonoBehaviour
         PlayerEquipmentController _equipController = m_playerCore.InventoryManager.EquipmentController;
         // 무기가 없을경우 리턴
         if (_equipController.CurrentEquipWeaponDic.TryGetValue(type, out var waepon))
-        {
-            CurrentWeaponNum = _swapNum;
-            CurrentWeapon = waepon;
-        }
-        else return false;
+            if(waepon == null) return false;
+            
+        CurrentWeaponNum = _swapNum;
+        CurrentWeapon = waepon;
         
         return true;
     }

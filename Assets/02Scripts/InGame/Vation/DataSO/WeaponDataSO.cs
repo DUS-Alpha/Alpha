@@ -14,5 +14,5 @@ public class WeaponDataSO : EquipmentDataSO
     [Header("[ MeleeWeapon Info ]"), Space(10)]
 
     public WeaponTypes WeaponType;
-    public CombatDataStatusSO CombatData;
+    public AttackDataSO CombatData;
 }

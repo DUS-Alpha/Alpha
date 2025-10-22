@@ -10,10 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 34377f42be134724bb35e5e8373f9aa6, type: 3}
-  m_Name: CombatStatusSO_Sniper
+  m_Name: AttackDataSO_Sniper
   m_EditorClassIdentifier: 
-  CombatName: 
-  CombatID: 0
+  Name: 
+  ID: 0
   AttackType: 1
-  damage: 80
-  cooldown: 2
+  DamageType: 0
+  WeaponRequirementNum: 2
+  HitEffectPrefab: {fileID: 0}
+  Damage: 0
+  Distance: 0
+  Radius: 0
+  StartDelay: 0
+  Duration: 0
+  Cooldown: 0
+  IsSkill: 0
+  SkillType: 0
+  SkillCategory: 0

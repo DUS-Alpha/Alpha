@@ -24,4 +24,9 @@ public abstract class ItemDataSO : ScriptableObject
     public string Name;
     public ItemGrade Grade;
     public Sprite Icon;
+
+    [Space(10)]
+    public bool IsEquip;
+
+
 }

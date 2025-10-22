@@ -198,7 +198,7 @@ namespace InfinityPBR
         
         public void ActivateNextOfType(string type)
         {
-            Debug.Log($"Activate next of Type {type}");
+            Debug.Log($"Activate next of AttackType {type}");
 
             var groups = GetGroupsOfType(type, false);
 
@@ -425,7 +425,7 @@ namespace InfinityPBR
 
             if (checkForDefault && !String.IsNullOrWhiteSpace(group.groupType))
             {
-                Debug.Log($"Check for default is true and group Type is {group.groupType}");
+                Debug.Log($"Check for default is true and group AttackType is {group.groupType}");
                 CheckForDefaultGroup(group.groupType);
             }
         }

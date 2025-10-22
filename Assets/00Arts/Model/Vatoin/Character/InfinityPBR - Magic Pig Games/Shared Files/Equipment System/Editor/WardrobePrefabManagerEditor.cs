@@ -185,8 +185,8 @@ namespace InfinityPBR
             
             var typeDetails = $"{groupsOfType.Count}";
 
-            EditorPrefs.SetBool($"Prefab Manager Show Type {typeName}", EditorGUILayout.Foldout(EditorPrefs.GetBool($"Prefab Manager Show Type {typeName}"), $"{(!String.IsNullOrWhiteSpace(typeName) ? $"{typeName}" : "[No Type]")} ({typeDetails})"));
-            if (!EditorPrefs.GetBool($"Prefab Manager Show Type {typeName}")) return;
+            EditorPrefs.SetBool($"Prefab Manager Show AttackType {typeName}", EditorGUILayout.Foldout(EditorPrefs.GetBool($"Prefab Manager Show AttackType {typeName}"), $"{(!String.IsNullOrWhiteSpace(typeName) ? $"{typeName}" : "[No AttackType]")} ({typeDetails})"));
+            if (!EditorPrefs.GetBool($"Prefab Manager Show AttackType {typeName}")) return;
             
             for (int g = 0; g < Manager.blendShapeGroups.Count; g++)
             {
