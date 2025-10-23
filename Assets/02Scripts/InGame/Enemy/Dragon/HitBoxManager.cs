@@ -10,7 +10,7 @@ public class HitBoxManager : MonoBehaviour
         BossHitBoxList.Clear();
         HitBox[] found = GetComponentsInChildren<HitBox>(true);
         BossHitBoxList.AddRange(found);
-        Debug.Log($"[BossColliderManager] 총 {BossHitBoxList.Count}개의 HitBox를 찾았습니다.");
+        // Debug.Log($"[BossColliderManager] 총 {BossHitBoxList.Count}개의 HitBox를 찾았습니다.");
 
         
         foreach(HitBox hit in found)

@@ -29,7 +29,7 @@ public class TestApplyDamage : MonoBehaviour
     public void Breath()
     {
         DragonBossActions dragon = Boss.GetComponent<DragonBossActions>();
-        dragon.useBreath = true;
+    
     }
 
     public void attack()

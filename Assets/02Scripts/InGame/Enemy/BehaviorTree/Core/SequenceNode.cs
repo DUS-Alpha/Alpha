@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 //and 역활 조건 모두 성공시  Running,과 Success를 반환 (Running이 우선 순위 높음 )
 public class SequenceNode : INode
@@ -35,5 +36,6 @@ public class SequenceNode : INode
     {
         _currentIndex = 0;
         foreach (var c in _children) c.Reset();
+        Debug.Log("시퀀스노드에 나온 리셋 실행");
     }
 }

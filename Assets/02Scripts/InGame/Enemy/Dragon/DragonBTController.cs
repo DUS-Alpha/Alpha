@@ -44,9 +44,36 @@ public class DragonBTController : MonoBehaviour
                 new ActionNode(m_actions.FireballAttack)
             )
         );*/
+
+
+            
+      
         
-        INode Testroot = new SelectorNode(
-            new ActionNode(m_actions.CheckRangeCycle)
+        INode AttackLogic = new SequenceNode(
+            new WaitNode(1f, new ActionNode(m_actions.CheckRangeCycle)),   // 거리 측정
+            new SelectorNode(                                   // 거리별 패턴 선택
+                new SequenceNode(                               // 근거리 공격
+                    new ConditionNode(() => m_actions.checkDistanceSetting._type == DistanceCheckType.Close),
+                    new ActionNode(m_actions.MeleeAttack)
+                ),
+                new SequenceNode(                               // 중거리 브레스
+                    new ConditionNode(() => m_actions.checkDistanceSetting._type == DistanceCheckType.Mid),
+                    new ActionNode(m_actions.DoBreatheFire)
+                ),
+                new SequenceNode(                               // 원거리 불덩이
+                    new ConditionNode(() => m_actions.checkDistanceSetting._type == DistanceCheckType.Far),
+                    new ActionNode(m_actions.AttackFireBall)
+                )
+            ) //, 여기에 잠깐 대하기는 데코레이터 구현
+        );
+        
+        
+        INode root = new SelectorNode(
+            new SequenceNode(
+                new ConditionNode(() => m_actions.currentDeathSettings.isDead),//isDead가 True라면  Sucess
+                new ActionNode(m_actions.Death)
+            ),new ActionNode(m_actions.CheckHitReaction),
+            AttackLogic
         );
         
 
@@ -54,7 +81,7 @@ public class DragonBTController : MonoBehaviour
 
 
 
-        m_runner.SetTree(Testroot);
+        m_runner.SetTree(root);
        
         m_runner.StartTree();
     }

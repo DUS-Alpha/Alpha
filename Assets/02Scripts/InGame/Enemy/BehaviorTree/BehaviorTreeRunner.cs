@@ -25,7 +25,7 @@ public class BehaviorTreeRunner : MonoBehaviour
             if (_builder != null) _tree = new BehaviorTree(_builder());
             else _tree = new BehaviorTree(new ActionNode(() => NodeState.Success)); // 기본 더미
         }*/
-        /*_tree.Reset();*/ 
+        _tree.Reset();
         // (_tree.Reset() → 내부적으로 _root.Reset() 호출)
         IsRunning = true;
     }

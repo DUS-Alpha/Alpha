@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 
 
-//Selector는 왼쪽부터 검사해서 성공하는 갈래 하나만 선택
+//Selector는 왼쪽(위)부터 검사해서 성공하는 갈래 하나만 선택
 public class SelectorNode : INode
 {
     private readonly List<INode> _children = new();
@@ -33,6 +33,7 @@ public class SelectorNode : INode
         return NodeState.Failure;
     }
 
+    //초기화
     public void Reset()
     {
         m_currentIndex = 0;

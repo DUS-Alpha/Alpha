@@ -10,5 +10,5 @@ public class ActionNode :INode
     
     public NodeState Evaluate() => _act != null ? _act() : NodeState.Failure;
 
-    public void Reset() {Debug.Log("액션 노드 에서 나온 리셋 실행"); }
+    public void Reset() {}
 }

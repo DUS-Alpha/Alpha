@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Boss2EventController : MonoBehaviour
@@ -11,7 +12,7 @@ public class Boss2EventController : MonoBehaviour
     public float breathDamge = 10;
     
     // 💡 데미지 딜레이를 위한 변수 추가 
-    [SerializeField]private const float DAMAGE_INTERVAL = 0.2f; // 데미지 적용 주기 (0.2초)
+    [SerializeField]private const float DAMAGE_INTERVAL = 10f; // 데미지 적용 주기 (0.2초)
     private float _damageTimer = 0f;            // 타이머 변수
     
 
@@ -27,6 +28,8 @@ public class Boss2EventController : MonoBehaviour
             _damageTimer = 0f;  // 타이머 초기화
         }
     }
+
+  
 
     // 💡 실시간 피격 판정 및 데미지 적용 (0.5초마다 호출됨)
     void DoBreathDamage()
