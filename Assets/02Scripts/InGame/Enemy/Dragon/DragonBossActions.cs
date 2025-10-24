@@ -97,11 +97,11 @@ public class DragonBossActions : MonoBehaviour,IDamageable
     
     
     //테스트를 위한 체력 
-    [SerializeField] private float hp = 100;
+    [SerializeField] private float hp = 1000;
     [SerializeField]private bool deathAnimPlayed = false;
-    [SerializeField] private float hitAnimCooldown = 5f; // 피격 모션 쿨타임
+    [SerializeField] private float hitAnimCooldown = 1f; // 피격 모션 쿨타임
     private float lastHitAnimTime = -999f;               // 마지막 피격 모션 시간
-    private bool wasHit = false;                         // 직전에 데미지 받은 여부
+    [SerializeField]private bool wasHit = false;                         // 직전에 데미지 받은 여부
     
     private Rigidbody rb;
 
@@ -123,6 +123,7 @@ public class DragonBossActions : MonoBehaviour,IDamageable
 
     public NodeState Death()
     {
+        currentBreathsetting.breathPrefab.SetActive(false);
         return _deathCycle.Death();
     }
 
@@ -173,8 +174,10 @@ public class DragonBossActions : MonoBehaviour,IDamageable
     
     public NodeState CheckHitReaction()
     {
+        print("체크리액션 진입");
         if (wasHit) // 피격 받은 경우만 체크
         {
+            print("이프문 진입 ");
             // 쿨타임 체크
             if (Time.time - lastHitAnimTime >= hitAnimCooldown)
             {
@@ -182,11 +185,6 @@ public class DragonBossActions : MonoBehaviour,IDamageable
                 lastHitAnimTime = Time.time;
                 wasHit = false; // 초기화
                 return NodeState.Success;     // 피격 애니메이션 발동 성공
-            }
-            else
-            {
-                wasHit = false; // 데미지는 들어가지만 모션은 쿨타임 때문에 건너뜀
-                return NodeState.Failure;
             }
         }
 

@@ -48,6 +48,13 @@ public class PooledProjectile : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
+        if (other != null)
+        {
+            if (other.gameObject.layer == 20) // 20번레이어는 현재 Enemy
+            {
+                return;
+            }
+        }
        
         if (other.CompareTag("Player"))
         {
@@ -62,9 +69,9 @@ public class PooledProjectile : MonoBehaviour
 
                 Debug.Log(other.name);
             }
-
-            ReturnToPool();
+            
         }
+        ReturnToPool();
     }
 
     public void ReturnToPool()

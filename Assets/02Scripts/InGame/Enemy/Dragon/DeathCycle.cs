@@ -13,6 +13,7 @@ public class DeathCycle : MonoBehaviour
     public NodeState Death()
     {
         print("죽음 시작");
+        animator.SetTrigger("Dead");
         // 트리 정지
         var runner = GetComponent<BehaviorTreeRunner>();
         if (runner != null)

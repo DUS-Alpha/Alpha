@@ -50,7 +50,7 @@ public class DragonBTController : MonoBehaviour
       
         
         INode AttackLogic = new SequenceNode(
-            new WaitNode(1f, new ActionNode(m_actions.CheckRangeCycle)),   // 거리 측정
+            new WaitNode(0.5f, new ActionNode(m_actions.CheckRangeCycle)),   // 거리 측정
             new SelectorNode(                                   // 거리별 패턴 선택
                 new SequenceNode(                               // 근거리 공격
                     new ConditionNode(() => m_actions.checkDistanceSetting._type == DistanceCheckType.Close),
@@ -72,16 +72,31 @@ public class DragonBTController : MonoBehaviour
             new SequenceNode(
                 new ConditionNode(() => m_actions.currentDeathSettings.isDead),//isDead가 True라면  Sucess
                 new ActionNode(m_actions.Death)
-            ),new ActionNode(m_actions.CheckHitReaction),
+            ),
+            new RepeatForSecondsNode(1f,new ActionNode(m_actions.CheckHitReaction)),
             AttackLogic
         );
+        
+        INode root2 = new ParallelNode(
+                new SequenceNode(
+                    new ConditionNode(() => m_actions.currentDeathSettings.isDead),
+                    new ActionNode(m_actions.Death)
+            ),
+            AttackLogic
+        );
+        
+        
+       
+        
+
+      
         
 
 
 
 
 
-        m_runner.SetTree(root);
+        m_runner.SetTree(root2);
        
         m_runner.StartTree();
     }

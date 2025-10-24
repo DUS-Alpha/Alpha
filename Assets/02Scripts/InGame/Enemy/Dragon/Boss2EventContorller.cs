@@ -12,7 +12,7 @@ public class Boss2EventController : MonoBehaviour
     public float breathDamge = 10;
     
     // 💡 데미지 딜레이를 위한 변수 추가 
-    [SerializeField]private const float DAMAGE_INTERVAL = 10f; // 데미지 적용 주기 (0.2초)
+    [SerializeField]private const float DAMAGE_INTERVAL = 0.2f; // 데미지 적용 주기 (0.2초)
     private float _damageTimer = 0f;            // 타이머 변수
     
 
