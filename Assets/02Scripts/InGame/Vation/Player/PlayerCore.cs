@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Playables;
 
+[RequireComponent(typeof(PlayerEquipmentManager))]
 [RequireComponent(typeof(PlayerInventoryManager))]
 [RequireComponent(typeof(PlayerAnimationController))]
 [RequireComponent(typeof(PlayerInputHandler))]
@@ -11,7 +12,7 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
 {
     [Header(" [ Ref Component ] ")]
     public PlayerCameraManger CameraManger;
-    public AudioManager AudioManager;
+    public WorldAudioManager AudioManager;
     //public OpenCloseUIManager UIManager;
 
     public GameObject PlayerObj { get; private set; }
@@ -22,7 +23,7 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
     public PlayerCombat Combat { get; private set; }
     public PlayerAudioController playerAudio { get; private set;}
     public PlayerInventoryManager InventoryManager { get; private set; }
-    
+    public PlayerEquipmentManager EquipmentManager { get; private set; }
     public PlayerIKController IKController { get; private set; }
    
 
@@ -41,8 +42,11 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
         Locomotion = GetComponent<PlayerLocomotion>();
         Combat = GetComponent<PlayerCombat>();
         InventoryManager = GetComponent<PlayerInventoryManager>();
+        EquipmentManager = GetComponent<PlayerEquipmentManager>();
+
         IKController = GetComponentInChildren<PlayerIKController>();
         playerAudio = GetComponent<PlayerAudioController>();
+
 
         StateMachine = new PlayerStateMachine();
         InitializeModule();
@@ -59,6 +63,7 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
         InputHandler.InitializeModule(Combat, LocomotionFlagsController, CombatFlagsController);
         Locomotion.InitializeModule(InputHandler, AniController, CameraManger,AudioManager);
         Combat.InitializeModule(this);
+        EquipmentManager.InitializeModule(this);
     }
 
     /// <summary>

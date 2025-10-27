@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bff9eabd18ea82d41b50874d5a92d024, type: 3}
+  m_Name: RifleData
+  m_EditorClassIdentifier: 
+  ID: 
+  Name: SciFiRifle
+  Icon: {fileID: 0}
+  Description: 
+  WeaponType: 1
+  WeaponPrefab: {fileID: 8217881269627586726, guid: 16ca11bc6385d984f9555d4496ad970f, type: 3}
+  StrengthREQ: 0
+  DexREQ: 0
+  IntREQ: 0
+  FaithREQ: 0
+  Damage: 0
+  MagicDamage: 0
+  FireDamage: 10
+  HolyDamage: 0
+  LightningDamage: 0
+  PoiseDamage: 0
+  BaseStaminaCost: 20
+  RangeType: 1
+  m_maxAmmo: 0
+  m_currentAmmo: 0
+  m_saveAmmo: 0
+  m_layer:
+    serializedVersion: 2
+    m_Bits: 0
+  m_audioSource: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_bulletFirePos: {fileID: 0}
+  m_muzzleFlashEffect: {fileID: 0}

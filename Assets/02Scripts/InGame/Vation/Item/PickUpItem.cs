@@ -6,14 +6,14 @@ using UnityEngine;
 public class PickUpItem : MonoBehaviour
 {
     [SerializeField] 
-    private Item m_item;  // 본인 아이템 데이터
+    private ItemSO m_item;  // 본인 아이템 데이터
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             PlayerInventoryManager _playerInventoryManager = other.GetComponent<PlayerInventoryManager>();
-            _playerInventoryManager.AddItem(m_item);
+            //_playerInventoryManager.AddItem(m_item);
             Destroy(gameObject); // 월드에서 제거
         }
     }

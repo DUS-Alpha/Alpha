@@ -480,7 +480,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4638265529072530537}
-  - component: {fileID: 4490820373842529794}
   m_Layer: 0
   m_Name: Rifle
   m_TagString: Untagged
@@ -507,31 +506,6 @@ Transform:
   - {fileID: 4423747558783183754}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4490820373842529794
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8217881269627586726}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bff9eabd18ea82d41b50874d5a92d024, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Data: {fileID: 11400000, guid: 75b56d680a506434eadf4ccfcd280e0c, type: 2}
-  m_maxDistance: 45
-  RangeType: 1
-  m_maxAmmo: 40
-  m_currentAmmo: 0
-  m_saveAmmo: 200
-  m_layer:
-    serializedVersion: 2
-    m_Bits: 0
-  m_audioSource: {fileID: 4397369725897880869}
-  m_audioClip: {fileID: 8300000, guid: 7a6dabd79ef7ceb45aa223100d2443a9, type: 3}
-  m_bulletFirePos: {fileID: 6039220920015874846}
-  m_muzzleFlashEffect: {fileID: 929141300791484413}
 --- !u!1 &8295914647603759210
 GameObject:
   m_ObjectHideFlags: 0
@@ -575,7 +549,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: 03babb589dde27a429dffced8690a797, type: 3}
+  m_Resource: {fileID: 8300000, guid: 7a6dabd79ef7ceb45aa223100d2443a9, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.5
   m_Pitch: 1
@@ -750,11 +724,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9f247f2b5fd49044a410e9eac9a4d13, type: 3}
---- !u!198 &929141300791484413 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 7802322410347479356, guid: c9f247f2b5fd49044a410e9eac9a4d13, type: 3}
-  m_PrefabInstance: {fileID: 6963572124221365953}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1021186054191754931 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7964731104540782706, guid: c9f247f2b5fd49044a410e9eac9a4d13, type: 3}

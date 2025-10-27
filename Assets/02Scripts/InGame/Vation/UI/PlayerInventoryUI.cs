@@ -10,12 +10,7 @@ public class InventorytUIData : BaseUIData
 public class PlayerInventoryUI : BaseUI
 {
     // ========================= Equipment
-    public EquipItemSlot HeadSlot;
-    public EquipItemSlot ShieldSlot;
-    public EquipItemSlot ChestArmorSlot;
-    public EquipItemSlot BootsSlot;
-    public EquipItemSlot GlovesSlot;
-    public EquipItemSlot WeaponSlot;
+
     //========================= /Equipment
 
     private InventorytUIData m_inventoryUIData;
@@ -26,29 +21,5 @@ public class PlayerInventoryUI : BaseUI
         base.SetInfo(uiData);
 
 
-    }
-
-    public void Equip(EquipmentDataSO equipmentData)
-    {
-        Sprite _icon = equipmentData.Icon;
-        switch (equipmentData.EquipType)
-        {
-            /*case ApplicableSlots.Head:
-                m_headSlot = _icon;
-                break;
-            case ApplicableSlots.Chest:
-                m_chestSlot = _icon;
-                break;
-            case ApplicableSlots.Feets:
-                m_feetSlot = _icon;
-                break;
-            case ApplicableSlots.Gloves:
-                m_handSlot = _icon;
-                break;*/
-        }
-    }
-    public void UnEquip(EquipmentDataSO equipmentData)
-    {
-        
     }
 }

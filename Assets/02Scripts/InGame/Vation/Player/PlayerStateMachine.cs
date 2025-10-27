@@ -10,13 +10,11 @@ public class PlayerStateMachine
 {
     private PlayerCore m_playerCore;
     // Locomotion
-    public LocomotionStateType CurrentLocomotion => m_currentLocoType;
-    private LocomotionStateType m_currentLocoType;
+    public LocomotionStateType CurrentLocomotion;
     private PlayerState m_locoState;
 
     // Combat
-    public CombatStateType CurrentCombat => m_currentCombatType;
-    private CombatStateType m_currentCombatType;
+    public CombatStateType CurrentCombat;
     private PlayerState m_combatState;
 
     public CombatStateType m_prevCombatType { get; private set; }
@@ -63,31 +61,31 @@ public class PlayerStateMachine
         if (m_playerCore.Locomotion.IsDie) return;
         m_combatState.Update();
 
-        RealTimeUIManager.Instance.CurrentLocomotionState(m_currentLocoType.ToString());
-        RealTimeUIManager.Instance.CurrentCombatState(m_currentCombatType.ToString());
+        RealTimeUIManager.Instance.CurrentLocomotionState(CurrentLocomotion.ToString());
+        RealTimeUIManager.Instance.CurrentCombatState(CurrentLocomotion.ToString());
     }
 
     public void SwitchLocomotionState(LocomotionStateType newState)
     {
-        if (newState == m_currentLocoType) return;
+        if (newState == CurrentLocomotion) return;
         Func<PlayerState> _newState = m_locomotionStateCreateDic[newState];
         m_locoState?.Exit();
 
         m_locoState = _newState();
-        m_currentLocoType = newState;
+        CurrentLocomotion = newState;
 
         m_locoState.Enter();
     }
 
     public void SwitchCombatState(CombatStateType newState)
     {
-        if (newState == m_currentCombatType) return;
+        if (newState == CurrentCombat) return;
         Func<PlayerState> _newState = m_combatStateCreateDic[newState];
         m_combatState?.Exit();
 
         m_prevCombatType = CurrentCombat;
         m_combatState = _newState();
-        m_currentCombatType = newState;
+        CurrentCombat = newState;
 
         m_combatState.Enter();
     }

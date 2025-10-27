@@ -14,7 +14,7 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
     private CharacterController m_characterController;
     private PlayerMovementUitility m_movementUtility;
     private PlayerCameraManger m_cameraManager;
-    private AudioManager m_audioManager;
+    private WorldAudioManager m_audioManager;
 
     [Header("[ Ref Component ]")]
     [SerializeField]
@@ -22,9 +22,9 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
     [SerializeField]
     private EffectManager m_effectManager;
 
-    [Header("[ Status ]")]
+    /*[Header("[ Status ]")]
     [SerializeField]
-    private PlayerStatus m_status;
+    private PlayerStatus m_status;*/
 
     [Header("[ HandleMove Speed]")]
     [SerializeField]
@@ -107,7 +107,7 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
         FlyingGauge = m_maxFlyingGauge;
     }
 
-    public void InitializeModule(PlayerInputHandler inputHandler,PlayerAnimationController animationController, PlayerCameraManger playerCameraManger, AudioManager audioManager)
+    public void InitializeModule(PlayerInputHandler inputHandler,PlayerAnimationController animationController, PlayerCameraManger playerCameraManger, WorldAudioManager audioManager)
     {
         m_InputHandler = inputHandler;
         m_animationController = animationController;
@@ -121,8 +121,8 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
 
     private void Start()
     {
-        m_status.HP = 100;
-        m_status.FlyGauge = 100;
+        //m_status.HP = 100;
+        //m_status.FlyGauge = 100;
     }
 
     public void InitializeLocotion()
@@ -393,7 +393,7 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
 
     public void EnterFlightMove()
     {
-        m_audioManager.PlayBGMAudio(1,BGMType.AirField);
+        m_audioManager.PlaySFXLoop(1,SFX_LoopTypes.AirField);
     }
     // Flying
     public void UpdateFlightMove()
@@ -418,6 +418,7 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
     #endregion ================================================================================ /Fly
     public void EnterLanding()
     {
+        m_audioManager.StopSFXLoop(1);
         m_playerAudioController.PlayLocomotionAudio(0, SFX_LomotionType.Land);
     }
     public void ExitLanding()
@@ -451,7 +452,7 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
     {
         if (IsDie) return;
 
-        if(m_status.HP > 0)
+        /*if(m_status.HP > 0)
         {
             m_status.HP -= damageMassage.Damage;
             if(m_status.HP%2 == 0)
@@ -466,6 +467,6 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
             IsDie = true;
             m_status.HP = 0;
         }
-        Debug.Log(m_status.HP);
+        Debug.Log(m_status.HP);*/
     }
 }

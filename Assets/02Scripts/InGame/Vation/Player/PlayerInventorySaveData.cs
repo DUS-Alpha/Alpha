@@ -6,9 +6,9 @@ public class PlayerInventorySaveData
 {
     public List<string> ItemIDList = new List<string>();
 
-    public PlayerInventorySaveData(List<Item> itemList)
+    public PlayerInventorySaveData(List<ItemSO> itemList)
     {
-        foreach (var item in itemList)
-            ItemIDList.Add(item.Data.ID);
+       // foreach (var item in itemList)
+            //ItemIDList.Add(item.Data.ID);
     }
 }

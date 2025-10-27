@@ -43,7 +43,7 @@ public class BaseUI : MonoBehaviour
 
         m_onShow?.Invoke();
         m_onShow = null;
-        AudioManager.Instance.PlaySFXUIAudio(1, SFX_UIType.Open);
+        WorldAudioManager.Instance.PlaySFXUI(1, SFX_UITypes.Open);
     }
     public virtual void CloseUI(bool isCloseAll = false)
     {
@@ -55,7 +55,7 @@ public class BaseUI : MonoBehaviour
         m_onClose = null;
 
         OpenCloseUIManager.Instance.CloseUI(this);
-        AudioManager.Instance.PlaySFXUIAudio(1, SFX_UIType.Close);
+        WorldAudioManager.Instance.PlaySFXUI(1, SFX_UITypes.Close);
     }
 
     public virtual void OnClickCloseButton()

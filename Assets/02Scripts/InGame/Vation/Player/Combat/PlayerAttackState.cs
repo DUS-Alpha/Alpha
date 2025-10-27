@@ -8,7 +8,7 @@ public class PlayerAttackState : PlayerCombatState
 
     protected override InputLocoLockType m_LockOnExit => throw new System.NotImplementedException();
 
-    Weapon m_currentWeapon;
+    WeaponItemSO m_currentWeapon;
     public override void Enter()
     {
         base.Enter();

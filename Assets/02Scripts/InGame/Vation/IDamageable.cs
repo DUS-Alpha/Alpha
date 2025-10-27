@@ -16,7 +16,7 @@ public struct DamageMassage
 
 public enum DamageTypes
 {
-    None,           // 기본 Hit
+    Base,           // 기본 Hit
     AirBone,
     KnockBack,
     InstantDeath    // 즉사
