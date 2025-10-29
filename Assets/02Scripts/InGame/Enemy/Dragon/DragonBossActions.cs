@@ -131,6 +131,10 @@ public class DragonBossActions : MonoBehaviour,IDamageable
     {
         return _flyTowardCyle.Execute(BB,currentFlySettings);
     }
+    public NodeState LookAtAndWalk()
+    {
+        return _flyTowardCyle.LookAtAndWalk(BB,currentFlySettings);
+    }
 
     public NodeState CheckDeath()
     {
@@ -168,10 +172,15 @@ public class DragonBossActions : MonoBehaviour,IDamageable
     {
         return _checkRangeCycle.CheckRange(BB, checkDistanceSetting);
     }
-    
 
-    
-    
+    public NodeState BodyAttack()
+    {
+        return _attackCycle.BodyAttack(BB);
+    }
+
+
+
+
     public NodeState CheckHitReaction()
     {
         print("체크리액션 진입");

@@ -121,4 +121,42 @@ public class AttackCycle : MonoBehaviour
 
         return NodeState.Running;
     }
+
+    public NodeState BodyAttack(Blackboard BB)
+    {
+       // 1.날으는 애니메이션 실행 (한번만)
+       // 4.낙하 후 다시 일어나는 애니메이션을 진행후 패턴을 종료 
+       if (!isAttacking)
+       {
+           ani.SetTrigger("AirRun");
+           isAttacking = true;
+       }
+
+       // 2.날면서 플레이어의 위치 z와 x가 동기화 될때까지 이동 
+       Vector3 targetXZ = new Vector3(BB.Target.position.x, BB.OwnerTransform.position.y, BB.Target.position.z);
+       BB.OwnerTransform.position = Vector3.MoveTowards(BB.OwnerTransform.position, targetXZ, 5 * Time.deltaTime);
+      
+       Vector3 direction = BB.Target.position - transform.position;
+       if (direction != Vector3.zero)
+       {
+           Quaternion targetRotation = Quaternion.LookRotation(direction);
+           transform.rotation = Quaternion.Slerp(
+               transform.rotation,
+               targetRotation,
+               Time.deltaTime * 5f
+           );
+       }
+       
+       // 3.동기화 되면 낙하 애니메이션 실행 
+       if (Vector3.Distance(BB.OwnerTransform.position, targetXZ) < 0.2f)
+       {
+           print("차이 얼마안남");
+           ani.SetTrigger("Trig");
+           isAttacking = false;
+           return NodeState.Success;
+       }
+
+
+       return NodeState.Running;
+    }
 }

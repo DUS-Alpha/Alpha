@@ -113,7 +113,6 @@ public class BossAction : MonoBehaviour
             var look = Quaternion.LookRotation(to.normalized, Vector3.up);
             transform.rotation = Quaternion.Slerp(transform.rotation, look, Time.deltaTime * faceTurnSpeed);
         }
-        
         // 4) 이동 중이므로 Running 유지 (정지/도착 조건에서만 Success)
         //특정 거리에 들어오면  DoWalk=fasle하고  Success 보내기
         //거리 계산 

@@ -50,19 +50,24 @@ public class DragonBTController : MonoBehaviour
       
         
         INode AttackLogic = new SequenceNode(
-            new WaitNode(0.5f, new ActionNode(m_actions.CheckRangeCycle)),   // 거리 측정
+            new ActionNode(m_actions.CheckRangeCycle),   // 거리 측정
             new SelectorNode(                                   // 거리별 패턴 선택
                 new SequenceNode(                               // 근거리 공격
                     new ConditionNode(() => m_actions.checkDistanceSetting._type == DistanceCheckType.Close),
-                    new ActionNode(m_actions.MeleeAttack)
+                    new ActionNode(m_actions.MeleeAttack),
+                    new WaitSecondsNode(2.5f)
                 ),
                 new SequenceNode(                               // 중거리 브레스
                     new ConditionNode(() => m_actions.checkDistanceSetting._type == DistanceCheckType.Mid),
-                    new ActionNode(m_actions.DoBreatheFire)
+                    new ActionNode(m_actions.DoBreatheFire),
+                    new WaitSecondsNode(2.5f)
+                    
                 ),
                 new SequenceNode(                               // 원거리 불덩이
                     new ConditionNode(() => m_actions.checkDistanceSetting._type == DistanceCheckType.Far),
-                    new ActionNode(m_actions.AttackFireBall)
+                    new ActionNode(m_actions.BodyAttack)
+                    //,new ActionNode(m_actions.AttackFireBall)
+                    ,new WaitSecondsNode(10)
                 )
             ) //, 여기에 잠깐 대하기는 데코레이터 구현
         );
@@ -82,11 +87,16 @@ public class DragonBTController : MonoBehaviour
                     new ConditionNode(() => m_actions.currentDeathSettings.isDead),
                     new ActionNode(m_actions.Death)
             ),
-            AttackLogic
+                new SequenceNode(new ActionNode(m_actions.LookAtAndWalk),
+                    AttackLogic
+                    )
         );
         
         
        
+        INode root3 = new SelectorNode(
+            new ActionNode(m_actions.LookAtAndWalk)
+        );
         
 
       
@@ -96,7 +106,7 @@ public class DragonBTController : MonoBehaviour
 
 
 
-        m_runner.SetTree(root2);
+       m_runner.SetTree(root2);
        
         m_runner.StartTree();
     }
