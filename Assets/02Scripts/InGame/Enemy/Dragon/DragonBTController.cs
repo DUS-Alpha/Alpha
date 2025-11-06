@@ -65,22 +65,16 @@ public class DragonBTController : MonoBehaviour
                 ),
                 new SequenceNode(                               // 원거리 불덩이
                     new ConditionNode(() => m_actions.checkDistanceSetting._type == DistanceCheckType.Far),
-                    new ActionNode(m_actions.BodyAttack)
-                    //,new ActionNode(m_actions.AttackFireBall)
-                    ,new WaitSecondsNode(10)
+                    new WeightedSelectorNode()
+                        .AddNode(new ActionNode(m_actions.BodyAttack), 0.7f)    // 70%
+                        .AddNode(new ActionNode(m_actions.AttackFireBall), 0.3f) // 30%
+                    ,new WaitSecondsNode(5f)
                 )
             ) //, 여기에 잠깐 대하기는 데코레이터 구현
         );
         
         
-        INode root = new SelectorNode(
-            new SequenceNode(
-                new ConditionNode(() => m_actions.currentDeathSettings.isDead),//isDead가 True라면  Sucess
-                new ActionNode(m_actions.Death)
-            ),
-            new RepeatForSecondsNode(1f,new ActionNode(m_actions.CheckHitReaction)),
-            AttackLogic
-        );
+     
         
         INode root2 = new ParallelNode(
                 new SequenceNode(
@@ -95,11 +89,11 @@ public class DragonBTController : MonoBehaviour
         
        
         INode root3 = new SelectorNode(
-            new ActionNode(m_actions.LookAtAndWalk)
+            new ActionNode(m_actions.BodyAttack)
         );
         
 
-      
+        
         
 
 

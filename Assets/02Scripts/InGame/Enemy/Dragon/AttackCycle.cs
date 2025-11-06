@@ -10,6 +10,7 @@ public class AttackCycle : MonoBehaviour
     private bool isAttacking = false;
     private float attackTimer = 0f;
     private float attackDuration = 0f;
+    public bool isTakeoff = false;
 
 
     private void Awake()
@@ -40,9 +41,6 @@ public class AttackCycle : MonoBehaviour
             attackCycle._fireTimer -= attackCycle.fireInterval;
 
             Transform point = GetNextFirePoint(attackCycle);
-
-            Vector3 firePoint = RandomPosTarget(BB.Target.position,2,7);
-            
             
             Vector3 randomOffset = Random.insideUnitSphere; // -1 ~ 1 범위
             
@@ -71,23 +69,7 @@ public class AttackCycle : MonoBehaviour
         Debug.Log("[FireballAttack] 발사 완료");
         return NodeState.Success;
     }
-
-    Vector3  RandomPosTarget(Vector3 center, float minRadius, float maxRadius)
-    {
-        float angle = Random.Range(0f, 360f); // 0~360도 사이의 임의의 각도 선택 (원을 만들기 위한 기준)
-        float radians = angle * Mathf.Deg2Rad; // 각도를 라디안으로 변환 (삼각함수에서 사용하기 위함)
-        float radius = Random.Range(minRadius, maxRadius); // 원의 중심으로부터의 거리(반지름)를 랜덤으로 선택
-        
-        // 각도와 반지름을 이용해 XZ 평면에서의 좌표 오프셋 계산
-        float offsetX = Mathf.Cos(radians) * radius; // 라디안 각도를 이용해 X축 방향의 거리 계산
-        float offsetZ = Mathf.Sin(radians) * radius; // 라디안 각도를 이용해 Z축 방향의 거리 계산
-
-        // 타겟의 높이는 유지 (Y좌표 그대로)
-        Vector3 randomPos = new Vector3(center.x + offsetX, center.y, center.z + offsetZ);
-
-        return randomPos;
-    }
-
+    
     private Transform GetNextFirePoint(AttackSetting attackCycle)
     {
         if (attackCycle.firePoints == null || attackCycle.firePoints.Length == 0)
@@ -122,41 +104,91 @@ public class AttackCycle : MonoBehaviour
         return NodeState.Running;
     }
 
+    // public NodeState BodyAttack(Blackboard BB)
+    // {
+    //    // 1.날으는 애니메이션 실행 (한번만)
+    //    // 4.낙하 후 다시 일어나는 애니메이션을 진행후 패턴을 종료 
+    //    if (!isAttacking)
+    //    {
+    //        ani.SetTrigger("AirRun");
+    //        isAttacking = true;
+    //    }
+    //
+    //    // 2.날면서 플레이어의 위치 z와 x가 동기화 될때까지 이동 
+    //    Vector3 targetXZ = new Vector3(BB.Target.position.x, BB.OwnerTransform.position.y, BB.Target.position.z);
+    //    BB.OwnerTransform.position = Vector3.MoveTowards(BB.OwnerTransform.position, targetXZ, 5 * Time.deltaTime);
+    //   
+    //    Vector3 direction = BB.Target.position - transform.position;
+    //    if (direction != Vector3.zero)
+    //    {
+    //        Quaternion targetRotation = Quaternion.LookRotation(direction);
+    //        transform.rotation = Quaternion.Slerp(
+    //            transform.rotation,
+    //            targetRotation,
+    //            Time.deltaTime * 5f
+    //        );
+    //    }
+    //    
+    //    // 3.동기화 되면 낙하 애니메이션 실행 
+    //    if (Vector3.Distance(BB.OwnerTransform.position, targetXZ) < 0.2f)
+    //    {
+    //        print("차이 얼마안남");
+    //        ani.SetTrigger("Trig");
+    //        isAttacking = false;
+    //        return NodeState.Success;
+    //    }
+    //
+    //
+    //    return NodeState.Running;
+    // }
+    
+    
     public NodeState BodyAttack(Blackboard BB)
     {
-       // 1.날으는 애니메이션 실행 (한번만)
-       // 4.낙하 후 다시 일어나는 애니메이션을 진행후 패턴을 종료 
-       if (!isAttacking)
-       {
-           ani.SetTrigger("AirRun");
-           isAttacking = true;
-       }
+        float speed = 20f; // 천천히 움직이고 싶다면 값 낮추기
+        
+        if (!isAttacking)
+        {
+            ani.SetTrigger("Test");
+            isAttacking = true;
+        }
 
-       // 2.날면서 플레이어의 위치 z와 x가 동기화 될때까지 이동 
-       Vector3 targetXZ = new Vector3(BB.Target.position.x, BB.OwnerTransform.position.y, BB.Target.position.z);
-       BB.OwnerTransform.position = Vector3.MoveTowards(BB.OwnerTransform.position, targetXZ, 5 * Time.deltaTime);
-      
-       Vector3 direction = BB.Target.position - transform.position;
-       if (direction != Vector3.zero)
-       {
-           Quaternion targetRotation = Quaternion.LookRotation(direction);
-           transform.rotation = Quaternion.Slerp(
-               transform.rotation,
-               targetRotation,
-               Time.deltaTime * 5f
-           );
-       }
-       
-       // 3.동기화 되면 낙하 애니메이션 실행 
-       if (Vector3.Distance(BB.OwnerTransform.position, targetXZ) < 0.2f)
-       {
-           print("차이 얼마안남");
-           ani.SetTrigger("Trig");
-           isAttacking = false;
-           return NodeState.Success;
-       }
+        AnimatorStateInfo stateInfo = ani.GetCurrentAnimatorStateInfo(0);
+
+        if (isTakeoff)
+        {
+            transform.position = Vector3.MoveTowards(
+                transform.position,
+                BB.Target.position,
+                speed * Time.deltaTime
+            );
+        }
+        
+        // 3.동기화 되면 낙하 애니메이션 실행 
+        if (Vector3.Distance(transform.position,BB.Target.position) < 0.2f)
+        {
+            print("차이 얼마안남");
+            ani.ResetTrigger("Test");
+            ani.SetTrigger("Trig");
+            isAttacking = false;
+            isTakeoff = false; 
+        }
+
+        if (stateInfo.IsName("EditLanding"))
+        {
+            if (stateInfo.normalizedTime >= 0.95f)
+            {
+                print("성공");
+                return NodeState.Success;
+            }
+        }
 
 
-       return NodeState.Running;
+
+        return NodeState.Running;
+        
     }
+    
+    
+    
 }

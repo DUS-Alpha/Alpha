@@ -136,6 +136,7 @@ public class DragonBossActions : MonoBehaviour,IDamageable
         return _flyTowardCyle.LookAtAndWalk(BB,currentFlySettings);
     }
 
+
     public NodeState CheckDeath()
     {
         return _deathCycle.CheckDeath(animator,currentDeathSettings);
@@ -162,6 +163,11 @@ public class DragonBossActions : MonoBehaviour,IDamageable
     {
         return _breathCycle.CheckBreath(currentBreathsetting);
     }
+
+    public NodeState Run()
+    {
+        return _flyTowardCyle.Run(currentFlySettings);
+    }
     
     public NodeState DoBreatheFire()
     {
@@ -177,6 +183,10 @@ public class DragonBossActions : MonoBehaviour,IDamageable
     {
         return _attackCycle.BodyAttack(BB);
     }
+    
+    
+    
+  
 
 
 

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class FlyTowardTarget : MonoBehaviour
@@ -50,8 +49,7 @@ public class FlyTowardTarget : MonoBehaviour
 
         if (bb == null || bb.Target == null)
             return NodeState.Failure;
-
-        // 1. 타겟(플레이어)까지의 방향 계산 (Y축 평면 기준)
+        
         if (!isStarted)
         {
             ani.SetTrigger("Walk");
@@ -86,6 +84,29 @@ public class FlyTowardTarget : MonoBehaviour
             Time.deltaTime * settings.moveSpeed
         );
 
+        return NodeState.Running;
+    }
+    
+    public NodeState Run(FlySettings settings)
+    {
+        currentTimer += Time.deltaTime; 
+        if (currentTimer > MoveTimer)
+        {
+            currentTimer = 0f; // 다음번을 위해 초기화
+            isStarted = false;
+            ani.SetTrigger("Test");
+            return NodeState.Success;
+        }
+        if (!isStarted)
+        {
+            ani.SetTrigger("Run");
+            isStarted = true;
+        }
+        
+        // 최적화된 부분: 스칼라를 미리 계산
+        float moveDistance = settings.moveSpeed * Time.deltaTime;
+        transform.position += transform.forward * moveDistance;
+        
         return NodeState.Running;
     }
 
