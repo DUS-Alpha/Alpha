@@ -13,18 +13,22 @@ public class PlayerMovementUitility
     private Vector3 m_velocity;
 
     #region ================================================================================ Movement
-    public Vector3 HandleMove(GameObject player, Vector3 moveDir, float targetSpeed, CharacterController characterController, bool isFlying)
+    public Vector3 HandleMove(GameObject player, Vector2 moveDir, float targetSpeed, CharacterController characterController, bool isFlying)
     {
-        Vector3 dir = player.transform.right * moveDir.x + player.transform.forward * moveDir.z;
-
-        if (!isFlying)
-            dir.y = 0f;
-
+        Vector3 dir;
 
         if (isFlying)
         {
-            // 위아래 이동 추가 (예: Space=Up, Ctrl=Down)
-            dir += Vector3.up * moveDir.y;
+            // 시선 방향 기준 3D 이동
+            Vector3 camForward = Camera.main.transform.forward;
+            Vector3 camRight = Camera.main.transform.right;
+
+            dir = camRight * moveDir.x + camForward * moveDir.y;
+        }
+        else
+        {
+            dir.y = 0f;
+            dir = player.transform.right * moveDir.x + player.transform.forward * moveDir.y;
         }
         if (dir.sqrMagnitude > 1f) dir.Normalize();
 
@@ -33,15 +37,15 @@ public class PlayerMovementUitility
         return dir;
     }
 
-    public void HandleRotate(GameObject gameObject, Vector3 moveDir, Camera camera, bool isFlying)
+    public void HandleRotate(GameObject gameObject, Vector2 moveDir, Camera camera, bool isFlying)
     {
         // TODO : 카메라 방향이 아닌 일반 키입력방향에 대한 이동은 차후 키로 변경
         Camera cam = camera;
 
-        Vector3 _dir= cam.transform.forward; // Aim 중에는 카메라 forward
+        Vector3 _dir = cam.transform.forward; // Aim 중에는 카메라 forward
 
         // 공중에서 이동 없을때는 공격중 허리만 위로 바라보게
-        if(!isFlying || isFlying && moveDir.magnitude < 0.1f) _dir.y = 0f;
+        if (!isFlying || isFlying && moveDir.magnitude < 0.1f) _dir.y = 0f;
 
         Quaternion _targetRot;
 

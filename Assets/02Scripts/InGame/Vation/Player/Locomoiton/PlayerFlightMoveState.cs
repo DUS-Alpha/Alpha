@@ -29,7 +29,7 @@ public class PlayerFlightMoveState : PlayerLocomotionState
             return;
         }
 
-        if (m_Locomotion.IsFlyUp || m_Locomotion.IsFlyingGaugeZero)
+        if (m_Locomotion.IsFlyUp || m_Locomotion.ActionGauge < 0.1f)
         {
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Fall);
             m_Locomotion.SetVelocityY(2.5f);

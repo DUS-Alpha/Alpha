@@ -1,4 +1,5 @@
 using UnityEngine;
+using alpha;
 
 public class PlayerAttackState : PlayerCombatState
 {
@@ -8,7 +9,7 @@ public class PlayerAttackState : PlayerCombatState
 
     protected override InputLocoLockType m_LockOnExit => throw new System.NotImplementedException();
 
-    WeaponItemSO m_currentWeapon;
+    WeaponItemDataSO m_currentWeapon;
     public override void Enter()
     {
         base.Enter();

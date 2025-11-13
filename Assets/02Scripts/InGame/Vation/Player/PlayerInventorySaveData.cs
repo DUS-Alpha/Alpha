@@ -1,14 +1,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class PlayerInventorySaveData
+namespace alpha
 {
-    public List<string> ItemIDList = new List<string>();
-
-    public PlayerInventorySaveData(List<ItemSO> itemList)
+    [System.Serializable]
+    public class PlayerInventorySaveData
     {
-       // foreach (var item in itemList)
+        public List<string> ItemIDList = new List<string>();
+
+        public PlayerInventorySaveData(List<ItemDataSO> itemList)
+        {
+            // foreach (var item in itemList)
             //ItemIDList.Add(item.Data.ID);
+        }
     }
 }

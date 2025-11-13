@@ -1,3 +1,4 @@
+using alpha;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -58,10 +59,16 @@ public class PlayerStateMachine
     public void Update()
     {
         m_locoState.Update();
-        if (m_playerCore.Locomotion.IsDie) return;
-        m_combatState.Update();
-
         RealTimeUIManager.Instance.CurrentLocomotionState(CurrentLocomotion.ToString());
+        if (m_playerCore.Locomotion.IsDie) return;
+
+        if (m_playerCore.IsCombatLock)
+        {
+            if(CurrentCombat != CombatStateType.NonCombat)
+                SwitchCombatState(CombatStateType.NonCombat);
+        }
+        else m_combatState.Update();
+
         RealTimeUIManager.Instance.CurrentCombatState(CurrentLocomotion.ToString());
     }
 

@@ -81,8 +81,8 @@ public class PlayerAnimationController : MonoBehaviour
             inputX = isCombat ? (inputX < -0.25f ? -0.25f : inputX) : inputX;
         }
 
-        m_animator.SetFloat("InputX", inputX, 0.1f, Time.deltaTime);
-        m_animator.SetFloat("InputY", inputY, 0.1f, Time.deltaTime);
+        m_animator.SetFloat("InputX", inputX, 0.05f, Time.deltaTime);
+        m_animator.SetFloat("InputY", inputY, 0.05f, Time.deltaTime);
     }
     public void SetIsGroundAni(bool isGrounded)
     {

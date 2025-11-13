@@ -5,6 +5,10 @@ using UnityEngine;
 public class EffectManager : MonoBehaviour
 {
     // ==================== Dash
+    // Dash 바람
+    [SerializeField]
+    private ParticleSystem m_frondWindEffect;
+    // Dash 잔상
     [SerializeField]
     private GameObject m_target;
     [SerializeField]
@@ -33,6 +37,7 @@ public class EffectManager : MonoBehaviour
 
     public void DashEffect()
     {
+        m_frondWindEffect.Play();
         StartCoroutine(ActiveTrailEffectCoroutine(m_activeTime));
     }
     private IEnumerator ActiveTrailEffectCoroutine(float timeActive)

@@ -1,3 +1,4 @@
+using alpha;
 using UnityEngine;
 
 // PickUpItem을 가진 현재 아이템은 ItemData만 가진 상태에서
@@ -6,14 +7,14 @@ using UnityEngine;
 public class PickUpItem : MonoBehaviour
 {
     [SerializeField] 
-    private ItemSO m_item;  // 본인 아이템 데이터
+    private ItemDataSO m_item;  // 본인 아이템 데이터
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            PlayerInventoryManager _playerInventoryManager = other.GetComponent<PlayerInventoryManager>();
-            //_playerInventoryManager.AddItem(m_item);
+            PlayerCore _playerCore = other.GetComponent<PlayerCore>();
+            _playerCore.PlayerInventoryUI.AddItem(m_item);
             Destroy(gameObject); // 월드에서 제거
         }
     }

@@ -11,7 +11,7 @@ namespace alpha
         private void Start()
         {
             m_progressBar.fillAmount = 0;
-            SceneTypes _nextScene = SceneLoaderManager.Instance.NextSceneTyep;
+            ESceneTypes _nextScene = SceneLoaderManager.Instance.NextSceneTyep;
             SceneLoaderManager.Instance.LoadNextScene_Async(_nextScene, m_progressBar);
         }
     }

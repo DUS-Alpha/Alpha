@@ -726,7 +726,7 @@ namespace InfinityPBR
 
         public static void IconFolder(int width = 20, int height = 20)
         {
-            GUILayout.Label(EditorGUIUtility.FindTexture("Folder Icon"), GUILayout.Width(width),
+            GUILayout.Label(EditorGUIUtility.FindTexture("Folder SavedIcon"), GUILayout.Width(width),
                 GUILayout.Height(height));
         }
 

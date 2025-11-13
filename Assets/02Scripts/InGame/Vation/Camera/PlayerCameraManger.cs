@@ -52,9 +52,7 @@ public class PlayerCameraManger : MonoBehaviour
     {
         m_player = GameObject.FindGameObjectWithTag("Player");
         MainCamera = m_mainCMB.GetComponent<Camera>();
-        //m_sniperCM.gameObject.SetActive(false);
         m_baseCM.Target.TrackingTarget = m_player.transform;
-        //m_baseCM.Target.LookAtTarget = 
     }
 
     private void Start()
@@ -118,26 +116,10 @@ public class PlayerCameraManger : MonoBehaviour
  
     private void Update()
     {
-        SetCursorLock(m_isCursorLock);
         m_currentFOV = Mathf.SmoothDamp(m_currentFOV, m_targetFOV, ref m_velocity, m_smoothTime);
         m_baseCM.Lens.FieldOfView = m_currentFOV;
     }
 
-    private void SetCursorLock(bool isCursorLock)
-    {
-        if (!m_isCursorLock)
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
-        else
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-
-            Cursor.visible = false;
-        }
-    }
-    
     public void CameraShake(float intensity = 1f)
     {
         if (m_impulseSource != null)

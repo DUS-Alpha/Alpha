@@ -41,11 +41,11 @@ public class PlayerMoveState : PlayerLocomotionState
 
         if (m_Locomotion.IsJump)
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Jump);
-        else if (m_Locomotion.IsDash)
+        else if (m_Locomotion.IsDash && m_Locomotion.ActionGauge >= 40)
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Dash);
         else if (m_Locomotion.IsFlyUp)
         {
-            if(m_Locomotion.FlyingGauge > 0)
+            if(m_Locomotion.ActionGauge > 0.1f)
                 m_PlayerCore.SwitchLocomotionState(LocomotionStateType.FlyUp);
         }
         else if (!m_Locomotion.IsMove)

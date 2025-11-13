@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using alpha;
 public class PlayerCombat : MonoBehaviour
 {
     // Ref Component
@@ -19,7 +19,7 @@ public class PlayerCombat : MonoBehaviour
     private Action<int> m_swapAction;
     private int m_swapWeaponNum = 0;
     public int CurrentWeaponNum { get; private set; } = 0;
-    public WeaponItemSO CurrentWeapon;
+    public WeaponItemDataSO CurrentWeapon;
 
     public bool IsInCombat => m_isInCombat;
     private bool m_isInCombat;
@@ -118,7 +118,7 @@ public class PlayerCombat : MonoBehaviour
                 //_damageMassage.Damager = damager;
                 _damageMassage.HitNormal = hit.normal;
                 _damageMassage.HitPoint = hit.point;
-                RangeWeaponSO _range = CurrentWeapon as RangeWeaponSO;
+                RangeWeaponItemDataSO _range = CurrentWeapon as RangeWeaponItemDataSO;
                 //_damageMassage.Damage = _range.WeaponData.CombatData.Damage;
 
                 _hitBox.damageable.ApplyDamage(_damageMassage);
@@ -152,14 +152,14 @@ public class PlayerCombat : MonoBehaviour
 
     public void Attack()
     {
-        MeleeWeaponSO _meleeWeapon = null;
-        RangeWeaponSO _rangeWeapon = null;
+        MeleeWeaponItemDataSO _meleeWeapon = null;
+        RangeWeaponItemDataSO _rangeWeapon = null;
 
         if (CurrentWeaponNum == 1)
         {
             m_playerCore.AniController.SetAnimatorWeight(2, 1);
             SetIKRigWeight(RigType.Aim, false);
-            _meleeWeapon = CurrentWeapon as MeleeWeaponSO;
+            _meleeWeapon = CurrentWeapon as MeleeWeaponItemDataSO;
             
             if (!IsActioning)
             {
@@ -169,7 +169,7 @@ public class PlayerCombat : MonoBehaviour
         else if (CurrentWeaponNum > 1)
         {
             SetIKRigWeight(RigType.Aim, true);
-            _rangeWeapon = CurrentWeapon as RangeWeaponSO;
+            _rangeWeapon = CurrentWeapon as RangeWeaponItemDataSO;
             RealTimeUIManager.Instance.SetAmmo(_rangeWeapon.CurrentAmmo, _rangeWeapon.SaveAmmo, _rangeWeapon.MaxAmmo);
             m_playerCore.AniController.SetAnimatorWeight(1, 1);
             if (Time.time >= m_nextAttakTime)
@@ -211,7 +211,7 @@ public class PlayerCombat : MonoBehaviour
         // 같은 번호 입력시 리턴
         if (_swapNum == CurrentWeaponNum) return false;
 
-        WeaponTypes type = (WeaponTypes)_swapNum-1;
+        EWeaponTypes type = (EWeaponTypes)_swapNum-1;
         //PlayerEquipmentManager _equipController = m_playerCore.InventoryManager.EquipmentController;
         // 무기가 없을경우 리턴
         //if (_equipController.CurrentEquipWeaponDic.TryGetValue(type, out var waepon))
@@ -230,7 +230,7 @@ public class PlayerCombat : MonoBehaviour
 
         if (CurrentWeaponNum > 1)
         {
-            RangeWeaponSO _rangeWeapon = CurrentWeapon as RangeWeaponSO;
+            RangeWeaponItemDataSO _rangeWeapon = CurrentWeapon as RangeWeaponItemDataSO;
             RealTimeUIManager.Instance.SetAmmo(_rangeWeapon.CurrentAmmo, _rangeWeapon.SaveAmmo, _rangeWeapon.MaxAmmo);
         }
         else RealTimeUIManager.Instance.SetAmmo(0, 0, 0);
@@ -245,7 +245,7 @@ public class PlayerCombat : MonoBehaviour
     {
         if (CurrentWeaponNum > 1)
         {
-            RangeWeaponSO _rangeWeapon = CurrentWeapon as RangeWeaponSO;
+            RangeWeaponItemDataSO _rangeWeapon = CurrentWeapon as RangeWeaponItemDataSO;
             RealTimeUIManager.Instance.SetAmmo(_rangeWeapon.CurrentAmmo, _rangeWeapon.SaveAmmo, _rangeWeapon.MaxAmmo);
         }
         else RealTimeUIManager.Instance.SetAmmo(0, 0, 0);
@@ -271,7 +271,7 @@ public class PlayerCombat : MonoBehaviour
 
     public bool EnterReload()
     {
-        RangeWeaponSO _rangeWeapon = CurrentWeapon as RangeWeaponSO;
+        RangeWeaponItemDataSO _rangeWeapon = CurrentWeapon as RangeWeaponItemDataSO;
         bool _cansReload = _rangeWeapon.Reload();
         if(!_cansReload) return false;
 

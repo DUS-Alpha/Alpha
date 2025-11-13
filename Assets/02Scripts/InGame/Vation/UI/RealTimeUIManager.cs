@@ -27,7 +27,7 @@ public class RealTimeUIManager : MonoBehaviour
     private TextMeshProUGUI m_combatTMP;
 
     [SerializeField]
-    private TextMeshProUGUI m_flyGaugeTMP;
+    private Image m_actionGauge;
     private void Awake()
     {
         if(Instance == null)
@@ -82,8 +82,8 @@ public class RealTimeUIManager : MonoBehaviour
         m_combatTMP.text = "Combat \n" + state;
     }
 
-    public void FlyGaugeUI(float t)
+    public void ActionGaugeUI(float t)
     {
-        m_flyGaugeTMP.text = t.ToString();
+        m_actionGauge.fillAmount = t;
     }
 }

@@ -1,16 +1,19 @@
+using System;
 using UnityEngine;
 
-public class InGameManager : MonoBehaviour
+namespace alpha
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public class InGameManager : MonoBehaviour
     {
-        
-    }
+        void Start()
+        {
+            WorldAudioManager.Instance.PlayBGMAudio(0, BGMTypes.InGame);
+            WorldCameraManager.Instance.SetCursor(false);
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public void LeaveInGame()
+        {
+            SceneLoaderManager.Instance.SaveNextSceneAndLoadBootScene(ESceneTypes.Title);
+        }
     }
 }

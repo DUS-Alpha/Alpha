@@ -5,18 +5,24 @@ namespace alpha
 {
     public class TitleSceneManager : MonoBehaviour
     {
-        [SerializeField]
-        private Button m_startButton;
-        [SerializeField]
-        private SceneTypes m_nextSceneType;
+        public static TitleSceneManager Instance;
+        [Header("[ Menus ]")]
+        public BaseMenu MainMenu;
+        public BaseMenu OptionMenu;
+
+        public ESceneTypes NextSceneType;
+
         private void Awake()
         {
-            m_startButton.onClick.AddListener(PlayStartButton);
+            if (Instance == null)
+                Instance = this;
+            else Destroy(gameObject);
         }
 
-        public void PlayStartButton()
+        private void Start()
         {
-            SceneLoaderManager.Instance.SaveNextSceneAndLoadBootScene(m_nextSceneType);
+            WorldAudioManager.Instance.PlayBGMAudio(0, BGMTypes.Title);
+            if (OptionMenu.gameObject.activeSelf) OptionMenu.CloseMenuUI();
         }
     }
 }

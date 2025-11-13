@@ -1,11 +1,12 @@
+using alpha;
 using System;
 using UnityEngine;
 using UnityEngine.Playables;
 
+[RequireComponent(typeof(PlayerStatsManager))]
 [RequireComponent(typeof(PlayerEquipmentManager))]
-[RequireComponent(typeof(PlayerInventoryManager))]
 [RequireComponent(typeof(PlayerAnimationController))]
-[RequireComponent(typeof(PlayerInputHandler))]
+[RequireComponent(typeof(PlayerInputManager))]
 [RequireComponent(typeof(PlayerLocomotion))]
 [RequireComponent(typeof(PlayerCombat))]
 public class PlayerCore : MonoBehaviour, IPlayerEvents
@@ -13,19 +14,20 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
     [Header(" [ Ref Component ] ")]
     public PlayerCameraManger CameraManger;
     public WorldAudioManager AudioManager;
+    public InventoryUI PlayerInventoryUI;
+    
     //public OpenCloseUIManager UIManager;
 
     public GameObject PlayerObj { get; private set; }
-    public PlayerInputHandler InputHandler { get; private set; }
+    public PlayerInputManager InputHandler { get; private set; }
     public PlayerAnimationController AniController { get; private set; }
     public PlayerStateMachine StateMachine { get; private set; }
     public PlayerLocomotion Locomotion { get; private set; }
     public PlayerCombat Combat { get; private set; }
     public PlayerAudioController playerAudio { get; private set;}
-    public PlayerInventoryManager InventoryManager { get; private set; }
     public PlayerEquipmentManager EquipmentManager { get; private set; }
     public PlayerIKController IKController { get; private set; }
-   
+    public PlayerStatsManager StatsManager { get; private set; }
 
     public InputLockedFlagsController<InputLocoLockType> LocomotionFlagsController { get; private set; } = new InputLockedFlagsController<InputLocoLockType>();
     public InputLockedFlagsController<InputCombatLockType> CombatFlagsController { get; private set; } = new InputLockedFlagsController<InputCombatLockType>();
@@ -35,14 +37,19 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
     public event Action<int> SwapWeaponAction;
 
     public bool IsShowInventory { get; private set; }
+    [HideInInspector] public bool IsPerformingAction;
+
+    public bool IsCombatLock;
+
     private void Awake()
     {
-        InputHandler = GetComponent<PlayerInputHandler>();
+        InputHandler = GetComponent<PlayerInputManager>();
         AniController = GetComponent<PlayerAnimationController>();
         Locomotion = GetComponent<PlayerLocomotion>();
         Combat = GetComponent<PlayerCombat>();
-        InventoryManager = GetComponent<PlayerInventoryManager>();
         EquipmentManager = GetComponent<PlayerEquipmentManager>();
+        StatsManager = GetComponent<PlayerStatsManager>();
+
 
         IKController = GetComponentInChildren<PlayerIKController>();
         playerAudio = GetComponent<PlayerAudioController>();
@@ -58,12 +65,12 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
     private void InitializeModule()
     {
         StateMachine.InitializeMoudle(this);
-        InventoryManager.InitializeModule(this);
         AniController.InitializeModule(Combat);
         InputHandler.InitializeModule(Combat, LocomotionFlagsController, CombatFlagsController);
-        Locomotion.InitializeModule(InputHandler, AniController, CameraManger,AudioManager);
+        Locomotion.InitializeModule(AniController, CameraManger,AudioManager);
         Combat.InitializeModule(this);
         EquipmentManager.InitializeModule(this);
+        StatsManager.InitializeModule(this);
     }
 
     /// <summary>
@@ -74,7 +81,7 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
         Locomotion.InitializeEvents(this);
         AniController.InitializeEvents(this);
         Combat.InitializeEvents(this);
-        InventoryManager .InitializeEvents(this);
+        //InventoryManager .InitializeEvents(this);
     }
 
     private void Start()
@@ -82,6 +89,16 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
         SwitchLocomotionState(LocomotionStateType.Idle);
         SwitchCombatState(CombatStateType.NonCombat);
         Combat.SetSwapAction(SwapWeaponAction);
+    }
+
+
+    private void Update()
+    {
+        StateMachine.Update();
+        CheckInputAction?.Invoke();
+
+        IsCombatLock = InputHandler.IsRotLock || WindowUIManager.Instance.IsWindowUI;
+        //playerAudio.FootStepAudio();
     }
 
     public void SwitchLocomotionState(LocomotionStateType newState)
@@ -93,10 +110,18 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
         StateMachine.SwitchCombatState(newState);
     }
 
-    private void Update()
+    public void SaveGameDataToCurrentCharacterData(ref CharacterSaveData currentCharacterData)
     {
-        StateMachine.Update();
-        CheckInputAction?.Invoke();
-        //playerAudio.FootStepAudio();
+        currentCharacterData.CharacterName = gameObject.name;
+        
+        currentCharacterData.YPos = transform.position.y;
+        currentCharacterData.XPos = transform.position.x;
+        currentCharacterData.ZPos = transform.position.z;
+    }
+
+    public void LoadGameDataFromCurrentCharacterData(ref CharacterSaveData currentCharacterData)
+    {
+        Vector3 _myPos = new Vector3(currentCharacterData.XPos, currentCharacterData.YPos, currentCharacterData.ZPos);
+        transform.position = _myPos;
     }
 }

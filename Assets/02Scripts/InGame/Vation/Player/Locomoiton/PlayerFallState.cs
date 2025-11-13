@@ -28,7 +28,7 @@ public class PlayerFallState : PlayerLocomotionState
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Die);
             return;
         }
-        if (m_Locomotion.IsFlyUp && m_Locomotion.FlyingGauge > 0)
+        if (m_Locomotion.IsFlyUp && m_Locomotion.ActionGauge > 0)
         {
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.FlyUp);
         }
