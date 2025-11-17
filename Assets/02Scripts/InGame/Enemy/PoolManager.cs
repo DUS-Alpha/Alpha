@@ -12,6 +12,8 @@ public class PoolManager : MonoBehaviour
 
     private readonly Dictionary<GameObject, List<GameObject>> _pools = new();
     private readonly Dictionary<GameObject, GameObject> _instanceToPrefab = new();
+
+    public List<GameObject> pools;
     
     private void Awake()
     {
@@ -32,6 +34,7 @@ public class PoolManager : MonoBehaviour
         {
             list = new List<GameObject>();
             _pools[prefab] = list;
+            pools.Add(prefab);
         }
 
         GameObject go = null;

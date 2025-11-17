@@ -71,6 +71,12 @@ public class PooledProjectile : MonoBehaviour
             }
             
         }
+
+        if (other.CompareTag("explosion"))
+        {
+            return;
+        }
+        
         ReturnToPool();
     }
 

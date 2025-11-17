@@ -11,13 +11,13 @@ public class DespawnObj : MonoBehaviour
     
     void OnEnable()
     {
-        // 자기 자신 포함해서 모든 자식 파티클 재생
-        var systems = GetComponentsInChildren<ParticleSystem>();
-        foreach (var system in systems)
-        {
-            system.Clear();
-            system.Play();
-        }
+        // // 자기 자신 포함해서 모든 자식 파티클 재생
+        // var systems = GetComponentsInChildren<ParticleSystem>();
+        // foreach (var system in systems)
+        // {
+        //     system.Clear();
+        //     system.Play();
+        // }
     }
 
     void Update()

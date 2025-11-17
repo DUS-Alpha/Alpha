@@ -2,10 +2,12 @@ using UnityEngine;
 
 public class FlyTowardTarget : MonoBehaviour
 {
-    private float MoveTimer = 2f;
+    private float MoveTimer = 1f;
     private float currentTimer = 0;
     private Animator ani;
     private bool isStarted =false;
+    
+    public bool isDone = false;
 
     private void Start()
     {
@@ -40,12 +42,22 @@ public class FlyTowardTarget : MonoBehaviour
     public NodeState LookAtAndWalk(Blackboard bb, FlySettings settings)
     {
         currentTimer += Time.deltaTime; 
-        if (currentTimer > MoveTimer)
+        if (currentTimer > MoveTimer )
         {
             currentTimer = 0f; // 다음번을 위해 초기화
             isStarted = false;
             return NodeState.Success;
         }
+        
+        float distance = Vector3.Distance(transform.position, bb.Target.position);
+        if (distance <= 15f) // 예: 0.5f 정도
+        {
+            currentTimer = 0f;
+            isStarted = false;
+            print("가까워요 ");
+            return NodeState.Success;
+        }
+     
 
         if (bb == null || bb.Target == null)
             return NodeState.Failure;
@@ -89,23 +101,21 @@ public class FlyTowardTarget : MonoBehaviour
     
     public NodeState Run(FlySettings settings)
     {
-        currentTimer += Time.deltaTime; 
-        if (currentTimer > MoveTimer)
-        {
-            currentTimer = 0f; // 다음번을 위해 초기화
-            isStarted = false;
-            ani.SetTrigger("Test");
-            return NodeState.Success;
-        }
         if (!isStarted)
         {
             ani.SetTrigger("Run");
             isStarted = true;
         }
+
+        if (isDone)
+        {
+            isDone = false;
+            return NodeState.Success;
+        }
         
         // 최적화된 부분: 스칼라를 미리 계산
         float moveDistance = settings.moveSpeed * Time.deltaTime;
-        transform.position += transform.forward * moveDistance;
+        transform.position += transform.forward *moveDistance ;
         
         return NodeState.Running;
     }

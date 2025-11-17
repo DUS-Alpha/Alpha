@@ -1,6 +1,6 @@
-using System;
-using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Splines;
 
 
 public enum DistanceCheckType
@@ -42,7 +42,7 @@ public class AttackSetting
     public GameObject fireballPrefab;
     public Transform[] firePoints; // 여러 발사구 지원
     public float _fireTimer;
-    public float fireInterval = 3f;
+    public float fireInterval = 1f;
     public float fireSpeed = 30f;
     public int totalFire = 0; // 몇개 쏠 껀지
     public int maxFire = 5; // 초기 값
@@ -89,11 +89,15 @@ public class DragonBossActions : MonoBehaviour,IDamageable
      BreathCycle _breathCycle;
     
      CheckRangeCycle _checkRangeCycle;
-    
+     
+     FlyFireball _flyFireball;
+     
     
     private Blackboard BB;
     
     [SerializeField] private BossAudio bossAudio;
+    
+    [SerializeField] BossSkillPool INSTANCE; // 보스 스킬 풀들
     
     
     //테스트를 위한 체력 
@@ -118,10 +122,93 @@ public class DragonBossActions : MonoBehaviour,IDamageable
         _attackCycle = GetComponent<AttackCycle>();
         _breathCycle = GetComponent<BreathCycle>();
         _checkRangeCycle = GetComponent<CheckRangeCycle>();
+        _flyFireball = GetComponent<FlyFireball>();
     }
+    
+    //코루틴으로 실행하기 위한 함수 
+     IEnumerator Boom()
+        {
+            print("실행중");
+            int cnt = 0;
+            
+            
+            while (cnt < 8)
+            {
+                GameObject obj = INSTANCE.GetObject("TestOBj");
+                float x = Random.Range(-30f, 30f);
+                float z = Random.Range(-30f, 30f);
+                obj.transform.position = new Vector3(x, 0, z);
+                cnt++;
+                yield return new WaitForSeconds(0.05f);
+            }
+            
+        }
 
 
-    public NodeState Death()
+     public bool IsRunning =false;
+     public NodeState Roar()
+     {
+         if (!IsRunning)
+         {
+             animator.SetTrigger("Roar");
+             IsRunning = true;
+         }
+
+         if (IsRunning)
+         {
+             return NodeState.Running;
+         }
+         
+         return NodeState.Success;
+     }
+     
+  
+
+
+     #region 공중 공격실행
+     
+     public NodeState Flyfrieball()
+     {
+         return _flyFireball.MoveToSplineStart();
+     }
+     
+     public NodeState Takeoff()
+     {
+         if (!IsRunning)
+         {
+             animator.SetTrigger("Takeoff");
+             IsRunning = true;
+         }
+
+         if (IsRunning)
+         {
+             return NodeState.Running;
+         }
+         
+         return NodeState.Success;
+     }
+     public NodeState Landing()
+     {
+         if (!IsRunning)
+         {
+             animator.SetTrigger("Landing");
+             IsRunning = true;
+         }
+
+         if (IsRunning)
+         {
+             return NodeState.Running;
+         }
+         
+         return NodeState.Success;
+     }
+
+     #endregion
+
+ 
+
+
+     public NodeState Death()
     {
         currentBreathsetting.breathPrefab.SetActive(false);
         return _deathCycle.Death();
@@ -156,7 +243,13 @@ public class DragonBossActions : MonoBehaviour,IDamageable
     public NodeState MeleeAttack()
     {
 
-        return _attackCycle.MeleeAttack();
+        return _attackCycle.MeleeAttack(BB);
+    }
+    
+    public NodeState BiteAttack()
+    {
+
+        return _attackCycle.BiteAttack(BB);
     }
 
     public NodeState DoCheckBreath()
@@ -209,6 +302,9 @@ public class DragonBossActions : MonoBehaviour,IDamageable
 
         return NodeState.Failure; // 맞지 않았음
     }
+	// 공중 패턴을 위한  클래스
+
+
     
  
     public void ApplyDamage(DamageMassage damageMassage)

@@ -54,21 +54,23 @@ public class DragonBTController : MonoBehaviour
             new SelectorNode(                                   // 거리별 패턴 선택
                 new SequenceNode(                               // 근거리 공격
                     new ConditionNode(() => m_actions.checkDistanceSetting._type == DistanceCheckType.Close),
-                    new ActionNode(m_actions.MeleeAttack),
-                    new WaitSecondsNode(2.5f)
+                    new WeightedSelectorNode()
+                        .AddNode(new ActionNode(m_actions.MeleeAttack), 0.5f)    // 50%
+                        .AddNode(new ActionNode(m_actions.BiteAttack), 0.5f), // 50%
+                    new WaitSecondsNode(2f)
                 ),
                 new SequenceNode(                               // 중거리 브레스
                     new ConditionNode(() => m_actions.checkDistanceSetting._type == DistanceCheckType.Mid),
-                    new ActionNode(m_actions.DoBreatheFire),
-                    new WaitSecondsNode(2.5f)
-                    
+                    new WeightedSelectorNode()
+                        .AddNode(new ActionNode(m_actions.DoBreatheFire), 0.5f)    // 50%
+                        .AddNode(new ActionNode(m_actions.Roar), 0.5f), // 50%
+                    new WaitSecondsNode(2f)
                 ),
                 new SequenceNode(                               // 원거리 불덩이
                     new ConditionNode(() => m_actions.checkDistanceSetting._type == DistanceCheckType.Far),
                     new WeightedSelectorNode()
-                        .AddNode(new ActionNode(m_actions.BodyAttack), 0.7f)    // 70%
-                        .AddNode(new ActionNode(m_actions.AttackFireBall), 0.3f) // 30%
-                    ,new WaitSecondsNode(5f)
+                        .AddNode(new ActionNode(m_actions.Run), 0.9f)    // 70%
+                    ,new WaitSecondsNode(2f)
                 )
             ) //, 여기에 잠깐 대하기는 데코레이터 구현
         );
@@ -81,7 +83,8 @@ public class DragonBTController : MonoBehaviour
                     new ConditionNode(() => m_actions.currentDeathSettings.isDead),
                     new ActionNode(m_actions.Death)
             ),
-                new SequenceNode(new ActionNode(m_actions.LookAtAndWalk),
+                new SequenceNode(
+                    new ActionNode(m_actions.LookAtAndWalk),
                     AttackLogic
                     )
         );
@@ -89,18 +92,18 @@ public class DragonBTController : MonoBehaviour
         
        
         INode root3 = new SelectorNode(
-            new ActionNode(m_actions.BodyAttack)
+            new ActionNode(m_actions.Takeoff),
+            new ActionNode(m_actions.Flyfrieball),
+            new ActionNode(m_actions.Landing)
         );
         
 
         
         
+        
 
 
-
-
-
-       m_runner.SetTree(root2);
+       m_runner.SetTree(root3);
        
         m_runner.StartTree();
     }

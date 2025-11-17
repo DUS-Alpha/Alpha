@@ -14,6 +14,7 @@ TagManager:
   - armpit
   - Foot
   - BossMeleeRange
+  - explosion
   layers:
   - Default
   - TransparentFX
