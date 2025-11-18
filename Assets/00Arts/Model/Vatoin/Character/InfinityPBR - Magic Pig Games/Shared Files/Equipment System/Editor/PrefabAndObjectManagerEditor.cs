@@ -42,7 +42,7 @@ namespace InfinityPBR
             _equipmentObjects = EquipmentObjectObjects();
             Manager.equipmentObjects = _equipmentObjects;
             _cachedEquipmentObjects = true;
-            Debug.Log($"<color=#00ff00>Cache Successful!</color> {_equipmentObjects.Count} Equipment Objects found.");
+            Debug.Log($"<color=#00ff00>Cache Successful!</color> {_equipmentObjects.Count} Armor Objects found.");
         }
 
         private PrefabAndObjectManager GetManager()
@@ -75,7 +75,7 @@ namespace InfinityPBR
         {
             _cachedEquipmentObjects = false;
             
-            if (GetBool("Auto Find Equipment Objects On Enable"))
+            if (GetBool("Auto Find Armor Objects On Enable"))
                 CacheEquipmentObjects();
 
             RemoveMissingObjects();
@@ -84,7 +84,7 @@ namespace InfinityPBR
             InfinityStatic.GetAllLabels(true); // cache this
 
             Undo.undoRedoPerformed += UndoCallback;
-            SetBool("Reset Since Load Equipment Object", false);
+            SetBool("Reset Since Load Armor Object", false);
         }
 
         private void RemoveMissingObjects()
@@ -132,7 +132,7 @@ namespace InfinityPBR
             
             foreach (var group in Manager.prefabGroups)
             {
-                Debug.Log("Caching Equipment Objects. If this is slowing things down, toggle off the option to cache " +
+                Debug.Log("Caching Armor Objects. If this is slowing things down, toggle off the option to cache " +
                           "on enable.");
                 // July 10, 2022 -  Only do this for groups that are open.
                 if (!group.showPrefabs) continue;
@@ -692,11 +692,11 @@ namespace InfinityPBR
                 Space();
             }
             
-            LeftCheckSetBool("Auto Find Equipment Objects On Enable", 
+            LeftCheckSetBool("Auto Find Armor Objects On Enable", 
                 $"Cache EquipmentObjects on Enable {symbolInfo}", 
                 "When on, the system will cache all objects with EquipmentObject components on them whenever " +
                 "an object with a Wardrobe Prefab Manager is viewed in the Inspector. This should be run before adding " +
-                "Equipment Objects, but can be done manually via a button push, if this is toggled off.");
+                "Armor Objects, but can be done manually via a button push, if this is toggled off.");
             EndVerticalBox();
         }
         

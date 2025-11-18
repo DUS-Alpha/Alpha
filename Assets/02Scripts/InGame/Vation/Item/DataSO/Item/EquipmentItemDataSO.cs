@@ -1,3 +1,4 @@
+using Unity.Collections;
 using UnityEngine;
 /*
 상속
@@ -18,13 +19,14 @@ namespace alpha
     public abstract class EquipmentItemDataSO : ItemDataSO
     {
         [Space(10)]
-        [HideInInspector] public EEquipmentTypes EquipmentType;
+        [ReadOnly] public EEquipmentTypes EquipmentType;
         public int Durability;
 
         // 상속시 EquipmentType값 자동 설정
 #if UNITY_EDITOR
         protected virtual void OnValidate()
         {
+            ItemType = EItemTypes.EquipmentItem;
             // 부모에서는 아무것도 안함 (자식에서 설정)
         }
 #endif

@@ -225,11 +225,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13c715b26eca966458f392e081a380fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BackGround: {fileID: 1995278082933797007}
-  SlotIcon: {fileID: 2134777848620181821}
-  CountTMP: {fileID: 3222860439463368024}
-  ItemCount: 0
-  SavedItemInfoSO: {fileID: 0}
+  SlotType: 0
+  SlotInfo:
+    BackGround: {fileID: 1995278082933797007}
+    SlotIcon: {fileID: 2134777848620181821}
+    CountTMP: {fileID: 3222860439463368024}
+    ItemCount: 0
+    SlotNum: 0
+    ItemInfo: {fileID: 0}
 --- !u!1 &6875630945949581564
 GameObject:
   m_ObjectHideFlags: 0

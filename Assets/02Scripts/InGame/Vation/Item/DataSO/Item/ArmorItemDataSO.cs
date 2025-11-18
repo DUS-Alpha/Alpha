@@ -1,4 +1,3 @@
-using alpha;
 using UnityEngine;
 /*
 상속
@@ -13,15 +12,27 @@ namespace alpha
     public enum EArmorTypes
     {
         Head,
+        UpperBody,
+        LowerBody,
         Gloves,
+        Boots
     }
-    public abstract class ArmorItemDataSO : EquipmentItemDataSO
+
+    [CreateAssetMenu(fileName = "ArmorItem", menuName = "Scriptable Objects/Item/ArmorItem")]
+    public class ArmorItemDataSO : EquipmentItemDataSO
     {
+        public EArmorTypes ArmorType;
+
 #if UNITY_EDITOR
         protected override void OnValidate()
         {
+            base.OnValidate();
             EquipmentType = EEquipmentTypes.Armor;
         }
 #endif
+        public override Item CreateItem()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

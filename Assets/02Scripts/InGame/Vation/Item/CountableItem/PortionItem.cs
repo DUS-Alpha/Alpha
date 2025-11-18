@@ -16,7 +16,7 @@ namespace alpha
 
         protected override CountableItem Clone(int amount)
         {
-            return new PortionItem(CountableData as PortionItemDataSO, amount);
+            return new PortionItem(CountableData as PotionItemDataSO, amount);
         }
     }
 }

@@ -8,6 +8,7 @@ namespace alpha
 #if UNITY_EDITOR
         protected override void OnValidate()
         {
+            base.OnValidate();
             WeaponType = EWeaponTypes.Melee;
         }
 #endif

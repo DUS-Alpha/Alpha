@@ -1,4 +1,5 @@
 using System;
+using Unity.Collections;
 using UnityEngine;
 /*
 상속
@@ -19,14 +20,16 @@ namespace alpha
 
     public class WeaponItemDataSO : EquipmentItemDataSO, IAttack
     {
+        [ReadOnly] public EWeaponTypes WeaponType;
 
 #if UNITY_EDITOR
         protected override void OnValidate()
         {
+            base.OnValidate();
             EquipmentType = EEquipmentTypes.Weapon;
         }
 #endif
-        [HideInInspector] public EWeaponTypes WeaponType;
+        
 
         [Header("[ WeaponItemDataSO Requirements ]"), Space(10)]
         public int StrengthREQ = 0;

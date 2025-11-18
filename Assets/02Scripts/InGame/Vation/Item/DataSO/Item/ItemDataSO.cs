@@ -1,10 +1,10 @@
+using Unity.Collections;
 using UnityEngine;
 
 public enum EItemTypes
 {
     ConuntableItem,    // 소모품
-    ArmourItem,
-    WeaponItem
+    EquipmentItem
 }
 
 public enum EItemGradeTypes
@@ -30,10 +30,11 @@ namespace alpha
 {
     public abstract class ItemDataSO : ScriptableObject
     {
+        [ReadOnly] public EItemTypes ItemType;
         public string ID => m_id;
         public string Name => m_name;
         public GameObject ItemPrefab => m_itemPrefab;
-        public Sprite Icon => m_icon;
+        public Sprite IconSprite => m_icon;
         public string Description => m_escription;
 
         [Header("[ ItemDataSO Info ]")]

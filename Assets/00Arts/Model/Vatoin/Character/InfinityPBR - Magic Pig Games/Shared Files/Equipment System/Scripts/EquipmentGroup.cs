@@ -5,7 +5,7 @@ using UnityEngine;
 namespace InfinityPBR
 {
     [System.Serializable]
-    [CreateAssetMenu(fileName = "Equipment Group", menuName = "Infinity PBR/Create/Equipment Group", order = 1)]
+    [CreateAssetMenu(fileName = "Armor Group", menuName = "Infinity PBR/Create/Armor Group", order = 1)]
     public class EquipmentGroup : ScriptableObject
     {
         
