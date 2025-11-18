@@ -28,23 +28,24 @@ public class FlyFireball : MonoBehaviour
     private bool splineCompleted = false;
     
     public Transform TargetPos;
-
-  
+    
+    private bool splineStarted = false; // 스플라인으로 이동해서  썼는지 확인하는법 
 
     void Awake()
     {
         
         patternStartPos = container.EvaluatePosition(0f);
         splineAnimate.PlayOnAwake = false;
-        splineAnimate.Restart(false); 
         transform.position = originalPos;
+        transform.rotation = Quaternion.identity;   
         
     }
 
     
     public NodeState MoveToSplineStart()
     {
-        print("BT시작");
+        print("BT시작"+splineAnimate.IsPlaying);
+        
         Vector3 direction = (patternStartPos - transform.position).normalized;
     
         if (direction != Vector3.zero)
@@ -57,14 +58,14 @@ public class FlyFireball : MonoBehaviour
     
         if (Vector3.Distance(transform.position, patternStartPos) < arriveDistance)
         {
-            if (!splineAnimate.IsPlaying)
+            if (!splineStarted)
             {
-                splineAnimate.Play();
+                splineStarted = true;
 
-                // Completed 이벤트 등록
+                splineAnimate.Play();
                 splineAnimate.Completed += OnSplineComplete;
 
-                 StartCoroutine(SpawnFireballs());
+                fireballRoutine = StartCoroutine(SpawnFireballs());
             }
         }
         
@@ -77,29 +78,6 @@ public class FlyFireball : MonoBehaviour
 
         return NodeState.Running;
     }
-
-    // private void MoveToSplineStart()
-    // {
-    //     Vector3 direction = (patternStartPos - transform.position).normalized;
-    //
-    //     if (direction != Vector3.zero)
-    //     {
-    //         Quaternion targetRot = Quaternion.LookRotation(direction);
-    //         transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * rotateSpeed);
-    //     }
-    //
-    //     transform.position = Vector3.MoveTowards(transform.position, patternStartPos, moveSpeed * Time.deltaTime);
-    //
-    //     if (Vector3.Distance(transform.position, patternStartPos) < arriveDistance)
-    //     {
-    //         splineAnimate.Play();
-    //         isPattern = false;
-    //
-    //         // 🔥 화염구 생성 코루틴 시작
-    //         if (fireballRoutine == null)
-    //             fireballRoutine = StartCoroutine(SpawnFireballs());
-    //     }
-    // }
     
     private void OnSplineComplete()
     {
@@ -107,12 +85,16 @@ public class FlyFireball : MonoBehaviour
 
         // 화염구 코루틴 종료
       
-        StopAllCoroutines();
+        if (fireballRoutine != null)
+        {
+            StopCoroutine(fireballRoutine);
+        }
+        
         fireballRoutine = null;
+        
         
 
         splineCompleted = true;
-        splineAnimate.Restart(true);
         // 이벤트 중복 호출 방지
         splineAnimate.Completed -= OnSplineComplete;
     }
@@ -120,9 +102,9 @@ public class FlyFireball : MonoBehaviour
 
     private IEnumerator SpawnFireballs()
     {
+        print("코루틴 실행중");
         while (splineAnimate.IsPlaying)
         {
-            
             Vector3 newPos = new Vector3(transform.position.x, transform.position.y+20, transform.position.z);
             
             

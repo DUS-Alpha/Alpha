@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DragonBTController : MonoBehaviour
@@ -62,20 +60,30 @@ public class DragonBTController : MonoBehaviour
                 new SequenceNode(                               // 중거리 브레스
                     new ConditionNode(() => m_actions.checkDistanceSetting._type == DistanceCheckType.Mid),
                     new WeightedSelectorNode()
-                        .AddNode(new ActionNode(m_actions.DoBreatheFire), 0.5f)    // 50%
-                        .AddNode(new ActionNode(m_actions.Roar), 0.5f), // 50%
+                        .AddNode(new ActionNode(m_actions.DoBreatheFire2), 0.9f)    // 50%
+                        .AddNode(new ActionNode(m_actions.Roar), 0.1f), // 50%
                     new WaitSecondsNode(2f)
                 ),
                 new SequenceNode(                               // 원거리 불덩이
-                    new ConditionNode(() => m_actions.checkDistanceSetting._type == DistanceCheckType.Far),
-                    new WeightedSelectorNode()
-                        .AddNode(new ActionNode(m_actions.Run), 0.9f)    // 70%
+                    new ConditionNode(() => m_actions.checkDistanceSetting._type == DistanceCheckType.Far)
+                        ,new ActionNode(m_actions.Run) 
                     ,new WaitSecondsNode(2f)
                 )
             ) //, 여기에 잠깐 대하기는 데코레이터 구현
         );
         
-        
+              
+        INode FlyFireBallLogic = new SequenceNode(
+            new ActionNode(m_actions.Takeoff),
+            new ActionNode(m_actions.Flyfrieball),
+            new ActionNode(m_actions.Landing)
+        );
+        INode FlyFireBallOneShot = new OneShotNode(
+            new SequenceNode(
+                new ConditionNode(() => m_actions.IsLowHp()),   // HP 50% 이하일 때만 실행
+                FlyFireBallLogic
+            )
+        );
      
         
         INode root2 = new ParallelNode(
@@ -83,27 +91,25 @@ public class DragonBTController : MonoBehaviour
                     new ConditionNode(() => m_actions.currentDeathSettings.isDead),
                     new ActionNode(m_actions.Death)
             ),
-                new SequenceNode(
-                    new ActionNode(m_actions.LookAtAndWalk),
-                    AttackLogic
+                new SelectorNode(
+                    FlyFireBallOneShot,
+                        new SequenceNode(
+                            new ActionNode(m_actions.LookAtAndWalk),
+                            AttackLogic
+                        )
                     )
+              
+                
+        
         );
-        
-        
-       
-        INode root3 = new SelectorNode(
-            new ActionNode(m_actions.Takeoff),
-            new ActionNode(m_actions.Flyfrieball),
-            new ActionNode(m_actions.Landing)
-        );
-        
 
+        INode testroot = new ActionNode(m_actions.DoBreatheFire2);
         
         
         
 
 
-       m_runner.SetTree(root3);
+       m_runner.SetTree(root2);
        
         m_runner.StartTree();
     }

@@ -132,12 +132,12 @@ public class DragonBossActions : MonoBehaviour,IDamageable
             int cnt = 0;
             
             
-            while (cnt < 8)
+            while (cnt < 20)
             {
                 GameObject obj = INSTANCE.GetObject("TestOBj");
-                float x = Random.Range(-30f, 30f);
-                float z = Random.Range(-30f, 30f);
-                obj.transform.position = new Vector3(x, 0, z);
+                float x = Random.Range(-20f, 20f);
+                float z = Random.Range(-20f, 20f);
+                obj.transform.position = new Vector3(BB.OwnerTransform.position.x+x, 0, BB.OwnerTransform.position.z+z);
                 cnt++;
                 yield return new WaitForSeconds(0.05f);
             }
@@ -146,19 +146,22 @@ public class DragonBossActions : MonoBehaviour,IDamageable
 
 
      public bool IsRunning =false;
+     public bool IsComplete = false;
+     
      public NodeState Roar()
      {
          if (!IsRunning)
          {
              animator.SetTrigger("Roar");
              IsRunning = true;
+             IsComplete = false;
          }
 
-         if (IsRunning)
-         {
+         if (!IsComplete)
              return NodeState.Running;
-         }
-         
+
+         // 애니메이션 종료 후
+         IsRunning = false;
          return NodeState.Success;
      }
      
@@ -174,33 +177,21 @@ public class DragonBossActions : MonoBehaviour,IDamageable
      
      public NodeState Takeoff()
      {
-         if (!IsRunning)
-         {
-             animator.SetTrigger("Takeoff");
-             IsRunning = true;
-         }
-
-         if (IsRunning)
-         {
-             return NodeState.Running;
-         }
          
+         animator.SetTrigger("Takeoff");
          return NodeState.Success;
      }
      public NodeState Landing()
      {
-         if (!IsRunning)
-         {
-             animator.SetTrigger("Landing");
-             IsRunning = true;
-         }
-
-         if (IsRunning)
-         {
-             return NodeState.Running;
-         }
+         
+         animator.SetTrigger("Landing");
          
          return NodeState.Success;
+     }
+
+     public bool IsLowHp()
+     {
+         return hp <= 500;
      }
 
      #endregion
@@ -251,6 +242,7 @@ public class DragonBossActions : MonoBehaviour,IDamageable
 
         return _attackCycle.BiteAttack(BB);
     }
+    
 
     public NodeState DoCheckBreath()
     {
@@ -264,7 +256,24 @@ public class DragonBossActions : MonoBehaviour,IDamageable
     
     public NodeState DoBreatheFire()
     {
-        return _breathCycle.BreatheFire(animator,currentBreathsetting);
+        return _breathCycle.BreatheFire(IsRunning,IsComplete);
+    }
+    
+    public NodeState DoBreatheFire2()
+    {
+        if (!IsRunning)
+        {
+            animator.SetTrigger("Breath");
+            IsRunning = true;
+            IsComplete = false;
+        }
+
+        if (!IsComplete)
+            return NodeState.Running;
+
+        // 애니메이션 종료 후
+        IsRunning = false;
+        return NodeState.Success;
     }
     
     public NodeState CheckRangeCycle()

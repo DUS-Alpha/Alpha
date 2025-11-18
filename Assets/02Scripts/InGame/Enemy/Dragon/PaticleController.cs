@@ -10,6 +10,7 @@ public class PaticleController : MonoBehaviour
     float decalValue; // 데칼이 점점 커지는 상황에 사용
     [SerializeField] GameObject decal; // 미리 표시하는 데칼
     [SerializeField] GameObject Particle; // 미리 표시하는 파티클
+    [SerializeField] SphereCollider collider;
     
     Material decalMaterial;
 
@@ -24,6 +25,7 @@ public class PaticleController : MonoBehaviour
         decalMaterial = new Material(projector.material);
         projector.material = decalMaterial;
         decalMaterial.SetFloat("_DecalRed", decalValue);;
+        collider.enabled = false;
         
     }
 
@@ -40,7 +42,7 @@ public class PaticleController : MonoBehaviour
         }
         if (currentTime > boomTime+0.1f && currentTime < destroyTime)
         {
-            // GetComponent<SphereCollider>().enabled = true;
+            collider.enabled = true;
             decal.SetActive(false);
             Particle.SetActive(true);
            
@@ -53,8 +55,24 @@ public class PaticleController : MonoBehaviour
         
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        IDamageable _damageableTarget;
+        if (other.CompareTag("Player"))
+        {
+            if (other.TryGetComponent(out _damageableTarget))
+            {
+                DamageMassage _damageMassage = new DamageMassage();
+                _damageMassage.damage = 20;
+                
+                _damageableTarget.ApplyDamage(_damageMassage);
+            }
+        }
+    }
+
     void Deactive()
     {
+        collider.enabled = false;
         StopAllCoroutines();
         gameObject.SetActive(false);
         Particle.SetActive(false);

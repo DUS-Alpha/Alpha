@@ -1,7 +1,6 @@
-using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
+//브레스 전용  이름 수정해야됨
 public class Boss2EventController : MonoBehaviour
 {
     public Transform breathOrigin;   // 브레스 시작 위치
