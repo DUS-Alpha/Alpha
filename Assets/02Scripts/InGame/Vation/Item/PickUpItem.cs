@@ -14,7 +14,7 @@ public class PickUpItem : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             PlayerCore _playerCore = other.GetComponent<PlayerCore>();
-            _playerCore.PlayerInventoryUI.AddItem(m_item);
+            _playerCore.InventoryController.InventoryUI.AddItem(m_item);
             Destroy(gameObject); // 월드에서 제거
         }
     }

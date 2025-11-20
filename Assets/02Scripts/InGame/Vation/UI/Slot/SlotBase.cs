@@ -25,7 +25,7 @@ namespace alpha
         public int SlotNum;
         public int ItemCount;
         public TextMeshProUGUI CountTMP;
-        public ItemDataSO ItemInfo; // {name, prefab, 등등}
+        public ItemDataSO ItemData; // {name, prefab, 등등}
     }
 
     public abstract class SlotBase : MonoBehaviour
@@ -36,7 +36,7 @@ namespace alpha
         public SlotInfos SlotInfo;
         public bool HasItem = false;
 
-        public void ApplySlotInfo(int slotNum, Sprite icon, int itemCount, ItemDataSO info)
+        public virtual void ApplySlotInfo(int slotNum, Sprite icon, int itemCount, ItemDataSO info)
         {
             SlotInfo.SlotNum = slotNum;
             SlotInfo.SlotIcon.sprite = icon;
@@ -44,7 +44,7 @@ namespace alpha
             SlotInfo.ItemCount = itemCount;
             SlotInfo.CountTMP.text = itemCount.ToString();
 
-            SlotInfo.ItemInfo = info;
+            SlotInfo.ItemData = info;
 
             HasItem = info != null;
 
@@ -66,14 +66,14 @@ namespace alpha
 
         public void CopySlotInfo(int slotNum, SlotInfos slotInfos)
         {
-            ApplySlotInfo(slotNum, slotInfos.SlotIcon.sprite, slotInfos.ItemCount, slotInfos.ItemInfo);
+            ApplySlotInfo(slotNum, slotInfos.SlotIcon.sprite, slotInfos.ItemCount, slotInfos.ItemData);
         }
 
         public void ActivateTMP(bool isTMP)
         {
             SlotInfo.CountTMP.gameObject.SetActive(isTMP);
         }
-        public void ClearSlot()
+        public virtual void ClearSlot()
         {
             SlotInfo.SlotIcon.sprite = null;
 
@@ -82,7 +82,7 @@ namespace alpha
             SlotInfo.CountTMP.text = "0";
 
             // 아이템 정보 초기화
-            SlotInfo.ItemInfo = null;
+            SlotInfo.ItemData = null;
 
             HasItem = false;
 

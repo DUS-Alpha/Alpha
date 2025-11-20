@@ -4,12 +4,15 @@ public enum HolderTypes
 {
     None,
     Head,
-    Chest,
+    UpperBody,
+    LowerBody,
     Gloves,
-    Feets,
+    Boots,
     Melee,
     MainRange,
-    SubRange
+    SubRange,
+    Quick_Potion,
+    Quick_Consumable
 }
 
 public class ItemHolder : MonoBehaviour

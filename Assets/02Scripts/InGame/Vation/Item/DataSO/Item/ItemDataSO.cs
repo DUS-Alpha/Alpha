@@ -45,6 +45,10 @@ namespace alpha
         [TextArea] public string m_escription;
 
         /// <summary> 타입에 맞는 새로운 아이템 생성 </summary>
-        public abstract Item CreateItem();
+        public virtual Item CreateItem()
+        {
+            var _item = Instantiate(m_itemPrefab);
+            return _item.GetComponent<Item>();
+        }
     }
 }

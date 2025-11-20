@@ -12,7 +12,10 @@ namespace alpha
             SlotType = ESlotTypes.Drag;
         }
 #endif
-
+        public override void ApplySlotInfo(int slotNum, Sprite icon, int itemCount, ItemDataSO info)
+        {
+            base.ApplySlotInfo(slotNum, icon, itemCount, info);
+        }
         public override bool CanAcceptItem(ItemDataSO itemdata)
         {
             return true;

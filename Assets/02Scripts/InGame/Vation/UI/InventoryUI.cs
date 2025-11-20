@@ -9,6 +9,11 @@ namespace alpha
 {
     public class InventoryUI : BaseUI, IPointerDownHandler, IPointerUpHandler,IBeginDragHandler, IDragHandler, IEndDragHandler
     {
+        public event Action<ItemDataSO> OnEquipRequest;
+        public event Action<ItemDataSO> OnUnEquipRequest;
+        public event Action<ItemDataSO> OnUseRequest;
+        public event Action<ItemDataSO> OnDropRequest;
+
         [Header("[ UI Settings ]")]
         [Range(0, 10)]
         [SerializeField] private int m_verticalSlotCount = 4;      // 슬롯 세로 개수
@@ -76,7 +81,7 @@ namespace alpha
                 if(InventorySlotList[i].HasItem)
                 {
                     if (itemInfo.ItemType != EItemTypes.ConuntableItem) continue;
-                    if (InventorySlotList[i].SlotInfo.ItemInfo.Name == itemInfo.Name) //중복 체크
+                    if (InventorySlotList[i].SlotInfo.ItemData.Name == itemInfo.Name) //중복 체크
                     {
                         AddToSlot(i, itemInfo);
                         return;
@@ -207,6 +212,9 @@ namespace alpha
             // 1) UI 밖으로 드롭 -> 삭제/팝업 처리
             if (!EventSystem.current.IsPointerOverGameObject())
             {
+                if (_pdSlot.SlotInfo.ItemData != null)
+                    UnEquipItem(_targetSlot, m_dragSlot.SlotInfo.ItemData); // 실제 오브젝트 제거
+
                 // 예: 삭제 확정 팝업 로직 / 바로 삭제 로직
                 // 여기서는 바로 삭제 (원본 슬롯 비움)
                 _pdSlot.ClearSlot();
@@ -223,8 +231,8 @@ namespace alpha
 
             // 3) 유효성 검사: 양쪽 슬롯이 상대 아이템을 받는지 확인
             //    예: target.CanAcceptItem(srcItem) && srcSlot.CanAcceptItem(targetItem)
-            ItemDataSO _dragItem = _dragSlotInfo.ItemInfo;
-            ItemDataSO _targetItem = _targetSlot.SlotInfo.ItemInfo;
+            ItemDataSO _dragItem = _dragSlotInfo.ItemData;
+            ItemDataSO _targetItem = _targetSlot.SlotInfo.ItemData;
 
             // 기본적으로 target이 src의 아이템을 받을 수 있는지 체크
             if (!_targetSlot.CanAcceptItem(_dragItem))
@@ -240,17 +248,23 @@ namespace alpha
                 _targetItem.Name == _dragItem.Name)
             {
                 // 합치기: target의 카운트 + src의 카운트
-                int _total = _targetSlot.SlotInfo.ItemCount + _pdSlot.SlotInfo.ItemCount;
+                int total = _targetSlot.SlotInfo.ItemCount + _pdSlot.SlotInfo.ItemCount;
 
                 // 적용: target에 total 할당, source 클리어
-                int _targetIndex = GetSlotIndex(_targetSlot);
-                _targetSlot.ApplySlotInfo(_targetIndex, _targetSlot.SlotInfo.SlotIcon.sprite, _total, _targetItem);
+                int targetIndex = GetSlotIndex(_targetSlot);
+                _targetSlot.ApplySlotInfo(targetIndex, _targetSlot.SlotInfo.SlotIcon.sprite, total, _targetItem);
+
+                // 슬롯 판별하여 장착슬롯 -> 인벤토리일 경우 실제 오브젝트 제거
+                UnEquipItem(_targetSlot, _dragItem); 
 
                 _pdSlot.ClearSlot();
                 CleanupDrag();
                 return;
             }
 
+            // 기존 장착 해제 (원본 슬롯)
+            if (_pdSlot.SlotInfo.ItemData != null)
+                UnEquipItem(_pdSlot, _pdSlot.SlotInfo.ItemData);
 
             // 4) 스왑 혹은 이동 로직
             // 만일 targetSlot이 비어있다면 이동, 아니면 스왑
@@ -260,29 +274,50 @@ namespace alpha
                 int targetIndex = GetSlotIndex(_targetSlot);
                 _targetSlot.ApplySlotInfo(targetIndex, _dragSlotInfo.SlotIcon.sprite, _dragSlotInfo.ItemCount, _dragItem);
                 _pdSlot.ClearSlot();
-                CleanupDrag();
-                return;
+
+                // Equip슬롯인지 판단 후 정보 전달
+                EquipItem(_targetSlot, _targetSlot.SlotInfo.ItemData);
             }
             else
             {
                 // 스왑: 단자성(atomic) 보장
                 //  - 임시로 두 SlotInfos 보관
-                SlotInfos targetInfoCopy = _targetSlot.SlotInfo; // struct copy
-                SlotInfos srcInfoCopy = _dragSlotInfo;                // 이미 복사되어 있음
+                SlotInfos targetInfoCopy = _targetSlot.SlotInfo;        // struct copy
+                SlotInfos srcInfoCopy = _dragSlotInfo;                  // 이미 복사되어 있음
 
                 // 인덱스(슬롯 넘버)는 슬롯의 실제 인덱스로 재설정
                 int srcIndex = GetSlotIndex(_pdSlot);
                 int targetIndex2 = GetSlotIndex(_targetSlot);
 
                 // 서로 적용 (주의: ApplySlotInfo은 slotNum, sprite, count, item 주입)
-                _pdSlot.ApplySlotInfo(srcIndex, targetInfoCopy.SlotIcon.sprite, targetInfoCopy.ItemCount, targetInfoCopy.ItemInfo);
-                _targetSlot.ApplySlotInfo(targetIndex2, srcInfoCopy.SlotIcon.sprite, srcInfoCopy.ItemCount, srcInfoCopy.ItemInfo);
+                _pdSlot.ApplySlotInfo(srcIndex, targetInfoCopy.SlotIcon.sprite, targetInfoCopy.ItemCount, targetInfoCopy.ItemData);
+                _targetSlot.ApplySlotInfo(targetIndex2, srcInfoCopy.SlotIcon.sprite, srcInfoCopy.ItemCount, srcInfoCopy.ItemData);
 
-                CleanupDrag();
-                return;
+                // Equip슬롯인지 판단 후 정보 전달
+                EquipItem(_targetSlot, srcInfoCopy.ItemData);
+            }
+
+            CleanupDrag();
+        }
+
+        // TODO : 판단된 정보를 받는곳에서 다시 판단할 필요 없이 바로 사용할 수 있게 하는 방법 적용
+        private void EquipItem(SlotBase targetSlot, ItemDataSO item)
+        {
+            // 슬롯 타입에 따라 이벤트 호출
+            if (targetSlot is WeaponSlot || targetSlot is ArmorSlot || targetSlot is QuickSlot)
+            {
+                OnEquipRequest?.Invoke(item);
             }
         }
 
+        private void UnEquipItem(SlotBase targetSlot, ItemDataSO item)
+        {
+            // 슬롯 타입에 따라 이벤트 호출
+            if (targetSlot is WeaponSlot || targetSlot is ArmorSlot || targetSlot is QuickSlot)
+            {
+                OnUnEquipRequest?.Invoke(item);
+            }
+        }
         public void InventoryPopUI()
         {
             // 마우스 포인터가 UI 위에 있는지 확인

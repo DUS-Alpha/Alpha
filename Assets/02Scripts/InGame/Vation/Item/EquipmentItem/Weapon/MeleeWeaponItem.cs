@@ -1,16 +1,16 @@
+using alpha;
 using UnityEngine;
 
-public class MeleeWeaponItem : MonoBehaviour
+namespace alpha
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public class MeleeWeaponItem : WeaponItem
     {
-        
-    }
+        public MeleeWeaponItemDataSO WeaponItemData { get; private set; }
+        public MeleeWeaponItem(MeleeWeaponItemDataSO data) : base(data)
+        {
+            WeaponItemData = data;
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+      
     }
 }

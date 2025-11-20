@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bff9eabd18ea82d41b50874d5a92d024, type: 3}
+  m_Name: RangeWeapon_Sub
+  m_EditorClassIdentifier: 
+  ItemType: 1
+  m_id: 
+  m_name: MainRange
+  m_itemPrefab: {fileID: 8159967325988650581, guid: 607dbb090bbe59844aac9cad8aeb8596, type: 3}
+  m_icon: {fileID: 21300000, guid: d0317cf1a1c0adb49b2c5ecd3ca2aad0, type: 3}
+  m_escription: 
+  EquipmentType: 1
+  Durability: 0
+  WeaponType: 2
+  StrengthREQ: 0
+  DexREQ: 0
+  IntREQ: 0
+  FaithREQ: 0
+  Damage: 0
+  MagicDamage: 0
+  FireDamage: 0
+  HolyDamage: 0
+  LightningDamage: 0
+  PoiseDamage: 10
+  BaseStaminaCost: 20
+  RangeType: 1
+  m_maxAmmo: 0
+  m_currentAmmo: 0
+  m_saveAmmo: 0
+  m_layer:
+    serializedVersion: 2
+    m_Bits: 0
+  m_audioSource: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_bulletFirePos: {fileID: 0}
+  m_muzzleFlashEffect: {fileID: 0}

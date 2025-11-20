@@ -9,7 +9,7 @@ public class PlayerInputManager : MonoBehaviour
     private InputLockedFlagsController<InputLocoLockType> m_inputLockedFlags;
     private InputLockedFlagsController<InputCombatLockType> m_inputCombatFlags;
 
-    private PlayerControls m_playerControl;     // InputSystem
+    private PlayerControls m_playerControl;         // InputSystem
 
     //  TODO : new InpuSystem 전환할지 고려
     #region ==================== LocomotionInput
@@ -18,7 +18,6 @@ public class PlayerInputManager : MonoBehaviour
 
     public Vector2 LookInput { get; private set; }
     public bool IsRotLock {  get; private set; }
-
 
     private int m_dashFrame;
     public bool IsDash => m_dashFrame == Time.frameCount;   // 다음 프레임에서 false로 변환해줌
@@ -32,8 +31,9 @@ public class PlayerInputManager : MonoBehaviour
     public bool IsAttack { get; private set; }
     public bool IsAim { get; private set; }
     public bool IsSwap { get; private set; }
-    public int SwapWeaponNum { get; private set; } = 0;
-    public bool IsReload { get; private set; }
+    public int SwapNum { get; private set; } = 0;
+
+    //public bool IsReload { get; private set; }
     public bool IsSkill {  get; private set; }
     public string SkillKey { get; private set; }
     private KeyCode[] m_skillKeyCodes = { KeyCode.Q, KeyCode.E, KeyCode.Z, KeyCode.C };
@@ -49,14 +49,50 @@ public class PlayerInputManager : MonoBehaviour
         {
             m_playerControl = new PlayerControls();
 
-            m_playerControl.Player.Move.performed += i => MoveDirInput = i.ReadValue<Vector2>();
+            // ==================== Locomotion
+            m_playerControl.PlayerLocomotion.Move.performed += i => MoveDirInput = i.ReadValue<Vector2>();
 
-            m_playerControl.Player.IsRotLock.performed += i => IsRotLock = i.ReadValue<float>() > 0.5f; // 자료형 액션타입이 Button에 대해 bool이 아닌 float로 받아와짐
-            m_playerControl.Player.IsRotLock.canceled += i => IsRotLock = i.ReadValue<float>() > 0.5f;
+            m_playerControl.PlayerLocomotion.IsRotLock.performed += i => IsRotLock = i.ReadValue<float>() > 0.5f; // 자료형 액션타입이 Button에 대해 bool이 아닌 float로 받아와짐
+            m_playerControl.PlayerLocomotion.IsRotLock.canceled += i => IsRotLock = i.ReadValue<float>() > 0.5f;
 
-            m_playerControl.Player.Dodge.performed += i => m_dashFrame = Time.frameCount;
-            m_playerControl.Player.Jump.performed += i => m_jumpFrame = Time.frameCount;
-            m_playerControl.Player.Fly.performed += i => m_flyUpFrame = Time.frameCount;
+            m_playerControl.PlayerLocomotion.Dodge.performed += i => m_dashFrame = Time.frameCount;
+            m_playerControl.PlayerLocomotion.Jump.performed += i => m_jumpFrame = Time.frameCount;
+            m_playerControl.PlayerLocomotion.Fly.performed += i => m_flyUpFrame = Time.frameCount;
+
+            // ==================== Combat
+            // Swap
+            m_playerControl.PlayerCombat.SwapNum1.performed += i => SwapNum = int.Parse(i.control.name);
+            m_playerControl.PlayerCombat.SwapNum1.canceled += i => { if (SwapNum == 1) SwapNum = 0; };
+
+            m_playerControl.PlayerCombat.SwapNum2.performed += i => SwapNum = int.Parse(i.control.name);
+            m_playerControl.PlayerCombat.SwapNum2.canceled += i => { if (SwapNum == 2) SwapNum = 0; };
+
+            m_playerControl.PlayerCombat.SwapNum3.performed += i => SwapNum = int.Parse(i.control.name);
+            m_playerControl.PlayerCombat.SwapNum3.canceled += i => { if (SwapNum == 3) SwapNum = 0; };
+
+            m_playerControl.PlayerCombat.SwapNum4.performed += i => SwapNum = int.Parse(i.control.name);
+            m_playerControl.PlayerCombat.SwapNum4.canceled += i => { if (SwapNum == 4) SwapNum = 0; };
+
+            // Attack
+
+
+
+            // Skill
+
+
+
+            m_playerControl.PlayerCombat.SwapNum1.canceled += i => 
+            {
+                int releasedNum;
+
+                if (int.TryParse(i.control.name, out releasedNum))
+                {
+                    // 지금 떼어진 키가 현재 SwapNum인 경우에만 리셋
+                    if (SwapNum == releasedNum)
+                        SwapNum = 0;
+                }
+            };
+
         }
         m_playerControl.Enable();   //Enable해야 m_playerControl의 인풋시스템 입력처리가 활성화됨
     }
@@ -70,7 +106,7 @@ public class PlayerInputManager : MonoBehaviour
 
     private void Start()
     {
-        SwapWeaponNum = 0;
+        //SwapWeaponNum = 0;
     }
     // Update is called once per frame
     void Update()
@@ -97,26 +133,26 @@ public class PlayerInputManager : MonoBehaviour
     #region ================================================================================ COMBAT
     private void CombatInput()
     {
-        IsSwap = IsSwapInput();
+        //IsSwap = IsSwapInput();
         IsAttack = Input.GetMouseButton(0);
         IsAim = Input.GetMouseButtonDown(1) && m_combat.CurrentWeaponNum > 1;
-        IsReload = Input.GetKeyDown(KeyCode.R);
+        //IsReload = Input.GetKeyDown(KeyCode.R);
         IsSkill = SkillKeyCode();
     }
 
-    private bool IsSwapInput()
+    /*private bool IsSwapInput()
     {
         // 1 ~ 4
         for (int i = 1; i <= 4; i++)
         {
             if (Input.GetKeyDown(KeyCode.Alpha0 + i) || Input.GetKeyDown(KeyCode.Keypad0 + i))
             {
-                SwapWeaponNum = i;
+                SwapNum = i;
                 return true;
             }
         }
         return false;
-    }
+    }*/
 
     public bool SkillKeyCode()
     {

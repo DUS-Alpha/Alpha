@@ -3,7 +3,7 @@
     "name": "PlayerControls",
     "maps": [
         {
-            "name": "Player",
+            "name": "PlayerLocomotion",
             "id": "e5647185-cb2e-4444-be38-99dab45ebd62",
             "actions": [
                 {
@@ -215,6 +215,94 @@
                     "processors": "",
                     "groups": "",
                     "action": "IsRotLock",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "PlayerCombat",
+            "id": "25e16471-b744-4ae3-8eab-0438a386ddf1",
+            "actions": [
+                {
+                    "name": "SwapNum1",
+                    "type": "Button",
+                    "id": "eff75247-19b1-4ff8-a1a3-8986a896927c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SwapNum2",
+                    "type": "Button",
+                    "id": "515c9b3c-934f-4d4f-904a-fbb465175df9",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SwapNum3",
+                    "type": "Button",
+                    "id": "cfe65a86-fa2b-451e-a2a3-c25acb96ed73",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SwapNum4",
+                    "type": "Button",
+                    "id": "a58c8cb8-b75d-4c14-ba3c-769b917ba544",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "bab4b1d2-8970-4b8e-ab76-0f2fdf2b2125",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwapNum4",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6e59282d-3c5e-48cb-8670-0ffad5d5d010",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwapNum1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "11181fbf-bf8c-4612-926c-dda6b2d1e2d1",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwapNum2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fa4cee6f-350b-4030-a5bd-7273602f0c45",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwapNum3",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
