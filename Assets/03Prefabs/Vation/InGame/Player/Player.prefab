@@ -169,7 +169,7 @@ GameObject:
   - component: {fileID: 9160378675337961000}
   - component: {fileID: 8602204960111310203}
   m_Layer: 0
-  m_Name: QuickHolder_Consumable
+  m_Name: CountableHolder_Consumable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -278,7 +278,7 @@ GameObject:
   m_Component:
   - component: {fileID: 355969401296942894}
   m_Layer: 0
-  m_Name: QuickAttach
+  m_Name: CountableAttach
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1361,6 +1361,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2d790ccf400ffe438d6e6e013801bc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentItem: {fileID: 0}
   CurrentWeapon: {fileID: 0}
   IsAim: 0
   SkillKey: 
@@ -1411,7 +1412,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CameraManger: {fileID: 0}
   AudioManager: {fileID: 0}
-  PlayerInventoryUI: {fileID: 0}
   IsPerformingAction: 0
   IsCombatLock: 0
 --- !u!114 &8384058729499424320
@@ -1531,9 +1531,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f25edea811eed9439d730e97cc2ee4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryUI: {fileID: 0}
-  equipManager: {fileID: 0}
-  playerCore: {fileID: 0}
+  InventoryUI: {fileID: 0}
 --- !u!114 &6386163676348662903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1604,7 +1602,7 @@ GameObject:
   - component: {fileID: 2643149529670604482}
   - component: {fileID: 1249149971394367356}
   m_Layer: 0
-  m_Name: QuickHolder_Potion
+  m_Name: CountableHolder_Potion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8709,6 +8707,10 @@ PrefabInstance:
       propertyPath: m_VideoClip
       value: 
       objectReference: {fileID: 32900000, guid: b8ec6b027bb85454390fcea66a6fb8f2, type: 3}
+    - target: {fileID: 577530023044801732, guid: 823d27bf6d423214680bba3f294d5443, type: 3}
+      propertyPath: 'm_DirectAudioVolumes.Array.data[0]'
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3050802587424124483, guid: 823d27bf6d423214680bba3f294d5443, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 

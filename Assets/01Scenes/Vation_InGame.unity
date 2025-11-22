@@ -4147,6 +4147,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 724308974566925161, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
+      propertyPath: m_Name
+      value: CountableHolder_Consumable
+      objectReference: {fileID: 0}
     - target: {fileID: 1926820692058439629, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
       propertyPath: m_LocalPosition.y
       value: 1.12
@@ -4154,6 +4158,10 @@ PrefabInstance:
     - target: {fileID: 1926820692058439629, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
       propertyPath: m_LocalPosition.z
       value: 1.693
+      objectReference: {fileID: 0}
+    - target: {fileID: 1978241090433959494, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
+      propertyPath: m_Name
+      value: CountableAttach
       objectReference: {fileID: 0}
     - target: {fileID: 2684152834521995391, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
       propertyPath: HolderType
@@ -4238,6 +4246,10 @@ PrefabInstance:
     - target: {fileID: 7144277684283177295, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 7532174503000740973, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
+      propertyPath: m_Name
+      value: CountableHolder_Potion
       objectReference: {fileID: 0}
     - target: {fileID: 8652837559477405220, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
       propertyPath: AudioManager

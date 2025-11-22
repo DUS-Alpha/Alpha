@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public interface IAttack
+namespace alpha
 {
-    void Attack(bool isAttackInput, PlayerAnimationController anim);
+    public interface IAttack
+    {
+        void Attack(bool isAttackInput, PlayerAnimationController anim);
+    }
 }

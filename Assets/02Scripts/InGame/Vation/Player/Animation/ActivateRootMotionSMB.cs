@@ -1,26 +1,29 @@
 using UnityEngine;
 
-public class ActivateRootMotionSMB : StateMachineBehaviour
+namespace alpha
 {
-    private PlayerCombat m_combat;
-    // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    public class ActivateRootMotionSMB : StateMachineBehaviour
     {
-        animator.applyRootMotion = true;
-        
+        private PlayerCombat m_combat;
+        // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+        override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            animator.applyRootMotion = true;
+
+        }
+
+        // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
+        //override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        //{
+        //    
+        //}
+
+        // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
+        override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            animator.applyRootMotion = false;
+        }
+
+
     }
-
-    // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-    //override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    
-    //}
-
-    // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        animator.applyRootMotion = false;
-    }
-
-    
 }

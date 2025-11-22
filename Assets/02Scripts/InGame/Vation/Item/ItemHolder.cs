@@ -11,8 +11,8 @@ public enum HolderTypes
     Melee,
     MainRange,
     SubRange,
-    Quick_Potion,
-    Quick_Consumable
+    Countable_Potion,
+    Countable_Consumable
 }
 
 public class ItemHolder : MonoBehaviour

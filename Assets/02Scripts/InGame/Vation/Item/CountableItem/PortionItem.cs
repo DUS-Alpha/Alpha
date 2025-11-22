@@ -4,7 +4,11 @@ namespace alpha
 {
     public class PortionItem : CountableItem
     {
-        public PortionItem(CountableItemDataSO data, int amount = 1) : base(data, amount){}
+        public PotionItemDataSO PotionItemData { get; private set; }
+        public PortionItem(PotionItemDataSO data, int amount = 1) : base(data, amount)
+        {
+            PotionItemData = data;
+        }
 
         public bool Use()
         {

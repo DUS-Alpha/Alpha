@@ -71,7 +71,7 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
         Combat.InitializeModule(this);
         EquipmentManager.InitializeModule(this);
         StatsManager.InitializeModule(this);
-        InventoryController.InitializeModule(EquipmentManager, Combat);
+        InventoryController.InitializeModule(InputManager, EquipmentManager, Combat);
     }
 
     /// <summary>
@@ -79,8 +79,10 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
     /// </summary>
     public void InitializeEvents()
     {
-        Locomotion.InitializeEvents(this);
         AniController.InitializeEvents(this);
+        InventoryController.InitializeEvents(this);
+        
+        Locomotion.InitializeEvents(this);
         Combat.InitializeEvents(this);
     }
 
@@ -96,7 +98,7 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
         StateMachine.Update();
         CheckInputAction?.Invoke();
 
-        IsCombatLock = InputManager.IsRotLock || WindowUIManager.Instance.IsWindowUI;
+        //IsCombatLock = InputManager.IsRotLock || WindowUIManager.Instance.IsWindowUI;
         //playerAudio.FootStepAudio();
     }
 

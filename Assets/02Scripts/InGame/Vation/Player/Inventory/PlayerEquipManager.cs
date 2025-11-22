@@ -29,26 +29,18 @@ namespace alpha
 
         // ========== Equip Item Holder ========== 
         public Dictionary<EWeaponTypes, Transform> EquipWeaponHolderDic;    // 아이템 생성될 홀더(부모)객체 저장(holder Type과 EWeaponTypes/ECountableTypes 각 매칭)
-        public Dictionary<ECountableTypes, Transform> EquipQuickHolderDic;
+        public Dictionary<ECountableTypes, Transform> EquipCountableHolderDic;
 
-        // Hashtable 기반 현재 장착 아이템 관리
+        // 현재 장착 아이템 관리
         public Dictionary<EWeaponTypes, WeaponItem> CurrentWeaponItems { get; private set; }
         public Dictionary<ECountableTypes, CountableItem> CurrentCountableItems { get; private set; }
 
         // PlayerInventoryController에서 Combat으로 스왑 가능한지 전달 및 스왑(현재 무기 데이터도 전달)
-        public Func<Item> OnSwapAction;
-        private int m_swapNum;
+        public int CurrentSwapNum { get; private set; }
+        private Item m_currentIntem;
         public void InitializeModule(PlayerCore playerCore)
         {
             m_inputManager = playerCore.InputManager;
-        }
-        public void InitializeEvents(IPlayerEvents events)
-        {
-            events.CheckInputAction += CheckInput;
-        }
-        public void CheckInput()
-        {
-            m_swapNum = m_inputManager.SwapNum;
         }
 
         private void Awake()
@@ -63,7 +55,6 @@ namespace alpha
                 }
             }
 
-
             // 장착할 홀더(슬롯) 구분
             EquipWeaponHolderDic = new Dictionary<EWeaponTypes, Transform>
             { 
@@ -72,10 +63,10 @@ namespace alpha
                 {EWeaponTypes.SubRange, holderDic[HolderTypes.SubRange]}
             };
 
-            EquipQuickHolderDic = new Dictionary<ECountableTypes, Transform>
+            EquipCountableHolderDic = new Dictionary<ECountableTypes, Transform>
             { 
-                {ECountableTypes.Potion, holderDic[HolderTypes.Quick_Potion]},
-                {ECountableTypes.Consumable, holderDic[HolderTypes.Quick_Consumable] },
+                {ECountableTypes.Potion, holderDic[HolderTypes.Countable_Potion]},
+                {ECountableTypes.Consumable, holderDic[HolderTypes.Countable_Consumable] },
             };
 
             // 현재 장착 아이템 테이블
@@ -96,8 +87,12 @@ namespace alpha
         {
             foreach(var weapon in EquipWeaponHolderDic)
             {
-                if (weapon.Key == EWeaponTypes.Melee ) weapon.Value.gameObject.SetActive(true);
-                else weapon.Value.gameObject.SetActive(false);
+                weapon.Value.gameObject.SetActive(false);
+            }
+
+            foreach (var countable in EquipCountableHolderDic)
+            {
+                countable.Value.gameObject.SetActive(false);
             }
         }
         #region ======================================== Equip
@@ -143,7 +138,14 @@ namespace alpha
         }
         private void EquipQuick_Potion(PotionItemDataSO potion)
         {
+            if (!EquipCountableHolderDic.ContainsKey(potion.CountableType)) return;
 
+            Transform _holder = EquipCountableHolderDic[potion.CountableType];
+            var _countablePotionObj = Instantiate(potion.ItemPrefab, _holder);
+            CurrentCountableItems[potion.CountableType] = _countablePotionObj.GetComponent<CountableItem>();
+
+            if(CurrentCountableItems[potion.CountableType] == null)
+                Debug.LogWarning($"{CurrentCountableItems[potion.CountableType]} == null");
         }
         #endregion ======================================== / Equip
 
@@ -183,38 +185,66 @@ namespace alpha
         }
 
         #endregion ======================================== / UnEquip
-
-        public void QuickSlotSwap(int weaponNum)
+        private Item GetItemBySwapNum(int swapNum)
         {
-            Item _item;
-            switch (weaponNum)
+            return swapNum switch
             {
-                case 0:
-                    break;
-                case 1:
-                    _item = CurrentWeaponItems[EWeaponTypes.Melee];
-                    break;
-                case 2:
-                    _item = CurrentWeaponItems[EWeaponTypes.MainRange];
-                    break;
-                case 3:
-                    _item = CurrentWeaponItems[EWeaponTypes.SubRange];
-                    // 무기 교체
-                    break;
-                case 4:
-                    _item = CurrentCountableItems[ECountableTypes.Potion];
-                    break;
+                1 => CurrentWeaponItems[EWeaponTypes.Melee],
+                2 => CurrentWeaponItems[EWeaponTypes.MainRange],
+                3 => CurrentWeaponItems[EWeaponTypes.SubRange],
+                4 => CurrentCountableItems[ECountableTypes.Potion],
+                _ => null
+            };
+        }
+
+        private Transform GetHolderBySwapNum(int swapNum)
+        {
+            return swapNum switch
+            {
+                1 => EquipWeaponHolderDic[EWeaponTypes.Melee],
+                2 => EquipWeaponHolderDic[EWeaponTypes.MainRange],
+                3 => EquipWeaponHolderDic[EWeaponTypes.SubRange],
+                4 => EquipCountableHolderDic[ECountableTypes.Potion],
+                _ => null
+            };
+        }
+
+        public bool CanSwap(int swapNum)
+        {
+            m_currentIntem = GetItemBySwapNum(swapNum);
+            Debug.Log(m_currentIntem);
+            if (m_currentIntem == null) return false;
+            if (swapNum == CurrentSwapNum) return false;
+
+            CurrentSwapNum = swapNum;
+            return true;
+        }
+
+        public Item TrySwap()
+        {
+            int swapNum = CurrentSwapNum;
+
+            // 1. 모든 WeaponHolder 비활성화
+            foreach (var kvp in EquipWeaponHolderDic)
+                kvp.Value.gameObject.SetActive(false);
+
+            // 2. 모든 QuickSlotHolder 비활성화
+            foreach (var kvp in EquipCountableHolderDic)
+                kvp.Value.gameObject.SetActive(false);
+
+            // 3. swapNum으로 선택된 홀더 가져오기
+            Transform targetHolder = GetHolderBySwapNum(swapNum);
+
+            if (targetHolder == null)
+            {
+                Debug.LogWarning($"TrySwap: [{swapNum}]에 해당하는 홀더가 존재하지 않습니다.");
+                return null;
             }
 
-           Item _a = OnSwapAction?.Invoke();
+            // 4. 해당 홀더만 활성화
+            targetHolder.gameObject.SetActive(true);
 
-
-
-            /*for (int i = 0; i < m_weaponHoderTrs.Length; i++)
-            {
-                m_weaponHoderTrs[i].gameObject.SetActive(false);
-            }
-            m_weaponHoderTrs[weaponNum].gameObject.SetActive(true);*/
+            return m_currentIntem;
         }
 
 
