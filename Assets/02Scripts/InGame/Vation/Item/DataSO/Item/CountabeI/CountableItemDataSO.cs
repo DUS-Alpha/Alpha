@@ -35,11 +35,5 @@ namespace alpha
             ItemType = EItemTypes.ConuntableItem;
         }
 #endif
-        public override Item CreateItem()
-        {
-            return base.CreateItem();
-        }
-
-        public abstract void Used();
     }
 }

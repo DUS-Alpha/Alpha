@@ -12,18 +12,18 @@ namespace alpha
             SlotType = ESlotTypes.Weapon;
         }
 #endif
-        public override void ApplySlotInfo(int slotNum, Sprite icon, int itemCount, ItemDataSO info)
+        public override void ApplySlotInfo(int slotNum, Sprite icon, int itemCount, ItemDataSO itemData)
         {
-            base.ApplySlotInfo(slotNum, icon, itemCount, info);
+            base.ApplySlotInfo(slotNum, icon, itemCount, itemData);
 
         }
-        public override bool CanAcceptItem(ItemDataSO itemdata)
+        public override bool CanAcceptItem(ItemDataSO item)
         {
-            WeaponItemDataSO weaponItemDataSO = itemdata as WeaponItemDataSO;
+            WeaponItemDataSO _weaponItemData = item as WeaponItemDataSO;
 
-            if (weaponItemDataSO == null) return false;
+            if (_weaponItemData == null) return false;
 
-            if (WeaponSlotType == weaponItemDataSO.WeaponType)
+            if (WeaponSlotType == _weaponItemData.WeaponType)
                 return true;
 
             return false;

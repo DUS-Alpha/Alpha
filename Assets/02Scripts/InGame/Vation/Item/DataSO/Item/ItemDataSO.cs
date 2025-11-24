@@ -38,17 +38,10 @@ namespace alpha
         public string Description => m_escription;
 
         [Header("[ ItemDataSO Info ]")]
-        public string m_id;
-        public string m_name;
-        public GameObject m_itemPrefab;
-        public Sprite m_icon;
-        [TextArea] public string m_escription;
-
-        /// <summary> 타입에 맞는 새로운 아이템 생성 </summary>
-        public virtual Item CreateItem()
-        {
-            var _item = Instantiate(m_itemPrefab);
-            return _item.GetComponent<Item>();
-        }
+        [SerializeField] private string m_id;
+        [SerializeField] private string m_name;
+        [SerializeField] private GameObject m_itemPrefab;
+        [SerializeField] private Sprite m_icon;
+        [TextArea][SerializeField] private string m_escription;
     }
 }

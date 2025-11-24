@@ -73,30 +73,30 @@ namespace alpha
             m_dragSlot.transform.GetChild(0).gameObject.SetActive(false);
         }
 
-        public void AddItem(ItemDataSO itemInfo)
+        public void AddItem(ItemDataSO itemData)
         {
             for (int i = 0; i < InventorySlotList.Count; i++)
             {
                 // 현재 슬롯에 아이템이 있는 경우
                 if(InventorySlotList[i].HasItem)
                 {
-                    if (itemInfo.ItemType != EItemTypes.ConuntableItem) continue;
-                    if (InventorySlotList[i].SlotInfo.ItemData.Name == itemInfo.Name) //중복 체크
+                    if (itemData.ItemType != EItemTypes.ConuntableItem) continue;
+                    if (InventorySlotList[i].SlotInfo.ItemData.Name == itemData.Name) //중복 체크
                     {
-                        AddToSlot(i, itemInfo);
+                        AddToSlot(i, itemData);
                         return;
                     }
                 }
                 else
                 {
-                    CreateNewSlot(i, itemInfo);
+                    CreateNewSlot(i, itemData);
                     return;
                 }
             }
         }
 
         // Add,와 Create로 구분한 이유는 초기화가 없는 상황시 위험한 코드이기에 명확성을 위해 중복내용도 그대로 사용
-        private void AddToSlot(int index, ItemDataSO itemInfo)
+        private void AddToSlot(int index, ItemDataSO itemData)
         {
             // 슬롯 저장
             var _slot = InventorySlotList[index];
@@ -104,15 +104,15 @@ namespace alpha
             // 기존 스택 증가
             _slot.SlotInfo.ItemCount++;
 
-            _slot.ApplySlotInfo(index, itemInfo.IconSprite, _slot.SlotInfo.ItemCount, itemInfo);
+            _slot.ApplySlotInfo(index, itemData.IconSprite, _slot.SlotInfo.ItemCount, itemData);
         }
 
-        private void CreateNewSlot(int index, ItemDataSO itemInfo)
+        private void CreateNewSlot(int index, ItemDataSO itemData)
         {
             var _slot = InventorySlotList[index];
 
             // 신규 슬롯은 무조건 1로 명시
-            _slot.ApplySlotInfo(index, itemInfo.IconSprite, 1, itemInfo);
+            _slot.ApplySlotInfo(index, itemData.IconSprite, 1, itemData);
         }
         private SlotBase GetSlotUnderPointer(Vector2 pos)
         {
@@ -231,11 +231,11 @@ namespace alpha
 
             // 3) 유효성 검사: 양쪽 슬롯이 상대 아이템을 받는지 확인
             //    예: target.CanAcceptItem(srcItem) && srcSlot.CanAcceptItem(targetItem)
-            ItemDataSO _dragItem = _dragSlotInfo.ItemData;
-            ItemDataSO _targetItem = _targetSlot.SlotInfo.ItemData;
+            ItemDataSO _dragItemData = _dragSlotInfo.ItemData;
+            ItemDataSO _targetItemData = _targetSlot.SlotInfo.ItemData;
 
             // 기본적으로 target이 src의 아이템을 받을 수 있는지 체크
-            if (!_targetSlot.CanAcceptItem(_dragItem))
+            if (!_targetSlot.CanAcceptItem(_dragItemData))
             {
                 // 거부하면 원상복구. 즉, 다른 슬롯으로 드랍한 상태
                 CleanupDrag();
@@ -243,19 +243,19 @@ namespace alpha
             }
 
             // 스택 가능한 아이템 합치기 (같은 아이템 && countable)
-            if (_targetSlot.HasItem && _targetItem != null &&
-                _dragItem.ItemType == EItemTypes.ConuntableItem &&
-                _targetItem.Name == _dragItem.Name)
+            if (_targetSlot.HasItem && _targetItemData != null &&
+                _dragItemData.ItemType == EItemTypes.ConuntableItem &&
+                _targetItemData.Name == _dragItemData.Name)
             {
                 // 합치기: target의 카운트 + src의 카운트
                 int total = _targetSlot.SlotInfo.ItemCount + _pdSlot.SlotInfo.ItemCount;
 
                 // 적용: target에 total 할당, source 클리어
                 int targetIndex = GetSlotIndex(_targetSlot);
-                _targetSlot.ApplySlotInfo(targetIndex, _targetSlot.SlotInfo.SlotIcon.sprite, total, _targetItem);
+                _targetSlot.ApplySlotInfo(targetIndex, _targetSlot.SlotInfo.SlotIcon.sprite, total, _targetItemData);
 
                 // 슬롯 판별하여 장착슬롯 -> 인벤토리일 경우 실제 오브젝트 제거
-                UnEquipItem(_targetSlot, _dragItem); 
+                UnEquipItem(_targetSlot, _dragItemData); 
 
                 _pdSlot.ClearSlot();
                 CleanupDrag();
@@ -272,7 +272,7 @@ namespace alpha
             {
                 // 이동: target <- src, src <- clear
                 int targetIndex = GetSlotIndex(_targetSlot);
-                _targetSlot.ApplySlotInfo(targetIndex, _dragSlotInfo.SlotIcon.sprite, _dragSlotInfo.ItemCount, _dragItem);
+                _targetSlot.ApplySlotInfo(targetIndex, _dragSlotInfo.SlotIcon.sprite, _dragSlotInfo.ItemCount, _dragItemData);
                 _pdSlot.ClearSlot();
 
                 // Equip슬롯인지 판단 후 정보 전달
@@ -301,21 +301,21 @@ namespace alpha
         }
 
         // TODO : 판단된 정보를 받는곳에서 다시 판단할 필요 없이 바로 사용할 수 있게 하는 방법 적용
-        private void EquipItem(SlotBase targetSlot, ItemDataSO item)
+        private void EquipItem(SlotBase targetSlot, ItemDataSO itemData)
         {
             // 슬롯 타입에 따라 이벤트 호출
             if (targetSlot is WeaponSlot || targetSlot is ArmorSlot || targetSlot is QuickSlot)
             {
-                OnEquipRequest?.Invoke(item);
+                OnEquipRequest?.Invoke(itemData);
             }
         }
 
-        private void UnEquipItem(SlotBase targetSlot, ItemDataSO item)
+        private void UnEquipItem(SlotBase targetSlot, ItemDataSO itemDataSO)
         {
             // 슬롯 타입에 따라 이벤트 호출
             if (targetSlot is WeaponSlot || targetSlot is ArmorSlot || targetSlot is QuickSlot)
             {
-                OnUnEquipRequest?.Invoke(item);
+                OnUnEquipRequest?.Invoke(itemDataSO);
             }
         }
         public void InventoryPopUI()

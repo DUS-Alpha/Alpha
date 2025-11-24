@@ -17,7 +17,7 @@ namespace alpha
 #endif
 
         // 인벤토리슬롯은 모든 아이템 수용가능
-        public override bool CanAcceptItem(ItemDataSO itemdata)
+        public override bool CanAcceptItem(ItemDataSO item)
         {
             return true;
         }

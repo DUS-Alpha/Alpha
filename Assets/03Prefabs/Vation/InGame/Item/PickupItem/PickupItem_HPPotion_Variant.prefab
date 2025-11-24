@@ -98,7 +98,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 417109104028734207, guid: df81d6b087045ae4bbd76d89e599c788, type: 3}
       propertyPath: m_Name
-      value: Item Variant
+      value: PickupItem_HPPotion_Variant
       objectReference: {fileID: 0}
     - target: {fileID: 525117957203366122, guid: df81d6b087045ae4bbd76d89e599c788, type: 3}
       propertyPath: m_LocalPosition.x
@@ -176,7 +176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bb67ac15782ce04da0d670cd180661a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_item: {fileID: 11400000, guid: 619fcc24a3729a144828365359d777bb, type: 2}
+  m_itemData: {fileID: 11400000, guid: 619fcc24a3729a144828365359d777bb, type: 2}
 --- !u!65 &2373370439626272426
 BoxCollider:
   m_ObjectHideFlags: 0

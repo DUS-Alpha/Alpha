@@ -20,6 +20,9 @@ namespace alpha
     {
         [Space(10)]
         [ReadOnly] public EEquipmentTypes EquipmentType;
+        /// <summary>
+        /// 내구성
+        /// </summary>
         public int Durability;
 
         // 상속시 EquipmentType값 자동 설정
@@ -30,9 +33,5 @@ namespace alpha
             // 부모에서는 아무것도 안함 (자식에서 설정)
         }
 #endif
-        public override Item CreateItem()
-        {
-            return base.CreateItem();
-        }
     }
 }

@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 namespace alpha
 {
-    [CreateAssetMenu(fileName = "MeleeWeapon", menuName = "Scriptable Objects/Item/MeleeWeapon")]
+    [CreateAssetMenu(fileName = "MeleeWeapon", menuName = "Scriptable Objects/ItemData/MeleeWeapon")]
     public class MeleeWeaponItemDataSO : WeaponItemDataSO
     {
 #if UNITY_EDITOR
@@ -12,11 +12,6 @@ namespace alpha
             WeaponType = EWeaponTypes.Melee;
         }
 #endif
-        public override void Attack(bool isAttackInput, PlayerAnimationController anim)
-        {
-
-        }
-
 
         private void OnTriggerEnter(Collider other)
         {

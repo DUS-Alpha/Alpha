@@ -101,14 +101,14 @@ namespace alpha
             // 장비 장착
             switch (data)
             {
-                case WeaponItemDataSO weapon:
-                    EquipWeapon(weapon);
+                case WeaponItemDataSO weaponData:
+                    EquipWeapon(weaponData);
                     break;
-                case ArmorItemDataSO armor:
-                    EquipArmor(armor);
+                case ArmorItemDataSO armorData:
+                    EquipArmor(armorData);
                     break;
-                case PotionItemDataSO potion:
-                    EquipQuick_Potion(potion);
+                case PotionItemDataSO potionData:
+                    EquipQuick_Potion(potionData);
                     break;
                 default:
                     Debug.LogWarning("알 수 없는 아이템 타입");
@@ -117,35 +117,43 @@ namespace alpha
             // 스탯 반영
         }
 
-        private void EquipWeapon(WeaponItemDataSO weapon)
+        private void EquipWeapon(WeaponItemDataSO weaponData)
         {
-            if (!EquipWeaponHolderDic.ContainsKey(weapon.WeaponType)) return;
+            if (!EquipWeaponHolderDic.ContainsKey(weaponData.WeaponType)) return;
 
             // 장착 홀더(부모)
-            Transform _holder = EquipWeaponHolderDic[weapon.WeaponType];
+            Transform _holder = EquipWeaponHolderDic[weaponData.WeaponType];
 
             // 새 장착
-            var _weaponItemObj = Instantiate(weapon.ItemPrefab, _holder);
-            CurrentWeaponItems[weapon.WeaponType] = _weaponItemObj.GetComponent<WeaponItem>();
+            var _weaponItemObj = Instantiate(weaponData.ItemPrefab, _holder);
+            WeaponItem _weaponItem = _weaponItemObj.GetComponent<WeaponItem>();
+            _weaponItem.Initialize(weaponData);
+
+            CurrentWeaponItems[weaponData.WeaponType] = _weaponItem;
             
-            if (CurrentWeaponItems[weapon.WeaponType] == null) 
-                Debug.LogWarning($"{CurrentWeaponItems[weapon.WeaponType]} == null");
+            if (CurrentWeaponItems[weaponData.WeaponType] == null) 
+                Debug.LogWarning($"{CurrentWeaponItems[weaponData.WeaponType]} == null");
             
         }
-        private void EquipArmor(ArmorItemDataSO armor)
+        private void EquipArmor(ArmorItemDataSO armorData)
         {
 
         }
-        private void EquipQuick_Potion(PotionItemDataSO potion)
+        private void EquipQuick_Potion(PotionItemDataSO potionData)
         {
-            if (!EquipCountableHolderDic.ContainsKey(potion.CountableType)) return;
+            if (!EquipCountableHolderDic.ContainsKey(potionData.CountableType)) return;
 
-            Transform _holder = EquipCountableHolderDic[potion.CountableType];
-            var _countablePotionObj = Instantiate(potion.ItemPrefab, _holder);
-            CurrentCountableItems[potion.CountableType] = _countablePotionObj.GetComponent<CountableItem>();
+            Transform _holder = EquipCountableHolderDic[potionData.CountableType];
 
-            if(CurrentCountableItems[potion.CountableType] == null)
-                Debug.LogWarning($"{CurrentCountableItems[potion.CountableType]} == null");
+            var _countablePotionObj = Instantiate(potionData.ItemPrefab, _holder);
+            CountableItem _countableItem = _countablePotionObj.GetComponent<CountableItem>();
+
+            _countableItem.Initialize(potionData);
+
+            CurrentCountableItems[potionData.CountableType] = _countableItem;
+
+            if(CurrentCountableItems[potionData.CountableType] == null)
+                Debug.LogWarning($"{CurrentCountableItems[potionData.CountableType]} == null");
         }
         #endregion ======================================== / Equip
 
@@ -169,9 +177,9 @@ namespace alpha
             }
             
         }
-        private void UnEquipWeapon(ItemDataSO data)
+        private void UnEquipWeapon(WeaponItemDataSO data)
         {
-            WeaponItemDataSO _weaponData = data as WeaponItemDataSO;
+            WeaponItemDataSO _weaponData = data;
             
             if (CurrentWeaponItems[_weaponData.WeaponType] != null)
             {
@@ -212,7 +220,6 @@ namespace alpha
         public bool CanSwap(int swapNum)
         {
             m_currentIntem = GetItemBySwapNum(swapNum);
-            Debug.Log(m_currentIntem);
             if (m_currentIntem == null) return false;
             if (swapNum == CurrentSwapNum) return false;
 

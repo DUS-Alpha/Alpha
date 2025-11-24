@@ -170,20 +170,20 @@ namespace alpha
 
                 if (!IsActioning)
                 {
-                    _meleeWeapon.Attack(IsAttack, m_playerCore.AniController);
+                    //_meleeWeapon.Attack(IsAttack, m_playerCore.AniController);
                 }
             }
             else if (CurrentWeaponNum > 1)
             {
                 SetIKRigWeight(RigType.Aim, true);
                 _rangeWeapon = CurrentWeapon as RangeWeaponItemDataSO;
-                RealTimeUIManager.Instance.SetAmmo(_rangeWeapon.CurrentAmmo, _rangeWeapon.SaveAmmo, _rangeWeapon.MaxAmmo);
+                //RealTimeUIManager.Instance.SetAmmo(_rangeWeapon.CurrentAmmo, _rangeWeapon.SaveAmmo, _rangeWeapon.MaxAmmo);
                 m_playerCore.AniController.SetAnimatorWeight(1, 1);
                 if (Time.time >= m_nextAttakTime)
                 {
                     //m_nextAttakTime = Time.time + _rangeWeapon.WeaponData.CombatData.Cooldown;
                     // 무기 Swap시 마다 스나이퍼 같은 총의 경우 바로 발사를 하면 안되기에 계속 현재 무기값으로
-                    _rangeWeapon.Attack(IsAttack, m_playerCore.AniController);
+                    //_rangeWeapon.Attack(IsAttack, m_playerCore.AniController);
                     //if (TryGetTarget(out RaycastHit hit, CurrentWeapon.m_maxDistance))
                     {
                         //ApplyDamage(hit);
@@ -236,7 +236,7 @@ namespace alpha
             if (CurrentWeaponNum > 1)
             {
                 RangeWeaponItemDataSO _rangeWeapon = CurrentWeapon as RangeWeaponItemDataSO;
-                RealTimeUIManager.Instance.SetAmmo(_rangeWeapon.CurrentAmmo, _rangeWeapon.SaveAmmo, _rangeWeapon.MaxAmmo);
+                //RealTimeUIManager.Instance.SetAmmo(_rangeWeapon.CurrentAmmo, _rangeWeapon.SaveAmmo, _rangeWeapon.MaxAmmo);
             }
             else RealTimeUIManager.Instance.SetAmmo(0, 0, 0);
 
@@ -262,10 +262,11 @@ namespace alpha
         public bool EnterReload()
         {
             RangeWeaponItemDataSO _rangeWeapon = CurrentWeapon as RangeWeaponItemDataSO;
-            bool _cansReload = _rangeWeapon.Reload();
+            //bool _cansReload = _rangeWeapon.Reload();
+            bool _cansReload = false;
             if (!_cansReload) return false;
 
-            RealTimeUIManager.Instance.SetAmmo(_rangeWeapon.CurrentAmmo, _rangeWeapon.SaveAmmo, _rangeWeapon.MaxAmmo);
+            //RealTimeUIManager.Instance.SetAmmo(_rangeWeapon.CurrentAmmo, _rangeWeapon.SaveAmmo, _rangeWeapon.MaxAmmo);
 
             m_playerCore.AniController.SetAnimatorWeight(1, 1);
             m_playerCore.AniController.ReloadAni();

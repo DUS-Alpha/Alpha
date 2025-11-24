@@ -1,16 +1,7 @@
+using alpha;
 using UnityEngine;
 
-public class ArmorItem : MonoBehaviour
+public class ArmorItem : EquipmentItem
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public ArmorItemDataSO ArmorData => (ArmorItemDataSO)Data;
 }

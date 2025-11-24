@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace alpha
 {
-    [CreateAssetMenu(fileName = "PotionItemData", menuName = "Scriptable Objects/Item/Potion")]
+    [CreateAssetMenu(fileName = "PotionItemData", menuName = "Scriptable Objects/ItemData/Potion")]
     public class PotionItemDataSO : CountableItemDataSO
     {
         // 채움량 (회복량 hp, mp, stemina 등)
@@ -15,16 +15,5 @@ namespace alpha
             CountableType = ECountableTypes.Potion;
         }
 #endif
-
-
-        public override Item CreateItem()
-        {
-            return new PortionItem(this);
-        }
-
-        public override void Used()
-        {
-            
-        }
     }
 }

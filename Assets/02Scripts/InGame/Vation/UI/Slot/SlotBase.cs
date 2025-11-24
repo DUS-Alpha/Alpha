@@ -25,7 +25,7 @@ namespace alpha
         public int SlotNum;
         public int ItemCount;
         public TextMeshProUGUI CountTMP;
-        public ItemDataSO ItemData; // {name, prefab, 등등}
+        public ItemDataSO ItemData;
     }
 
     public abstract class SlotBase : MonoBehaviour
@@ -36,7 +36,7 @@ namespace alpha
         public SlotInfos SlotInfo;
         public bool HasItem = false;
 
-        public virtual void ApplySlotInfo(int slotNum, Sprite icon, int itemCount, ItemDataSO info)
+        public virtual void ApplySlotInfo(int slotNum, Sprite icon, int itemCount, ItemDataSO itemData)
         {
             SlotInfo.SlotNum = slotNum;
             SlotInfo.SlotIcon.sprite = icon;
@@ -44,11 +44,11 @@ namespace alpha
             SlotInfo.ItemCount = itemCount;
             SlotInfo.CountTMP.text = itemCount.ToString();
 
-            SlotInfo.ItemData = info;
+            SlotInfo.ItemData = itemData;
 
-            HasItem = info != null;
+            HasItem = itemData != null;
 
-            if (HasItem && info.ItemType == EItemTypes.ConuntableItem)
+            if (HasItem && itemData.ItemType == EItemTypes.ConuntableItem)
                 ActivateTMP(true);
             else
                 ActivateTMP(false);
@@ -59,9 +59,9 @@ namespace alpha
             transform.GetChild(_childIndex).gameObject.SetActive(HasItem);
         }
 
-        public void SetSlotToItemData(int slotNum, ItemDataSO itemInfo)
+        public void SetSlotToItemData(int slotNum, ItemDataSO itemData)
         {
-            ApplySlotInfo(slotNum, itemInfo.IconSprite, SlotInfo.ItemCount, itemInfo);
+            ApplySlotInfo(slotNum, itemData.IconSprite, SlotInfo.ItemCount, itemData);
         }
 
         public void CopySlotInfo(int slotNum, SlotInfos slotInfos)
@@ -92,7 +92,7 @@ namespace alpha
             transform.GetChild(_childIndex).gameObject.SetActive(false);
         }
 
-        public abstract bool CanAcceptItem(ItemDataSO itemdata);
+        public abstract bool CanAcceptItem(ItemDataSO item);
 
         #region ========== ICON AREA ==========
         private float m_xMin;

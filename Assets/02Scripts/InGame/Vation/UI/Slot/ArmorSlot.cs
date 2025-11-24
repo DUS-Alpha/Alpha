@@ -15,13 +15,13 @@ namespace alpha
             SlotType = ESlotTypes.Armor;
         }
 #endif
-        public override void ApplySlotInfo(int slotNum, Sprite icon, int itemCount, ItemDataSO info)
+        public override void ApplySlotInfo(int slotNum, Sprite icon, int itemCount, ItemDataSO itemData)
         {
-            base.ApplySlotInfo(slotNum, icon, itemCount, info);
+            base.ApplySlotInfo(slotNum, icon, itemCount, itemData);
         }
-        public override bool CanAcceptItem(ItemDataSO itemdata)
+        public override bool CanAcceptItem(ItemDataSO itemData)
         {
-            ArmorItemDataSO _armorItemData = itemdata as ArmorItemDataSO;
+            ArmorItemDataSO _armorItemData = itemData as ArmorItemDataSO;
             if (_armorItemData == null) return false;
 
             if(_armorItemData.ArmorType == ArmorSlotType) return true;

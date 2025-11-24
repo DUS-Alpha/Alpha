@@ -21,14 +21,6 @@ MonoBehaviour:
   EquipmentType: 1
   Durability: 0
   WeaponType: 0
-  StrengthREQ: 0
-  DexREQ: 0
-  IntREQ: 0
-  FaithREQ: 0
-  Damage: 0
-  MagicDamage: 0
-  FireDamage: 0
-  HolyDamage: 0
-  LightningDamage: 0
-  PoiseDamage: 10
-  BaseStaminaCost: 20
+  Damage: 50
+  AttackCost: 0
+  AudioClip: {fileID: 0}

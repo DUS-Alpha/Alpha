@@ -18,7 +18,7 @@ namespace alpha
         Boots
     }
 
-    [CreateAssetMenu(fileName = "ArmorItem", menuName = "Scriptable Objects/Item/ArmorItem")]
+    [CreateAssetMenu(fileName = "ArmorItem", menuName = "Scriptable Objects/ItemData/ArmorItem")]
     public class ArmorItemDataSO : EquipmentItemDataSO
     {
         public EArmorTypes ArmorType;
@@ -30,9 +30,5 @@ namespace alpha
             EquipmentType = EEquipmentTypes.Armor;
         }
 #endif
-        public override Item CreateItem()
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }
