@@ -24,68 +24,14 @@ public class AttackCycle : MonoBehaviour
         ani = GetComponent<Animator>();
     }
 
-    public NodeState FireballAttack(Blackboard BB, AttackSetting attackCycle)
+
+    public NodeState MeleAttackTest()
     {
-        if (BB?.Target == null || attackCycle.fireballPrefab == null || attackCycle.firePoints.Length == 0)
-            return NodeState.Failure;
-
-        // 총 발사 횟수 초기화: AttackSetting에 _started 변수 추가 가능
-        if (!_started)
-        {
-            attackCycle.totalFire = attackCycle.maxFire;
-            attackCycle._fireTimer = 0f;
-            _started = true;
-            Debug.Log("[FireballAttack] 발사 시작");
-        }
-
-        // 타이머 누적
-        attackCycle._fireTimer += Time.deltaTime;
-
-        // Interval 체크
-        while (attackCycle._fireTimer >= attackCycle.fireInterval && attackCycle.totalFire > 0)
-        {
-            attackCycle._fireTimer -= attackCycle.fireInterval;
-
-            Transform point = GetNextFirePoint(attackCycle);
-            
-            Vector3 randomOffset = Random.insideUnitSphere; // -1 ~ 1 범위
-            
-            // 2. 원하는 반경 적용
-            float radius = Random.Range(5, 10);
-            randomOffset *= radius; 
-            Vector3 ShootPoint =  new Vector3(randomOffset.x +BB.Target.position.x , BB.Target.position.y,randomOffset.z + BB.Target.position.z);
-            
-            Vector3 dir = (ShootPoint - point.position).normalized;
-
-            GameObject fireball = PoolManager.Instance.Spawn(attackCycle.fireballPrefab, point.position, Quaternion.LookRotation(dir));
-            fireball.GetComponent<PooledProjectile>().Launch(dir, attackCycle.fireSpeed, false);
-
-            attackCycle.totalFire--;
-            Debug.Log($"🔥 Fireball launched! 남은 발사 횟수: {attackCycle.totalFire}");
-        }
-
-        // 남은 발사 횟수 확인
-        if (attackCycle.totalFire > 0)
-        {
-            return NodeState.Running;
-        }
-
-        // 발사 끝
-        _started = false;
-        Debug.Log("[FireballAttack] 발사 완료");
+        ani.SetTrigger("Melee");
         return NodeState.Success;
     }
-    
-    private Transform GetNextFirePoint(AttackSetting attackCycle)
-    {
-        if (attackCycle.firePoints == null || attackCycle.firePoints.Length == 0)
-            return transform; // 기본값: 자기 자신
+  
 
-
-        Transform point = attackCycle.firePoints[attackCycle._firePointIndex];
-        attackCycle._firePointIndex = (attackCycle._firePointIndex + 1) % attackCycle.firePoints.Length;
-        return point;
-    }
 
     public NodeState MeleeAttack(Blackboard bb)
     {

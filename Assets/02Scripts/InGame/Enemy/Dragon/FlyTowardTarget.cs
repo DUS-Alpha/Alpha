@@ -13,33 +13,9 @@ public class FlyTowardTarget : MonoBehaviour
     {
         ani = GetComponent<Animator>();
     }
+    
 
-    public NodeState Execute(Blackboard bb,FlySettings settings)
-    {
-        if (bb.Target == null || settings.hoverCenter == null)
-            return NodeState.Failure;
-
-        // 1. 위치 추적
-        Vector3 target = new Vector3(bb.Target.position.x, bb.Target.position.y + settings.hoverHeight, bb.Target.position.z);
-        Vector3 direction = target - transform.position;
-        Vector3 MyTransform = new Vector3(transform.position.x, bb.Target.position.y + settings.hoverHeight, transform.position.z);
-
-        // Y축 평면 회전
-        Vector3 flatDirection = direction;
-        flatDirection.y = 0f;
-        if (flatDirection != Vector3.zero)
-        {
-            Quaternion rot = Quaternion.LookRotation(flatDirection);
-            transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * settings.turnSpeed);
-        }
-
-        // 이동
-        transform.position = Vector3.MoveTowards(MyTransform, bb.Target.position, Time.deltaTime * settings.moveSpeed);
-        
-        return NodeState.Success; 
-    }
-
-    public NodeState LookAtAndWalk(Blackboard bb, FlySettings settings)
+    public NodeState LookAtAndWalk(Blackboard bb, MoveSetting settings)
     {
         currentTimer += Time.deltaTime; 
         if (currentTimer > MoveTimer )
@@ -83,10 +59,9 @@ public class FlyTowardTarget : MonoBehaviour
         }
         
         // 3. 이동 (플레이어 쪽으로 다가가기)
-        // 목표 위치 (플레이어 위치 + 일정 높이 유지)
         Vector3 targetPos = new Vector3(
             bb.Target.position.x,
-            transform.position.y, // 높이는 그대로 유지
+            transform.position.y, 
             bb.Target.position.z
         );
 
@@ -99,7 +74,7 @@ public class FlyTowardTarget : MonoBehaviour
         return NodeState.Running;
     }
     
-    public NodeState Run(FlySettings settings)
+    public NodeState Run(MoveSetting settings)
     {
         if (!isStarted)
         {

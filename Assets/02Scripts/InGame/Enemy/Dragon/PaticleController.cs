@@ -74,7 +74,7 @@ public class PaticleController : MonoBehaviour
     {
         collider.enabled = false;
         StopAllCoroutines();
-        gameObject.SetActive(false);
         Particle.SetActive(false);
+        PoolManager.Instance.Despawn(gameObject);
     }
 }

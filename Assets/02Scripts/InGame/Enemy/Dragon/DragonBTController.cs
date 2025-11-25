@@ -23,30 +23,6 @@ public class DragonBTController : MonoBehaviour
     void Start()
     {
     
-
-     
-        
-
-        /*INode root = new SelectorNode(
-            new SequenceNode(
-                new ActionNode(m_actions.CheckDeath),
-                new ActionNode(m_actions.Fall)
-            ),
-            new ActionNode(m_actions.CheckHitReaction),
-            new SequenceNode(
-                new ActionNode(m_actions.CheckBreath),
-                new ActionNode(m_actions.BreatheFire)
-            ),
-            new SequenceNode(
-                new ActionNode(m_actions.FlyTowardTarget),
-                new ActionNode(m_actions.FireballAttack)
-            )
-        );*/
-
-
-            
-      
-        
         INode AttackLogic = new SequenceNode(
             new ActionNode(m_actions.CheckRangeCycle),   // 거리 측정
             new SelectorNode(                                   // 거리별 패턴 선택
@@ -91,7 +67,7 @@ public class DragonBTController : MonoBehaviour
                     new ConditionNode(() => m_actions.currentDeathSettings.isDead),
                     new ActionNode(m_actions.Death)
             ),
-                new SelectorNode(
+                new SelectorNode(   
                     FlyFireBallOneShot,
                         new SequenceNode(
                             new ActionNode(m_actions.LookAtAndWalk),
@@ -103,14 +79,14 @@ public class DragonBTController : MonoBehaviour
         
         );
 
-        INode testroot = new ActionNode(m_actions.DoBreatheFire2);
+        INode testroot = new ActionNode(m_actions.Roar);
         
         
         
 
 
-       m_runner.SetTree(root2);
+       m_runner.SetTree(testroot);
        
-        m_runner.StartTree();
+       m_runner.StartTree();
     }
 }

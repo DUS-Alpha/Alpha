@@ -7,11 +7,6 @@ public class AniCheckCount : StateMachineBehaviour
   
     [SerializeField]private float count = 0;
 
-    // public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex,
-    //     AnimatorControllerPlayable controller)
-    // {
-    //     count = 0;
-    // }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {

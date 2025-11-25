@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Splines;
 
 
 public enum DistanceCheckType
@@ -11,7 +10,7 @@ public enum DistanceCheckType
     Unknown // 초기값/타겟 없음
 }
 [System.Serializable]
-public class CheckDistanceSetting // ⬅️ 참조 타입 (class)
+public class CheckDistanceSetting //  참조 타입 (class)
 {
     public float _minRange;
     public float _maxRange;
@@ -19,44 +18,22 @@ public class CheckDistanceSetting // ⬅️ 참조 타입 (class)
 }
 
 [System.Serializable]
-public class FlySettings // ⬅️ 참조 타입 (class)
+public class MoveSetting //  참조 타입 (class)
 {
-    public float hoverHeight = 5f; // 기본값 유지
     public float moveSpeed = 5f;   // 기본값 유지
     public float turnSpeed = 3f;   // 기본값 유지
-    public Transform hoverCenter;
 }
 
 [System.Serializable]
 public class DeathSetting 
 {
     public bool isDead = false;
-    public bool deathAnimPlayed = false;
-    public bool hasLanded = false; 
-    public LayerMask groundLayer;
 }
 
-[System.Serializable]
-public class AttackSetting
-{
-    public GameObject fireballPrefab;
-    public Transform[] firePoints; // 여러 발사구 지원
-    public float _fireTimer;
-    public float fireInterval = 1f;
-    public float fireSpeed = 30f;
-    public int totalFire = 0; // 몇개 쏠 껀지
-    public int maxFire = 5; // 초기 값
-    
-    public int _firePointIndex = 0;
-}
 
 [System.Serializable]
 public class BreathSetting
 {
-    public bool useBreath = false; // 브레스 패턴 플래그
-    public float breathCooldown = 5f; // 브레스 쿨타임
-    public float lastBreathTime = 5f; // 마지막 브레스 사용 시각
-    public bool _breathStarted;
     public GameObject breathPrefab;
 }
 
@@ -64,14 +41,11 @@ public class DragonBossActions : MonoBehaviour,IDamageable
 {
     public Animator animator;
     
-    [Header("(Fly Settings)")]
-     public FlySettings currentFlySettings = new FlySettings(); 
+    [Header("(Move Settings)")]
+     public MoveSetting currentMoveSetting = new MoveSetting(); 
 
     [Header("(Death Settings)")]
     public DeathSetting currentDeathSettings = new DeathSetting(); 
-
-    [Header("(Attack Settings)")] 
-    public AttackSetting currentAttacksettings = new AttackSetting();
     
     [Header("(Breath Settings)")]
     public BreathSetting currentBreathsetting = new BreathSetting(); 
@@ -85,8 +59,7 @@ public class DragonBossActions : MonoBehaviour,IDamageable
      DeathCycle _deathCycle;
 
      AttackCycle _attackCycle;
-    
-     BreathCycle _breathCycle;
+     
     
      CheckRangeCycle _checkRangeCycle;
      
@@ -97,17 +70,21 @@ public class DragonBossActions : MonoBehaviour,IDamageable
     
     [SerializeField] private BossAudio bossAudio;
     
-    [SerializeField] BossSkillPool INSTANCE; // 보스 스킬 풀들
     
     
     //테스트를 위한 체력 
     [SerializeField] private float hp = 1000;
-    [SerializeField]private bool deathAnimPlayed = false;
     [SerializeField] private float hitAnimCooldown = 1f; // 피격 모션 쿨타임
     private float lastHitAnimTime = -999f;               // 마지막 피격 모션 시간
-    [SerializeField]private bool wasHit = false;                         // 직전에 데미지 받은 여부
+    [SerializeField]bool wasHit = false;
     
-    private Rigidbody rb;
+    [Header("(Animation Control)")]
+    public bool IsRunning =false;//진행 중인지
+    public bool IsComplete = false;//종료 됐는지
+    
+    [Header("Decal")]
+    [SerializeField] GameObject decalPrefab;
+    
 
     public void SetBlackboard(Blackboard bb)
     {
@@ -116,37 +93,35 @@ public class DragonBossActions : MonoBehaviour,IDamageable
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody>();
         _flyTowardCyle = GetComponent<FlyTowardTarget>();
         _deathCycle = GetComponent<DeathCycle>();
         _attackCycle = GetComponent<AttackCycle>();
-        _breathCycle = GetComponent<BreathCycle>();
         _checkRangeCycle = GetComponent<CheckRangeCycle>();
         _flyFireball = GetComponent<FlyFireball>();
     }
     
-    //코루틴으로 실행하기 위한 함수 
+    #region 포효 공격
+    //코루틴으로 실행하기 위한 함수 Roar에서 데칼을 소환시키기위한 함수 
+    //애니메이션 이벤트로 실행
      IEnumerator Boom()
-        {
-            print("실행중");
-            int cnt = 0;
-            
-            
-            while (cnt < 20)
-            {
-                GameObject obj = INSTANCE.GetObject("TestOBj");
-                float x = Random.Range(-20f, 20f);
-                float z = Random.Range(-20f, 20f);
-                obj.transform.position = new Vector3(BB.OwnerTransform.position.x+x, 0, BB.OwnerTransform.position.z+z);
-                cnt++;
-                yield return new WaitForSeconds(0.05f);
-            }
-            
-        }
-
-
-     public bool IsRunning =false;
-     public bool IsComplete = false;
+     {
+         print("실행중");
+         int cnt = 0;
+         
+         
+         while (cnt < 20)
+         {
+             // GameObject obj = INSTANCE.GetObject("TestOBj");
+             GameObject obj = PoolManager.Instance.Spawn(decalPrefab,BB.OwnerTransform.position,Quaternion.identity);
+             float x = Random.Range(-20f, 20f);
+             float z = Random.Range(-20f, 20f);
+             obj.transform.position = new Vector3(BB.OwnerTransform.position.x+x, 0, BB.OwnerTransform.position.z+z);
+             cnt++;
+             yield return new WaitForSeconds(0.05f);
+         }
+         
+     }
+     
      
      public NodeState Roar()
      {
@@ -164,7 +139,7 @@ public class DragonBossActions : MonoBehaviour,IDamageable
          IsRunning = false;
          return NodeState.Success;
      }
-     
+     #endregion
   
 
 
@@ -199,64 +174,57 @@ public class DragonBossActions : MonoBehaviour,IDamageable
  
 
 
-     public NodeState Death()
+    public NodeState Death()
     {
         currentBreathsetting.breathPrefab.SetActive(false);
         return _deathCycle.Death();
     }
-
-    public NodeState FlyTowardTarget()
-    {
-        return _flyTowardCyle.Execute(BB,currentFlySettings);
-    }
+     //이동
     public NodeState LookAtAndWalk()
     {
-        return _flyTowardCyle.LookAtAndWalk(BB,currentFlySettings);
+        return _flyTowardCyle.LookAtAndWalk(BB,currentMoveSetting);
     }
-
-
-    public NodeState CheckDeath()
-    {
-        return _deathCycle.CheckDeath(animator,currentDeathSettings);
-    }
-
-    public NodeState Fall()
-    {
-        return _deathCycle.Fall(animator,currentDeathSettings);
-    }
-
-    public NodeState AttackFireBall()
-    {
-        print("파이어볼 공격");
-        return _attackCycle.FireballAttack(BB, currentAttacksettings);
-    }
-
+    
+    
+    
     public NodeState MeleeAttack()
     {
 
-        return _attackCycle.MeleeAttack(BB);
+        if (!IsRunning)
+        {
+            animator.SetTrigger("Melee");
+            IsRunning = true;
+            IsComplete = false;
+        }
+
+        if (!IsComplete)
+            return NodeState.Running;
+
+        // 애니메이션 종료 후
+        IsRunning = false;
+        return NodeState.Success;
     }
     
     public NodeState BiteAttack()
     {
+        if (!IsRunning)
+        {
+            animator.SetTrigger("Bite");
+            IsRunning = true;
+            IsComplete = false;
+        }
 
-        return _attackCycle.BiteAttack(BB);
+        if (!IsComplete)
+            return NodeState.Running;
+
+        // 애니메이션 종료 후
+        IsRunning = false;
+        return NodeState.Success;
     }
     
-
-    public NodeState DoCheckBreath()
-    {
-        return _breathCycle.CheckBreath(currentBreathsetting);
-    }
-
     public NodeState Run()
     {
-        return _flyTowardCyle.Run(currentFlySettings);
-    }
-    
-    public NodeState DoBreatheFire()
-    {
-        return _breathCycle.BreatheFire(IsRunning,IsComplete);
+        return _flyTowardCyle.Run(currentMoveSetting);
     }
     
     public NodeState DoBreatheFire2()
@@ -280,40 +248,7 @@ public class DragonBossActions : MonoBehaviour,IDamageable
     {
         return _checkRangeCycle.CheckRange(BB, checkDistanceSetting);
     }
-
-    public NodeState BodyAttack()
-    {
-        return _attackCycle.BodyAttack(BB);
-    }
     
-    
-    
-  
-
-
-
-
-    public NodeState CheckHitReaction()
-    {
-        print("체크리액션 진입");
-        if (wasHit) // 피격 받은 경우만 체크
-        {
-            print("이프문 진입 ");
-            // 쿨타임 체크
-            if (Time.time - lastHitAnimTime >= hitAnimCooldown)
-            {
-                animator.SetTrigger("Hit");   // 피격 모션 발동
-                lastHitAnimTime = Time.time;
-                wasHit = false; // 초기화
-                return NodeState.Success;     // 피격 애니메이션 발동 성공
-            }
-        }
-
-        return NodeState.Failure; // 맞지 않았음
-    }
-	// 공중 패턴을 위한  클래스
-
-
     
  
     public void ApplyDamage(DamageMassage damageMassage)
