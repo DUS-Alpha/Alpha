@@ -5,7 +5,7 @@ using UnityEngine.Splines;
 
 public class FlyFireball : MonoBehaviour
 {
-    [Header("디버깅용")]
+    [Header("Only Debuging")]
     [SerializeField] private bool isPattern = false;
 
     [Header("스플라인 관련")]
@@ -63,6 +63,7 @@ public class FlyFireball : MonoBehaviour
                 splineStarted = true;
 
                 splineAnimate.Play();
+                //이벤트로 종료 추가
                 splineAnimate.Completed += OnSplineComplete;
 
                 fireballRoutine = StartCoroutine(SpawnFireballs());

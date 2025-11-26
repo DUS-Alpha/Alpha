@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FlyTowardTarget : MonoBehaviour
+public class MoveCycle : MonoBehaviour
 {
     private float MoveTimer = 1f;
     private float currentTimer = 0;

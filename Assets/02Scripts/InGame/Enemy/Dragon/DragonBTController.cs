@@ -79,13 +79,13 @@ public class DragonBTController : MonoBehaviour
         
         );
 
-        INode testroot = new ActionNode(m_actions.Roar);
+        INode testroot = new ActionNode(m_actions.DoBreatheFire2);
         
         
         
 
 
-       m_runner.SetTree(testroot);
+       m_runner.SetTree(root2);
        
        m_runner.StartTree();
     }

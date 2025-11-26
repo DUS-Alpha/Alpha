@@ -12,7 +12,7 @@ public class AniCheckCount : StateMachineBehaviour
     {
         Debug.Log("나가요");
         
-        var anim = animator.GetComponent<FlyTowardTarget>();
+        var anim = animator.GetComponent<MoveCycle>();
         anim.isDone = true;
         count = 0;
         animator.ResetTrigger("Done");

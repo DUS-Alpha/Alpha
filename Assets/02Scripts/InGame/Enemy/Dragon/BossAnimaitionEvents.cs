@@ -6,7 +6,10 @@ public class BossAnimaitionEvents : MonoBehaviour
     [SerializeField] private Collider RunRange; //  달리기 패턴 나올때 타켓 범위로 사용될 콜라이더 
     [SerializeField] private Collider MeleeRange; //  달리기 패턴 나올때 타켓 범위로 사용될 콜라이더
     [SerializeField] private Collider BiteRange; //  달리기 패턴 나올때 타켓 범위로 사용될 콜라이더
+    
+    [SerializeField]Animator animator;
 
+    
 
     #region 달리기 범위 껏다키기
 
@@ -50,5 +53,32 @@ public class BossAnimaitionEvents : MonoBehaviour
         if (BiteRange ==null) return;
         BiteRange.enabled = false;
     }
+    #endregion
+
+    #region 브레스
+
+    public void SlowSpeed()
+    {
+        animator.speed = 0.5f;
+        print($"{animator.speed}");
+    }
+    public void NormalSpeed()
+    {
+        animator.speed = 1f;
+        print($"{animator.speed}");
+    }
+
+    public void BreathprefabsActiveTrue()
+    {
+        var state = GetComponent<DragonBossActions>();
+        state.currentBreathsetting.breathPrefab.SetActive(true);
+    }
+    
+    public void BreathprefabsActiveFalse()
+    {
+        var state = GetComponent<DragonBossActions>();
+        state.currentBreathsetting.breathPrefab.SetActive(false);
+    }
+
     #endregion
 }

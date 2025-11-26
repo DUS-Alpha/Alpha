@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 /// <summary>
 /// BT 노드/액션들이 함께 쓰는 공유 컨텍스트.

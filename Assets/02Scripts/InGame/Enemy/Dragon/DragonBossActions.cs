@@ -18,7 +18,7 @@ public class CheckDistanceSetting //  참조 타입 (class)
 }
 
 [System.Serializable]
-public class MoveSetting //  참조 타입 (class)
+public class MoveSetting
 {
     public float moveSpeed = 5f;   // 기본값 유지
     public float turnSpeed = 3f;   // 기본값 유지
@@ -54,13 +54,10 @@ public class DragonBossActions : MonoBehaviour,IDamageable
     public CheckDistanceSetting  checkDistanceSetting= new CheckDistanceSetting(); 
     
     
-     FlyTowardTarget _flyTowardCyle;
+     MoveCycle _moveCycle;
     
      DeathCycle _deathCycle;
-
-     AttackCycle _attackCycle;
      
-    
      CheckRangeCycle _checkRangeCycle;
      
      FlyFireball _flyFireball;
@@ -93,9 +90,8 @@ public class DragonBossActions : MonoBehaviour,IDamageable
 
     private void Awake()
     {
-        _flyTowardCyle = GetComponent<FlyTowardTarget>();
+        _moveCycle = GetComponent<MoveCycle>();
         _deathCycle = GetComponent<DeathCycle>();
-        _attackCycle = GetComponent<AttackCycle>();
         _checkRangeCycle = GetComponent<CheckRangeCycle>();
         _flyFireball = GetComponent<FlyFireball>();
     }
@@ -182,7 +178,7 @@ public class DragonBossActions : MonoBehaviour,IDamageable
      //이동
     public NodeState LookAtAndWalk()
     {
-        return _flyTowardCyle.LookAtAndWalk(BB,currentMoveSetting);
+        return _moveCycle.LookAtAndWalk(BB,currentMoveSetting);
     }
     
     
@@ -224,7 +220,7 @@ public class DragonBossActions : MonoBehaviour,IDamageable
     
     public NodeState Run()
     {
-        return _flyTowardCyle.Run(currentMoveSetting);
+        return _moveCycle.Run(currentMoveSetting);
     }
     
     public NodeState DoBreatheFire2()
