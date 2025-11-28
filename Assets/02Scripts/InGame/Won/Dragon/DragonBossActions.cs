@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 
 public enum DistanceCheckType
@@ -24,12 +25,12 @@ public class MoveSetting
     public float turnSpeed = 3f;   // 기본값 유지
 }
 
+
 [System.Serializable]
 public class DeathSetting 
 {
     public bool isDead = false;
 }
-
 
 [System.Serializable]
 public class BreathSetting
@@ -40,18 +41,18 @@ public class BreathSetting
 public class DragonBossActions : MonoBehaviour,IDamageable
 {
     public Animator animator;
-    
-    [Header("(Move Settings)")]
-     public MoveSetting currentMoveSetting = new MoveSetting(); 
 
+    [Header("(Move Settings)")] 
+    public MoveSetting currentMoveSetting; 
+    
     [Header("(Death Settings)")]
-    public DeathSetting currentDeathSettings = new DeathSetting(); 
+    public DeathSetting currentDeathSettings; 
     
     [Header("(Breath Settings)")]
-    public BreathSetting currentBreathsetting = new BreathSetting(); 
+    public BreathSetting currentBreathsetting; 
    
     [Header("(CheckDistance Settings)")]
-    public CheckDistanceSetting  checkDistanceSetting= new CheckDistanceSetting(); 
+    public CheckDistanceSetting  checkDistanceSetting; 
     
     
      MoveCycle _moveCycle;
@@ -67,8 +68,6 @@ public class DragonBossActions : MonoBehaviour,IDamageable
     
     [SerializeField] private BossAudio bossAudio;
     
-    
-    
     //테스트를 위한 체력 
     [SerializeField] private float hp = 1000;
     [SerializeField] private float hitAnimCooldown = 1f; // 피격 모션 쿨타임
@@ -76,8 +75,8 @@ public class DragonBossActions : MonoBehaviour,IDamageable
     [SerializeField]bool wasHit = false;
     
     [Header("(Animation Control)")]
-    public bool IsRunning =false;//진행 중인지
-    public bool IsComplete = false;//종료 됐는지
+    public bool IsRunning =false; //진행 중인지
+    public bool IsComplete = false; //종료 됐는지
     
     [Header("Decal")]
     [SerializeField] GameObject decalPrefab;
@@ -96,6 +95,7 @@ public class DragonBossActions : MonoBehaviour,IDamageable
         _flyFireball = GetComponent<FlyFireball>();
     }
     
+
     #region 포효 공격
     //코루틴으로 실행하기 위한 함수 Roar에서 데칼을 소환시키기위한 함수 
     //애니메이션 이벤트로 실행
@@ -175,13 +175,12 @@ public class DragonBossActions : MonoBehaviour,IDamageable
         currentBreathsetting.breathPrefab.SetActive(false);
         return _deathCycle.Death();
     }
+    
      //이동
     public NodeState LookAtAndWalk()
     {
         return _moveCycle.LookAtAndWalk(BB,currentMoveSetting);
     }
-    
-    
     
     public NodeState MeleeAttack()
     {
@@ -246,7 +245,6 @@ public class DragonBossActions : MonoBehaviour,IDamageable
     }
     
     
- 
     public void ApplyDamage(DamageMassage damageMassage)
     {
         if (currentDeathSettings.isDead) return; // 이미 죽었으면 무시

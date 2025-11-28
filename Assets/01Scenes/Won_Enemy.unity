@@ -4900,9 +4900,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1751774267}
     - target: {fileID: 5341093477530112563, guid: f3eeaeae87364ed4fa3cb7f3e89a0841, type: 3}
+      propertyPath: hp
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5341093477530112563, guid: f3eeaeae87364ed4fa3cb7f3e89a0841, type: 3}
       propertyPath: bossAudio
       value: 
       objectReference: {fileID: 655050951}
+    - target: {fileID: 5341093477530112563, guid: f3eeaeae87364ed4fa3cb7f3e89a0841, type: 3}
+      propertyPath: currentTest.Add
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5341093477530112563, guid: f3eeaeae87364ed4fa3cb7f3e89a0841, type: 3}
+      propertyPath: currentMoveSetting.moveSpeed
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 6078787957641180866, guid: f3eeaeae87364ed4fa3cb7f3e89a0841, type: 3}
       propertyPath: sfxSource
       value: 

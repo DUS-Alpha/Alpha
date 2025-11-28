@@ -5,6 +5,11 @@ public class AnimationDurationCheck : StateMachineBehaviour
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         var DBA = animator.GetComponent<DragonBossActions>();
-        DBA.IsComplete = true;
+        if (DBA != null)
+        {
+            DBA.IsComplete = true;
+        }
+
+        
     }
 }

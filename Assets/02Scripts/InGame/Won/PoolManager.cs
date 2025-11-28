@@ -17,6 +17,7 @@ public class PoolManager : MonoBehaviour
     [Header("미리 풀 생성할 프리팹 목록")]
     public List<GameObject> preloadPrefabs;
 
+   
     private void Awake()
     {
         if (Instance != null && Instance != this)
