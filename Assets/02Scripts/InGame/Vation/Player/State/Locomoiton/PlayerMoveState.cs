@@ -26,11 +26,7 @@ public class PlayerMoveState : PlayerLocomotionStateBase
             return;
         }
 
-        m_Locomotion.Movement(m_Combat.IsInCombat, m_Combat.IsAction);
-        if (m_Locomotion.IsMove)
-        {
-            //m_Locomotion.MoveEffect();
-        }
+        m_Locomotion.Movement(m_Combat.CanMove, m_Combat.IsInCombat);
 
         m_Locomotion.ApplyGravity();
         if (m_Locomotion.IsDie)

@@ -30,21 +30,21 @@ public class PlayerCombatEffectManager : MonoBehaviour
     public void PlayAttack2()
     {
         m_attackParticle[1].Play();
-        m_attackDamageRange.OnCollider();
+        //m_attackDamageRange.OnCollider();
     }
     public void PlayAttack3()
     {
         m_attackParticle[2].Play();
-        m_attackDamageRange.OnCollider();
+        //m_attackDamageRange.OnCollider();
     }
     public void PlayAttck4()
     {
         m_attackParticle[3].Play();
-        m_attackDamageRange.OnCollider();
+        //m_attackDamageRange.OnCollider();
     }
     public void OffAttackCollider()
     {
-        m_attackDamageRange.OffCollider();
+        //m_attackDamageRange.OffCollider();
     }
     
 

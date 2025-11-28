@@ -95,7 +95,7 @@ namespace alpha
             }
         }
 
-        // Add,와 Create로 구분한 이유는 초기화가 없는 상황시 위험한 코드이기에 명확성을 위해 중복내용도 그대로 사용
+        // Add와 Create로 구분한 이유는 초기화가 없는 상황시 위험한 코드이기에 명확성을 위해 중복내용도 그대로 사용
         private void AddToSlot(int index, ItemDataSO itemData)
         {
             // 슬롯 저장

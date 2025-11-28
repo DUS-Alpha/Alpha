@@ -36,7 +36,6 @@ namespace alpha
         public Dictionary<ECountableTypes, CountableItem> CurrentCountableItems { get; private set; }
 
         // PlayerInventoryController에서 Combat으로 스왑 가능한지 전달 및 스왑(현재 무기 데이터도 전달)
-        public int CurrentSwapNum { get; private set; }
         private Item m_currentIntem;
         public void InitializeModule(PlayerCore playerCore)
         {
@@ -221,15 +220,13 @@ namespace alpha
         {
             m_currentIntem = GetItemBySwapNum(swapNum);
             if (m_currentIntem == null) return false;
-            if (swapNum == CurrentSwapNum) return false;
 
-            CurrentSwapNum = swapNum;
             return true;
         }
 
-        public Item TrySwap()
+        public Item TrySwap(int swapNum)
         {
-            int swapNum = CurrentSwapNum;
+            int _swapNum = swapNum;
 
             // 1. 모든 WeaponHolder 비활성화
             foreach (var kvp in EquipWeaponHolderDic)
@@ -240,11 +237,11 @@ namespace alpha
                 kvp.Value.gameObject.SetActive(false);
 
             // 3. swapNum으로 선택된 홀더 가져오기
-            Transform targetHolder = GetHolderBySwapNum(swapNum);
+            Transform targetHolder = GetHolderBySwapNum(_swapNum);
 
             if (targetHolder == null)
             {
-                Debug.LogWarning($"TrySwap: [{swapNum}]에 해당하는 홀더가 존재하지 않습니다.");
+                Debug.LogWarning($"TrySwap: [{_swapNum}]에 해당하는 홀더가 존재하지 않습니다.");
                 return null;
             }
 

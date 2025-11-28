@@ -19,7 +19,7 @@ public class PlayerFlightMoveState : PlayerLocomotionStateBase
 
     public override void Update()
     {
-        m_Locomotion.Movement(m_Combat.IsInCombat, m_Combat.IsAction);
+        /*m_Locomotion.Movement(m_Combat.IsInCombat, m_Combat.IsAction);
         m_Locomotion.UpdateFlightMove();
 
 
@@ -33,7 +33,7 @@ public class PlayerFlightMoveState : PlayerLocomotionStateBase
         {
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Fall);
             m_Locomotion.SetVelocityY(2.5f);
-        }
+        }*/
 
         // TODO : 중력 적용 시 Idle 전환 처리(애니메이션 처리 미흡해서 현재는 적용x)
     }

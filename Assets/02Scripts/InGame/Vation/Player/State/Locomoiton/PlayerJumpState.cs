@@ -12,7 +12,8 @@ public class PlayerJumpState : PlayerLocomotionStateBase
     {
         base.Enter();
         m_Locomotion.JumpStart();
-        m_Locomotion.SetIsAction(true);
+        m_Locomotion.SetLocomotionLock(true);
+        m_Combat.SetIsCombatLock(true);
     }
   
     public override void FixedUpdate()
@@ -39,7 +40,9 @@ public class PlayerJumpState : PlayerLocomotionStateBase
     public override void Exit()
     {
         base.Exit();
+        m_Locomotion.SetLocomotionLock(false);
+        m_Combat.SetIsCombatLock(false);
+        
         m_Locomotion.JumpExit();
-        m_Locomotion.SetIsAction(false);
     }
 }

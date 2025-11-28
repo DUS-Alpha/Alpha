@@ -1,4 +1,4 @@
-﻿using FIMSpace.FEditor;
+using FIMSpace.FEditor;
 using FIMSpace.Generating;
 using System;
 using System.Collections.Generic;
@@ -646,7 +646,7 @@ namespace FIMSpace.AnimationTools
                                 else if (nmeToLower.Contains("run")) category = "Run";
                                 else if (nmeToLower.Contains("jog")) category = "Jog";
                                 else if (nmeToLower.Contains("sprint")) category = "Sprint";
-                                else if (nmeToLower.Contains("attack")) category = "Attack";
+                                else if (nmeToLower.Contains("attack")) category = "UpdateAttack";
                                 else if (nmeToLower.Contains("hit")) category = "Hit";
                                 else if (nmeToLower.Contains("damage")) category = "Damage";
                                 else if (nmeToLower.Contains("jump")) category = "Jump";

@@ -11,7 +11,7 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
 {
     //[Header("[ Ref Component ]")]
     private PlayerInputManager m_InputHandler;
-    private PlayerAnimationController m_animationController;
+    private PlayerAnimationManager m_animationController;
     private CharacterController m_characterController;
     private PlayerMovementUitility m_movementUtility;
     private PlayerCameraManger m_cameraManager;
@@ -84,8 +84,6 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
 
     // ========================== Input
     // Lock이랑은 다른개념으로 해당 State가 되었을 때 동작중인 Combat을 중지시키고 NonCombat로 전환
-    public bool IsCombatStop => m_isCombatStop;
-    private bool m_isCombatStop;
     public bool IsMove { get; private set; }
     public bool IsRotLock { get; private set; }
     public bool IsJump { get; private set; }
@@ -100,6 +98,10 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
     private bool m_isDashing;
     public bool IsDie;
     private bool m_isUnCheckGround => IsFlying || m_isJumping || m_isDashing;
+
+    public bool IsLocomotionLock => m_isLocomotionLock;
+    private bool m_isLocomotionLock;
+    
     private void Awake()
     {
         m_movementUtility = new PlayerMovementUitility();
@@ -108,7 +110,7 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
         m_InputHandler = GetComponent<PlayerInputManager>();
     }
 
-    public void InitializeModule(PlayerAnimationController animationController, PlayerCameraManger playerCameraManger, WorldAudioManager audioManager)
+    public void InitializeModule(PlayerAnimationManager animationController, PlayerCameraManger playerCameraManger, WorldAudioManager audioManager)
     {
         m_animationController = animationController;
         m_cameraManager = playerCameraManger;
@@ -118,18 +120,6 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
     {
         events.CheckInputAction += CheckInput;
     }
-
-    private void Start()
-    {
-        RealTimeUIManager.Instance.ActionGaugeUI(m_playerStatsM.SetMaxActionGauge(0)/100);    // 차후 레벨 표시
-    }
-    private void Update()
-    {
-        CheckGround();
-        ActionGauge = m_playerStatsM.CurrentActionGauge;
-        RealTimeUIManager.Instance.ActionGaugeUI(ActionGauge/100);
-    }
-
     public void InitializeLocotion()
     {
         m_moveDir = Vector2.zero;
@@ -145,56 +135,64 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
 
     public void CheckInput()
     {
+        IsRotLock = m_InputHandler.IsRotLock;
+        if (m_isLocomotionLock) return;
         m_moveDir = m_InputHandler.MoveDirInput;
         IsMove = m_InputHandler.IsMove;
-        IsRotLock = m_InputHandler.IsRotLock;
         IsFlyUp = m_InputHandler.IsFlyUp;
         IsDash = m_InputHandler.IsDash;
         IsJump = m_InputHandler.IsJump;
     }
 
-    public void SetIsAction(bool isAction)
-    { 
-        m_isCombatStop = isAction; 
+    private void Start()
+    {
+        RealTimeUIManager.Instance.ActionGaugeUI(m_playerStatsM.SetMaxActionGauge(0)/100);    // 차후 레벨 표시
+    }
+    private void Update()
+    {
+        CheckGround();
+        ActionGauge = m_playerStatsM.CurrentActionGauge;
+        RealTimeUIManager.Instance.ActionGaugeUI(ActionGauge/100);
+    }
+
+    public void SetLocomotionLock(bool isLocomotionLock)
+    {
+        m_isLocomotionLock = isLocomotionLock;
     }
     #region ================================================================================ Movement
     /// <summary>
     /// Move, Rotate, MoveAni 동시 처리
+    /// 이동 정지 상태와 공격상태중의 이동에 대한 제한 처리
     /// </summary>
     /// <param name="payerCore"></param>
     /// <returns></returns>
-    public void Movement(bool isInCombat, bool isCombatAction)
+    public void Movement(bool CanMove, bool isInCombat)
     {
         float _targetSpeed;
         float _speedLerpRate = 10f;
 
-        if (!IsMove)
+        // 1. 이동 스피드 계산
+        if (!IsMove || !CanMove)
         {
+            m_moveDir = Vector2.zero;
             _targetSpeed = 0;
         }
         else
         {
             if (m_moveDir.y > 0 && !isInCombat) _targetSpeed = IsFlying? m_flySpeed : m_baseSpeed;
-            else _targetSpeed = isInCombat? (IsFlying? m_flightCombatSpeed : m_combatSpeed) : m_baseBackMovingSpeed;
+            else _targetSpeed = isInCombat ? (IsFlying? m_flightCombatSpeed : m_combatSpeed) : m_baseBackMovingSpeed;
         }
         m_currentSpeed = Mathf.Lerp(m_currentSpeed, _targetSpeed, Time.deltaTime * _speedLerpRate);
-
-        if (isCombatAction)
-        {
-            m_moveDir = Vector2.zero;
-            m_currentSpeed = 0;
-        }
-
-        if(!IsRotLock)
-            HandleRotate();
-
+        
+        // 2. 이동 및 회전
         HandleMove(m_currentSpeed);
-        m_animationController.MoveAni(m_moveDir.x, m_moveDir.y, IsFlying, isInCombat);
-
-        if (IsMove) 
-        { 
-            // Moving Audio 처리
-        }
+        
+        // 
+        if(!IsRotLock && CanMove)
+            HandleRotate();
+        
+        // 3. 애니메이션
+        m_animationController.MoveAni(m_moveDir.x, m_moveDir.y, IsFlying, CanMove);
     }
 
     private void HandleMove(float targetSpeed)
@@ -203,7 +201,7 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
     }
 
     // FlyRotate와 리팩토링
-    private void HandleRotate(bool isSniper = false)
+    private void HandleRotate()
     {
         Camera _camera = m_cameraManager.MainCamera;
         m_movementUtility.HandleRotate(this.gameObject, m_moveDir, _camera, IsFlying);
@@ -285,11 +283,14 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
     #region ================================================================================ Dash
     public void DashEnter()
     {
+        // 
+        var _dashDir =m_lastMoveDir;
+
         m_playerStatsM.ResetRegenerationTimer();
         
         m_animationController.DashTriggerAni();
-        
-        gameObject.transform.rotation = Quaternion.LookRotation(m_lastMoveDir);
+
+        gameObject.transform.rotation = Quaternion.LookRotation(_dashDir);
         
         m_effectManager.DashEffect();
         m_isDashing = true;
@@ -346,9 +347,6 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
         // 똑바로 선 상태로 회전 고친후 상승
         m_movementUtility.InitializeRotate(this.gameObject);
 
-        if(isWeapon)
-        m_animationController.SetAnimatorWeight(1, 1);
-
         m_animationController.FlyUpTriggerAni();
 
         m_playerAudioController.PlayLocomotionAudio(0,SFX_LomotionType.FlyUp);
@@ -388,7 +386,6 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
         if(!IsDie) IsFlying = false;
         m_animationController.SetFlyingAni(IsFlying);
         m_animationController.FlyFallAni();
-        m_animationController.SetAnimatorWeight(1, 0);
 
         // 똑바로 선 상태로 회전
         m_movementUtility.InitializeRotate(this.gameObject);

@@ -46,30 +46,22 @@ public class PlayerStateMachine
 
         m_combatStateCreateDic = new Dictionary<CombatStateType, Func<PlayerStateBase>>
         {
-            { CombatStateType.NonCombat, ()=>  new PlayerNonCombatState(m_playerCore) },
-            { CombatStateType.InCombat, ()=> new PlayerInCombatState(m_playerCore)},
-            {  CombatStateType.Attack, ()=> new PlayerAttackState(m_playerCore)},
-            {CombatStateType.SwapWeapon, ()=> new PlayerSwapWeaponState(m_playerCore) },
-            { CombatStateType.Reload, ()=>  new PlayerReloadState(m_playerCore) },
-            { CombatStateType.Skill, ()=>  new PlayerSkillState(m_playerCore) },
-            { CombatStateType.Dodge, ()=>  new PlayerDodgeState(m_playerCore) }
+            {CombatStateType.NonCombat, ()=>  new PlayerNonCombatState(m_playerCore) },
+            {CombatStateType.Swap, ()=> new PlayerSwapState(m_playerCore) },
+            {CombatStateType.Attack, ()=> new PlayerAttackState(m_playerCore) },
+            {CombatStateType.InCombat, ()=> new PlayerInCombatState(m_playerCore) },
+            {CombatStateType.Skill, ()=>  new PlayerSkillState(m_playerCore) },
         };
     }
 
     public void Update()
     {
-        m_locoState.Update();
-        RealTimeUIManager.Instance.CurrentLocomotionState(CurrentLocomotion.ToString());
         if (m_playerCore.Locomotion.IsDie) return;
-
-        if (m_playerCore.IsCombatLock)
-        {
-            if(CurrentCombat != CombatStateType.NonCombat)
-                SwitchCombatState(CombatStateType.NonCombat);
-        }
-        else m_combatState.Update();
-
-        RealTimeUIManager.Instance.CurrentCombatState(CurrentLocomotion.ToString());
+        m_locoState.Update();
+        m_combatState.Update();
+        
+        RealTimeUIManager.Instance.CurrentLocomotionState(CurrentLocomotion.ToString());
+        RealTimeUIManager.Instance.CurrentCombatState(CurrentCombat.ToString());
     }
 
     public void SwitchLocomotionState(LocomotionStateType newState)

@@ -345,6 +345,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UpdateAttack"",
+                    ""type"": ""Button"",
+                    ""id"": ""555e6fa7-15e8-4253-af0d-06036174570e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -391,6 +400,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""SwapNum3"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0ccb0d9a-4af9-4dc7-9292-eee46ac8b829"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UpdateAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -410,6 +430,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_PlayerCombat_SwapNum2 = m_PlayerCombat.FindAction("SwapNum2", throwIfNotFound: true);
         m_PlayerCombat_SwapNum3 = m_PlayerCombat.FindAction("SwapNum3", throwIfNotFound: true);
         m_PlayerCombat_SwapNum4 = m_PlayerCombat.FindAction("SwapNum4", throwIfNotFound: true);
+        m_PlayerCombat_Attack = m_PlayerCombat.FindAction("UpdateAttack", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
@@ -635,6 +656,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerCombat_SwapNum2;
     private readonly InputAction m_PlayerCombat_SwapNum3;
     private readonly InputAction m_PlayerCombat_SwapNum4;
+    private readonly InputAction m_PlayerCombat_Attack;
     /// <summary>
     /// Provides access to input actions defined in input action map "PlayerCombat".
     /// </summary>
@@ -662,6 +684,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "PlayerCombat/SwapNum4".
         /// </summary>
         public InputAction @SwapNum4 => m_Wrapper.m_PlayerCombat_SwapNum4;
+        /// <summary>
+        /// Provides access to the underlying input action "PlayerCombat/Attack".
+        /// </summary>
+        public InputAction @Attack => m_Wrapper.m_PlayerCombat_Attack;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -700,6 +726,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @SwapNum4.started += instance.OnSwapNum4;
             @SwapNum4.performed += instance.OnSwapNum4;
             @SwapNum4.canceled += instance.OnSwapNum4;
+            @Attack.started += instance.OnAttack;
+            @Attack.performed += instance.OnAttack;
+            @Attack.canceled += instance.OnAttack;
         }
 
         /// <summary>
@@ -723,6 +752,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @SwapNum4.started -= instance.OnSwapNum4;
             @SwapNum4.performed -= instance.OnSwapNum4;
             @SwapNum4.canceled -= instance.OnSwapNum4;
+            @Attack.started -= instance.OnAttack;
+            @Attack.performed -= instance.OnAttack;
+            @Attack.canceled -= instance.OnAttack;
         }
 
         /// <summary>
@@ -834,5 +866,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSwapNum4(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Attack" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnAttack(InputAction.CallbackContext context);
     }
 }

@@ -8,7 +8,7 @@ public class PlayerNonCombatState : PlayerCombatStateBase
 
     protected override InputLocoLockType m_LockOnExit => InputLocoLockType.None;
 
-    public PlayerNonCombatState(PlayerCore playerCore) : base(playerCore){}
+    public PlayerNonCombatState(PlayerCore playerCore) : base(playerCore) { }
 
     public override void Enter()
     {
@@ -17,7 +17,7 @@ public class PlayerNonCombatState : PlayerCombatStateBase
 
     public override void FixedUpdate()
     {
-        
+
     }
 
     public override void Update()
@@ -25,9 +25,21 @@ public class PlayerNonCombatState : PlayerCombatStateBase
         if (m_Locomotion.IsDie) return;
         if (m_Combat.IsSwap)
         {
-            m_PlayerCore.SwitchCombatState(CombatStateType.SwapWeapon);
+            m_PlayerCore.SwitchCombatState(CombatStateType.Swap);
         }
-        else if (m_Combat.IsReload)
+
+        if (m_Combat.CurrentSwapNum == 0) return;
+
+        if (m_Combat.CurrentSwapNum < 4)
+        {
+            if (m_Combat.IsAttackBtn)
+            {
+                m_PlayerCore.SwitchCombatState(CombatStateType.Attack);
+            }
+
+        }
+
+        /*else if (m_Combat.IsReload)
             m_PlayerCore.SwitchCombatState(CombatStateType.Reload);
         else if (m_Combat.IsAttack || m_Combat.IsAim)
         {
@@ -35,7 +47,7 @@ public class PlayerNonCombatState : PlayerCombatStateBase
             m_PlayerCore.SwitchCombatState(CombatStateType.InCombat);
         }
         else if (m_Combat.IsSkill)
-            m_PlayerCore.SwitchCombatState(CombatStateType.Skill);
+            m_PlayerCore.SwitchCombatState(CombatStateType.Skill);*/
     }
 
     public override void Exit()

@@ -29,15 +29,7 @@ namespace alpha
 
         private void CheckInput()
         {
-            int _swapNum = m_inputManager.SwapNum;
 
-            // 1. Swap이 가능한지 Combat(행동이 가능한지) && EquipManger(슬롯에 무기있는지)에서 확인
-            bool _isSwap = !m_combat.IsActionLock && m_equipManager.CanSwap(_swapNum);
-            
-            if(_isSwap)
-            {
-                HandleSwap();
-            }
         }
 
         private void HandleEquip(ItemDataSO data)
@@ -47,16 +39,6 @@ namespace alpha
         private void HandleUnEquip(ItemDataSO data)
         {
             m_equipManager.TryUnEquip(data);
-        }
-
-        private void HandleSwap()
-        {
-            // 1. EquipManager에서 무기 교체
-            Item _item = m_equipManager.TrySwap();
-            int _swapNum = m_equipManager.CurrentSwapNum;
-
-            // 2. EquipManager -> Combat 정보 전달
-            m_combat.SwapAction(_swapNum, _item);
         }
 
         private void HandleUse(ItemDataSO data)

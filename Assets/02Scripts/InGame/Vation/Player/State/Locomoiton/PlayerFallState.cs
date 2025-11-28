@@ -11,7 +11,7 @@ public class PlayerFallState : PlayerLocomotionStateBase
     public override void Enter()
     {
        base.Enter();
-        m_Ani.SetAnimatorWeight(1,0);
+
     }
     public override void FixedUpdate()
     {

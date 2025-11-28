@@ -12,7 +12,8 @@ public class PlayerLandState : PlayerLocomotionStateBase
     public override void Enter()
     {
         base.Enter();
-        m_Locomotion.SetIsAction(true);
+        m_Locomotion.SetLocomotionLock(true);
+        m_Combat.SetIsCombatLock(true);
 
         m_delayT = 0;
         m_Locomotion.EnterLanding();
@@ -38,7 +39,9 @@ public class PlayerLandState : PlayerLocomotionStateBase
     public override void Exit()
     {
         base.Exit();
-        m_Locomotion.SetIsAction(false);
+        m_Locomotion.SetLocomotionLock(false);
+        m_Combat.SetIsCombatLock(false);
+
         m_Locomotion.ExitLanding();
     }
 }

@@ -6,21 +6,21 @@ using UnityEngine.Playables;
 [RequireComponent(typeof(PlayerInventoryController))]
 [RequireComponent(typeof(PlayerStatsManager))]
 [RequireComponent(typeof(PlayerEquipManager))]
-[RequireComponent(typeof(PlayerAnimationController))]
+[RequireComponent(typeof(PlayerAnimationManager))]
 [RequireComponent(typeof(PlayerInputManager))]
 [RequireComponent(typeof(PlayerLocomotion))]
 [RequireComponent(typeof(PlayerCombat))]
 public class PlayerCore : MonoBehaviour, IPlayerEvents
 {
     [Header(" [ Ref Component ] ")]
-    public PlayerCameraManger CameraManger;
+    public PlayerCameraManger CameraM;
     public WorldAudioManager AudioManager;
     
     //public OpenCloseUIManager UIManager;
 
     public GameObject PlayerObj { get; private set; }
     public PlayerInputManager InputManager { get; private set; }
-    public PlayerAnimationController AniController { get; private set; }
+    public PlayerAnimationManager AniManager { get; private set; }
     public PlayerStateMachine StateMachine { get; private set; }
     public PlayerLocomotion Locomotion { get; private set; }
     public PlayerCombat Combat { get; private set; }
@@ -44,7 +44,7 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
     private void Awake()
     {
         InputManager = GetComponent<PlayerInputManager>();
-        AniController = GetComponent<PlayerAnimationController>();
+        AniManager = GetComponent<PlayerAnimationManager>();
         EquipmentManager = GetComponent<PlayerEquipManager>();
         Locomotion = GetComponent<PlayerLocomotion>();
         Combat = GetComponent<PlayerCombat>();
@@ -65,9 +65,9 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
     private void InitializeModule()
     {
         StateMachine.InitializeMoudle(this);
-        AniController.InitializeModule(Combat);
+        AniManager.InitializeModule(Combat);
         InputManager.InitializeModule(Combat, LocomotionFlagsController, CombatFlagsController);
-        Locomotion.InitializeModule(AniController, CameraManger,AudioManager);
+        Locomotion.InitializeModule(AniManager, CameraM,AudioManager);
         Combat.InitializeModule(this);
         EquipmentManager.InitializeModule(this);
         StatsManager.InitializeModule(this);
@@ -79,7 +79,7 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
     /// </summary>
     public void InitializeEvents()
     {
-        AniController.InitializeEvents(this);
+        AniManager.InitializeEvents(this);
         InventoryController.InitializeEvents(this);
         
         Locomotion.InitializeEvents(this);

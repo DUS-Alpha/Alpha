@@ -30,7 +30,7 @@ namespace alpha
         #endregion ==================== /LocomotionInput
 
         #region ==================== CombatInput
-        public bool IsAttack { get; private set; }
+        public bool IsAttackBtn { get; private set; }
         public bool IsAim { get; private set; }
         public int SwapNum { get; private set; } = 0;
 
@@ -63,20 +63,20 @@ namespace alpha
                 // ==================== Combat
                 // Swap
                 m_playerControl.PlayerCombat.SwapNum1.performed += i => SwapNum = int.Parse(i.control.name);
-                m_playerControl.PlayerCombat.SwapNum1.canceled += i => { if (SwapNum == 1) SwapNum = 0; };
+                //m_playerControl.PlayerCombat.SwapNum1.canceled += i => { if (SwapNum == 1) SwapNum = 0; };
 
                 m_playerControl.PlayerCombat.SwapNum2.performed += i => SwapNum = int.Parse(i.control.name);
-                m_playerControl.PlayerCombat.SwapNum2.canceled += i => { if (SwapNum == 2) SwapNum = 0; };
+                //m_playerControl.PlayerCombat.SwapNum2.canceled += i => { if (SwapNum == 2) SwapNum = 0; };
 
                 m_playerControl.PlayerCombat.SwapNum3.performed += i => SwapNum = int.Parse(i.control.name);
-                m_playerControl.PlayerCombat.SwapNum3.canceled += i => { if (SwapNum == 3) SwapNum = 0; };
+                //m_playerControl.PlayerCombat.SwapNum3.canceled += i => { if (SwapNum == 3) SwapNum = 0; };
 
                 m_playerControl.PlayerCombat.SwapNum4.performed += i => SwapNum = int.Parse(i.control.name);
-                m_playerControl.PlayerCombat.SwapNum4.canceled += i => { if (SwapNum == 4) SwapNum = 0; };
+                //m_playerControl.PlayerCombat.SwapNum4.canceled += i => { if (SwapNum == 4) SwapNum = 0; };
 
                 // Attack
-
-
+                m_playerControl.PlayerCombat.Attack.performed += i => IsAttackBtn = i.ReadValue<float>() > 0.5f;
+                m_playerControl.PlayerCombat.Attack.canceled += i => IsAttackBtn = i.ReadValue<float>() > 0.5f;
 
                 // Skill
 
@@ -125,10 +125,10 @@ namespace alpha
         private void CombatInput()
         {
             //IsSwap = IsSwapInput();
-            IsAttack = Input.GetMouseButton(0);
-            IsAim = Input.GetMouseButtonDown(1) && m_combat.CurrentWeaponNum > 1;
+            //IsAttack = Input.GetMouseButton(0);
+            //IsAim = Input.GetMouseButtonDown(1) && m_combat.CurrentWeaponNum > 1;
             //IsReload = Input.GetKeyDown(KeyCode.R);
-            IsSkill = SkillKeyCode();
+            //IsSkill = SkillKeyCode();
         }
 
         /*private bool IsSwapInput()

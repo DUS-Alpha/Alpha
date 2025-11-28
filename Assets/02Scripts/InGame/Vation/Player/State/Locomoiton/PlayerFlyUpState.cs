@@ -15,9 +15,10 @@ public class PlayerFlyUpState : PlayerLocomotionStateBase
     public override void Enter()
     {
         base.Enter();
-        m_Locomotion.SetIsAction(true);
-        
-        m_Locomotion.EnterFlyUp(m_Combat.CurrentWeaponNum > 0);
+        m_Locomotion.SetLocomotionLock(true);
+        m_Combat.SetIsCombatLock(true);
+
+        m_Locomotion.EnterFlyUp(m_Combat.CurrentSwapNum > 0);
         m_NextStateDelay = 0f;
     }
 
@@ -44,6 +45,7 @@ public class PlayerFlyUpState : PlayerLocomotionStateBase
     public override void Exit()
     {
         base.Exit();
-        m_Locomotion.SetIsAction(false);
+        m_Locomotion.SetLocomotionLock(false);
+        m_Combat.SetIsCombatLock(false);
     }
 }

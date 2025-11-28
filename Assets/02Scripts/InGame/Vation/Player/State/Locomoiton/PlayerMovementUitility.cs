@@ -15,7 +15,7 @@ public class PlayerMovementUitility
     #region ================================================================================ Movement
     public Vector3 HandleMove(GameObject player, Vector2 moveDir, float targetSpeed, CharacterController characterController, bool isFlying)
     {
-        Vector3 dir;
+        Vector3 dir = Vector3.zero; // 무조건 초기화
 
         if (isFlying)
         {
@@ -27,8 +27,8 @@ public class PlayerMovementUitility
         }
         else
         {
-            dir.y = 0f;
             dir = player.transform.right * moveDir.x + player.transform.forward * moveDir.y;
+            dir.y = 0f;
         }
         if (dir.sqrMagnitude > 1f) dir.Normalize();
 

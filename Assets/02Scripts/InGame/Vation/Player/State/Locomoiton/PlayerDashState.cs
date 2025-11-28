@@ -11,7 +11,9 @@ public class PlayerDashState : PlayerLocomotionStateBase
     public override void Enter()
     {
         base.Enter();
-        m_Locomotion.SetIsAction(true);
+        m_Locomotion.SetLocomotionLock(true);
+        m_Combat.SetIsCombatLock(true);
+
         m_Locomotion.DashEnter();
         m_NextStateDelay = 0;
     }
@@ -38,7 +40,9 @@ public class PlayerDashState : PlayerLocomotionStateBase
     public override void Exit()
     {
         base.Exit();
+        m_Locomotion.SetLocomotionLock(false);
+        m_Combat.SetIsCombatLock(false);
+        
         m_Locomotion.DashExit();
-        m_Locomotion.SetIsAction(false);
     }
 }

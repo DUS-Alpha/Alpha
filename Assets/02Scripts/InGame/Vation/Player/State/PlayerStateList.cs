@@ -26,10 +26,10 @@ public enum CombatStateType
 {
     None,
     NonCombat,
-    InCombat,
+    Swap,
     Attack,
-    SwapWeapon,
-    Reload,
+    InCombat,
+    //MeleeAttack,
+   // RangeAttack,
     Skill,
-    Dodge
 }

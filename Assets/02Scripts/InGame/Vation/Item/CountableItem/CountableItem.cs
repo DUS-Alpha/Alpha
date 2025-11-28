@@ -6,7 +6,6 @@ namespace alpha {
         public CountableItemDataSO CountableData => (CountableItemDataSO)Data;
         public void InitializeCountable(CountableItemDataSO data, int amount = 1)
         {
-            Initialize(data); // Item<T>의 Initialize
             SetAmount(amount);
         }
 

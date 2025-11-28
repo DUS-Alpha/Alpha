@@ -6,14 +6,14 @@ public abstract class PlayerStateBase
     protected PlayerCore m_PlayerCore;
     protected PlayerLocomotion m_Locomotion;
     protected PlayerCombat m_Combat;
-    protected PlayerAnimationController m_Ani;
+    protected PlayerAnimationManager m_Ani;
     protected float m_NextStateDelay;
     public PlayerStateBase(PlayerCore playerCore)
     {
         m_PlayerCore = playerCore;
         m_Locomotion = playerCore.Locomotion;
         m_Combat = playerCore.Combat;
-        m_Ani = playerCore.AniController;
+        m_Ani = playerCore.AniManager;
         //DebugCurrentState();
     }
     public void DebugCurrentState()

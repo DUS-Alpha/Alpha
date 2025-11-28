@@ -1,3 +1,4 @@
+using alpha;
 using System.Security.Claims;
 using UnityEngine;
 
@@ -15,7 +16,8 @@ public class PlayerIdleState : PlayerLocomotionStateBase
     {
         base.Enter();
         // 모든 Locomotion 값 초기화
-       // m_Locomotion.InitializeLocotion();
+        // m_Locomotion.InitializeLocotion();
+
     }
 
     public override void FixedUpdate()
@@ -30,7 +32,7 @@ public class PlayerIdleState : PlayerLocomotionStateBase
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Die);
             return;
         }
-        m_Locomotion.Movement(m_Combat.IsInCombat, m_Combat.IsAction);
+        m_Locomotion.Movement(m_Combat.CanMove, m_Combat.IsInCombat);
         m_Locomotion.ApplyGravity();
 
         if (m_Locomotion.IsDie)
@@ -38,10 +40,11 @@ public class PlayerIdleState : PlayerLocomotionStateBase
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Die);
             return;
         }
+
         // Locomotion Switch State
-        if (m_Locomotion.IsJump) 
+        if (m_Locomotion.IsJump)
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Jump);
-        else if (m_Locomotion.IsFlyUp && m_Locomotion.ActionGauge > 0.1f) 
+        else if (m_Locomotion.IsFlyUp && m_Locomotion.ActionGauge > 0.1f)
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.FlyUp);
         else if (m_Locomotion.IsMove)
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Move);

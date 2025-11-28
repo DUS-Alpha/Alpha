@@ -25,4 +25,6 @@ MonoBehaviour:
   AttackCost: 0
   AudioClip: {fileID: 8300000, guid: 7a6dabd79ef7ceb45aa223100d2443a9, type: 3}
   RangeType: 0
+  Distance: 0
+  FireRate: 0.15
   MuzzleFlashEffect: {fileID: 7802322410347479356, guid: c9f247f2b5fd49044a410e9eac9a4d13, type: 3}
