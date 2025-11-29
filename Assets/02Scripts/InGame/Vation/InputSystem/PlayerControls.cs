@@ -311,7 +311,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             ""id"": ""25e16471-b744-4ae3-8eab-0438a386ddf1"",
             ""actions"": [
                 {
-                    ""name"": ""SwapNum1"",
+                    ""name"": ""SwapNum"",
                     ""type"": ""Button"",
                     ""id"": ""eff75247-19b1-4ff8-a1a3-8986a896927c"",
                     ""expectedControlType"": """",
@@ -320,34 +320,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""SwapNum2"",
-                    ""type"": ""Button"",
-                    ""id"": ""515c9b3c-934f-4d4f-904a-fbb465175df9"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""SwapNum3"",
-                    ""type"": ""Button"",
-                    ""id"": ""cfe65a86-fa2b-451e-a2a3-c25acb96ed73"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""SwapNum4"",
-                    ""type"": ""Button"",
-                    ""id"": ""a58c8cb8-b75d-4c14-ba3c-769b917ba544"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""UpdateAttack"",
+                    ""name"": ""Attack"",
                     ""type"": ""Button"",
                     ""id"": ""555e6fa7-15e8-4253-af0d-06036174570e"",
                     ""expectedControlType"": """",
@@ -359,23 +332,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""bab4b1d2-8970-4b8e-ab76-0f2fdf2b2125"",
-                    ""path"": ""<Keyboard>/4"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SwapNum4"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""6e59282d-3c5e-48cb-8670-0ffad5d5d010"",
                     ""path"": ""<Keyboard>/1"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""SwapNum1"",
+                    ""action"": ""SwapNum"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -386,7 +348,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""SwapNum2"",
+                    ""action"": ""SwapNum"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -397,7 +359,18 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""SwapNum3"",
+                    ""action"": ""SwapNum"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bab4b1d2-8970-4b8e-ab76-0f2fdf2b2125"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwapNum"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -408,7 +381,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""UpdateAttack"",
+                    ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -426,11 +399,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_PlayerLocomotion_Fly = m_PlayerLocomotion.FindAction("Fly", throwIfNotFound: true);
         // PlayerCombat
         m_PlayerCombat = asset.FindActionMap("PlayerCombat", throwIfNotFound: true);
-        m_PlayerCombat_SwapNum1 = m_PlayerCombat.FindAction("SwapNum1", throwIfNotFound: true);
-        m_PlayerCombat_SwapNum2 = m_PlayerCombat.FindAction("SwapNum2", throwIfNotFound: true);
-        m_PlayerCombat_SwapNum3 = m_PlayerCombat.FindAction("SwapNum3", throwIfNotFound: true);
-        m_PlayerCombat_SwapNum4 = m_PlayerCombat.FindAction("SwapNum4", throwIfNotFound: true);
-        m_PlayerCombat_Attack = m_PlayerCombat.FindAction("UpdateAttack", throwIfNotFound: true);
+        m_PlayerCombat_SwapNum = m_PlayerCombat.FindAction("SwapNum", throwIfNotFound: true);
+        m_PlayerCombat_Attack = m_PlayerCombat.FindAction("Attack", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
@@ -652,10 +622,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     // PlayerCombat
     private readonly InputActionMap m_PlayerCombat;
     private List<IPlayerCombatActions> m_PlayerCombatActionsCallbackInterfaces = new List<IPlayerCombatActions>();
-    private readonly InputAction m_PlayerCombat_SwapNum1;
-    private readonly InputAction m_PlayerCombat_SwapNum2;
-    private readonly InputAction m_PlayerCombat_SwapNum3;
-    private readonly InputAction m_PlayerCombat_SwapNum4;
+    private readonly InputAction m_PlayerCombat_SwapNum;
     private readonly InputAction m_PlayerCombat_Attack;
     /// <summary>
     /// Provides access to input actions defined in input action map "PlayerCombat".
@@ -669,21 +636,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// </summary>
         public PlayerCombatActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         /// <summary>
-        /// Provides access to the underlying input action "PlayerCombat/SwapNum1".
+        /// Provides access to the underlying input action "PlayerCombat/SwapNum".
         /// </summary>
-        public InputAction @SwapNum1 => m_Wrapper.m_PlayerCombat_SwapNum1;
-        /// <summary>
-        /// Provides access to the underlying input action "PlayerCombat/SwapNum2".
-        /// </summary>
-        public InputAction @SwapNum2 => m_Wrapper.m_PlayerCombat_SwapNum2;
-        /// <summary>
-        /// Provides access to the underlying input action "PlayerCombat/SwapNum3".
-        /// </summary>
-        public InputAction @SwapNum3 => m_Wrapper.m_PlayerCombat_SwapNum3;
-        /// <summary>
-        /// Provides access to the underlying input action "PlayerCombat/SwapNum4".
-        /// </summary>
-        public InputAction @SwapNum4 => m_Wrapper.m_PlayerCombat_SwapNum4;
+        public InputAction @SwapNum => m_Wrapper.m_PlayerCombat_SwapNum;
         /// <summary>
         /// Provides access to the underlying input action "PlayerCombat/Attack".
         /// </summary>
@@ -714,18 +669,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_PlayerCombatActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_PlayerCombatActionsCallbackInterfaces.Add(instance);
-            @SwapNum1.started += instance.OnSwapNum1;
-            @SwapNum1.performed += instance.OnSwapNum1;
-            @SwapNum1.canceled += instance.OnSwapNum1;
-            @SwapNum2.started += instance.OnSwapNum2;
-            @SwapNum2.performed += instance.OnSwapNum2;
-            @SwapNum2.canceled += instance.OnSwapNum2;
-            @SwapNum3.started += instance.OnSwapNum3;
-            @SwapNum3.performed += instance.OnSwapNum3;
-            @SwapNum3.canceled += instance.OnSwapNum3;
-            @SwapNum4.started += instance.OnSwapNum4;
-            @SwapNum4.performed += instance.OnSwapNum4;
-            @SwapNum4.canceled += instance.OnSwapNum4;
+            @SwapNum.started += instance.OnSwapNum;
+            @SwapNum.performed += instance.OnSwapNum;
+            @SwapNum.canceled += instance.OnSwapNum;
             @Attack.started += instance.OnAttack;
             @Attack.performed += instance.OnAttack;
             @Attack.canceled += instance.OnAttack;
@@ -740,18 +686,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="PlayerCombatActions" />
         private void UnregisterCallbacks(IPlayerCombatActions instance)
         {
-            @SwapNum1.started -= instance.OnSwapNum1;
-            @SwapNum1.performed -= instance.OnSwapNum1;
-            @SwapNum1.canceled -= instance.OnSwapNum1;
-            @SwapNum2.started -= instance.OnSwapNum2;
-            @SwapNum2.performed -= instance.OnSwapNum2;
-            @SwapNum2.canceled -= instance.OnSwapNum2;
-            @SwapNum3.started -= instance.OnSwapNum3;
-            @SwapNum3.performed -= instance.OnSwapNum3;
-            @SwapNum3.canceled -= instance.OnSwapNum3;
-            @SwapNum4.started -= instance.OnSwapNum4;
-            @SwapNum4.performed -= instance.OnSwapNum4;
-            @SwapNum4.canceled -= instance.OnSwapNum4;
+            @SwapNum.started -= instance.OnSwapNum;
+            @SwapNum.performed -= instance.OnSwapNum;
+            @SwapNum.canceled -= instance.OnSwapNum;
             @Attack.started -= instance.OnAttack;
             @Attack.performed -= instance.OnAttack;
             @Attack.canceled -= instance.OnAttack;
@@ -839,33 +776,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     public interface IPlayerCombatActions
     {
         /// <summary>
-        /// Method invoked when associated input action "SwapNum1" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "SwapNum" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnSwapNum1(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "SwapNum2" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnSwapNum2(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "SwapNum3" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnSwapNum3(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "SwapNum4" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnSwapNum4(InputAction.CallbackContext context);
+        void OnSwapNum(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Attack" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

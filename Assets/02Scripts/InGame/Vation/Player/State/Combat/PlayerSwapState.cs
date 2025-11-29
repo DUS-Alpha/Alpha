@@ -12,7 +12,7 @@ public class PlayerSwapState : PlayerCombatStateBase
     {
         base.Enter();
 
-        m_Combat.HandleSwap();
+        m_Combat.EnterSwap();
     }
     public override void FixedUpdate()
     {
@@ -30,6 +30,6 @@ public class PlayerSwapState : PlayerCombatStateBase
     public override void Exit()
     {
         base.Exit();
-        m_Combat.ExitSwapWeapon(m_Locomotion.IsFlying);
+        m_Combat.ExitSwap(m_Locomotion.IsFlying);
     }
 }

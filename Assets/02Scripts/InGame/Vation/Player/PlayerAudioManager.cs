@@ -46,7 +46,7 @@ public struct SFX_CombatMapping
 
 
 // 공통된 사운드 제외는 각 객체에서 사운드 관리(애니메이션 동작시에 사운드 삽입하기 위해)
-public class PlayerAudioController : MonoBehaviour
+public class PlayerAudioManager : MonoBehaviour
 {
     // 0 : main Audio, 1 : 타 사운드 중첩 필요시 사용
     [SerializeField]
@@ -124,6 +124,11 @@ public class PlayerAudioController : MonoBehaviour
     private IEnumerator FootStepCoroutine()
     {
         yield return null;
+    }
+
+    public void PlayRangeAttack(AudioClip audioClip)
+    {
+        m_audioSources[1].PlayOneShot(audioClip);
     }
 
     public void PlayCombAttack1()

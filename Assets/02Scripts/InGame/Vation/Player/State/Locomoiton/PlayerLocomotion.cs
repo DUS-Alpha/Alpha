@@ -20,7 +20,7 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
 
     [Header("[ Ref Component ]")]
     [SerializeField]
-    private PlayerAudioController m_playerAudioController;
+    private PlayerAudioManager m_playerAudioController;
     [SerializeField]
     private EffectManager m_effectManager;
 
@@ -284,7 +284,7 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
     public void DashEnter()
     {
         // 
-        var _dashDir =m_lastMoveDir;
+        var _dashDir = m_lastMoveDir;
 
         m_playerStatsM.ResetRegenerationTimer();
         
@@ -309,6 +309,8 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
     public void DashExit()
     {
         m_isDashing = false;
+        var _camDir = Camera.main.transform.forward;
+        gameObject.transform.rotation = Quaternion.LookRotation(_camDir);
     }
 
     #endregion ================================================================================ /Dash

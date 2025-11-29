@@ -35,7 +35,6 @@ public class PlayerDashState : PlayerLocomotionStateBase
         
         if (m_NextStateDelay > 0.45f)
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Idle);
-
     }
     public override void Exit()
     {

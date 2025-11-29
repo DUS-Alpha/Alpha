@@ -12,6 +12,7 @@ namespace alpha
         private PlayerInputManager m_inputM;
         private PlayerEquipManager m_equipM;
         public PlayerAnimationManager AniM { get; private set; }
+        public PlayerAudioManager AudioM;
 
         public bool IsCombatLock => m_isCombatLock;
         private bool m_isCombatLock;
@@ -25,8 +26,8 @@ namespace alpha
         private bool m_canMove;
         // Combat이 동작되는지만 체크하는
         // ==================== Swap
-        public bool IsSwap => m_isSwap;
-        private bool m_isSwap;
+        public bool CanSwap => m_canSwap;
+        private bool m_canSwap;
 
         public int CurrentSwapNum => m_currentSwapNum;
         private int m_currentSwapNum;
@@ -60,6 +61,7 @@ namespace alpha
             m_inputM = m_playerCore.InputManager;
             m_equipM = m_playerCore.EquipmentManager;
             AniM = m_playerCore.AniManager;
+            AudioM = m_playerCore.playerAudioManager;
         }
 
         public void InitializeEvents(IPlayerEvents events)
@@ -70,22 +72,39 @@ namespace alpha
         // 파라미터 Trigger형태는 KeyDown방식으로 최대한 관리
         public void CheckInput()
         {
-            if(m_isCombatLock) return;
-            // Swap
-            int _swapNum = m_inputM.SwapNum;
-            m_isSwap = m_currentSwapNum!= _swapNum && m_equipM.CanSwap(_swapNum);
+            if (m_isCombatLock)
+            {
+                m_isAttacBtn = false;
+                m_canSwap = false;
+                m_isAction = false;
+                return;
+            }
+
+            // Swap (같은번호x, 액션중x, 무기nullx)
+            if (!m_isAction)
+            {
+                int _swapNum = m_inputM.SwapNum;
+                m_canSwap = m_currentSwapNum != _swapNum && m_equipM.CanSwap(_swapNum);
+            }
+            else
+            {
+                m_canSwap = false;
+                m_inputM.SetSwapNum(m_currentSwapNum);
+            }
 
             // Attack
-            if(CurrentItem != null)
+            if (CurrentItem != null)
                 m_isAttacBtn = m_inputM.IsAttackBtn;
             else m_isAttacBtn = false;
-
         }
         private void Start()
         {
             SetCanMove(true);
         }
-
+        private void Update()
+        {
+            
+        }
         public void SetCanMove(bool canMove)
         {
             m_canMove = canMove;
@@ -102,11 +121,14 @@ namespace alpha
         }
 
         #region ======================================== SWAP
-        public void HandleSwap()
+        public void EnterSwap()
         {
+            // 스왑 막기
+            m_inputM.SetIsSwap(true);
+           
             // 1. EquipManager에서 무기 교체
             int _swapNum = m_inputM.SwapNum;
-
+            
             // 2. 애니메이션 동작
             m_playerCore.AniManager.SwapWeaponAni(_swapNum, false);
 
@@ -117,10 +139,14 @@ namespace alpha
             m_currentSwapNum = _swapNum;
             m_currentItem = _item;
         }
+
+        public void ExitSwap(bool isFlying)
+        {
+            m_inputM.SetIsSwap(false);
+        }
         #endregion ======================================== /SWAP
 
-        #region ======================================== Attack
-
+        #region ======================================== Attack && InCombat
         // Melee Combo Attack
         public void SetIsNextCombo(bool isNextCombo)
         {
@@ -131,17 +157,12 @@ namespace alpha
             m_nextComboNum = nextNum;
         }
 
-        // Range Attack
-
-        #endregion ======================================== /Attack
-
-        #region ======================================== InCombat
         public void SetIsInCombat(bool isInCombat)
         {
             m_isInCombat = isInCombat;
             AniM.SetIsInCombatAni(m_isInCombat);
         }
-        #endregion ======================================== /InCombat
+        #endregion ======================================== /Attack && InCombat
 
         public void SetIKRigWeight(RigType rigType, bool isWeight)
         {
@@ -170,21 +191,7 @@ namespace alpha
         }
 
         #region ================================================ Enter, Exit State
-        public void EnterInCombat()
-        {
-            //m_isInCombat = true;
-            //m_playerCore.AniController.SetIsInCombatAni(m_isInCombat);
-        }
 
-        public void ExitInCombat(bool isFlying)
-        {
-            // m_isInCombat = false;
-            // IsActioning = false;
-
-            m_playerCore.AniManager.SetIsInCombatAni(false);
-        }
-
-        
         /// <summary>
         /// 거리 내 맞은 대상이 있는지 확인 (단순 체크용)
         /// </summary>
@@ -207,39 +214,6 @@ namespace alpha
         /// TODO 스왑시 스왑상태에서 시간에 의해 애니메이션 Num값과 실제 Swap값이 다르게 가~끔나옴 해결필요
         /// </summary>
 
-
-        public void EnterSwapWeapon(bool isFlying)
-        {
-            m_playerCore.AniManager.SwapWeaponAni(m_currentSwapNum, isFlying);
-
-            if (m_currentSwapNum > 1)
-            {
-                //RangeWeaponItemDataSO _rangeWeapon = CurrentWeapon as RangeWeaponItemDataSO;
-                // RealTimeUIManager.Instance.SetAmmo(_rangeWeapon.CurrentAmmo, _rangeWeapon.SaveAmmo, _rangeWeapon.MaxAmmo);
-            }
-            else RealTimeUIManager.Instance.SetAmmo(0, 0, 0);
-        }
-        public void SwapInventoryWeapon()
-        {
-            //OnSwapAction?.Invoke(CurrentWeaponNum);
-        }
-
-        public void ExitSwapWeapon(bool isFlying)
-        {
-            if (m_currentSwapNum > 1)
-            {
-                //RangeWeaponItemDataSO _rangeWeapon = CurrentWeapon as RangeWeaponItemDataSO;
-                //RealTimeUIManager.Instance.SetAmmo(_rangeWeapon.CurrentAmmo, _rangeWeapon.SaveAmmo, _rangeWeapon.MaxAmmo);
-            }
-            else RealTimeUIManager.Instance.SetAmmo(0, 0, 0);
-        }
-
-        // TODO : 정리 후 고려
-        /*public void AttackRootMotion(bool isApplyRoot)
-        {
-           // m_animationController.SetApplyRootMotion(isApplyRoot);
-        }*/
-
         public void SetAming(bool isOffAiming = false)
         {
             //m_isAiming = !m_isAiming;
@@ -249,22 +223,6 @@ namespace alpha
             //m_playerCore.CameraManger.AimFOV(m_isAiming, CurrentWeaponNum == 3);
         }
 
-        public bool EnterReload()
-        {
-            //RangeWeaponItemDataSO _rangeWeapon = CurrentWeapon as RangeWeaponItemDataSO;
-            //bool _cansReload = _rangeWeapon.Reload();
-            bool _cansReload = false;
-            if (!_cansReload) return false;
-
-            //RealTimeUIManager.Instance.SetAmmo(_rangeWeapon.CurrentAmmo, _rangeWeapon.SaveAmmo, _rangeWeapon.MaxAmmo);
-
-            //m_playerCore.AudioManager.PlaySFXCombatAudio(SFX_CombatType.Reload);
-            return true;
-        }
-        public void ExitReload(bool isFlying)
-        {
-
-        }
 
         public void EnterSkill()
         {

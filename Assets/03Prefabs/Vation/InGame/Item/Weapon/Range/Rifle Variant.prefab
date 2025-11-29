@@ -62,6 +62,73 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7139815738231178001}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &835462316370999888
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6499512348330477191}
+    m_Modifications:
+    - target: {fileID: 7962679115606326696, guid: c9f247f2b5fd49044a410e9eac9a4d13, type: 3}
+      propertyPath: m_Name
+      value: Rifle_MuzzleFlashEffect
+      objectReference: {fileID: 0}
+    - target: {fileID: 7964731104540782706, guid: c9f247f2b5fd49044a410e9eac9a4d13, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7964731104540782706, guid: c9f247f2b5fd49044a410e9eac9a4d13, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7964731104540782706, guid: c9f247f2b5fd49044a410e9eac9a4d13, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7964731104540782706, guid: c9f247f2b5fd49044a410e9eac9a4d13, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7964731104540782706, guid: c9f247f2b5fd49044a410e9eac9a4d13, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7964731104540782706, guid: c9f247f2b5fd49044a410e9eac9a4d13, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7964731104540782706, guid: c9f247f2b5fd49044a410e9eac9a4d13, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7964731104540782706, guid: c9f247f2b5fd49044a410e9eac9a4d13, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7964731104540782706, guid: c9f247f2b5fd49044a410e9eac9a4d13, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7964731104540782706, guid: c9f247f2b5fd49044a410e9eac9a4d13, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c9f247f2b5fd49044a410e9eac9a4d13, type: 3}
+--- !u!4 &7282391177849784866 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7964731104540782706, guid: c9f247f2b5fd49044a410e9eac9a4d13, type: 3}
+  m_PrefabInstance: {fileID: 835462316370999888}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &7484774120514681708 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 7802322410347479356, guid: c9f247f2b5fd49044a410e9eac9a4d13, type: 3}
+  m_PrefabInstance: {fileID: 835462316370999888}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7192146602914147883
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -248,6 +315,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7223709284717123455, guid: df81d6b087045ae4bbd76d89e599c788, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2815269119962311653}
+    - targetCorrespondingSourceObject: {fileID: 4498752298839348604, guid: df81d6b087045ae4bbd76d89e599c788, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7282391177849784866}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 417109104028734207, guid: df81d6b087045ae4bbd76d89e599c788, type: 3}
       insertIndex: -1
@@ -282,7 +352,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LeftHandTr: {fileID: 5210751059507237668}
   RightHandTr: {fileID: 1777965977114151136}
-  EffectTr: {fileID: 6499512348330477191}
+  m_muzzleFlashEffect: {fileID: 7484774120514681708}
 --- !u!4 &7139815738231178001 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 525117957203366122, guid: df81d6b087045ae4bbd76d89e599c788, type: 3}

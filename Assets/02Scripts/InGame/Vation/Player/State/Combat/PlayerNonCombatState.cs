@@ -23,7 +23,7 @@ public class PlayerNonCombatState : PlayerCombatStateBase
     public override void Update()
     {
         if (m_Locomotion.IsDie) return;
-        if (m_Combat.IsSwap)
+        if (m_Combat.CanSwap)
         {
             m_PlayerCore.SwitchCombatState(CombatStateType.Swap);
         }

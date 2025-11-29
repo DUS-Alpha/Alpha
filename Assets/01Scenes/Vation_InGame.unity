@@ -4459,6 +4459,14 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.0050701112
       objectReference: {fileID: 0}
+    - target: {fileID: 1264148686281107399, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
+      propertyPath: m_combatAudioTypes.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1264148686281107399, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
+      propertyPath: m_combatAudioTypes.Array.data[0].Type
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1454908786435221901, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.042327836

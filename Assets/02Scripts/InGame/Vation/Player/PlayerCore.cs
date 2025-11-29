@@ -3,6 +3,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Playables;
 
+[RequireComponent(typeof(PlayerAudioManager))]
 [RequireComponent(typeof(PlayerInventoryController))]
 [RequireComponent(typeof(PlayerStatsManager))]
 [RequireComponent(typeof(PlayerEquipManager))]
@@ -24,7 +25,7 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
     public PlayerStateMachine StateMachine { get; private set; }
     public PlayerLocomotion Locomotion { get; private set; }
     public PlayerCombat Combat { get; private set; }
-    public PlayerAudioController playerAudio { get; private set;}
+    public PlayerAudioManager playerAudioManager { get; private set;}
     public PlayerEquipManager EquipmentManager { get; private set; }
     public PlayerIKController IKController { get; private set; }
     public PlayerStatsManager StatsManager { get; private set; }
@@ -52,7 +53,7 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
         InventoryController = GetComponent<PlayerInventoryController>();
 
         IKController = GetComponentInChildren<PlayerIKController>();
-        playerAudio = GetComponent<PlayerAudioController>();
+        playerAudioManager = GetComponent<PlayerAudioManager>();
 
 
         StateMachine = new PlayerStateMachine();

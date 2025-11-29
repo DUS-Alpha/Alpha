@@ -6,10 +6,14 @@ namespace alpha
     {
         public RangeWeaponItemDataSO RangeData => (RangeWeaponItemDataSO)Data;
 
+        [SerializeField] private ParticleSystem m_muzzleFlashEffect;
         protected override void Awake()
         {
             AttackStrategy = new RangeAttackStrategy();
         }
-        //public override void Attack(){}
+        public void PlayEffect()
+        {
+            m_muzzleFlashEffect.Play();
+        }
     }
 }

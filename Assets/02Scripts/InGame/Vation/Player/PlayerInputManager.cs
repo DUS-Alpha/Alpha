@@ -32,6 +32,8 @@ namespace alpha
         #region ==================== CombatInput
         public bool IsAttackBtn { get; private set; }
         public bool IsAim { get; private set; }
+        public bool IsSwap => m_isSwap;
+        public bool m_isSwap;
         public int SwapNum { get; private set; } = 0;
 
         //public bool IsReload { get; private set; }
@@ -62,26 +64,19 @@ namespace alpha
 
                 // ==================== Combat
                 // Swap
-                m_playerControl.PlayerCombat.SwapNum1.performed += i => SwapNum = int.Parse(i.control.name);
-                //m_playerControl.PlayerCombat.SwapNum1.canceled += i => { if (SwapNum == 1) SwapNum = 0; };
-
-                m_playerControl.PlayerCombat.SwapNum2.performed += i => SwapNum = int.Parse(i.control.name);
-                //m_playerControl.PlayerCombat.SwapNum2.canceled += i => { if (SwapNum == 2) SwapNum = 0; };
-
-                m_playerControl.PlayerCombat.SwapNum3.performed += i => SwapNum = int.Parse(i.control.name);
-                //m_playerControl.PlayerCombat.SwapNum3.canceled += i => { if (SwapNum == 3) SwapNum = 0; };
-
-                m_playerControl.PlayerCombat.SwapNum4.performed += i => SwapNum = int.Parse(i.control.name);
-                //m_playerControl.PlayerCombat.SwapNum4.canceled += i => { if (SwapNum == 4) SwapNum = 0; };
+                m_playerControl.PlayerCombat.SwapNum.performed += i => 
+                {
+                    if (!IsSwap)
+                    {
+                        SwapNum = int.Parse(i.control.name);
+                    }
+                };
 
                 // Attack
                 m_playerControl.PlayerCombat.Attack.performed += i => IsAttackBtn = i.ReadValue<float>() > 0.5f;
                 m_playerControl.PlayerCombat.Attack.canceled += i => IsAttackBtn = i.ReadValue<float>() > 0.5f;
 
                 // Skill
-
-
-
 
 
             }
@@ -95,21 +90,12 @@ namespace alpha
             m_inputCombatFlags = inputCombatflags;
         }
 
-        private void Start()
-        {
-            //SwapWeaponNum = 0;
-        }
         // Update is called once per frame
         void Update()
         {
-            LocomotionInput();
-            CombatInput();
-        }
-        #region ================================================================================ LOCOMOTION
-        private void LocomotionInput()
-        {
             HandleInputMove();
         }
+        #region ================================================================================ LOCOMOTION
 
         private void HandleInputMove()
         {
@@ -122,29 +108,14 @@ namespace alpha
         #endregion ================================================================================ /LOCOMOTION
 
         #region ================================================================================ COMBAT
-        private void CombatInput()
+        public void SetSwapNum(int swapNum)
         {
-            //IsSwap = IsSwapInput();
-            //IsAttack = Input.GetMouseButton(0);
-            //IsAim = Input.GetMouseButtonDown(1) && m_combat.CurrentWeaponNum > 1;
-            //IsReload = Input.GetKeyDown(KeyCode.R);
-            //IsSkill = SkillKeyCode();
+            SwapNum = swapNum;
         }
-
-        /*private bool IsSwapInput()
+        public void SetIsSwap(bool isSwap)
         {
-            // 1 ~ 4
-            for (int i = 1; i <= 4; i++)
-            {
-                if (Input.GetKeyDown(KeyCode.Alpha0 + i) || Input.GetKeyDown(KeyCode.Keypad0 + i))
-                {
-                    SwapNum = i;
-                    return true;
-                }
-            }
-            return false;
-        }*/
-
+            m_isSwap = isSwap;
+        }
         public bool SkillKeyCode()
         {
             foreach (var key in m_skillKeyCodes)

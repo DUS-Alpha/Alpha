@@ -218,8 +218,7 @@ namespace alpha
 
         public bool CanSwap(int swapNum)
         {
-            m_currentIntem = GetItemBySwapNum(swapNum);
-            if (m_currentIntem == null) return false;
+            if (GetItemBySwapNum(swapNum) == null) return false;
 
             return true;
         }
@@ -227,6 +226,8 @@ namespace alpha
         public Item TrySwap(int swapNum)
         {
             int _swapNum = swapNum;
+
+            m_currentIntem = GetItemBySwapNum(_swapNum);
 
             // 1. 모든 WeaponHolder 비활성화
             foreach (var kvp in EquipWeaponHolderDic)

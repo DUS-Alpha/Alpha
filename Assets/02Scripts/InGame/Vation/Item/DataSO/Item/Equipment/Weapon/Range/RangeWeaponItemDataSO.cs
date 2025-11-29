@@ -25,6 +25,5 @@ namespace alpha
         public ERangeItemTypes RangeType;
         public float Distance;
         public float FireRate;
-        public ParticleSystem MuzzleFlashEffect;
     }
 }

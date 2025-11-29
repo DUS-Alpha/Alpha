@@ -32,7 +32,13 @@ public class PlayerAttackState : PlayerCombatStateBase
     {
         base.Update();
 
-        if (m_Combat.IsAttackBtn)
+        if(m_Combat.CanSwap && m_weaponItem is RangeWeaponItem)
+        {
+            m_PlayerCore.SwitchCombatState(CombatStateType.Swap);
+            m_Combat.AniM.SetAttackBtnAni(false);
+            return;
+        }
+        else if (m_Combat.IsAttackBtn)
         {
             m_weaponItem.AttackStrategy.UpdateAttack(m_Combat);
             m_NextStateDelay = 0;

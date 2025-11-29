@@ -23,14 +23,14 @@ public class PlayerInCombatState : PlayerCombatStateBase
         
         m_NextStateDelay += Time.deltaTime;
 
+        if(m_Combat.CanSwap)
+        {
+            m_PlayerCore.SwitchCombatState(CombatStateType.Swap);
+            return;
+        }
         if(m_Combat.IsAttackBtn)
         {
             m_PlayerCore.SwitchCombatState(CombatStateType.Attack);
-            return;
-        }
-        else if(m_Combat.IsSwap)
-        {
-            m_PlayerCore.SwitchCombatState(CombatStateType.Swap);
             return;
         }
 

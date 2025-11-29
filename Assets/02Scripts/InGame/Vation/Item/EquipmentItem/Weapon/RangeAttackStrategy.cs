@@ -6,10 +6,17 @@ public class RangeAttackStrategy : IAttackStrategy
     public bool CanMoveDuringAttack => true;
     private RangeWeaponItem m_rangeItem;
     private float m_nextFireTime;
+
+    private void PerformAttack(PlayerCombat combat)
+    {
+        m_rangeItem.PlayEffect();
+        combat.AudioM.PlayRangeAttack(m_rangeItem.RangeData.AudioClip);
+        combat.AniM.RangeShootingAni();
+    }
+
     public void StartAttack(PlayerCombat combat)
     {
         m_rangeItem = combat.CurrentItem as RangeWeaponItem;
-        combat.AniM.RangeShootingAni();
 
         m_nextFireTime = 0;
     }
@@ -20,7 +27,8 @@ public class RangeAttackStrategy : IAttackStrategy
         if (Time.time < m_nextFireTime)
             return;
 
-        combat.AniM.RangeShootingAni();
+        PerformAttack(combat);
+
         m_nextFireTime = Time.time + m_rangeItem.RangeData.FireRate;
     }
 
