@@ -1,0 +1,394 @@
+fileFormatVersion: 2
+guid: 2da0800cc974f6f438354de88b178295
+AssetOrigin:
+  serializedVersion: 1
+  productId: 300218
+  packageName: Fantasy Animal (Pack)
+  packageVersion: 1.0
+  assetPath: Assets/Animal_Fantasy_(Pack)/Fantasy_Dragon/Animations/Set_02/Fantasy_Dragon_Set_02@Attack_Fire.FBX
+  uploadId: 702080
+ModelImporter:
+  serializedVersion: 22200
+  internalIDToNameTable: []
+  externalObjects: {}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 1
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton:
+    - name: Fantasy_Dragon_Set_02@Attack_Fire(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Fantasy_Dragon_Wings
+      parentName: Fantasy_Dragon_Set_02@Attack_Fire(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Fantasy_Dragon_Body
+      parentName: Fantasy_Dragon_Set_02@Attack_Fire(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Fantasy_Dragon_Armor_Pelvis
+      parentName: Fantasy_Dragon_Set_02@Attack_Fire(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Fantasy_Dragon_Armors_Back
+      parentName: Fantasy_Dragon_Set_02@Attack_Fire(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Fantasy_Dragon_Breast
+      parentName: Fantasy_Dragon_Set_02@Attack_Fire(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Fantasy_Dragon_Eyes
+      parentName: Fantasy_Dragon_Set_02@Attack_Fire(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Fantasy_Dragon_Cloth
+      parentName: Fantasy_Dragon_Set_02@Attack_Fire(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Fantasy_Dragon_Armors_Neck
+      parentName: Fantasy_Dragon_Set_02@Attack_Fire(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Fantasy_Dragon_Armors_Tail
+      parentName: Fantasy_Dragon_Set_02@Attack_Fire(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Fantasy_Dragon_Armors_Legs_01
+      parentName: Fantasy_Dragon_Set_02@Attack_Fire(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Fantasy_Dragon_Armors_Legs_02
+      parentName: Fantasy_Dragon_Set_02@Attack_Fire(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Fantasy_Dragon_Armor_Heads
+      parentName: Fantasy_Dragon_Set_02@Attack_Fire(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: CATRigLLegPlatform
+      parentName: Fantasy_Dragon_Set_02@Attack_Fire(Clone)
+      position: {x: -0.5612043, y: 3.8480318, z: -0.050233353}
+      rotation: {x: 0.6257296, y: -0.38992223, z: -0.5733767, w: 0.35729852}
+      scale: {x: 0.9999999, y: 0.99999994, z: 1.0000001}
+    - name: CATRigRLegPlatform
+      parentName: Fantasy_Dragon_Set_02@Attack_Fire(Clone)
+      position: {x: 0.60661775, y: 3.972905, z: -0.1414599}
+      rotation: {x: 0.47892007, y: -0.4232237, z: -0.57631505, w: 0.509292}
+      scale: {x: 1, y: 0.99999994, z: 1}
+    - name: Root
+      parentName: Fantasy_Dragon_Set_02@Attack_Fire(Clone)
+      position: {x: 1.6847972e-14, y: 1.6847968e-14, z: -0.000000111579084}
+      rotation: {x: 0.50000006, y: -0.49999997, z: -0.49999997, w: 0.50000006}
+      scale: {x: 1, y: 1, z: 1}
+    - name: CATRigHub001
+      parentName: Root
+      position: {x: -1.2581401, y: -0.00000047683716, z: 0.00000019915234}
+      rotation: {x: -0.00000017881392, y: -0, z: 0.7071068, w: 0.70710677}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
+    - name: CATRigSpine1
+      parentName: CATRigHub001
+      position: {x: 0.013439331, y: 0.6770322, z: -0.000000102229}
+      rotation: {x: 0.0000000056665037, y: 0.000000015557724, z: 0.5216484, w: -0.8531606}
+      scale: {x: 1.0000008, y: 1.000003, z: 1.0000007}
+    - name: CATRigSpine2
+      parentName: CATRigSpine1
+      position: {x: -0.7941031, y: -0.00000030517577, z: 0}
+      rotation: {x: 0.000000044488434, y: -0.00000005535934, z: -0.21878332, w: 0.97577345}
+      scale: {x: 1.0000012, y: 1.0000035, z: 1.0000025}
+    - name: CATRigHub002
+      parentName: CATRigSpine2
+      position: {x: -0.7941029, y: 0, z: 3.7252902e-11}
+      rotation: {x: -0.00000003904355, y: 0.00000008726163, z: 0.037433878, w: 0.99929917}
+      scale: {x: 0.9999996, y: 0.9999997, z: 0.9999996}
+    - name: CATRigLArmCollarbone
+      parentName: CATRigHub002
+      position: {x: 0.36371887, y: -0.039061278, z: 0.19719657}
+      rotation: {x: 0.06071053, y: -0.7044958, z: -0.060710516, w: -0.7044958}
+      scale: {x: 1.0000001, y: 1.0000026, z: 1.000003}
+    - name: CATRigLArm1
+      parentName: CATRigLArmCollarbone
+      position: {x: -0.3656753, y: 0, z: 0}
+      rotation: {x: -0.37195987, y: 0.0255257, z: 0.01673038, w: 0.92774695}
+      scale: {x: 0.9999998, y: 0.9999986, z: 1.0000005}
+    - name: CATRigLArm2
+      parentName: CATRigLArm1
+      position: {x: -1.1567678, y: 0, z: 0}
+      rotation: {x: 0.066226386, y: -0.0010781281, z: -0.05177752, w: 0.9964597}
+      scale: {x: 1.0000029, y: 1.0000002, z: 0.9999984}
+    - name: CATRigLArmPalm
+      parentName: CATRigLArm2
+      position: {x: -2.5716357, y: 0, z: 0}
+      rotation: {x: 0.1332189, y: -0.388858, z: -0.16013968, w: 0.89743936}
+      scale: {x: 1.0000017, y: 1.0000094, z: 0.99998814}
+    - name: CATRigPalmRBone001
+      parentName: CATRigLArmPalm
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.12172055, y: -0.0047977865, z: 0.9700587, w: 0.21011274}
+      scale: {x: 0.99999875, y: 1.000012, z: 0.9999902}
+    - name: CATRigPalmRBone002
+      parentName: CATRigLArmPalm
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.058537535, y: -0.025286999, z: 0.9198116, w: 0.38714415}
+      scale: {x: 0.9999934, y: 1.0000159, z: 0.9999925}
+    - name: CATRigPalmRBone003
+      parentName: CATRigLArmPalm
+      position: {x: -0.039413452, y: -0.14981323, z: 0.0000010681152}
+      rotation: {x: -0.0000010579826, y: 0.0000011622907, z: 0.8578748, w: 0.51385874}
+      scale: {x: 0.99999267, y: 1.0000162, z: 0.99999267}
+    - name: CATRigSpineNeck1
+      parentName: CATRigHub002
+      position: {x: -0.44209075, y: 0.047477417, z: -0.000000067137584}
+      rotation: {x: 0.000000064284826, y: -0.000000053606726, z: 0.15173616, w: 0.9884211}
+      scale: {x: 1.000002, y: 1.000001, z: 1.0000006}
+    - name: CATRigSpineNeck2
+      parentName: CATRigSpineNeck1
+      position: {x: -0.62194365, y: -0.00000030517577, z: 0}
+      rotation: {x: -0.000000011601746, y: -0.00000012382027, z: -0.13235027, w: 0.991203}
+      scale: {x: 1.0000024, y: 1.0000019, z: 1.0000015}
+    - name: CATRigHubHead
+      parentName: CATRigSpineNeck2
+      position: {x: -0.62194383, y: 0, z: 0}
+      rotation: {x: -0.000000022351742, y: 0.00000004284084, z: -0.21111944, w: 0.9774603}
+      scale: {x: 1.0000001, y: 1.0000012, z: 1.0000001}
+    - name: CATRigJaw
+      parentName: CATRigHubHead
+      position: {x: -0.19436096, y: 0.16697815, z: -0.0000000025331974}
+      rotation: {x: -0.000000024156417, y: -0.000000018327311, z: -0.243842, w: 0.969815}
+      scale: {x: 0.99999934, y: 1.0000027, z: 1.000001}
+    - name: CATRigRArmCollarbone
+      parentName: CATRigHub002
+      position: {x: 0.36371857, y: -0.039061278, z: -0.19719659}
+      rotation: {x: 0.060710583, y: -0.7044957, z: 0.060710516, w: 0.7044957}
+      scale: {x: 1.0000021, y: 1.0000015, z: 1.0000018}
+    - name: CATRigRArm1
+      parentName: CATRigRArmCollarbone
+      position: {x: -0.36567536, y: 0, z: 0}
+      rotation: {x: 0.37195984, y: -0.025525894, z: 0.016730646, w: 0.92774695}
+      scale: {x: 1.000001, y: 0.99999946, z: 1.000002}
+    - name: CATRigRArm2
+      parentName: CATRigRArm1
+      position: {x: -1.1567678, y: 0, z: 0}
+      rotation: {x: -0.0662224, y: 0.001078214, z: -0.051778827, w: 0.9964599}
+      scale: {x: 0.99999684, y: 1.0000004, z: 1.0000048}
+    - name: CATRigRArmPalm
+      parentName: CATRigRArm2
+      position: {x: -2.571637, y: -0.00000030517577, z: 0}
+      rotation: {x: -0.13321573, y: 0.38884914, z: -0.16013438, w: 0.89744467}
+      scale: {x: 1.000009, y: 0.9999998, z: 0.9999923}
+    - name: CATRigPalmLBone001
+      parentName: CATRigRArmPalm
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.12171767, y: 0.0047983225, z: 0.9700585, w: 0.2101149}
+      scale: {x: 1.0000062, y: 1.0000088, z: 0.9999864}
+    - name: CATRigPalmLBone002
+      parentName: CATRigRArmPalm
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.058536366, y: 0.025286835, z: 0.9198095, w: 0.3871494}
+      scale: {x: 1.0000074, y: 1.0000057, z: 0.99998856}
+    - name: CATRigPalmLBone003
+      parentName: CATRigRArmPalm
+      position: {x: -0.039413758, y: -0.14981446, z: 0}
+      rotation: {x: 0.0000009760258, y: -0.0000010728834, z: 0.8578703, w: 0.5138663}
+      scale: {x: 1.0000064, y: 1.0000055, z: 0.9999885}
+    - name: CATRigTail1
+      parentName: CATRigHub001
+      position: {x: 0.20258117, y: -0.48407692, z: 0.00000007308255}
+      rotation: {x: -0.000000022865315, y: -0.0000000334217, z: 0.9173963, w: 0.39797506}
+      scale: {x: 1.0000013, y: 1.0000005, z: 1.0000011}
+    - name: CATRigTail2
+      parentName: CATRigTail1
+      position: {x: -0.855552, y: 0, z: 0}
+      rotation: {x: 5.9863486e-10, y: 5.415179e-10, z: -0.008565276, w: 0.99996334}
+      scale: {x: 1.0000012, y: 1.0000001, z: 1.0000012}
+    - name: CATRigTail3
+      parentName: CATRigTail2
+      position: {x: -0.63189894, y: 0, z: 0}
+      rotation: {x: 0.000000014904554, y: 0.000000017358351, z: -0.24097249, w: 0.970532}
+      scale: {x: 1.000001, y: 1.0000001, z: 1.0000011}
+    - name: CATRigTail4
+      parentName: CATRigTail3
+      position: {x: -0.8376213, y: 0, z: 0.000000019073486}
+      rotation: {x: 0.000000006596366, y: -0.000000016733074, z: -0.29106185, w: 0.9567043}
+      scale: {x: 1.0000012, y: 0.999999, z: 1.0000007}
+    - name: CATRigTail5
+      parentName: CATRigTail4
+      position: {x: -0.86238, y: 0, z: -0.000000076293944}
+      rotation: {x: -0.00000008815864, y: 0.0000000033276066, z: -0.21705516, w: 0.9761594}
+      scale: {x: 1.0000015, y: 0.9999991, z: 1}
+    - name: CATRigTail6
+      parentName: CATRigTail5
+      position: {x: -0.69555175, y: 0.00000030517577, z: 0}
+      rotation: {x: -0.00000000730307, y: 0.00000001548184, z: -0.10140628, w: 0.99484515}
+      scale: {x: 1.0000008, y: 0.9999998, z: 1.0000002}
+    - name: CATRigTail7
+      parentName: CATRigTail6
+      position: {x: -0.69350827, y: -0.00000045776366, z: 0.00000030517577}
+      rotation: {x: 0.00000010908811, y: -0.00000003587217, z: 0.24300487, w: 0.97002506}
+      scale: {x: 0.9999985, y: 1.0000013, z: 1.0000005}
+    - name: CATRigTail8
+      parentName: CATRigTail7
+      position: {x: -0.68165404, y: -0.00000030517577, z: 0}
+      rotation: {x: 0.00000007050595, y: 0.000000013393364, z: 0.27971065, w: 0.9600843}
+      scale: {x: 1.0000006, y: 1.0000002, z: 1.0000008}
+    - name: CATRigRLeg1
+      parentName: CATRigHub001
+      position: {x: 0.00000061035155, y: 0.000000076293944, z: -0.5451092}
+      rotation: {x: 0.63411385, y: 0.7527696, z: -0.09880946, w: -0.14654087}
+      scale: {x: 1.0000013, y: 1.0000004, z: 1.0000006}
+    - name: CATRigRLeg2
+      parentName: CATRigRLeg1
+      position: {x: -0.75646514, y: -0.00000030517577, z: 0}
+      rotation: {x: -0.01280404, y: 0.012605459, z: 0.28301066, w: 0.9589485}
+      scale: {x: 1.0000007, y: 1.0000012, z: 1.0000008}
+    - name: CATRigRLegAnkle
+      parentName: CATRigRLeg2
+      position: {x: -0.9274696, y: -0.00000030517577, z: -0.000000076293944}
+      rotation: {x: -0.03073231, y: -0.120232254, z: -0.93616486, w: 0.32893044}
+      scale: {x: 1.0000002, y: 1.0000006, z: 1.0000007}
+    - name: CATRigRLegDigit11
+      parentName: CATRigRLegAnkle
+      position: {x: -0.7903671, y: 0, z: 0}
+      rotation: {x: 0.06330185, y: 0.003899634, z: -0.5063181, w: 0.8600115}
+      scale: {x: 1.0000007, y: 0.99999946, z: 1.0000005}
+    - name: CATRigLLeg1
+      parentName: CATRigHub001
+      position: {x: 0.00000061035155, y: -0.00000015258789, z: 0.5451092}
+      rotation: {x: 0.6341142, y: 0.7527693, z: 0.098809555, w: 0.14654087}
+      scale: {x: 1.0000007, y: 1, z: 1.0000011}
+    - name: CATRigLLeg2
+      parentName: CATRigLLeg1
+      position: {x: -0.75646514, y: 0, z: -0.00000015258789}
+      rotation: {x: 0.012658244, y: -0.012602678, z: 0.2829986, w: 0.958954}
+      scale: {x: 1.0000002, y: 1.0000019, z: 1.0000001}
+    - name: CATRigLLegAnkle
+      parentName: CATRigLLeg2
+      position: {x: -0.9274698, y: 0.00000030517577, z: 0}
+      rotation: {x: 0.03065588, y: 0.12029175, z: -0.9361488, w: 0.32896116}
+      scale: {x: 0.99999934, y: 1.0000001, z: 1.0000008}
+    - name: CATRigLLegDigit11
+      parentName: CATRigLLegAnkle
+      position: {x: -0.79036695, y: -0.00000030517577, z: 0}
+      rotation: {x: -0.063389175, y: -0.003751032, z: -0.5063061, w: 0.8600127}
+      scale: {x: 1.0000007, y: 0.9999998, z: 1}
+    - name: CATRigLArmIKTarget
+      parentName: Fantasy_Dragon_Set_02@Attack_Fire(Clone)
+      position: {x: -2.151388, y: 9.046092, z: 2.2865753}
+      rotation: {x: 0.7313722, y: 0.22131589, z: 0.63891554, w: -0.088887155}
+      scale: {x: 1.0000021, y: 1.0000098, z: 0.99998933}
+    - name: CATRigRArmIKTarget
+      parentName: Fantasy_Dragon_Set_02@Attack_Fire(Clone)
+      position: {x: 2.2443361, y: 8.673211, z: 2.809952}
+      rotation: {x: 0.6365197, y: -0.19023141, z: 0.7018344, w: 0.25706682}
+      scale: {x: 1.0000082, y: 1.0000005, z: 0.9999926}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 0
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

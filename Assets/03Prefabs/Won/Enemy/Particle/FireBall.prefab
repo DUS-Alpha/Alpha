@@ -4909,7 +4909,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49e861602762f5441924322451b432f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifeTime: 5
+  lifeTime: 20
   hitEffectPrefab: {fileID: 2353662582193484897, guid: 2f68805e4160232448296f187f342ee8, type: 3}
 --- !u!1 &4920932913899074935
 GameObject:
