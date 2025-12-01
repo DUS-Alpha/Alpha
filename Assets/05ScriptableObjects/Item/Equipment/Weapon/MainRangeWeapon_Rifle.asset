@@ -22,7 +22,7 @@ MonoBehaviour:
   Durability: 0
   WeaponType: 1
   Damage: 15
-  AttackCost: 0
+  AttackCost: 2
   AudioClip: {fileID: 8300000, guid: 7a6dabd79ef7ceb45aa223100d2443a9, type: 3}
   RangeType: 0
   Distance: 0

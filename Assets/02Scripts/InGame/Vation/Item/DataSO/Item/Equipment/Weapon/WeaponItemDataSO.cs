@@ -31,7 +31,7 @@ namespace alpha
 #endif
         [Header("[ WeaponItemData ]"), Space(10)]
         public int Damage;
-        public int AttackCost;
+        public float AttackCost;
         public AudioClip AudioClip;
     }
 }

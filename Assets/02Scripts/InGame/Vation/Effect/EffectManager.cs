@@ -5,13 +5,17 @@ using UnityEngine;
 public class EffectManager : MonoBehaviour
 {
     // ==================== Dash
-    // Dash 바람
-    [SerializeField]
+    [Header("Wind Effect"), SerializeField]
     private ParticleSystem m_frondWindEffect;
+
+    // Booster
+    [Header("Booster Effect"), SerializeField]
+    private ParticleSystem m_boosterEffect;
+
     // Dash 잔상
-    [SerializeField]
+    [Header("Spectrum Effect"), SerializeField]
     private GameObject m_target;
-    [SerializeField]
+    [Tooltip("스펙트럼 생길 타겟"),SerializeField]
     private SkinnedMeshRenderer[] m_skinnedRenderers;
     [SerializeField]
     private Material m_material;
@@ -23,6 +27,7 @@ public class EffectManager : MonoBehaviour
     [SerializeField]
     private float m_meshRefreshRate = 0.1f;
 
+    
     // ==================== Dash
     void Start()
     {
@@ -38,6 +43,8 @@ public class EffectManager : MonoBehaviour
     public void DashEffect()
     {
         m_frondWindEffect.Play();
+        //m_boosterEffect.Play();
+
         StartCoroutine(ActiveTrailEffectCoroutine(m_activeTime));
     }
     private IEnumerator ActiveTrailEffectCoroutine(float timeActive)

@@ -5,7 +5,7 @@ using UnityEngine.Playables;
 
 [RequireComponent(typeof(PlayerAudioManager))]
 [RequireComponent(typeof(PlayerInventoryController))]
-[RequireComponent(typeof(PlayerStatsManager))]
+[RequireComponent(typeof(PlayerGaugeManager))]
 [RequireComponent(typeof(PlayerEquipManager))]
 [RequireComponent(typeof(PlayerAnimationManager))]
 [RequireComponent(typeof(PlayerInputManager))]
@@ -16,7 +16,7 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
     [Header(" [ Ref Component ] ")]
     public PlayerCameraManger CameraM;
     public WorldAudioManager AudioManager;
-    
+    public RealTimeUIManager RealTimeUIM;
     //public OpenCloseUIManager UIManager;
 
     public GameObject PlayerObj { get; private set; }
@@ -28,8 +28,9 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
     public PlayerAudioManager playerAudioManager { get; private set;}
     public PlayerEquipManager EquipmentManager { get; private set; }
     public PlayerIKController IKController { get; private set; }
-    public PlayerStatsManager StatsManager { get; private set; }
+    public PlayerGaugeManager StatsManager { get; private set; }
     public PlayerInventoryController InventoryController { get; private set; }
+
 
     public InputLockedFlagsController<InputLocoLockType> LocomotionFlagsController { get; private set; } = new InputLockedFlagsController<InputLocoLockType>();
     public InputLockedFlagsController<InputCombatLockType> CombatFlagsController { get; private set; } = new InputLockedFlagsController<InputCombatLockType>();
@@ -49,8 +50,9 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
         EquipmentManager = GetComponent<PlayerEquipManager>();
         Locomotion = GetComponent<PlayerLocomotion>();
         Combat = GetComponent<PlayerCombat>();
-        StatsManager = GetComponent<PlayerStatsManager>();
+        StatsManager = GetComponent<PlayerGaugeManager>();
         InventoryController = GetComponent<PlayerInventoryController>();
+
 
         IKController = GetComponentInChildren<PlayerIKController>();
         playerAudioManager = GetComponent<PlayerAudioManager>();
@@ -68,7 +70,7 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
         StateMachine.InitializeMoudle(this);
         AniManager.InitializeModule(Combat);
         InputManager.InitializeModule(Combat, LocomotionFlagsController, CombatFlagsController);
-        Locomotion.InitializeModule(AniManager, CameraM,AudioManager);
+        Locomotion.InitializeModule(this);
         Combat.InitializeModule(this);
         EquipmentManager.InitializeModule(this);
         StatsManager.InitializeModule(this);

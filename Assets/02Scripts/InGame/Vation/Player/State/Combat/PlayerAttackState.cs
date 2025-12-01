@@ -45,10 +45,11 @@ public class PlayerAttackState : PlayerCombatStateBase
         }
         else
         {
-            if(!m_Combat.IsAction)
+            m_Combat.InvokeRegenerateGauge();
+            if (!m_Combat.IsAction)
                 m_PlayerCore.SwitchCombatState(CombatStateType.InCombat);
         }
-
+        
         m_Combat.AniM.SetAttackBtnAni(m_Combat.IsAttackBtn);
     }
     public override void Exit()

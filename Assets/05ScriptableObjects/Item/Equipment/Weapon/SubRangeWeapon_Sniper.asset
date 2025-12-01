@@ -22,9 +22,8 @@ MonoBehaviour:
   Durability: 0
   WeaponType: 2
   Damage: 80
-  AttackCost: 0
+  AttackCost: 15
   AudioClip: {fileID: 8300000, guid: adc171bd21d9a954a82a2b4d22233891, type: 3}
   RangeType: 1
   Distance: 0
   FireRate: 2
-  MuzzleFlashEffect: {fileID: 198234346748616026, guid: 23d10f06d21603c4cb25aa8521af8c6a, type: 3}

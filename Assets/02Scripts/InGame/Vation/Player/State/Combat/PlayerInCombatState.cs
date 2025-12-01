@@ -22,8 +22,8 @@ public class PlayerInCombatState : PlayerCombatStateBase
         base.Update();
         
         m_NextStateDelay += Time.deltaTime;
-
-        if(m_Combat.CanSwap)
+        m_Combat.InvokeRegenerateGauge();
+        if (m_Combat.CanSwap)
         {
             m_PlayerCore.SwitchCombatState(CombatStateType.Swap);
             return;

@@ -21,6 +21,7 @@ public class PlayerSwapState : PlayerCombatStateBase
 
     public override void Update()
     {
+        m_Combat.InvokeRegenerateGauge();
         if (m_Combat.IsAction) return;
 
         if(m_Combat.IsInCombat) m_PlayerCore.SwitchCombatState(CombatStateType.InCombat);

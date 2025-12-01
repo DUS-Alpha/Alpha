@@ -1,3 +1,4 @@
+using alpha;
 using System;
 using TMPro;
 using UnityEngine;
@@ -11,27 +12,29 @@ public struct CrossHairUI
 
 public class RealTimeUIManager : MonoBehaviour
 {
-    public static RealTimeUIManager Instance;
+    //public static RealTimeUIManager Instance;
 
-    [SerializeField]
-    private Image[] m_crossHairIcon;
-    [SerializeField]
-    private Image[] m_sniperUI;
+    [Header("[ StateInfo ]")]
+    [SerializeField] private TextMeshProUGUI m_locomotionTMP;
+    [SerializeField] private TextMeshProUGUI m_combatTMP;
 
-    [SerializeField]
-    private TextMeshProUGUI m_ammoTMP;
+    [Header("[ Status ]")]
+    [SerializeField] private Image m_hpBar;
 
-    [SerializeField]
-    private TextMeshProUGUI m_locomotionTMP;
-    [SerializeField]
-    private TextMeshProUGUI m_combatTMP;
+    [Header("[ Gague ]")]
+    [SerializeField] private Image m_actionGauge;
+    [SerializeField] private Image m_RangeWeaponGauge;
 
-    [SerializeField]
-    private Image m_actionGauge;
+    [Header("[ CrossHair ]")]
+    [SerializeField] private Image[] m_crossHairIcon;
+    [SerializeField] private Image[] m_sniperUI;
+
+    [SerializeField] private TextMeshProUGUI m_ammoTMP;
+
     private void Awake()
     {
-        if(Instance == null)
-            Instance = this;
+        //if(Instance == null)
+            //Instance = this;
     }
 
     void Start()
@@ -45,6 +48,35 @@ public class RealTimeUIManager : MonoBehaviour
     {
         
     }
+
+    #region ======================================== STATE 
+    public void CurrentLocomotionState(string state)
+    {
+        m_locomotionTMP.text = "Locomotion \n" + state;
+    }
+    public void CurrentCombatState(string state)
+    {
+        m_combatTMP.text = "Combat \n" + state;
+    }
+    #endregion ======================================== /STATE
+
+    #region ======================================== GAUGE
+
+    // TODO : if문이 아닌 DI패턴으로 관리해보기
+    public void SetGague(float gauge, GaugeTpyes gaugeTpye)
+    {
+        if(gaugeTpye == GaugeTpyes.Action)
+        {
+            m_actionGauge.fillAmount = gauge;
+        }
+        else if(gaugeTpye ==  GaugeTpyes.RangeWeapon)
+        {
+            m_RangeWeaponGauge.fillAmount = gauge;
+        }
+    }
+
+    #endregion ======================================== /GAUGE
+
     public void ChangeSniperAimUI(bool isSniper)
     {
         m_crossHairIcon[0].gameObject.SetActive(!isSniper);
@@ -71,19 +103,5 @@ public class RealTimeUIManager : MonoBehaviour
     public void SetAmmo(int currentAmmo, int saveAmmo, int maxAmmo)
     {
         m_ammoTMP.text = currentAmmo + " / " + saveAmmo;
-    }
-
-    public void CurrentLocomotionState(string state)
-    {
-        m_locomotionTMP.text = "Locomotion \n" + state;
-    }
-    public void CurrentCombatState(string state)
-    {
-        m_combatTMP.text = "Combat \n" + state;
-    }
-
-    public void ActionGaugeUI(float t)
-    {
-        m_actionGauge.fillAmount = t;
     }
 }

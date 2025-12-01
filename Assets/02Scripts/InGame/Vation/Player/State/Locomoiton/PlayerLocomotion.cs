@@ -1,8 +1,8 @@
 using alpha;
+using System;
 using System.Collections;
 using System.ComponentModel;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -10,13 +10,14 @@ using UnityEngine;
 public class PlayerLocomotion : MonoBehaviour, IDamageable
 {
     //[Header("[ Ref Component ]")]
+    private PlayerCore m_core;
     private PlayerInputManager m_InputHandler;
     private PlayerAnimationManager m_animationController;
     private CharacterController m_characterController;
     private PlayerMovementUitility m_movementUtility;
     private PlayerCameraManger m_cameraManager;
     private WorldAudioManager m_audioManager;
-    private PlayerStatsManager m_playerStatsM;
+    private PlayerGaugeManager m_playerStatsM;
 
     [Header("[ Ref Component ]")]
     [SerializeField]
@@ -101,20 +102,25 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
 
     public bool IsLocomotionLock => m_isLocomotionLock;
     private bool m_isLocomotionLock;
-    
+
+    public event Action<float> OnDecreaseGauge;
+    public event Action OnRegenrateGauge;
+    public event Action OnResetTimer;
+
     private void Awake()
     {
         m_movementUtility = new PlayerMovementUitility();
         m_characterController = GetComponent<CharacterController>();
-        m_playerStatsM = GetComponent<PlayerStatsManager>();
+        m_playerStatsM = GetComponent<PlayerGaugeManager>();
         m_InputHandler = GetComponent<PlayerInputManager>();
     }
 
-    public void InitializeModule(PlayerAnimationManager animationController, PlayerCameraManger playerCameraManger, WorldAudioManager audioManager)
+    public void InitializeModule(PlayerCore core)
     {
-        m_animationController = animationController;
-        m_cameraManager = playerCameraManger;
-        m_audioManager = audioManager;
+        m_core = core;
+        m_animationController = m_core.AniManager;
+        m_cameraManager = m_core.CameraM;
+        m_audioManager = m_core.AudioManager;
     }
     public void InitializeEvents(IPlayerEvents events)
     {
@@ -144,15 +150,10 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
         IsJump = m_InputHandler.IsJump;
     }
 
-    private void Start()
-    {
-        RealTimeUIManager.Instance.ActionGaugeUI(m_playerStatsM.SetMaxActionGauge(0)/100);    // 차후 레벨 표시
-    }
     private void Update()
     {
         CheckGround();
         ActionGauge = m_playerStatsM.CurrentActionGauge;
-        RealTimeUIManager.Instance.ActionGaugeUI(ActionGauge/100);
     }
 
     public void SetLocomotionLock(bool isLocomotionLock)
@@ -217,7 +218,6 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
     private void CheckGround()
     {
         // m_characterController.center 바닥에서 조금 띄어져있는 상태
-        //Vector3 _center = m_characterController.center;
         Vector3 worldCenter = m_characterController.transform.TransformPoint(m_characterController.center);
         float _height = m_characterController.height;
 
@@ -235,12 +235,11 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
         if (IsGrounded && !m_isUnCheckGround)
         {
             SetVelocityY(- 2f);
-            m_playerStatsM.RegenrateStamina();
+            OnRegenrateGauge?.Invoke();
         }
             // Ground Anim Parameter
         m_animationController.SetIsGroundAni(IsGrounded);
 
-        //m_gaugeTMP.text = m_flyingGauge.ToString();
         Debug.DrawLine(_colliderButtomtr, _colliderButtomtr + (Vector3.down * m_groundDistance), Color.red);
     }
     #endregion ================================================================================ /Ground
@@ -286,7 +285,8 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
         // 
         var _dashDir = m_lastMoveDir;
 
-        m_playerStatsM.ResetRegenerationTimer();
+        // 게이지 타이머 초기화
+        OnResetTimer?.Invoke();
         
         m_animationController.DashTriggerAni();
 
@@ -295,7 +295,9 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
         m_effectManager.DashEffect();
         m_isDashing = true;
 
-        m_playerStatsM.DecreaseActionGauge(40);
+        // 게이지 삭감
+        OnDecreaseGauge?.Invoke(40);
+
         // Audio;
         m_playerAudioController.PlayLocomotionAudio(0, SFX_LomotionType.Dash, true);
     }
@@ -380,7 +382,8 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
     // Flying
     public void UpdateFlightMove()
     {
-        m_playerStatsM.DecreaseActionGauge(0.05f);
+        // 게이지 삭감
+        OnDecreaseGauge?.Invoke(0.005f);
     }
     
     public void ExitFlightMove()
@@ -401,7 +404,7 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
     {
         //m_audioManager.StopSFXLoop(1);
         m_playerAudioController.PlayLocomotionAudio(0, SFX_LomotionType.Land);
-        m_playerStatsM.ResetRegenerationTimer();
+        m_playerStatsM.ResetRegenerationActionTimer();
     }
     public void ExitLanding()
     {

@@ -1,12 +1,5 @@
 fileFormatVersion: 2
 guid: 4a37f78e0efe11e4dbf44d9c5c036d17
-AssetOrigin:
-  serializedVersion: 1
-  productId: 214658
-  packageName: Ciber girl
-  packageVersion: 1.0
-  assetPath: Assets/Ciber_Girl/Mesh/Ciber_girl_A_pose_neon.fbx
-  uploadId: 483442
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -15,7 +8,7 @@ ModelImporter:
     materialImportMode: 2
     materialName: 0
     materialSearch: 1
-    materialLocation: 0
+    materialLocation: 1
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -50,7 +43,7 @@ ModelImporter:
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
-    nodeNameCollisionStrategy: 0
+    nodeNameCollisionStrategy: 1
     fileIdsGeneration: 2
     swapUVChannels: 0
     generateSecondaryUV: 0
@@ -647,7 +640,7 @@ ModelImporter:
     - name: c_pinky3.l
       parentName: c_pinky2.l
       position: {x: 0.0000000011920929, y: 0.016145634, z: 0.00000014282763}
-      rotation: {x: -0.0064816717, y: -0.00036432216, z: 0.020443022, w: 0.9997699}
+      rotation: {x: -0.006481671, y: -0.00036432216, z: 0.020443019, w: 0.9997699}
       scale: {x: 1.000001, y: 1.0000023, z: 1.000001}
     - name: c_ring1.l
       parentName: hand.l
@@ -787,12 +780,12 @@ ModelImporter:
     - name: thigh_stretch.l
       parentName: root.x
       position: {x: -0.11237428, y: 0.00000007554919, z: 0.0000018579665}
-      rotation: {x: 0.7121953, y: -0.062840074, z: -0.698178, w: 0.03710186}
+      rotation: {x: 0.71316874, y: -0.05067646, z: -0.6973998, w: 0.049555946}
       scale: {x: 0.99999887, y: 1.0000035, z: 0.99999756}
     - name: leg_stretch.l
       parentName: thigh_stretch.l
       position: {x: -0.000000008195639, y: 0.5007509, z: 0.000000020749866}
-      rotation: {x: -0.034635805, y: -0.0042828093, z: -0.122643314, w: 0.991837}
+      rotation: {x: -0.00000999495, y: -0.0000005536711, z: -0.12272043, w: 0.99244124}
       scale: {x: 1.0000029, y: 1.0000068, z: 1.000004}
     - name: foot.l
       parentName: leg_stretch.l
@@ -817,12 +810,12 @@ ModelImporter:
     - name: thigh_stretch.r
       parentName: root.x
       position: {x: 0.11237427, y: 0.000000075101546, z: -0.0000018800199}
-      rotation: {x: 0.71218324, y: 0.06283944, z: 0.69819033, w: 0.037102953}
+      rotation: {x: 0.7131567, y: 0.050675604, z: 0.69741213, w: 0.04955682}
       scale: {x: 0.9999978, y: 1.0000036, z: 0.99999666}
     - name: leg_stretch.r
       parentName: thigh_stretch.r
       position: {x: -0.0000000012665987, y: 0.5007508, z: -0.0000000046007336}
-      rotation: {x: -0.0346358, y: 0.0042828117, z: 0.12264338, w: 0.99183697}
+      rotation: {x: -0.00001600012, y: 0.0000011674127, z: 0.12272055, w: 0.9924413}
       scale: {x: 1.0000006, y: 0.9999991, z: 0.9999999}
     - name: foot.r
       parentName: leg_stretch.r
@@ -862,8 +855,8 @@ ModelImporter:
   humanoidOversampling: 1
   avatarSetup: 1
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
-  importBlendShapeDeformPercent: 0
-  remapMaterialsIfMaterialImportModeIsNone: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
   additionalBone: 0
   userData: 
   assetBundleName: 

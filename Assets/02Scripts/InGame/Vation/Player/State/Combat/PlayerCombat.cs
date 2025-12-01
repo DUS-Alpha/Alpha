@@ -12,7 +12,7 @@ namespace alpha
         private PlayerInputManager m_inputM;
         private PlayerEquipManager m_equipM;
         public PlayerAnimationManager AniM { get; private set; }
-        public PlayerAudioManager AudioM;
+        public PlayerAudioManager AudioM { get; private set; }
 
         public bool IsCombatLock => m_isCombatLock;
         private bool m_isCombatLock;
@@ -49,12 +49,21 @@ namespace alpha
         public int NextComboNum => m_nextComboNum;
         private int m_nextComboNum;
 
-
         // Range Attack
+        public bool IsRangeAttack => m_isRangeAttack;
+        private bool m_isRangeAttack;
 
         public bool IsInCombat => m_isInCombat;
         private bool m_isInCombat;
 
+        public float CurrentGauge => m_currentGauge;
+        private float m_currentGauge;
+
+        public event Action<float> OnDecreaseGauge;
+        public event Action OnRegenrateGauge;
+        public event Action OnResetTimer;
+
+        public event Func<float> OnCurrentRangeAttackGauge;
         public void InitializeModule(PlayerCore playerCore)
         {
             m_playerCore = playerCore;
@@ -103,7 +112,7 @@ namespace alpha
         }
         private void Update()
         {
-            
+
         }
         public void SetCanMove(bool canMove)
         {
@@ -162,6 +171,24 @@ namespace alpha
             m_isInCombat = isInCombat;
             AniM.SetIsInCombatAni(m_isInCombat);
         }
+
+
+        public float GetCurrentGauge()
+        {
+           return OnCurrentRangeAttackGauge.Invoke();
+        }
+        public void InvokeDecreaseGauge(float amount)
+        {
+            OnDecreaseGauge?.Invoke(amount);
+        }
+        public void InvokeRegenerateGauge()
+        {
+            OnRegenrateGauge?.Invoke();
+        }
+        public void InvokeResetTimer()
+        {
+            OnResetTimer?.Invoke();
+        }
         #endregion ======================================== /Attack && InCombat
 
         public void SetIKRigWeight(RigType rigType, bool isWeight)
@@ -207,7 +234,8 @@ namespace alpha
 
         public void SetColorMarkCrossHeadUI(bool isDistance)
         {
-            RealTimeUIManager.Instance.SetColorMarkCrossHead(isDistance);
+            m_playerCore.RealTimeUIM.SetColorMarkCrossHead(isDistance);
+            //RealTimeUIManager.Instance.SetColorMarkCrossHead(isDistance);
         }
         /// <summary>
         /// Player오브젝트 하위에 있는 각 Holder 오브젝트 On/Off 방식
