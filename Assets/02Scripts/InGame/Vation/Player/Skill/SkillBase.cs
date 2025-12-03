@@ -1,23 +1,26 @@
 using UnityEngine;
 
-public abstract class SkillBase : ScriptableObject, ISkill
+public abstract class SkillBase : ScriptableObject, ISkillStrategy
 {
+    protected SkillDataBase m_Data;
+    protected PlayerCore m_Core;
+    protected float m_CoolDownTimer;
 
-    private float m_nextReadyTime;
-
-    public bool IsReady
+    public bool CanExecute
     {
-        get { return Time.time >= m_nextReadyTime; }
-    }
-    public void ExecuteSkill()
-    {
-        if(!IsReady)
-        {
-
-            return;
-        }
-        //m_nextReadyTime = Time.time + m_coolDown;
+        get { return Time.time >= m_CoolDownTimer; }
     }
 
-    protected abstract void OnCast();
+    public void Initialize(PlayerCore core, SkillDataBase data)
+    {
+        m_Core = core;
+        m_Data = data;
+    }
+
+    public virtual void Execute()
+    {
+        if(!CanExecute) return;
+        m_CoolDownTimer = Time.time + m_Data.CoolDown;
+
+    }
 }

@@ -37,9 +37,8 @@ public class PlayerStateMachine
             {LocomotionStateType.Move, ()=> new PlayerMoveState(m_playerCore) },
             {LocomotionStateType.Jump, () => new PlayerJumpState(m_playerCore) },
             {LocomotionStateType.Land, () => new PlayerLandState(m_playerCore) },
-            {LocomotionStateType.Dash, () => new PlayerDashState(m_playerCore) },
             {LocomotionStateType.Fall, () => new PlayerFallState(m_playerCore) },
-            {LocomotionStateType.FlyUp, () => new PlayerFlyUpState(m_playerCore) },
+            {LocomotionStateType.VerticalTakeOff, () => new PlayerVerticalTakeOffState(m_playerCore) },
             {LocomotionStateType.FlightMove, () => new PlayerFlightMoveState(m_playerCore) },
             {LocomotionStateType.Die, () => new PlayerDieState(m_playerCore) }
         };
@@ -49,7 +48,7 @@ public class PlayerStateMachine
             {CombatStateType.NonCombat, ()=>  new PlayerNonCombatState(m_playerCore) },
             {CombatStateType.Swap, ()=> new PlayerSwapState(m_playerCore) },
             {CombatStateType.Attack, ()=> new PlayerAttackState(m_playerCore) },
-            {CombatStateType.InCombat, ()=> new PlayerInCombatState(m_playerCore) },
+            {CombatStateType.CombatReady, ()=> new PlayerInCombatState(m_playerCore) },
             {CombatStateType.Skill, ()=>  new PlayerSkillState(m_playerCore) },
         };
     }

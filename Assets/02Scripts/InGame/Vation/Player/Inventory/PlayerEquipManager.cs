@@ -45,7 +45,7 @@ namespace alpha
         private void Awake()
         {
             m_itemholder = GetComponentsInChildren<ItemHolder>();
-
+            
             foreach (var itemHolder in m_itemholder)
             {
                 if (itemHolder.HolderType != HolderTypes.None)

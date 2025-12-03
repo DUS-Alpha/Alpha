@@ -1,8 +1,5 @@
 using alpha;
 using System;
-using System.Collections;
-using System.ComponentModel;
-using TMPro;
 using UnityEngine;
 
 
@@ -11,12 +8,12 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
 {
     //[Header("[ Ref Component ]")]
     private PlayerCore m_core;
-    private PlayerInputManager m_InputHandler;
-    private PlayerAnimationManager m_animationController;
+    private PlayerInputManager m_InputM;
+    private PlayerAnimationManager m_aniM;
     private CharacterController m_characterController;
     private PlayerMovementUitility m_movementUtility;
-    private PlayerCameraManger m_cameraManager;
-    private WorldAudioManager m_audioManager;
+    private PlayerCameraManger m_cameraM;
+    private WorldAudioManager m_audioM;
     private PlayerGaugeManager m_playerStatsM;
 
     [Header("[ Ref Component ]")]
@@ -89,7 +86,7 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
     public bool IsRotLock { get; private set; }
     public bool IsJump { get; private set; }
     private bool m_isJumping;
-    public bool IsFlyUp { get; private set; }
+    public bool IsVerticalTakeOff { get; private set; }
     public bool IsFlying { get; private set; }
     public bool IsFlyFall { get; private set; }
     public bool IsFlyingGaugeZero { get; private set; }
@@ -111,16 +108,16 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
     {
         m_movementUtility = new PlayerMovementUitility();
         m_characterController = GetComponent<CharacterController>();
-        m_playerStatsM = GetComponent<PlayerGaugeManager>();
-        m_InputHandler = GetComponent<PlayerInputManager>();
     }
 
     public void InitializeModule(PlayerCore core)
     {
         m_core = core;
-        m_animationController = m_core.AniManager;
-        m_cameraManager = m_core.CameraM;
-        m_audioManager = m_core.AudioManager;
+        m_aniM = m_core.AniManager;
+        m_cameraM = m_core.CameraManager;
+        m_audioM = m_core.AudioManager;
+        m_InputM = m_core.InputManager;
+        m_playerStatsM = core.StatsManager;
     }
     public void InitializeEvents(IPlayerEvents events)
     {
@@ -131,7 +128,7 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
         m_moveDir = Vector2.zero;
         IsMove = false;
         IsRotLock = false;
-        IsFlyUp = false;
+        IsVerticalTakeOff = false;
         IsDash = false;
         IsJump = false;
         m_isJumping = false;
@@ -141,13 +138,13 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
 
     public void CheckInput()
     {
-        IsRotLock = m_InputHandler.IsRotLock;
+        IsRotLock = m_InputM.IsRotLock;
         if (m_isLocomotionLock) return;
-        m_moveDir = m_InputHandler.MoveDirInput;
-        IsMove = m_InputHandler.IsMove;
-        IsFlyUp = m_InputHandler.IsFlyUp;
-        IsDash = m_InputHandler.IsDash;
-        IsJump = m_InputHandler.IsJump;
+        m_moveDir = m_InputM.MoveDirInput;
+        IsMove = m_InputM.IsMove;
+        IsVerticalTakeOff = m_InputM.IsFlyUp;
+        IsDash = m_InputM.IsDash;
+        IsJump = m_InputM.IsJump;
     }
 
     private void Update()
@@ -193,7 +190,7 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
             HandleRotate();
         
         // 3. 애니메이션
-        m_animationController.MoveAni(m_moveDir.x, m_moveDir.y, IsFlying, CanMove);
+        m_aniM.MoveAni(m_moveDir.x, m_moveDir.y, IsFlying, CanMove);
     }
 
     private void HandleMove(float targetSpeed)
@@ -204,7 +201,7 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
     // FlyRotate와 리팩토링
     private void HandleRotate()
     {
-        Camera _camera = m_cameraManager.MainCamera;
+        Camera _camera = m_cameraM.MainCamera;
         m_movementUtility.HandleRotate(this.gameObject, m_moveDir, _camera, IsFlying);
     }
 
@@ -238,7 +235,7 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
             OnRegenrateGauge?.Invoke();
         }
             // Ground Anim Parameter
-        m_animationController.SetIsGroundAni(IsGrounded);
+        m_aniM.SetIsGroundAni(IsGrounded);
 
         Debug.DrawLine(_colliderButtomtr, _colliderButtomtr + (Vector3.down * m_groundDistance), Color.red);
     }
@@ -257,14 +254,14 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
         if (m_lastMoveDir != Vector3.zero)
             gameObject.transform.rotation = Quaternion.LookRotation(m_lastMoveDir);
 
-        m_animationController.JumpTriggerAni();
-        m_animationController.SetIsGroundAni(IsGrounded);
+        m_aniM.JumpTriggerAni();
+        m_aniM.SetIsGroundAni(IsGrounded);
         m_playerAudioController.PlayLocomotionAudio(0,SFX_LomotionType.Jump);
     }
     public void JumpExit()
     {
         m_isJumping = false;
-        m_animationController.SetIsGroundAni(IsGrounded);
+        m_aniM.SetIsGroundAni(IsGrounded);
     }
     // 점프 시 이동방향으로의 이동처리(Jump, Fall Update에 적용)
     public void AirMovement()
@@ -288,7 +285,7 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
         // 게이지 타이머 초기화
         OnResetTimer?.Invoke();
         
-        m_animationController.DashTriggerAni();
+        m_aniM.DashTriggerAni();
 
         gameObject.transform.rotation = Quaternion.LookRotation(_dashDir);
         
@@ -351,7 +348,7 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
         // 똑바로 선 상태로 회전 고친후 상승
         m_movementUtility.InitializeRotate(this.gameObject);
 
-        m_animationController.FlyUpTriggerAni();
+        m_aniM.FlyUpTriggerAni();
 
         m_playerAudioController.PlayLocomotionAudio(0,SFX_LomotionType.FlyUp);
         //m_audioManager.PlaySFXLocomotionAudio(SFXLomotionType.FlyUp);
@@ -389,8 +386,8 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
     public void ExitFlightMove()
     {
         if(!IsDie) IsFlying = false;
-        m_animationController.SetFlyingAni(IsFlying);
-        m_animationController.FlyFallAni();
+        m_aniM.SetFlyingAni(IsFlying);
+        m_aniM.FlyFallAni();
 
         // 똑바로 선 상태로 회전
         m_movementUtility.InitializeRotate(this.gameObject);
@@ -412,24 +409,24 @@ public class PlayerLocomotion : MonoBehaviour, IDamageable
     }
     public void EnterDie()
     {
-        m_animationController.DieTriggerAni();
+        m_aniM.DieTriggerAni();
 
     }
 
     public void OnAnimatorMove()
     {
         // Combat 공격 시 RootMotion에 대한 애니메이션 포지션값은 모델만 움직이고 실제 오브젝트포지션은 변경안되기에 이를 오브젝트에 적용
-        if (m_animationController.IsRootMotion)
+        if (m_aniM.IsRootMotion)
         {
-            m_animationController.UpdateAnimatorTransformValue();
+            m_aniM.UpdateAnimatorTransformValue();
 
             // Animator가 계산한 이동량을 가져와서 CharacterController에 적용
-            Vector3 _deltaPosition = m_animationController.RootMotionPos;
+            Vector3 _deltaPosition = m_aniM.RootMotionPos;
 
             //_deltaPosition.y = m_playerCore.Locomotion.BaseGravity * Time.deltaTime; // 중력 보정 (필요 시)
 
             m_characterController.Move(_deltaPosition);
-            m_characterController.transform.rotation *= m_animationController.RootMotionRot;
+            m_characterController.transform.rotation *= m_aniM.RootMotionRot;
         }
     }
 

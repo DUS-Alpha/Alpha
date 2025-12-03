@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerFlyUpState : PlayerLocomotionStateBase
+// 수직 이륙
+public class PlayerVerticalTakeOffState : PlayerLocomotionStateBase
 {
     protected override InputCombatLockType m_LockOnEnter => InputCombatLockType.All;
 
     protected override InputCombatLockType m_LockOnExit => InputCombatLockType.All;
 
-    public PlayerFlyUpState(PlayerCore playerCore) : base(playerCore){}
+    public PlayerVerticalTakeOffState(PlayerCore playerCore) : base(playerCore){}
 
     private float m_delayT;
 

@@ -5,12 +5,8 @@ using UnityEngine.InputSystem;
 
 namespace alpha
 {
-    public class PlayerInputManager : MonoBehaviour
+    public class PlayerInputManager
     {
-        private PlayerCombat m_combat;
-        private InputLockedFlagsController<InputLocoLockType> m_inputLockedFlags;
-        private InputLockedFlagsController<InputCombatLockType> m_inputCombatFlags;
-
         private PlayerControls m_playerControl;         // InputSystem
 
         //  TODO : new InpuSystem 전환할지 고려
@@ -46,7 +42,7 @@ namespace alpha
         public bool IsSkill4 { get; private set; }
         #endregion ==================== /CombatInput
 
-        private void OnEnable()
+        public void OnEnable()
         {
             if (m_playerControl == null)
             {
@@ -64,13 +60,7 @@ namespace alpha
 
                 // ==================== Combat
                 // Swap
-                m_playerControl.PlayerCombat.SwapNum.performed += i => 
-                {
-                    if (!IsSwap)
-                    {
-                        SwapNum = int.Parse(i.control.name);
-                    }
-                };
+                m_playerControl.PlayerCombat.SwapNum.performed += i => SwapNum = int.Parse(i.control.name);
 
                 // Attack
                 m_playerControl.PlayerCombat.Attack.performed += i => IsAttackBtn = i.ReadValue<float>() > 0.5f;
@@ -83,15 +73,37 @@ namespace alpha
             m_playerControl.Enable();   //Enable해야 m_playerControl의 인풋시스템 입력처리가 활성화됨
         }
 
-        public void InitializeModule(PlayerCombat playerCombat, InputLockedFlagsController<InputLocoLockType> inputLocoflags, InputLockedFlagsController<InputCombatLockType> inputCombatflags)
+        public void OnDisable()
         {
-            m_combat = playerCombat;
-            m_inputLockedFlags = inputLocoflags;
-            m_inputCombatFlags = inputCombatflags;
+            if (m_playerControl != null)
+            {
+                // ==================== Locomotion
+                m_playerControl.PlayerLocomotion.Move.performed -= i => MoveDirInput = i.ReadValue<Vector2>();
+
+                m_playerControl.PlayerLocomotion.IsRotLock.performed -= i => IsRotLock = i.ReadValue<float>() > 0.5f; // 자료형 액션타입이 Button에 대해 bool이 아닌 float로 받아와짐
+                m_playerControl.PlayerLocomotion.IsRotLock.canceled -= i => IsRotLock = i.ReadValue<float>() > 0.5f;
+
+                m_playerControl.PlayerLocomotion.Dodge.performed -= i => m_dashFrame = Time.frameCount;
+                m_playerControl.PlayerLocomotion.Jump.performed -= i => m_jumpFrame = Time.frameCount;
+                m_playerControl.PlayerLocomotion.Fly.performed -= i => m_flyUpFrame = Time.frameCount;
+
+                // ==================== Combat
+                // Swap
+                m_playerControl.PlayerCombat.SwapNum.performed -= i => SwapNum = int.Parse(i.control.name);
+
+                // Attack
+                m_playerControl.PlayerCombat.Attack.performed -= i => IsAttackBtn = i.ReadValue<float>() > 0.5f;
+                m_playerControl.PlayerCombat.Attack.canceled -= i => IsAttackBtn = i.ReadValue<float>() > 0.5f;
+
+                // Skill
+
+
+            }
+            m_playerControl.Disable();
         }
 
         // Update is called once per frame
-        void Update()
+        public void Update()
         {
             HandleInputMove();
         }
@@ -115,18 +127,6 @@ namespace alpha
         public void SetIsSwap(bool isSwap)
         {
             m_isSwap = isSwap;
-        }
-        public bool SkillKeyCode()
-        {
-            foreach (var key in m_skillKeyCodes)
-            {
-                if (Input.GetKeyDown(key))
-                {
-                    SkillKey = key.ToString();
-                    return true;
-                }
-            }
-            return false;
         }
         #endregion ================================================================================ /COMBAT
     }

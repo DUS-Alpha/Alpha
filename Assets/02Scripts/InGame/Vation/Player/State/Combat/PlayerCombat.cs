@@ -58,6 +58,17 @@ namespace alpha
 
         public float CurrentGauge => m_currentGauge;
         private float m_currentGauge;
+        private PlayerCore playerCore;
+
+        public event Action<int> OnSwap;
+        public event Action OnAttack;
+
+
+
+        public PlayerCombat(PlayerCore playerCore)
+        {
+            this.playerCore = playerCore;
+        }
 
         public event Action<float> OnDecreaseGauge;
         public event Action OnRegenrateGauge;
@@ -155,7 +166,7 @@ namespace alpha
         }
         #endregion ======================================== /SWAP
 
-        #region ======================================== Attack && InCombat
+        #region ======================================== ATTACK && INCOMBAT
         // Melee Combo Attack
         public void SetIsNextCombo(bool isNextCombo)
         {
@@ -171,7 +182,6 @@ namespace alpha
             m_isInCombat = isInCombat;
             AniM.SetIsInCombatAni(m_isInCombat);
         }
-
 
         public float GetCurrentGauge()
         {
@@ -189,7 +199,15 @@ namespace alpha
         {
             OnResetTimer?.Invoke();
         }
-        #endregion ======================================== /Attack && InCombat
+        #endregion ======================================== /ATTACK && INCOMBAT
+
+        #region ======================================== SKILL
+
+
+
+        #endregion ======================================== /SKILL
+
+
 
         public void SetIKRigWeight(RigType rigType, bool isWeight)
         {

@@ -13,10 +13,8 @@ public enum LocomotionStateType
     Jump,
     Fall,
     Land,
-    FlyUp,
+    VerticalTakeOff,
     FlightMove,
-    ShowInventory,
-    Dash,
     Die
 }
 
@@ -28,8 +26,6 @@ public enum CombatStateType
     NonCombat,
     Swap,
     Attack,
-    InCombat,
-    //MeleeAttack,
-   // RangeAttack,
+    CombatReady,
     Skill,
 }

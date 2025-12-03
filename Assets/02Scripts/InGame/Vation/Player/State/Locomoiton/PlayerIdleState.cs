@@ -44,8 +44,8 @@ public class PlayerIdleState : PlayerLocomotionStateBase
         // Locomotion Switch State
         if (m_Locomotion.IsJump)
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Jump);
-        else if (m_Locomotion.IsFlyUp && m_Locomotion.ActionGauge > 0.1f)
-            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.FlyUp);
+        else if (m_Locomotion.IsVerticalTakeOff && m_Locomotion.ActionGauge > 0.1f)
+            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.VerticalTakeOff);
         else if (m_Locomotion.IsMove)
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Move);
     }

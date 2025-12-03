@@ -1,12 +1,14 @@
+using alpha;
 using UnityEngine;
 
-public class PlayerDashState : PlayerLocomotionStateBase
+public class PlayerDashState : PlayerCombat
 {
     public PlayerDashState(PlayerCore playerCore) : base(playerCore){}
 
-    protected override InputCombatLockType m_LockOnEnter => InputCombatLockType.All;
 
-    protected override InputCombatLockType m_LockOnExit => InputCombatLockType.All;
+    /*protected override InputLocoLockType m_LockOnEnter => InputCombatLockType.All;
+
+    protected override InputLocoLockType m_LockOnExit => InputCombatLockType.All;
 
     public override void Enter()
     {
@@ -43,5 +45,5 @@ public class PlayerDashState : PlayerLocomotionStateBase
         m_Combat.SetIsCombatLock(false);
         
         m_Locomotion.DashExit();
-    }
+    }*/
 }

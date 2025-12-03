@@ -47,9 +47,8 @@ public class PlayerAttackState : PlayerCombatStateBase
         {
             m_Combat.InvokeRegenerateGauge();
             if (!m_Combat.IsAction)
-                m_PlayerCore.SwitchCombatState(CombatStateType.InCombat);
+                m_PlayerCore.SwitchCombatState(CombatStateType.CombatReady);
         }
-        
         m_Combat.AniM.SetAttackBtnAni(m_Combat.IsAttackBtn);
     }
     public override void Exit()

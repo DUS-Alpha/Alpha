@@ -1,35 +1,37 @@
 using alpha;
 using System;
 using UnityEngine;
-using UnityEngine.Playables;
 
 [RequireComponent(typeof(PlayerAudioManager))]
 [RequireComponent(typeof(PlayerInventoryController))]
 [RequireComponent(typeof(PlayerGaugeManager))]
 [RequireComponent(typeof(PlayerEquipManager))]
 [RequireComponent(typeof(PlayerAnimationManager))]
-[RequireComponent(typeof(PlayerInputManager))]
 [RequireComponent(typeof(PlayerLocomotion))]
 [RequireComponent(typeof(PlayerCombat))]
 public class PlayerCore : MonoBehaviour, IPlayerEvents
 {
     [Header(" [ Ref Component ] ")]
-    public PlayerCameraManger CameraM;
+    public PlayerCameraManger CameraManager;
     public WorldAudioManager AudioManager;
     public RealTimeUIManager RealTimeUIM;
     //public OpenCloseUIManager UIManager;
 
     public GameObject PlayerObj { get; private set; }
+    public PlayerStateContext Context { get; private set; }
+    public PlayerStateMachine StateMachine { get; private set; }
+    
     public PlayerInputManager InputManager { get; private set; }
     public PlayerAnimationManager AniManager { get; private set; }
-    public PlayerStateMachine StateMachine { get; private set; }
     public PlayerLocomotion Locomotion { get; private set; }
     public PlayerCombat Combat { get; private set; }
     public PlayerAudioManager playerAudioManager { get; private set;}
     public PlayerEquipManager EquipmentManager { get; private set; }
+    public PlayerInventoryController InventoryController { get; private set; }
+
+
     public PlayerIKController IKController { get; private set; }
     public PlayerGaugeManager StatsManager { get; private set; }
-    public PlayerInventoryController InventoryController { get; private set; }
 
 
     public InputLockedFlagsController<InputLocoLockType> LocomotionFlagsController { get; private set; } = new InputLockedFlagsController<InputLocoLockType>();
@@ -43,9 +45,21 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
 
     public bool IsCombatLock;
 
+    private void OnEnable()
+    {
+        InputManager.OnEnable();
+    }
+    private void OnDisable()
+    {
+        InputManager.OnDisable();
+    }
+
     private void Awake()
     {
-        InputManager = GetComponent<PlayerInputManager>();
+        InputManager = new PlayerInputManager();
+        Context = new PlayerStateContext();
+        StateMachine = new PlayerStateMachine();
+        
         AniManager = GetComponent<PlayerAnimationManager>();
         EquipmentManager = GetComponent<PlayerEquipManager>();
         Locomotion = GetComponent<PlayerLocomotion>();
@@ -58,7 +72,6 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
         playerAudioManager = GetComponent<PlayerAudioManager>();
 
 
-        StateMachine = new PlayerStateMachine();
         InitializeModule();
         InitializeEvents();
     }
@@ -69,7 +82,6 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
     {
         StateMachine.InitializeMoudle(this);
         AniManager.InitializeModule(Combat);
-        InputManager.InitializeModule(Combat, LocomotionFlagsController, CombatFlagsController);
         Locomotion.InitializeModule(this);
         Combat.InitializeModule(this);
         EquipmentManager.InitializeModule(this);
@@ -98,13 +110,12 @@ public class PlayerCore : MonoBehaviour, IPlayerEvents
 
     private void Update()
     {
+        InputManager.Update();
         StateMachine.Update();
+        
         CheckInputAction?.Invoke();
-
-        //IsCombatLock = InputManager.IsRotLock || WindowUIManager.Instance.IsWindowUI;
-        //playerAudio.FootStepAudio();
     }
-
+    
     public void SwitchLocomotionState(LocomotionStateType newState)
     {
         StateMachine.SwitchLocomotionState(newState);

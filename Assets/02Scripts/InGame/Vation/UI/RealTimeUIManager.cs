@@ -25,6 +25,19 @@ public class RealTimeUIManager : MonoBehaviour
     [SerializeField] private Image m_actionGauge;
     [SerializeField] private Image m_RangeWeaponGauge;
 
+    [Header("[ Skill ]")]
+    [SerializeField] private Image Skill_Q;
+    [SerializeField] private Image SkillCoolDown_Q;
+
+    [SerializeField] private Image Skill_E;
+    [SerializeField] private Image SkillCoolDown_E;
+
+    [SerializeField] private Image Skill_Z;
+    [SerializeField] private Image SkillCoolDown_Z;
+
+    [SerializeField] private Image Skill_C;
+    [SerializeField] private Image SkillCoolDown_C;
+
     [Header("[ CrossHair ]")]
     [SerializeField] private Image[] m_crossHairIcon;
     [SerializeField] private Image[] m_sniperUI;
@@ -34,19 +47,13 @@ public class RealTimeUIManager : MonoBehaviour
     private void Awake()
     {
         //if(Instance == null)
-            //Instance = this;
+        //Instance = this;
     }
 
     void Start()
     {
         ChangeSniperAimUI(false);
         SetAmmo(0, 0, 0);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     #region ======================================== STATE 
@@ -65,11 +72,11 @@ public class RealTimeUIManager : MonoBehaviour
     // TODO : if문이 아닌 DI패턴으로 관리해보기
     public void SetGague(float gauge, GaugeTpyes gaugeTpye)
     {
-        if(gaugeTpye == GaugeTpyes.Action)
+        if (gaugeTpye == GaugeTpyes.Action)
         {
             m_actionGauge.fillAmount = gauge;
         }
-        else if(gaugeTpye ==  GaugeTpyes.RangeWeapon)
+        else if (gaugeTpye == GaugeTpyes.RangeWeapon)
         {
             m_RangeWeaponGauge.fillAmount = gauge;
         }

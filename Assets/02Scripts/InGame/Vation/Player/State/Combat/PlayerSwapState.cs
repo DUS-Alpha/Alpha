@@ -24,7 +24,7 @@ public class PlayerSwapState : PlayerCombatStateBase
         m_Combat.InvokeRegenerateGauge();
         if (m_Combat.IsAction) return;
 
-        if(m_Combat.IsInCombat) m_PlayerCore.SwitchCombatState(CombatStateType.InCombat);
+        if(m_Combat.IsInCombat) m_PlayerCore.SwitchCombatState(CombatStateType.CombatReady);
         else m_PlayerCore.SwitchCombatState(CombatStateType.NonCombat);
     }
 

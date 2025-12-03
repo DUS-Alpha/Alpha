@@ -28,9 +28,9 @@ public class PlayerFallState : PlayerLocomotionStateBase
             m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Die);
             return;
         }
-        if (m_Locomotion.IsFlyUp && m_Locomotion.ActionGauge > 0)
+        if (m_Locomotion.IsVerticalTakeOff && m_Locomotion.ActionGauge > 0)
         {
-            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.FlyUp);
+            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.VerticalTakeOff);
         }
         else if (m_Locomotion.IsGrounded)
         {
