@@ -95,7 +95,7 @@ namespace alpha
         public void FlyUpTriggerAni()
         {
             SetFlyingAni(true);
-            m_animator.Play("VerticalTakeOff");
+            m_animator.Play("FlyUp");
         }
         public void SetFlyingAni(bool isFlying)
         {

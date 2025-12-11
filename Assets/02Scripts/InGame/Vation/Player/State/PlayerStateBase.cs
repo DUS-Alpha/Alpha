@@ -6,14 +6,17 @@ public abstract class PlayerStateBase
     protected PlayerCore m_PlayerCore;
     protected PlayerLocomotion m_Locomotion;
     protected PlayerCombat m_Combat;
-    protected PlayerAnimationManager m_Ani;
+    protected PlayerInputManager m_InputM;
+    protected PlayerStateMachine m_StateMachine;
+
     protected float m_NextStateDelay;
     public PlayerStateBase(PlayerCore playerCore)
     {
         m_PlayerCore = playerCore;
         m_Locomotion = playerCore.Locomotion;
         m_Combat = playerCore.Combat;
-        m_Ani = playerCore.AniManager;
+        m_InputM = playerCore.InputManager;
+        m_StateMachine = playerCore.StateMachine;
         //DebugCurrentState();
     }
     public void DebugCurrentState()
@@ -22,7 +25,6 @@ public abstract class PlayerStateBase
     }
 
     public abstract void Enter();
-    public abstract void FixedUpdate();
     public abstract void Update();
     public abstract void Exit();
 }

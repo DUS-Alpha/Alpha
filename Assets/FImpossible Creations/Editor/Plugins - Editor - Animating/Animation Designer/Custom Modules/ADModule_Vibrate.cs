@@ -74,7 +74,7 @@ namespace FIMSpace.AnimationTools.CustomModules
 
             #region Update Order
 
-            var updateOrder = GetVariable("Update Order:", set, 0);
+            var updateOrder = GetVariable("OnUpdate Order:", set, 0);
             updateOrder.HideFlag = true;
 
             ADClipSettings_Modificators.ModificatorSet.EOrder order = (ADClipSettings_Modificators.ModificatorSet.EOrder)
@@ -96,7 +96,7 @@ namespace FIMSpace.AnimationTools.CustomModules
         {
             base.OnResetState(customModuleSet);
 
-            var updateOrder = GetVariable("Update Order:", customModuleSet, 0);
+            var updateOrder = GetVariable("OnUpdate Order:", customModuleSet, 0);
             _updateOrder = (ADClipSettings_Modificators.ModificatorSet.EOrder)updateOrder.GetIntValue();
         }
 

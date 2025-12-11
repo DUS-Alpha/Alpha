@@ -13,7 +13,7 @@ public enum LocomotionStateType
     Jump,
     Fall,
     Land,
-    VerticalTakeOff,
+    FlyUp,
     FlightMove,
     Die
 }

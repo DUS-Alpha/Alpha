@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 
 namespace alpha
 {
-    public class InventoryUI : BaseUI, IPointerDownHandler, IPointerUpHandler,IBeginDragHandler, IDragHandler, IEndDragHandler
+    public class InventoryUI : BaseUI, IInventoryUIService, IPointerDownHandler, IPointerUpHandler,IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         public event Action<ItemDataSO> OnEquipRequest;
         public event Action<ItemDataSO> OnUnEquipRequest;

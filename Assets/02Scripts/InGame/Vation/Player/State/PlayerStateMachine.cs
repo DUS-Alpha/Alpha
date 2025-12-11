@@ -18,9 +18,8 @@ public class PlayerStateMachine
     public CombatStateType CurrentCombat;
     private PlayerStateBase m_combatState;
 
-    public CombatStateType m_prevCombatType { get; private set; }
-    public CombatStateType PrevCombatType => m_prevCombatType;
 
+    private PlayerStateBase m_dieState;
     // 딕셔너리 초기화시 value값에 new 생성자를 하면 Key에 대한 Value는 이미 new로 처음 생성된 인스턴스를 재사용한것.
     // Func타입으로 함수로 new 생성자 처리 시 새 인스턴스
     private Dictionary<LocomotionStateType, Func<PlayerStateBase>> m_locomotionStateCreateDic;
@@ -38,7 +37,7 @@ public class PlayerStateMachine
             {LocomotionStateType.Jump, () => new PlayerJumpState(m_playerCore) },
             {LocomotionStateType.Land, () => new PlayerLandState(m_playerCore) },
             {LocomotionStateType.Fall, () => new PlayerFallState(m_playerCore) },
-            {LocomotionStateType.VerticalTakeOff, () => new PlayerVerticalTakeOffState(m_playerCore) },
+            {LocomotionStateType.FlyUp, () => new PlayerFlyUp(m_playerCore) },
             {LocomotionStateType.FlightMove, () => new PlayerFlightMoveState(m_playerCore) },
             {LocomotionStateType.Die, () => new PlayerDieState(m_playerCore) }
         };
@@ -48,20 +47,17 @@ public class PlayerStateMachine
             {CombatStateType.NonCombat, ()=>  new PlayerNonCombatState(m_playerCore) },
             {CombatStateType.Swap, ()=> new PlayerSwapState(m_playerCore) },
             {CombatStateType.Attack, ()=> new PlayerAttackState(m_playerCore) },
-            {CombatStateType.CombatReady, ()=> new PlayerInCombatState(m_playerCore) },
+            {CombatStateType.CombatReady, ()=> new PlayerCombatReadyState(m_playerCore) },
             {CombatStateType.Skill, ()=>  new PlayerSkillState(m_playerCore) },
         };
     }
 
-    public void Update()
+    public void OnUpdate()
     {
         if (m_playerCore.Locomotion.IsDie) return;
-        m_locoState.Update();
-
+        
         m_combatState.Update();
-
-        m_playerCore.RealTimeUIM.CurrentLocomotionState(CurrentLocomotion.ToString());
-        m_playerCore.RealTimeUIM.CurrentCombatState(CurrentCombat.ToString());
+        m_locoState.Update();
     }
 
     public void SwitchLocomotionState(LocomotionStateType newState)
@@ -82,7 +78,6 @@ public class PlayerStateMachine
         Func<PlayerStateBase> _newState = m_combatStateCreateDic[newState];
         m_combatState?.Exit();
 
-        m_prevCombatType = CurrentCombat;
         m_combatState = _newState();
         CurrentCombat = newState;
 

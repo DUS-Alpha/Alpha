@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public class PlayerSkillManager : MonoBehaviour
+namespace alpha
 {
-
+    public class PlayerSkillManager : MonoBehaviour
+    {
+        
+    }
 }

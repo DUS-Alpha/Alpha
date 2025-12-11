@@ -1,4 +1,4 @@
-﻿using FIMSpace.FEditor;
+using FIMSpace.FEditor;
 using FIMSpace.Generating;
 using System;
 using System.Collections.Generic;
@@ -683,7 +683,7 @@ namespace FIMSpace.AnimationTools
                 GUILayout.Space(4);
 
                 GUILayout.BeginHorizontal();
-                UpdateOrder = (EOrder)EditorGUILayout.EnumPopup("Morph Update Order:", UpdateOrder);
+                UpdateOrder = (EOrder)EditorGUILayout.EnumPopup("Morph OnUpdate Order:", UpdateOrder);
                 if (GUILayout.Button("Mask", FGUI_Resources.ButtonStyle, GUILayout.Height(17), GUILayout.Width(50))) { Foldown = !Foldown; }
                 GUILayout.EndHorizontal();
 

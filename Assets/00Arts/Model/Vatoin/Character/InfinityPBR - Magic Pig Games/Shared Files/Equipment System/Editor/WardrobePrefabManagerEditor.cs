@@ -111,7 +111,7 @@ namespace InfinityPBR
 
         private void ReloadButton()
         {
-            if (GUILayout.Button("Manually Update Group List & Blend Shapes"))
+            if (GUILayout.Button("Manually OnUpdate Group List & Blend Shapes"))
                 Manager.UpdateGroupList();
         }
 

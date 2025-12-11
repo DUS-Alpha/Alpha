@@ -4294,6 +4294,38 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.020442981
       objectReference: {fileID: 0}
+    - target: {fileID: 2763090024261597597, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
+      propertyPath: m_flyMoveConfig.RunSpeed
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 2763090024261597597, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
+      propertyPath: m_flyMoveConfig.BaseSpeed
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2763090024261597597, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
+      propertyPath: m_flyMoveConfig.CombatSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2763090024261597597, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
+      propertyPath: m_groundMoveConfig.RunSpeed
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 2763090024261597597, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
+      propertyPath: m_groundMoveConfig.BaseSpeed
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2763090024261597597, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
+      propertyPath: m_floyRotateConfig.RotateSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2763090024261597597, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
+      propertyPath: m_groundMoveConfig.CombatSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2763090024261597597, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
+      propertyPath: m_groundRotateConfig.RotateSpeed
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3155595080301839974, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
       propertyPath: m_LocalRotation.x
       value: -0.014760008
@@ -4415,6 +4447,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1718246663}
     - target: {fileID: 8652837559477405220, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
+      propertyPath: InventoryUI
+      value: 
+      objectReference: {fileID: 1202656961}
+    - target: {fileID: 8652837559477405220, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
       propertyPath: RealTimeUIM
       value: 
       objectReference: {fileID: 1052176246}
@@ -4434,7 +4470,9 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0.020442976
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6797074778866440085, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
+    - {fileID: 5761512341243985462, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

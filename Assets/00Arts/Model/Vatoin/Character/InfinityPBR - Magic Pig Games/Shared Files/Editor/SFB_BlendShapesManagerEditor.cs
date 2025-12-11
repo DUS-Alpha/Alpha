@@ -355,7 +355,7 @@ public class SFB_BlendShapesManagerEditor : Editor  {
 											EditorGUILayout.EndHorizontal();
 											if (blendShapeData.sliderValue != blendShapeData.value)
 											{
-												Undo.RecordObject(myScript, "Update Blendshape Value");
+												Undo.RecordObject(myScript, "OnUpdate Blendshape Value");
 												myScript.SetValue(o, i, blendShapeData.id, blendShapeData.sliderValue);
 												if (blendShapeData.isPlus &&
 												    myScript.GetMinusShapeObject(blendShapeData.name) != 999999)
@@ -366,7 +366,7 @@ public class SFB_BlendShapesManagerEditor : Editor  {
 													SFB_BlendShapesManager.SFB_BlendShape minusShapeData =
 														myScript.blendShapeObjects[minusShapeObject]
 															.blendShapes[minusShapeID];
-													Undo.RecordObject(myScript, "Update Blendshape Value");
+													Undo.RecordObject(myScript, "OnUpdate Blendshape Value");
 													myScript.SetValue(minusShapeObject, minusShapeID, minusShapeData.id,
 														minusShapeData.sliderValue);
 												}

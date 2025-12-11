@@ -19,10 +19,8 @@ namespace alpha
     }
 
     // 실제 장비(모델)를 플레이어에 장착하거나 교체, 해제
-    public class PlayerEquipManager : MonoBehaviour
+    public class PlayerEquipManager : MonoBehaviour, IEquipService
     {
-        private PlayerInputManager m_inputManager;
-
         // ========== Equip Holder ==========
         [SerializeField] private ItemHolder[] m_itemholder;
         private Dictionary<HolderTypes, Transform> holderDic = new();       // 각 타입 홀더들 저장
@@ -37,10 +35,6 @@ namespace alpha
 
         // PlayerInventoryController에서 Combat으로 스왑 가능한지 전달 및 스왑(현재 무기 데이터도 전달)
         private Item m_currentIntem;
-        public void InitializeModule(PlayerCore playerCore)
-        {
-            m_inputManager = playerCore.InputManager;
-        }
 
         private void Awake()
         {
