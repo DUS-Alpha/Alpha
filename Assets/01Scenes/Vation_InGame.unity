@@ -283,6 +283,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5097ac6bfbe47e47afe60b54f452d26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_playerCore: {fileID: 1917136553}
+  m_realTimeUIM: {fileID: 1052176246}
+  m_windowUIM: {fileID: 2005893964}
 --- !u!114 &159229586 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 469784024886390808, guid: 19a4c8a44602e474f99a20b3b0288801, type: 3}
@@ -4295,6 +4298,26 @@ PrefabInstance:
       value: 0.020442981
       objectReference: {fileID: 0}
     - target: {fileID: 2763090024261597597, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
+      propertyPath: m_jumpHeight
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2763090024261597597, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
+      propertyPath: m_antiGravity
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2763090024261597597, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
+      propertyPath: m_baseGravity
+      value: -15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2763090024261597597, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
+      propertyPath: m_flyingGravity
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2763090024261597597, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
+      propertyPath: m_jumpStartVelocity
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2763090024261597597, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
       propertyPath: m_flyMoveConfig.RunSpeed
       value: 12
       objectReference: {fileID: 0}
@@ -4307,8 +4330,16 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2763090024261597597, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
+      propertyPath: m_gravityConfig.BaseGravity
+      value: -20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2763090024261597597, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
       propertyPath: m_groundMoveConfig.RunSpeed
       value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 2763090024261597597, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
+      propertyPath: m_flyMoveConfig.CurrentSpeed
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 2763090024261597597, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
       propertyPath: m_groundMoveConfig.BaseSpeed
@@ -4325,6 +4356,10 @@ PrefabInstance:
     - target: {fileID: 2763090024261597597, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
       propertyPath: m_groundRotateConfig.RotateSpeed
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2763090024261597597, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
+      propertyPath: m_groundRotateConfig.TurnSmoothTime
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 3155595080301839974, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
       propertyPath: m_LocalRotation.x
@@ -4380,7 +4415,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6242632061427808748, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 3.86
       objectReference: {fileID: 0}
     - target: {fileID: 6242632061427808748, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4462,6 +4497,10 @@ PrefabInstance:
       propertyPath: CameraManager
       value: 
       objectReference: {fileID: 1718246663}
+    - target: {fileID: 8652837559477405220, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
+      propertyPath: WorldAudioManager
+      value: 
+      objectReference: {fileID: 1092295905}
     - target: {fileID: 8830435928555653688, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
       propertyPath: m_LocalRotation.x
       value: -0.0064816535
@@ -4491,6 +4530,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0e11781830919b14999ed6d10d9cc623, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1917136553 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8652837559477405220, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
+  m_PrefabInstance: {fileID: 1917136550}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 935582c7cccd5a74c807ac4d3d750b28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!95 &1917136564 stripped
@@ -4736,6 +4786,10 @@ PrefabInstance:
       propertyPath: m_AllowDynamicResolution
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 675117857888147949, guid: fb4c05907a15169449a2263db4b28f3c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.6041484
+      objectReference: {fileID: 0}
     - target: {fileID: 822302917856242909, guid: fb4c05907a15169449a2263db4b28f3c, type: 3}
       propertyPath: m_shakeMappings.Array.size
       value: 4
@@ -4782,7 +4836,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4187051446455423585, guid: fb4c05907a15169449a2263db4b28f3c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.7441485
+      value: 5.6041484
       objectReference: {fileID: 0}
     - target: {fileID: 4187051446455423585, guid: fb4c05907a15169449a2263db4b28f3c, type: 3}
       propertyPath: m_LocalPosition.z

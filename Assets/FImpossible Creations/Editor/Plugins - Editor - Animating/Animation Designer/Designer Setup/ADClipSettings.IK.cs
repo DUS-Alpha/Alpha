@@ -1,4 +1,4 @@
-﻿using FIMSpace.FEditor;
+using FIMSpace.FEditor;
 using FIMSpace.FTools;
 using System;
 using System.Collections.Generic;
@@ -1013,7 +1013,7 @@ namespace FIMSpace.AnimationTools
                             if (changed == false)
                             {
                                 GUILayout.Space(4);
-                                EditorGUILayout.HelpBox("Analyze Report: Average Foot Forward Velocity On Ground = " + (-FootDataAnalyze.approximateFootPushDirection.z) + "  Sides: " + (FootDataAnalyze.approximateFootPushDirection.x) + "  Dominant Axis: " + (-FootDataAnalyze.approximateFootPushDirectionDominant), MessageType.None);
+                                EditorGUILayout.HelpBox("Analyze Report: Average Foot Forward CurrentVelocity On Ground = " + (-FootDataAnalyze.approximateFootPushDirection.z) + "  Sides: " + (FootDataAnalyze.approximateFootPushDirection.x) + "  Dominant Axis: " + (-FootDataAnalyze.approximateFootPushDirectionDominant), MessageType.None);
                                 GUILayout.Space(4);
                             }
 

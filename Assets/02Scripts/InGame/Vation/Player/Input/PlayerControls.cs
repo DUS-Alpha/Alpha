@@ -301,12 +301,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             ""actions"": [
                 {
                     ""name"": ""SwapNum"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""eff75247-19b1-4ff8-a1a3-8986a896927c"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Integer"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""Attack"",
@@ -325,6 +325,24 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Aim"",
+                    ""type"": ""Button"",
+                    ""id"": ""3a53610f-c457-4080-85c9-8780e1276319"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Skill"",
+                    ""type"": ""Button"",
+                    ""id"": ""fdbfe89f-de75-47d3-bbd8-2d56ed4da1ed"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -393,6 +411,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""DodgeSkill"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""208ff493-78e9-44fe-a0d6-a1330f89186a"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -411,6 +440,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_PlayerCombat_SwapNum = m_PlayerCombat.FindAction("SwapNum", throwIfNotFound: true);
         m_PlayerCombat_Attack = m_PlayerCombat.FindAction("Attack", throwIfNotFound: true);
         m_PlayerCombat_DodgeSkill = m_PlayerCombat.FindAction("DodgeSkill", throwIfNotFound: true);
+        m_PlayerCombat_Aim = m_PlayerCombat.FindAction("Aim", throwIfNotFound: true);
+        m_PlayerCombat_Skill = m_PlayerCombat.FindAction("Skill", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
@@ -635,6 +666,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerCombat_SwapNum;
     private readonly InputAction m_PlayerCombat_Attack;
     private readonly InputAction m_PlayerCombat_DodgeSkill;
+    private readonly InputAction m_PlayerCombat_Aim;
+    private readonly InputAction m_PlayerCombat_Skill;
     /// <summary>
     /// Provides access to input actions defined in input action map "PlayerCombat".
     /// </summary>
@@ -658,6 +691,14 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "PlayerCombat/DodgeSkill".
         /// </summary>
         public InputAction @DodgeSkill => m_Wrapper.m_PlayerCombat_DodgeSkill;
+        /// <summary>
+        /// Provides access to the underlying input action "PlayerCombat/Aim".
+        /// </summary>
+        public InputAction @Aim => m_Wrapper.m_PlayerCombat_Aim;
+        /// <summary>
+        /// Provides access to the underlying input action "PlayerCombat/Skill".
+        /// </summary>
+        public InputAction @Skill => m_Wrapper.m_PlayerCombat_Skill;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -693,6 +734,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @DodgeSkill.started += instance.OnDodgeSkill;
             @DodgeSkill.performed += instance.OnDodgeSkill;
             @DodgeSkill.canceled += instance.OnDodgeSkill;
+            @Aim.started += instance.OnAim;
+            @Aim.performed += instance.OnAim;
+            @Aim.canceled += instance.OnAim;
+            @Skill.started += instance.OnSkill;
+            @Skill.performed += instance.OnSkill;
+            @Skill.canceled += instance.OnSkill;
         }
 
         /// <summary>
@@ -713,6 +760,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @DodgeSkill.started -= instance.OnDodgeSkill;
             @DodgeSkill.performed -= instance.OnDodgeSkill;
             @DodgeSkill.canceled -= instance.OnDodgeSkill;
+            @Aim.started -= instance.OnAim;
+            @Aim.performed -= instance.OnAim;
+            @Aim.canceled -= instance.OnAim;
+            @Skill.started -= instance.OnSkill;
+            @Skill.performed -= instance.OnSkill;
+            @Skill.canceled -= instance.OnSkill;
         }
 
         /// <summary>
@@ -817,5 +870,19 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnDodgeSkill(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Aim" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnAim(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Skill" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSkill(InputAction.CallbackContext context);
     }
 }

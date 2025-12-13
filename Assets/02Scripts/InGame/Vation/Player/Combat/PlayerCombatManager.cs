@@ -1,11 +1,9 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace alpha
 {
-    public class PlayerCombat : MonoBehaviour
+    public class PlayerCombatManager : MonoBehaviour, ISwap
     {
         // Ref Component
         private PlayerCore m_playerCore;
@@ -17,7 +15,6 @@ namespace alpha
         public bool IsCombatLock => m_isCombatLock;
         private bool m_isCombatLock;
 
-
         // 특정 동작 진행중(근접공격, 스왑등 애니메이션 혹은 코드상)인지 판단
         public bool IsAction => m_isAction;
         private bool m_isAction;
@@ -26,7 +23,7 @@ namespace alpha
         private bool m_canMove;
         // Combat이 동작되는지만 체크하는
         // ==================== Swap
-        public bool CanSwap => m_canSwap;
+        public bool CanSwap1 => m_canSwap;
         private bool m_canSwap;
 
         public int CurrentSwapNum => m_currentSwapNum;
@@ -63,9 +60,7 @@ namespace alpha
         public event Action<int> OnSwap;
         public event Action OnAttack;
 
-
-
-        public PlayerCombat(PlayerCore playerCore)
+        public PlayerCombatManager(PlayerCore playerCore)
         {
             this.playerCore = playerCore;
         }
@@ -81,12 +76,7 @@ namespace alpha
             m_inputM = m_playerCore.InputManager;
             m_equipM = m_playerCore.EquipmentManager;
             AniM = m_playerCore.AniManager;
-            AudioM = m_playerCore.playerAudioManager;
-        }
-
-        public void InitializeEvents(IPlayerEvents events)
-        {
-            events.CheckInputAction += CheckInput;
+            AudioM = m_playerCore.PlayerAudioManager;
         }
 
         // 파라미터 Trigger형태는 KeyDown방식으로 최대한 관리
@@ -109,7 +99,7 @@ namespace alpha
             else
             {
                 m_canSwap = false;
-                m_inputM.SetSwapNum(m_currentSwapNum);
+                //m_inputM.SetSwapNum(m_currentSwapNum);
             }
 
             // Attack
@@ -141,10 +131,18 @@ namespace alpha
         }
 
         #region ======================================== SWAP
+        public bool CanSwap()
+        {
+            return m_canSwap;
+        }
+        public void Swap()
+        {
+
+        }
         public void EnterSwap()
         {
             // 스왑 막기
-            m_inputM.SetIsSwap(true);
+            //m_inputM.SetIsSwap(true);
            
             // 1. EquipManager에서 무기 교체
             int _swapNum = m_inputM.SwapNum;
@@ -162,7 +160,7 @@ namespace alpha
 
         public void ExitSwap(bool isFlying)
         {
-            m_inputM.SetIsSwap(false);
+            //m_inputM.SetIsSwap(false);
         }
         #endregion ======================================== /SWAP
 
@@ -206,8 +204,6 @@ namespace alpha
 
 
         #endregion ======================================== /SKILL
-
-
 
         public void SetIKRigWeight(RigType rigType, bool isWeight)
         {

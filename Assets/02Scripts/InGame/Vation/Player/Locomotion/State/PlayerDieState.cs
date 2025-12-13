@@ -6,15 +6,12 @@ public class PlayerDieState : PlayerLocomotionStateBase
 
     public override void Enter()
     {
-        m_Locomotion.EnterDie();
+        
     }
 
     public override void Update()
     {
-        if(m_Locomotion.IsFlying)
-        {
-            m_Locomotion.ApplyGravity();
-        }
+
     }
     public override void Exit()
     {

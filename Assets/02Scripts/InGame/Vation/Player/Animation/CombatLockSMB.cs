@@ -8,10 +8,9 @@ namespace alpha
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            PlayerCombat _combat = animator.GetComponent<PlayerCombat>();
-            PlayerLocomotion _locomotion = animator.GetComponent<PlayerLocomotion>();
+            PlayerCombatManager _combat = animator.GetComponent<PlayerCombatManager>();
+            PlayerLocomotionManager _locomotion = animator.GetComponent<PlayerLocomotionManager>();
             _combat.SetIsCombatLock(true);
-            _locomotion.SetLocomotionLock(true);
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace alpha
@@ -42,6 +43,10 @@ namespace alpha
 
         public float CurrentRangeWeaonGauge { get; private set; }
         private bool m_isRangeWeaonGaugeZero;
+
+        public event Action OnShuitGauge;
+        public event Action OnCombatGauge;
+
         public void InitializeModule(PlayerCore playerCore)
         {
             m_playerCore = playerCore;
@@ -49,9 +54,9 @@ namespace alpha
 
         private void Start()
         {
-            m_playerCore.Locomotion.OnDecreaseGauge += HandleDecreaseActionGauge;
-            m_playerCore.Locomotion.OnRegenrateGauge += RegenrateActionGauge;
-            m_playerCore.Locomotion.OnResetTimer += ResetRegenerationActionTimer;
+            m_playerCore.LocomotionM.OnDecreaseGauge += HandleDecreaseActionGauge;
+            //m_playerCore.Locomotion.OnRegenrateGauge += RegenrateActionGauge;
+            //m_playerCore.Locomotion.OnResetTimer += ResetRegenerationActionTimer;
 
             m_playerCore.Combat.OnDecreaseGauge += HandleDecreaseRangeWeaponGauge;
             m_playerCore.Combat.OnRegenrateGauge += RegenrateRangeWeaponGauge;

@@ -126,7 +126,6 @@ namespace alpha
             
             if (CurrentWeaponItems[weaponData.WeaponType] == null) 
                 Debug.LogWarning($"{CurrentWeaponItems[weaponData.WeaponType]} == null");
-            
         }
         private void EquipArmor(ArmorItemDataSO armorData)
         {

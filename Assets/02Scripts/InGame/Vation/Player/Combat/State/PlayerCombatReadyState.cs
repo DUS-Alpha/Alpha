@@ -15,20 +15,20 @@ public class PlayerCombatReadyState : PlayerCombatStateBase
     {
         m_NextStateDelay += Time.deltaTime;
         m_Combat.InvokeRegenerateGauge();
-        if (m_Combat.CanSwap)
+        if (m_Combat.CanSwap1)
         {
-            m_PlayerCore.SwitchCombatState(CombatStateType.Swap);
+            m_Core.SwitchCombatState(CombatStateType.Swap);
             return;
         }
         if(m_Combat.IsAttackBtn)
         {
-            m_PlayerCore.SwitchCombatState(CombatStateType.Attack);
+            m_Core.SwitchCombatState(CombatStateType.Attack);
             return;
         }
 
         if (m_NextStateDelay > 2.5f)
         {
-            m_PlayerCore.SwitchCombatState(CombatStateType.NonCombat);
+            m_Core.SwitchCombatState(CombatStateType.NonCombat);
             m_Combat.SetIsInCombat(false);
         }
     }

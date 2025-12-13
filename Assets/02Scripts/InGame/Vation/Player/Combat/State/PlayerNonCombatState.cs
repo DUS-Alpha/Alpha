@@ -14,12 +14,18 @@ public class PlayerNonCombatState : PlayerCombatStateBase
 
     public override void Update()
     {
-        if (m_Locomotion.IsDie) return;
+        bool _isSwap = m_InputM.IsSwap;
+        int _swapNum = m_InputM.SwapNum;
+        bool _isAttack = m_InputM.IsAttackBtn;
+        bool _isSkill = m_InputM.IsSkill;
+        bool _isAim = m_InputM.IsAim;
+        bool _isDash = m_InputM.IsDash;
+
 
         m_Combat.InvokeRegenerateGauge();
-        if (m_Combat.CanSwap)
+        if (m_Combat.CanSwap1)
         {
-            m_PlayerCore.SwitchCombatState(CombatStateType.Swap);
+            m_Core.SwitchCombatState(CombatStateType.Swap);
         }
 
         if (m_Combat.CurrentSwapNum == 0) return;
@@ -28,7 +34,7 @@ public class PlayerNonCombatState : PlayerCombatStateBase
         {
             if (m_Combat.IsAttackBtn)
             {
-                m_PlayerCore.SwitchCombatState(CombatStateType.Attack);
+                m_Core.SwitchCombatState(CombatStateType.Attack);
             }
 
         }

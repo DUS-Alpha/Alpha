@@ -1,23 +1,29 @@
-using UnityEngine;
 
 public class PlayerFlightMoveState : PlayerLocomotionStateBase
 {
     public PlayerFlightMoveState(PlayerCore playerCore) : base(playerCore) { }
     public override void Enter()
     {
-        m_Locomotion.EnterFlightMove();
+        WorldAudioManager.Instance.PlaySFXLoop(0, SFX_LoopTypes.AirField);
+        m_AniM.SetFlightMoveType(m_Combat.IsInCombat);
     }
 
     public override void Update()
     {
         bool _isFlyUp = m_InputM.IsFlyUp;
 
+        m_Locomotion.Movement(true, m_InputM.MoveDirInput, m_InputM.LookInput, true, m_Combat.IsInCombat);
 
-        m_Locomotion.Movement(true, m_InputM.MoveDirInput, m_InputM.LookInput, true, true, m_Combat.IsInCombat);
-        
-        if(_isFlyUp || m_Locomotion.ActionGauge < 0.1f)
+        // 애니메이션
+        m_AniM.FlightMoveAni(m_InputM.MoveDirInput.x, m_InputM.MoveDirInput.y, m_Combat.IsInCombat);
+
+        // 오디오
+
+
+        // 상태 전환
+        if (_isFlyUp || m_Locomotion.ActionGauge < 0.1f)
         {
-            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Fall);
+            m_Core.SwitchLocomotionState(LocomotionStateType.Fall);
         }
        
         /*
@@ -38,8 +44,7 @@ public class PlayerFlightMoveState : PlayerLocomotionStateBase
 
     public override void Exit()
     {
-        m_Locomotion.ExitFlightMove();
-       // m_PlayerCore.SetAnimatorLayer(1, 0);
+        
     }
 
 

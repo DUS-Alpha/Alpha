@@ -20,10 +20,10 @@ public class PlayerAttackState : PlayerCombatStateBase
 
     public override void Update()
     {
-        if(m_Combat.CanSwap && m_weaponItem is RangeWeaponItem)
+        if(m_Combat.CanSwap1 && m_weaponItem is RangeWeaponItem)
         {
-            m_PlayerCore.SwitchCombatState(CombatStateType.Swap);
-            m_Combat.AniM.SetAttackBtnAni(false);
+            m_Core.SwitchCombatState(CombatStateType.Swap);
+            m_Combat.AniM.SetAttackBtnParameter(false);
             return;
         }
         else if (m_Combat.IsAttackBtn)
@@ -35,9 +35,9 @@ public class PlayerAttackState : PlayerCombatStateBase
         {
             m_Combat.InvokeRegenerateGauge();
             if (!m_Combat.IsAction)
-                m_PlayerCore.SwitchCombatState(CombatStateType.CombatReady);
+                m_Core.SwitchCombatState(CombatStateType.CombatReady);
         }
-        m_Combat.AniM.SetAttackBtnAni(m_Combat.IsAttackBtn);
+        m_Combat.AniM.SetAttackBtnParameter(m_Combat.IsAttackBtn);
     }
     public override void Exit()
     {

@@ -1,7 +1,7 @@
 using alpha;
 using UnityEngine;
 
-public class PlayerDashState : PlayerCombat
+public class PlayerDashState : PlayerCombatManager
 {
     public PlayerDashState(PlayerCore playerCore) : base(playerCore){}
 

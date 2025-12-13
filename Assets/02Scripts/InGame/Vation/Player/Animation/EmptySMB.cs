@@ -4,18 +4,16 @@ namespace alpha
 {
     public class EmptySMB : StateMachineBehaviour
     {
-        PlayerCombat m_combat;
+        PlayerCombatManager m_combat;
         [SerializeField] private int m_layerNum;
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
 
-            PlayerLocomotion _locomotion = animator.GetComponent<PlayerLocomotion>();
-            _locomotion.SetLocomotionLock(false);
-            
+            PlayerLocomotionManager _locomotion = animator.GetComponent<PlayerLocomotionManager>();
             
             // TODO : 컴뱃 묶기
-            m_combat = animator.GetComponent<PlayerCombat>();
+            m_combat = animator.GetComponent<PlayerCombatManager>();
             m_combat.SetIsCombatLock(false);
             
             if(m_layerNum == 4)

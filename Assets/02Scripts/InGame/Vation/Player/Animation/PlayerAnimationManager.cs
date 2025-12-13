@@ -2,6 +2,7 @@ using FIMSpace.Basics;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Windows;
 
 
 namespace alpha
@@ -12,13 +13,13 @@ namespace alpha
     [RequireComponent(typeof(Animator))]
     public class PlayerAnimationManager : MonoBehaviour
     {
-        [SerializeField]
-        public Animator m_animator;
+        private Animator m_animator;
         public Vector3 RootMotionPos { get; private set; }
         public Quaternion RootMotionRot { get; private set; }
         public bool IsRootMotion => m_animator.applyRootMotion;
         public bool IsPlayAni { get; private set; }
-  
+
+        private bool? m_prevCombat;
         private void Awake()
         {
             m_animator = GetComponent<Animator>();
@@ -28,15 +29,6 @@ namespace alpha
             m_animator.SetLayerWeight(1, 0);
             m_animator.SetLayerWeight(2, 0);
             m_animator.SetLayerWeight(3, 0);
-        }
-
-        public void InitializeModule(PlayerCombat combat)
-        {
-            
-        }
-        public void InitializeEvents(IPlayerEvents events)
-        {
-            //events.SwapWeaponAction += SwapWeaponAni;
         }
 
         public float GetCurrentAniInfo(int index)
@@ -62,62 +54,119 @@ namespace alpha
         }
 
         #region ================================================================================ Locomotion
-        // CrossFade로 이동에 대한 변경 처리
-        public void MoveAni(float inputX, float inputY, bool isFly, bool isCombat)
+        public void SetMoveType(bool isCombat)
         {
-            if (isFly)
+            if (isCombat)
+                m_animator.CrossFade("CombatMoveTree", 0.1f);
+            else
+                m_animator.CrossFade("BaseMoveTree", 0.1f);
+        }
+
+        public void MoveAni(float inputX, float inputY, bool isCombat)
+        {
+            if (m_prevCombat != isCombat)
             {
-                // 애니메이션 기울기 조절
-                inputY = isCombat ? (inputY < -0.35f ? -0.35f : inputY) : inputY;
-                inputY = isCombat ? (inputY > 0.25f ? 0.25f : inputY) : (inputY > 0.6f ? 0.6f : inputY);
-                inputX = isCombat ? (inputX > 0.25f ? 0.25f : inputX) : inputX;
-                inputX = isCombat ? (inputX < -0.25f ? -0.25f : inputX) : inputX;
+                SetMoveType(isCombat);
+
+                m_prevCombat = isCombat;
             }
+
+            m_animator.SetFloat("InputX", inputX, 0.05f, Time.deltaTime);
+            m_animator.SetFloat("InputY", inputY, 0.05f, Time.deltaTime);   
+        }
+
+        public void SetFlightMoveType(bool isCombat)
+        {
+            if (isCombat)
+                m_animator.CrossFade("CombatFlightMove", 0.1f);
+            else
+                m_animator.CrossFade("FlightMove", 0.1f);
+        }
+        public void FlightMoveAni(float inputX, float inputY, bool isCombat)
+        {
+            if (m_prevCombat != isCombat)
+            {
+                SetFlightMoveType(isCombat);
+                m_prevCombat = isCombat;
+            }
+
+            // 애니메이션 기울기 조절
+            inputY = isCombat ? (inputY < -0.35f ? -0.35f : inputY) : inputY;
+            inputY = isCombat ? (inputY > 0.25f ? 0.25f : inputY) : (inputY > 0.6f ? 0.6f : inputY);
+            inputX = isCombat ? (inputX > 0.25f ? 0.25f : inputX) : inputX;
+            inputX = isCombat ? (inputX < -0.25f ? -0.25f : inputX) : inputX;
 
             m_animator.SetFloat("InputX", inputX, 0.05f, Time.deltaTime);
             m_animator.SetFloat("InputY", inputY, 0.05f, Time.deltaTime);
         }
 
-        public void SetIsGroundAni(bool isGrounded)
+        public void SetIsGroundParameter(bool isGrounded)
         {
             m_animator.SetBool("IsGround", isGrounded);
         }
 
-        public void JumpTriggerAni()
+        public void JumpAni()
         {
-            m_animator.Play("Jump");
+            m_animator.CrossFade("Jump", 0.1f);
         }
-        public void DashTriggerAni()
+        public void FallAni(EFallType fallType)
         {
-            m_animator.Play("Dash");
+            switch(fallType)
+            {
+                case EFallType.NormalFall:
+                    m_animator.CrossFade("Fall",0.2f);
+                    break;
+                case EFallType.FlyFall:
+                    m_animator.CrossFade("Fall2", 0.1f);
+                    break;
+            }
+
+            SetFlyingParameter(false);
+        }
+        public void LandAni(EFallType fallType)
+        {
+            switch (fallType)
+            {
+                case EFallType.NormalFall:
+                    m_animator.CrossFade("Landing",0.143f,0,0.443f);
+                    break;
+                case EFallType.FlyFall:
+                    m_animator.CrossFade("Landing2", 0.25f);
+                    break;
+            }
+            
         }
 
-        public void FlyUpTriggerAni()
-        {
-            SetFlyingAni(true);
-            m_animator.Play("FlyUp");
-        }
-        public void SetFlyingAni(bool isFlying)
+        // ========== Fly
+        public void SetFlyingParameter(bool isFlying)
         {
             m_animator.SetBool("IsFlying", isFlying);
         }
-        public void FlyFallAni()
+        public void FlyUpAni()
         {
-            m_animator.Play("Fall2");
+            SetFlyingParameter(true);
+            m_animator.CrossFade("FlyUp", 0.25f);
         }
 
-        public void HitTriggerAni()
+        public void FlyingUpAni()
+        {
+            m_animator.CrossFade("FlyingUp", 0.25f);
+        }
+        public void HitAni()
         {
             m_animator.Play("Hit");
         }
-        public void DieTriggerAni()
+        public void DieAni()
         {
             m_animator.StopPlayback();
             m_animator.Play("Die");
         }
         #endregion ================================================================================ /Locomotion
 
-
+        public void DashAni()
+        {
+            m_animator.Play("Dash");
+        }
         #region ================================================================================ CombatFlags
 
         public void SwapWeaponAni(int swapNum, bool isFlying)
@@ -145,7 +194,7 @@ namespace alpha
                     break;
             }
         }
-        public void SetAttackBtnAni(bool isAttackBtn)
+        public void SetAttackBtnParameter(bool isAttackBtn)
         {
             m_animator.SetBool("IsAttackBtn", isAttackBtn);
         }

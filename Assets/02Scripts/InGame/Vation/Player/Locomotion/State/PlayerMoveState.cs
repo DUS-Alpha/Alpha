@@ -6,30 +6,34 @@ public class PlayerMoveState : PlayerLocomotionStateBase
 
     public override void Enter()
     {
-   
+        m_AniM.SetMoveType(m_Combat.IsInCombat);
     }
 
     public override void Update()
     {
-        if(m_Locomotion.IsDie)
-        {
-            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Die);
-            return;
-        }
-
+        // 입력 확인
         bool _isJump = m_InputM.IsJump;
         bool _isFlyUp = m_InputM.IsFlyUp;
+        bool _isCombat = m_Combat.IsInCombat;
+        Vector2 _moveInput = m_InputM.MoveDirInput;
+        Vector2 _lookInput = m_InputM.LookInput;
 
-        m_Locomotion.Movement(true, m_InputM.MoveDirInput, m_InputM.LookInput, true, false, m_Combat.IsInCombat);
+        // 이동 동작 및 중력 적용
+        m_Locomotion.Movement(true, _moveInput, m_InputM.LookInput, false, _isCombat);
         m_Locomotion.ApplyGravity();
 
+        // 애니메이션
+        m_AniM.MoveAni(_moveInput.x, _moveInput.y, _isCombat);
 
+        // 오디오
+
+        // 상태 전환
         if (_isJump)
-            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Jump);
+            m_Core.SwitchLocomotionState(LocomotionStateType.Jump);
         else if (_isFlyUp)
         {
             if(m_Locomotion.ActionGauge > 0.1f)
-                m_PlayerCore.SwitchLocomotionState(LocomotionStateType.FlyUp);
+                m_Core.SwitchLocomotionState(LocomotionStateType.FlyUp);
         }
 
     }

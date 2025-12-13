@@ -649,7 +649,7 @@ namespace FIMSpace.AnimationTools
                                 else if (nmeToLower.Contains("attack")) category = "UpdateAttack";
                                 else if (nmeToLower.Contains("hit")) category = "Hit";
                                 else if (nmeToLower.Contains("damage")) category = "Damage";
-                                else if (nmeToLower.Contains("jump")) category = "Jump";
+                                else if (nmeToLower.Contains("jump")) category = "UpdateJump";
                                 else if (nmeToLower.Contains("skill")) category = "Skill";
                                 else if (nmeToLower.Contains("punch")) category = "Punch";
                                 else if (nmeToLower.Contains("dash")) category = "Dash";

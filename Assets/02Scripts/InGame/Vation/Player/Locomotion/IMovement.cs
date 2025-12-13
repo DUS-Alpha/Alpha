@@ -6,7 +6,7 @@ namespace alpha
     {
         public bool CanMove();
         public bool CanRotate();
-        public void Move(Vector2 moveInput, bool isRun, MoveConfig moveConfig, GameObject target);
-        public void Rotate(Vector2 lookInput, RotateConfig rotateConfig, GameObject target);
+        public Vector3 Move(Vector2 moveInput, float currentSpeed, GameObject target);
+        public void Rotate(Vector2 lookInput, float turnSmoothTime, GameObject target);
     }
 }

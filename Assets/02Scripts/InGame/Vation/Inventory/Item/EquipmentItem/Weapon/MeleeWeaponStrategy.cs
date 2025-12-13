@@ -7,14 +7,14 @@ public class MeleeWeaponStrategy : IAttackStrategy
     public bool CanMoveDuringAttack => false;
     private int currentComboNum;
 
-    public void StartAttack(PlayerCombat combat)
+    public void StartAttack(PlayerCombatManager combat)
     {
         // 시작시는 0부터 시작
         currentComboNum = combat.NextComboNum;
         combat.AniM.MeleeComboAni(combat.NextComboNum);
     }
 
-    public void UpdateAttack(PlayerCombat combat)
+    public void UpdateAttack(PlayerCombatManager combat)
     {
         if(combat.IsNextCombo)
         {
@@ -25,7 +25,7 @@ public class MeleeWeaponStrategy : IAttackStrategy
             }
         }
     }
-    public void ExitAttack(PlayerCombat combat)
+    public void ExitAttack(PlayerCombatManager combat)
     {
         currentComboNum = 0;
     }

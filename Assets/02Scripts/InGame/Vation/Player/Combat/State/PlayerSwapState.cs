@@ -14,12 +14,12 @@ public class PlayerSwapState : PlayerCombatStateBase
         m_Combat.InvokeRegenerateGauge();
         if (m_Combat.IsAction) return;
 
-        if(m_Combat.IsInCombat) m_PlayerCore.SwitchCombatState(CombatStateType.CombatReady);
-        else m_PlayerCore.SwitchCombatState(CombatStateType.NonCombat);
+        if(m_Combat.IsInCombat) m_Core.SwitchCombatState(CombatStateType.CombatReady);
+        else m_Core.SwitchCombatState(CombatStateType.NonCombat);
     }
 
     public override void Exit()
     {
-        m_Combat.ExitSwap(m_Locomotion.IsFlying);
+        //m_Combat.ExitSwap(m_Locomotion.IsFlying);
     }
 }

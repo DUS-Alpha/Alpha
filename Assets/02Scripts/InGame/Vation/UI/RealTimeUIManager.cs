@@ -10,10 +10,8 @@ public struct CrossHairUI
     public Image[] Icons;
 }
 
-public class RealTimeUIManager : MonoBehaviour
+public class RealTimeUIManager : MonoBehaviour, IGauge
 {
-    //public static RealTimeUIManager Instance;
-
     [Header("[ StateInfo ]")]
     [SerializeField] private TextMeshProUGUI m_locomotionTMP;
     [SerializeField] private TextMeshProUGUI m_combatTMP;
@@ -59,7 +57,7 @@ public class RealTimeUIManager : MonoBehaviour
     #region ======================================== STATE 
     public void CurrentLocomotionState(string state)
     {
-        m_locomotionTMP.text = "Locomotion \n" + state;
+        m_locomotionTMP.text = "LocomotionM \n" + state;
     }
     public void CurrentCombatState(string state)
     {

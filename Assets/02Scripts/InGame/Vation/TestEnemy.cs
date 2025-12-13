@@ -35,7 +35,7 @@ public class TestEnemy : MonoBehaviour, IDamageable
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("PlayerLocomotion"))
+        if(other.CompareTag("PlayerLocomotionManager"))
         {
             IDamageable _damageableTarget;
             if (other.TryGetComponent<IDamageable>(out _damageableTarget))
@@ -54,7 +54,7 @@ public class TestEnemy : MonoBehaviour, IDamageable
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("PlayerLocomotion"))
+        if (other.CompareTag("PlayerLocomotionManager"))
         {
             m_stayDamageDelay += Time.deltaTime;
 
@@ -78,7 +78,7 @@ public class TestEnemy : MonoBehaviour, IDamageable
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("PlayerLocomotion"))
+        if (other.CompareTag("PlayerLocomotionManager"))
         {
             m_stayDamageDelay = 0;
         }

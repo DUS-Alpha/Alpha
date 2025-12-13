@@ -7,31 +7,32 @@ public class PlayerLandState : PlayerLocomotionStateBase
     private float m_duration;
     public override void Enter()
     {
-        m_Locomotion.SetLocomotionLock(true);
-        m_Combat.SetIsCombatLock(true);
+        m_Core.SetLockState(true, false);
+
+        // 애니메이션
+        m_AniM.LandAni(m_Locomotion.CurrentFallType);
+
+        // 오디오
+        m_Audio.PlayLocomotionAudio(0, SFX_LomotionType.Land);
+
+        // 낙하 타입에 따른 전환 시점 설정
+        if (m_Locomotion.CurrentFallType == EFallType.FlyFall) m_duration = 0.8f;
+        else m_duration = 0.4f;
 
         m_delayT = 0;
-        m_Locomotion.EnterLanding();
-        m_duration = 0.4f;
     }
 
     public override void Update()
     {
         m_delayT += Time.deltaTime;
-        if (m_Locomotion.IsDie)
-        {
-            m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Die);
-            return;
-        }
+
         if (m_delayT < m_duration) return;
 
-        m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Idle);
+        m_Core.SwitchLocomotionState(LocomotionStateType.Idle);
     }
     public override void Exit()
     {
-        m_Locomotion.SetLocomotionLock(false);
-        m_Combat.SetIsCombatLock(false);
-
-        m_Locomotion.ExitLanding();
+        // 낙하 타입 초기화
+        m_Locomotion.SetFallType(EFallType.None);
     }
 }

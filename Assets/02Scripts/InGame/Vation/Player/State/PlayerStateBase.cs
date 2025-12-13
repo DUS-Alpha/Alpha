@@ -3,21 +3,22 @@ using UnityEngine;
 
 public abstract class PlayerStateBase
 {
-    protected PlayerCore m_PlayerCore;
-    protected PlayerLocomotion m_Locomotion;
-    protected PlayerCombat m_Combat;
+    protected PlayerCore m_Core;
+    protected PlayerLocomotionManager m_Locomotion;
+    protected PlayerCombatManager m_Combat;
     protected PlayerInputManager m_InputM;
-    protected PlayerStateMachine m_StateMachine;
+    protected PlayerAnimationManager m_AniM;
+    protected PlayerAudioManager m_Audio;
 
     protected float m_NextStateDelay;
     public PlayerStateBase(PlayerCore playerCore)
     {
-        m_PlayerCore = playerCore;
-        m_Locomotion = playerCore.Locomotion;
+        m_Core = playerCore;
+        m_Locomotion = playerCore.LocomotionM;
         m_Combat = playerCore.Combat;
         m_InputM = playerCore.InputManager;
-        m_StateMachine = playerCore.StateMachine;
-        //DebugCurrentState();
+        m_AniM = playerCore.AniManager;
+        m_Audio = playerCore.PlayerAudioManager;
     }
     public void DebugCurrentState()
     {

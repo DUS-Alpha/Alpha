@@ -4,17 +4,16 @@ using UnityEngine;
 
 public class ComboSMB : StateMachineBehaviour
 {
-    private PlayerCombat m_combat;
+    private PlayerCombatManager m_combat;
     public int NextComboNum;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        m_combat = animator.GetComponent<PlayerCombat>();
+        m_combat = animator.GetComponent<PlayerCombatManager>();
         m_combat.SetIsAction(true);
         m_combat.SetIsNextCombo(false);
 
-        PlayerLocomotion _locomotion = animator.GetComponent<PlayerLocomotion>();
-        _locomotion.SetLocomotionLock(true);
+        PlayerLocomotionManager _locomotion = animator.GetComponent<PlayerLocomotionManager>();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

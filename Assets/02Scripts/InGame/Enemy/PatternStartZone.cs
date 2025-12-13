@@ -4,7 +4,7 @@ using UnityEngine.Events;
 
 public class PatternStartZone : MonoBehaviour
 {
-    public string playerTag = "PlayerLocomotion"; //플레이어 태그 나중에 변경 될 수 있음
+    public string playerTag = "PlayerLocomotionManager"; //플레이어 태그 나중에 변경 될 수 있음
     public KeyCode startKey = KeyCode.G;
     
     public UnityEvent onStart; // 시작을 위한 이벤트 

@@ -52,7 +52,7 @@ public class PlayerAudioManager : MonoBehaviour
     [SerializeField]
     private AudioSource[] m_audioSources;
 
-    [Header("[ Locomotion ]")]
+    [Header("[ LocomotionM ]")]
     [SerializeField]
     private SFX_LocomotionMapping[] m_locomotionAudioMappings;
     private Dictionary<SFX_LomotionType, AudioClip> m_locomotionAudioDic;

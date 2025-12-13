@@ -7,7 +7,7 @@ public class RangeWeaponStrategy : IAttackStrategy
     private RangeWeaponItem m_rangeItem;
     private float m_nextFireTime;
 
-    private void PerformAttack(PlayerCombat combat)
+    private void PerformAttack(PlayerCombatManager combat)
     {
 
         m_rangeItem.PlayEffect();
@@ -20,7 +20,7 @@ public class RangeWeaponStrategy : IAttackStrategy
         combat.AniM.RangeShootingAni();
     }
 
-    public void StartAttack(PlayerCombat combat)
+    public void StartAttack(PlayerCombatManager combat)
     {
         m_rangeItem = combat.CurrentItem as RangeWeaponItem;
         //combat.InvokeResetTimer();
@@ -30,7 +30,7 @@ public class RangeWeaponStrategy : IAttackStrategy
         m_nextFireTime = 0;
     }
 
-    public void UpdateAttack(PlayerCombat combat)
+    public void UpdateAttack(PlayerCombatManager combat)
     {
         float _currentGauge = combat.GetCurrentGauge();
 
@@ -47,7 +47,7 @@ public class RangeWeaponStrategy : IAttackStrategy
         m_nextFireTime = Time.time + m_rangeItem.RangeData.FireRate;
     }
 
-    public void ExitAttack(PlayerCombat combat)
+    public void ExitAttack(PlayerCombatManager combat)
     {
         m_nextFireTime = 0;
     }

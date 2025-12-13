@@ -30,9 +30,9 @@ namespace alpha
         #region ==================== CombatInput
         public bool IsAttackBtn { get; private set; }
         public bool IsAim { get; private set; }
-        public bool IsSwap => m_isSwap;
-        public bool m_isSwap;
-        public int SwapNum { get; private set; } = 0;
+        public int SwapNum { get; private set; }
+        public bool IsSwap => m_swapFrame == Time.frameCount;   // 다음 프레임에서 false로 변환해줌
+        private int m_swapFrame;
 
         //public bool IsReload { get; private set; }
         public bool IsSkill { get; private set; }
@@ -63,11 +63,19 @@ namespace alpha
 
                 // ==================== Combat
                 // Swap
-                m_playerControl.PlayerCombat.SwapNum.performed += i => SwapNum = int.Parse(i.control.name);
+                m_playerControl.PlayerCombat.SwapNum.performed += i =>
+                {
+                    m_swapFrame = Time.frameCount;
+                    SwapNum = int.Parse(i.control.name);
+                };
 
                 // Attack
                 m_playerControl.PlayerCombat.Attack.performed += i => IsAttackBtn = i.ReadValue<float>() > 0.5f;
                 m_playerControl.PlayerCombat.Attack.canceled += i => IsAttackBtn = i.ReadValue<float>() > 0.5f;
+
+                // Aim
+                m_playerControl.PlayerCombat.Aim.performed += i => IsAim = i.ReadValue<float>() > 0.5f;
+                m_playerControl.PlayerCombat.Aim.canceled += i => IsAim = i.ReadValue<float>() > 0.5f;
 
                 // Skill
                 m_playerControl.PlayerCombat.DodgeSkill.performed += i => m_dashFrame = Time.frameCount;
@@ -91,11 +99,14 @@ namespace alpha
 
                 // ==================== Combat
                 // Swap
-                m_playerControl.PlayerCombat.SwapNum.performed -= i => SwapNum = int.Parse(i.control.name);
-
+                m_playerControl.PlayerCombat.SwapNum.performed -= i => SwapNum = (int)i.ReadValue<float>();
+                m_playerControl.PlayerCombat.SwapNum.canceled -= i => SwapNum = (int)i.ReadValue<float>();
                 // Attack
                 m_playerControl.PlayerCombat.Attack.performed -= i => IsAttackBtn = i.ReadValue<float>() > 0.5f;
                 m_playerControl.PlayerCombat.Attack.canceled -= i => IsAttackBtn = i.ReadValue<float>() > 0.5f;
+                // Aim
+                m_playerControl.PlayerCombat.Aim.performed -= i => IsAim = i.ReadValue<float>() > 0.5f;
+                m_playerControl.PlayerCombat.Aim.canceled -= i => IsAim = i.ReadValue<float>() > 0.5f;
 
                 // Skill
                 m_playerControl.PlayerCombat.DodgeSkill.performed -= i => m_dashFrame = Time.frameCount;
@@ -103,20 +114,6 @@ namespace alpha
             }
             m_playerControl.Disable();
         }
-        #region ================================================================================ LOCOMOTION
 
-     
-        #endregion ================================================================================ /LOCOMOTION
-
-        #region ================================================================================ COMBAT
-        public void SetSwapNum(int swapNum)
-        {
-            SwapNum = swapNum;
-        }
-        public void SetIsSwap(bool isSwap)
-        {
-            m_isSwap = isSwap;
-        }
-        #endregion ================================================================================ /COMBAT
     }
 }

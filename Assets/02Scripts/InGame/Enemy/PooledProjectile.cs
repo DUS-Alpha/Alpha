@@ -49,7 +49,7 @@ public class PooledProjectile : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
        
-        if (other.CompareTag("PlayerLocomotion"))
+        if (other.CompareTag("PlayerLocomotionManager"))
         {
             IDamageable _damageableTarget;
             if (other.TryGetComponent<IDamageable>(out _damageableTarget))

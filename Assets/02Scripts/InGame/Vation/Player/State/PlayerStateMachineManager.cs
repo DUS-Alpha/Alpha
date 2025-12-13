@@ -4,10 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // Locomotion FSM, Combat FSM 병렬 처리
-// 상태에 따른 각 FSM들에게 입력 IsInputLocked 서로 적용 가능
-// 각 FSM내부에서 Flags 관리
-// 병렬 처리 이유 : 응집도↑, 테스트 쉬움, 상체 공격 + 하체 이동 같은 병행 동작 가능
-public class PlayerStateMachine
+// 병렬 처리 이유 : 상체 공격 + 하체 이동 같은 병행 동작
+public class PlayerStateMachineManager
 {
     private PlayerCore m_playerCore;
     // Locomotion
@@ -17,7 +15,6 @@ public class PlayerStateMachine
     // Combat
     public CombatStateType CurrentCombat;
     private PlayerStateBase m_combatState;
-
 
     private PlayerStateBase m_dieState;
     // 딕셔너리 초기화시 value값에 new 생성자를 하면 Key에 대한 Value는 이미 new로 처음 생성된 인스턴스를 재사용한것.
@@ -54,10 +51,8 @@ public class PlayerStateMachine
 
     public void OnUpdate()
     {
-        if (m_playerCore.Locomotion.IsDie) return;
-        
-        m_combatState.Update();
-        m_locoState.Update();
+        if (!m_playerCore.IsCombatLock) m_combatState.Update();
+        if (!m_playerCore.IsLocomotionLock) m_locoState.Update();
     }
 
     public void SwitchLocomotionState(LocomotionStateType newState)

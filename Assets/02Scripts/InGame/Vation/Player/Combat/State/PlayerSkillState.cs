@@ -21,13 +21,12 @@ public class PlayerSkillState : PlayerCombatStateBase
 
     public override void Update()
     {
-        if (m_Locomotion.IsDie) return;
         //m_Combat.SetIsAction(true);
-        m_aniLength = m_PlayerCore.AniManager.GetCurrentAniInfo(2);
+        m_aniLength = m_Core.AniManager.GetCurrentAniInfo(2);
         m_nextDelay += Time.deltaTime;
         if (m_nextDelay < m_aniLength + 1.3f) return;
 
-        m_PlayerCore.SwitchCombatState(CombatStateType.NonCombat);
+        m_Core.SwitchCombatState(CombatStateType.NonCombat);
     }
     
     public override void Exit()

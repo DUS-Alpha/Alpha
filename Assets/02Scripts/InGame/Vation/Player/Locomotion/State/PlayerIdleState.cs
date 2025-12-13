@@ -1,6 +1,3 @@
-using alpha;
-using System.Security.Claims;
-using UnityEngine;
 
 public class PlayerIdleState : PlayerLocomotionStateBase
 {
@@ -10,13 +7,12 @@ public class PlayerIdleState : PlayerLocomotionStateBase
 
     public override void Enter()
     {
-        // 모든 Locomotion 값 초기화
-        // m_Locomotion.InitializeLocotion();
+        m_Core.SetLockState(false, false);
     }
 
     public override void Update()
     {
-        m_PlayerCore.SwitchLocomotionState(LocomotionStateType.Move);
+        m_Core.SwitchLocomotionState(LocomotionStateType.Move);
     }
 
     public override void Exit()

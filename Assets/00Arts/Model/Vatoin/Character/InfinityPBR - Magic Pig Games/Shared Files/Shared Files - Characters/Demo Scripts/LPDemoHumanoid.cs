@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,7 +13,7 @@ public class LPDemoHumanoid : MonoBehaviour
     }
     
     public void Locomotion(float newValue){
-        animator.SetFloat ("Locomotion", newValue);
+        animator.SetFloat ("LocomotionM", newValue);
     }
 
     public void PlayAudio()
