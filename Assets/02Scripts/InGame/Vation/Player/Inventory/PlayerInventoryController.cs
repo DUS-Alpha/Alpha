@@ -6,7 +6,7 @@ namespace alpha
     {
         private IEquipService m_equipService;
         private IInventoryUIService m_inventoryUIService;
-       public void Start()
+       public void OnStart()
         {
             m_inventoryUIService.OnEquipRequest += HandleEquip;
             m_inventoryUIService.OnUnEquipRequest += HandleUnEquip;

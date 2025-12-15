@@ -3,12 +3,11 @@ using UnityEngine;
 
 namespace alpha
 {
-    public class PlayerCombatManager : MonoBehaviour, ISwap
+    public class PlayerCombatManager : MonoBehaviour, ISwapCondition
     {
         // Ref Component
         private PlayerCore m_playerCore;
-        private PlayerInputManager m_inputM;
-        private PlayerEquipManager m_equipM;
+
         public PlayerAnimationManager AniM { get; private set; }
         public PlayerAudioManager AudioM { get; private set; }
 
@@ -19,26 +18,12 @@ namespace alpha
         public bool IsAction => m_isAction;
         private bool m_isAction;
 
-        public bool CanMove => m_canMove;
-        private bool m_canMove;
         // Combat이 동작되는지만 체크하는
         // ==================== Swap
-        public bool CanSwap1 => m_canSwap;
-        private bool m_canSwap;
-
-        public int CurrentSwapNum => m_currentSwapNum;
-        private int m_currentSwapNum;
-
         public Item CurrentItem => m_currentItem;
         private Item m_currentItem;
 
-        //public WeaponItemDataSO CurrentWeapon;
-
         // ==================== Attack
-        // 공격 버튼 누른상태
-        public bool IsAttackBtn => m_isAttacBtn;
-        private bool m_isAttacBtn;
-
         // Melee Attack
         public bool IsNextCombo => m_isNextCombo;
         private bool m_isNextCombo;
@@ -46,24 +31,10 @@ namespace alpha
         public int NextComboNum => m_nextComboNum;
         private int m_nextComboNum;
 
-        // Range Attack
-        public bool IsRangeAttack => m_isRangeAttack;
-        private bool m_isRangeAttack;
-
         public bool IsInCombat => m_isInCombat;
         private bool m_isInCombat;
 
-        public float CurrentGauge => m_currentGauge;
-        private float m_currentGauge;
-        private PlayerCore playerCore;
-
-        public event Action<int> OnSwap;
         public event Action OnAttack;
-
-        public PlayerCombatManager(PlayerCore playerCore)
-        {
-            this.playerCore = playerCore;
-        }
 
         public event Action<float> OnDecreaseGauge;
         public event Action OnRegenrateGauge;
@@ -73,52 +44,13 @@ namespace alpha
         public void InitializeModule(PlayerCore playerCore)
         {
             m_playerCore = playerCore;
-            m_inputM = m_playerCore.InputManager;
-            m_equipM = m_playerCore.EquipmentManager;
+
             AniM = m_playerCore.AniManager;
             AudioM = m_playerCore.PlayerAudioManager;
-        }
 
-        // 파라미터 Trigger형태는 KeyDown방식으로 최대한 관리
-        public void CheckInput()
-        {
-            if (m_isCombatLock)
-            {
-                m_isAttacBtn = false;
-                m_canSwap = false;
-                m_isAction = false;
-                return;
-            }
-
-            // Swap (같은번호x, 액션중x, 무기nullx)
-            if (!m_isAction)
-            {
-                int _swapNum = m_inputM.SwapNum;
-                m_canSwap = m_currentSwapNum != _swapNum && m_equipM.CanSwap(_swapNum);
-            }
-            else
-            {
-                m_canSwap = false;
-                //m_inputM.SetSwapNum(m_currentSwapNum);
-            }
-
-            // Attack
-            if (CurrentItem != null)
-                m_isAttacBtn = m_inputM.IsAttackBtn;
-            else m_isAttacBtn = false;
+            m_playerCore.OnCanSwapFunc += CanSwap;
         }
-        private void Start()
-        {
-            SetCanMove(true);
-        }
-        private void Update()
-        {
-
-        }
-        public void SetCanMove(bool canMove)
-        {
-            m_canMove = canMove;
-        }
+        
         // 애니메이터SMB에서 관리
         public void SetIsAction(bool isAttacking)
         {
@@ -131,36 +63,14 @@ namespace alpha
         }
 
         #region ======================================== SWAP
-        public bool CanSwap()
+        public bool CanSwap(int num)
         {
-            return m_canSwap;
-        }
-        public void Swap()
-        {
-
-        }
-        public void EnterSwap()
-        {
-            // 스왑 막기
-            //m_inputM.SetIsSwap(true);
-           
-            // 1. EquipManager에서 무기 교체
-            int _swapNum = m_inputM.SwapNum;
-            
-            // 2. 애니메이션 동작
-            m_playerCore.AniManager.SwapWeaponAni(_swapNum, false);
-
-            // 3. EquipManager -> Combat 정보 전달 (TODO : 애니메이션 속도 고려하여 무기 활성화 딜레이 줄것)
-            Item _item = m_equipM.TrySwap(_swapNum);
-
-            // 4. 현재 정보 저장
-            m_currentSwapNum = _swapNum;
-            m_currentItem = _item;
+            return !m_isCombatLock;
         }
 
-        public void ExitSwap(bool isFlying)
+        public void SetCurrentSwapItem(Item item)
         {
-            //m_inputM.SetIsSwap(false);
+            m_currentItem = item;
         }
         #endregion ======================================== /SWAP
 
@@ -204,7 +114,6 @@ namespace alpha
 
 
         #endregion ======================================== /SKILL
-
         public void SetIKRigWeight(RigType rigType, bool isWeight)
         {
             m_playerCore.IKController.SetRigWeight(rigType, isWeight);
@@ -230,8 +139,6 @@ namespace alpha
             // TODO: 피격 이펙트 재생 등
 
         }
-
-        #region ================================================ Enter, Exit State
 
         /// <summary>
         /// 거리 내 맞은 대상이 있는지 확인 (단순 체크용)
@@ -265,16 +172,5 @@ namespace alpha
             //m_playerCore.CameraManger.AimFOV(m_isAiming, CurrentWeaponNum == 3);
         }
 
-
-        public void EnterSkill()
-        {
-            //SkillKey = m_playerCore.InputManager.SkillKey;
-            //m_playerCore.AniController.SkillAni(SkillKey);
-        }
-        public void ExitSkill()
-        {
-            
-        }
-        #endregion ================================================ /Enter,Exit State
     }
 }

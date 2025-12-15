@@ -112,7 +112,7 @@ using UnityEngine;
              var newName = originalName;
 
              if (_addSpacesBeforeCamelCase)
-                 newName = Regex.Replace(newName, "(Combat[A-Z])", " $1");
+                 newName = Regex.Replace(newName, "(CombatManager[A-Z])", " $1");
              if (_replaceUnderscoresWithSpaces)
                  newName = newName.Replace('_', ' ');
              if (!string.IsNullOrEmpty(_namePrefix))

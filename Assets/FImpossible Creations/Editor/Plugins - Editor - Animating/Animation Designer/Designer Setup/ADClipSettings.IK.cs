@@ -1124,7 +1124,7 @@ namespace FIMSpace.AnimationTools
                         if (FootLinearize > 0f)
                         {
                             //FootLinearizeSpeedMul = EditorGUILayout.FloatField("Linear Speed Multiplier:", FootLinearizeSpeedMul);
-                            FootLinearStartAdjust = EditorGUILayout.Vector3Field("Linear Start Adjust:", FootLinearStartAdjust);
+                            FootLinearStartAdjust = EditorGUILayout.Vector3Field("Linear OnStart Adjust:", FootLinearStartAdjust);
                             if (FootLinearStartAdjust != Vector3.zero) FootLinearEndAdjust = EditorGUILayout.Vector3Field("Linear End Adjust:", FootLinearEndAdjust);
                             if (FootLinearizeSpeedMul < 0.1f) FootLinearizeSpeedMul = 1f; else if (FootLinearizeSpeedMul > 2f) FootLinearizeSpeedMul = 2f;
                         }

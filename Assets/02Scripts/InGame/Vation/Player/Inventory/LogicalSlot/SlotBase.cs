@@ -17,7 +17,7 @@ namespace alpha
     }
 
     [Serializable]
-    public struct SlotInfos
+    public struct SlotUIInfos
     {
         [Header("Conig Settings")]
         public Image BackGround;
@@ -33,7 +33,7 @@ namespace alpha
         [ReadOnly] public ESlotTypes SlotType;
         [Space(10)]
 
-        public SlotInfos SlotInfo;
+        public SlotUIInfos SlotInfo;
         public bool HasItem = false;
 
         public virtual void ApplySlotInfo(int slotNum, Sprite icon, int itemCount, ItemDataSO itemData)
@@ -64,7 +64,7 @@ namespace alpha
             ApplySlotInfo(slotNum, itemData.IconSprite, SlotInfo.ItemCount, itemData);
         }
 
-        public void CopySlotInfo(int slotNum, SlotInfos slotInfos)
+        public void CopySlotInfo(int slotNum, SlotUIInfos slotInfos)
         {
             ApplySlotInfo(slotNum, slotInfos.SlotIcon.sprite, slotInfos.ItemCount, slotInfos.ItemData);
         }

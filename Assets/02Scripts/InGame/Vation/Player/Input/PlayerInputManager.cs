@@ -99,8 +99,9 @@ namespace alpha
 
                 // ==================== Combat
                 // Swap
-                m_playerControl.PlayerCombat.SwapNum.performed -= i => SwapNum = (int)i.ReadValue<float>();
-                m_playerControl.PlayerCombat.SwapNum.canceled -= i => SwapNum = (int)i.ReadValue<float>();
+                m_playerControl.PlayerCombat.SwapNum.performed -= i => m_swapFrame = Time.frameCount;
+                
+
                 // Attack
                 m_playerControl.PlayerCombat.Attack.performed -= i => IsAttackBtn = i.ReadValue<float>() > 0.5f;
                 m_playerControl.PlayerCombat.Attack.canceled -= i => IsAttackBtn = i.ReadValue<float>() > 0.5f;

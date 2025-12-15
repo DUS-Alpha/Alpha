@@ -171,7 +171,7 @@ namespace alpha
 
         public void SwapWeaponAni(int swapNum, bool isFlying)
         {
-            m_animator.Play("Swap", 3);
+            m_animator.Play("TrySwapAndGetItem", 3);
             m_animator.SetInteger("SwapNum", swapNum);
 
             if (isFlying) return;

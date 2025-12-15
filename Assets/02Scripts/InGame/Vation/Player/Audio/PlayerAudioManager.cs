@@ -52,7 +52,7 @@ public class PlayerAudioManager : MonoBehaviour
     [SerializeField]
     private AudioSource[] m_audioSources;
 
-    [Header("[ LocomotionM ]")]
+    [Header("[ LocomotionManager ]")]
     [SerializeField]
     private SFX_LocomotionMapping[] m_locomotionAudioMappings;
     private Dictionary<SFX_LomotionType, AudioClip> m_locomotionAudioDic;
@@ -60,7 +60,7 @@ public class PlayerAudioManager : MonoBehaviour
     [Space(10)]
 
 
-    [Header("[ Combat ]")]
+    [Header("[ CombatManager ]")]
     [SerializeField]
     private SFX_CombatMapping[] m_combatAudioTypes;
 

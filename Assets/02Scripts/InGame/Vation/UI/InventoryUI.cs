@@ -197,7 +197,7 @@ namespace alpha
             if (!m_isSlotClick) return;
 
             // 원본(드래그 시작 슬롯) 데이터 복사 (안전하게 로컬에 저장)
-            SlotInfos _dragSlotInfo = m_dragSlot.SlotInfo;
+            SlotUIInfos _dragSlotInfo = m_dragSlot.SlotInfo;
             SlotBase _pdSlot = m_pointerDownSlot;
 
             if (_pdSlot == null)
@@ -282,8 +282,8 @@ namespace alpha
             {
                 // 스왑: 단자성(atomic) 보장
                 //  - 임시로 두 SlotInfos 보관
-                SlotInfos targetInfoCopy = _targetSlot.SlotInfo;        // struct copy
-                SlotInfos srcInfoCopy = _dragSlotInfo;                  // 이미 복사되어 있음
+                SlotUIInfos targetInfoCopy = _targetSlot.SlotInfo;        // struct copy
+                SlotUIInfos srcInfoCopy = _dragSlotInfo;                  // 이미 복사되어 있음
 
                 // 인덱스(슬롯 넘버)는 슬롯의 실제 인덱스로 재설정
                 int srcIndex = GetSlotIndex(_pdSlot);

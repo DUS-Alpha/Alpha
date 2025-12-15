@@ -141,7 +141,7 @@ public class WorldAudioManager : MonoBehaviour
     [SerializeField] private SFX_InteractionMapping[] m_sfxInteractionMappings;
     private Dictionary<SFX_InteractionTypes, AudioClip> m_sfxInteractionDic;
 
-    [Header("SFX - Combat")]
+    [Header("SFX - CombatManager")]
     [SerializeField] private AudioSource m_sfxCombatAudio;
     [SerializeField] private AudioClip[] m_sfxCombatClips;
     #endregion ========== /Mapping Settings

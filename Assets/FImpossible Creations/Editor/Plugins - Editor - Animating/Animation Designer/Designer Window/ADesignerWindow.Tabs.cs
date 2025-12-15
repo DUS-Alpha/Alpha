@@ -1486,7 +1486,7 @@ namespace FIMSpace.AnimationTools
                 GUI.backgroundColor = _c_prep;
 
                 string armDesTitle = "";
-                if (!FittingSaveValidated) armDesTitle = "  Prepare Armature - Start New Design"; else armDesTitle = "  Prepare Armature - Continue Design";
+                if (!FittingSaveValidated) armDesTitle = "  Prepare Armature - OnStart New Design"; else armDesTitle = "  Prepare Armature - Continue Design";
 
                 if (GUILayout.Button(new GUIContent(armDesTitle, FGUI_Resources.Tex_Bone), GUILayout.Height(26))) { _Trigger_PrepareArmature = true; }
                 GUI.backgroundColor = preBG;

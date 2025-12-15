@@ -13,14 +13,18 @@ public class PlayerCombatReadyState : PlayerCombatStateBase
 
     public override void Update()
     {
+        bool _isSwap = m_InputM.IsSwap;
+        int _swapNum = m_InputM.SwapNum;
+        bool _isAttack = m_InputM.IsAttackBtn;
+        bool _isSkill = m_InputM.IsSkill;
+        bool _isAim = m_InputM.IsAim;
+        bool _isDash = m_InputM.IsDash;
+
+
         m_NextStateDelay += Time.deltaTime;
         m_Combat.InvokeRegenerateGauge();
-        if (m_Combat.CanSwap1)
-        {
-            m_Core.SwitchCombatState(CombatStateType.Swap);
-            return;
-        }
-        if(m_Combat.IsAttackBtn)
+
+        if(_isAttack)
         {
             m_Core.SwitchCombatState(CombatStateType.Attack);
             return;

@@ -618,7 +618,7 @@ namespace InfinityPBR
             colorShifterColorItem.color = EditorGUILayout.ColorField(new GUIContent($"ColorID color {symbolInfo}", "This is the lookup color on the Color ID texture. Generally do not change this!!"), colorShifterColorItem.color);
             colorShifterColorItem.color.r = (EditorGUILayout.Slider("R",  255 * colorShifterColorItem.color.r, 0,255) / 255);
             colorShifterColorItem.color.g = (EditorGUILayout.Slider("G",  255 * colorShifterColorItem.color.g, 0,255) / 255);
-            colorShifterColorItem.color.b = (EditorGUILayout.Slider("Combat",  255 * colorShifterColorItem.color.b, 0,255) / 255);
+            colorShifterColorItem.color.b = (EditorGUILayout.Slider("CombatManager",  255 * colorShifterColorItem.color.b, 0,255) / 255);
             EditorGUILayout.EndVertical();
             EditorGUILayout.BeginVertical();
             //EditorGUILayout.LabelField("FINAL COLOR VALUE");

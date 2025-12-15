@@ -19,7 +19,7 @@ namespace alpha
     }
 
     // 실제 장비(모델)를 플레이어에 장착하거나 교체, 해제
-    public class PlayerEquipManager : MonoBehaviour, IEquipService
+    public class PlayerEquipManager : MonoBehaviour, ISwapCondition
     {
         // ========== Equip Holder ==========
         [SerializeField] private ItemHolder[] m_itemholder;
@@ -35,7 +35,7 @@ namespace alpha
 
         // PlayerInventoryController에서 Combat으로 스왑 가능한지 전달 및 스왑(현재 무기 데이터도 전달)
         private Item m_currentIntem;
-
+        
         private void Awake()
         {
             m_itemholder = GetComponentsInChildren<ItemHolder>();
@@ -74,6 +74,11 @@ namespace alpha
             {
                 CurrentCountableItems[(ECountableTypes)type] = null;
             }
+        }
+
+        public void InitializeModule(PlayerCore core)
+        {
+            core.OnCanSwapFunc += CanSwap;
         }
 
         private void Start()
@@ -216,7 +221,7 @@ namespace alpha
             return true;
         }
 
-        public Item TrySwap(int swapNum)
+        public Item TrySwapAndGetItem(int swapNum)
         {
             int _swapNum = swapNum;
 
@@ -235,7 +240,7 @@ namespace alpha
 
             if (targetHolder == null)
             {
-                Debug.LogWarning($"TrySwap: [{_swapNum}]에 해당하는 홀더가 존재하지 않습니다.");
+                Debug.LogWarning($"TrySwapAndGetItem: [{_swapNum}]에 해당하는 홀더가 존재하지 않습니다.");
                 return null;
             }
 
@@ -244,7 +249,5 @@ namespace alpha
 
             return m_currentIntem;
         }
-
-
     }
 }

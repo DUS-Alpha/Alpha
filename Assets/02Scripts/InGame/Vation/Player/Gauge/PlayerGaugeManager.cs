@@ -54,14 +54,14 @@ namespace alpha
 
         private void Start()
         {
-            m_playerCore.LocomotionM.OnDecreaseGauge += HandleDecreaseActionGauge;
+            m_playerCore.LocomotionManager.OnDecreaseGauge += HandleDecreaseActionGauge;
             //m_playerCore.Locomotion.OnRegenrateGauge += RegenrateActionGauge;
             //m_playerCore.Locomotion.OnResetTimer += ResetRegenerationActionTimer;
 
-            m_playerCore.Combat.OnDecreaseGauge += HandleDecreaseRangeWeaponGauge;
-            m_playerCore.Combat.OnRegenrateGauge += RegenrateRangeWeaponGauge;
-            m_playerCore.Combat.OnResetTimer += ResetRegenerationRangeWeaponTimer;
-            m_playerCore.Combat.OnCurrentRangeAttackGauge += CurrentRangeWeaponGauge;
+            m_playerCore.CombatManager.OnDecreaseGauge += HandleDecreaseRangeWeaponGauge;
+            m_playerCore.CombatManager.OnRegenrateGauge += RegenrateRangeWeaponGauge;
+            m_playerCore.CombatManager.OnResetTimer += ResetRegenerationRangeWeaponTimer;
+            m_playerCore.CombatManager.OnCurrentRangeAttackGauge += CurrentRangeWeaponGauge;
 
             m_realTimeUIM.SetGague(SetMaxActionGauge(0)/100, GaugeTpyes.Action);
             m_realTimeUIM.SetGague(SetMaxRangeWeaponGauge(0) / 100, GaugeTpyes.RangeWeapon);

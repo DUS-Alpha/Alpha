@@ -4,7 +4,6 @@ using UnityEngine.UIElements;
 
 public class PlayerNonCombatState : PlayerCombatStateBase
 {
-
     public PlayerNonCombatState(PlayerCore playerCore) : base(playerCore) { }
 
     public override void Enter()
@@ -21,9 +20,17 @@ public class PlayerNonCombatState : PlayerCombatStateBase
         bool _isAim = m_InputM.IsAim;
         bool _isDash = m_InputM.IsDash;
 
+        if(_isSwap)
+        {
+            // Swap가능한지 체크
+            if (m_Core.CanSwap(_swapNum))
+            {
+                m_Core.SwitchCombatState(CombatStateType.Swap);
+            }
+        }
 
         m_Combat.InvokeRegenerateGauge();
-        if (m_Combat.CanSwap1)
+        /*if (m_Combat.CanSwap)
         {
             m_Core.SwitchCombatState(CombatStateType.Swap);
         }
@@ -37,7 +44,7 @@ public class PlayerNonCombatState : PlayerCombatStateBase
                 m_Core.SwitchCombatState(CombatStateType.Attack);
             }
 
-        }
+        }*/
 
         /*else if (m_Combat.IsReload)
             m_PlayerCore.SwitchCombatState(CombatStateType.Reload);

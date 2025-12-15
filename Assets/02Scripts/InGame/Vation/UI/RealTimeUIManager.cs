@@ -57,11 +57,11 @@ public class RealTimeUIManager : MonoBehaviour, IGauge
     #region ======================================== STATE 
     public void CurrentLocomotionState(string state)
     {
-        m_locomotionTMP.text = "LocomotionM \n" + state;
+        m_locomotionTMP.text = "LocomotionManager \n" + state;
     }
     public void CurrentCombatState(string state)
     {
-        m_combatTMP.text = "Combat \n" + state;
+        m_combatTMP.text = "CombatManager \n" + state;
     }
     #endregion ======================================== /STATE
 

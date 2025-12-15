@@ -11,8 +11,6 @@ using UnityEngine;
 public class PlayerCore : MonoBehaviour
 {
     [Header(" [ Ref Component ] ")]
-    public PlayerCameraManger CameraManager;
-    public WorldAudioManager WorldAudioManager;
     public RealTimeUIManager RealTimeUIM;
     public InventoryUI InventoryUI;
 
@@ -20,17 +18,16 @@ public class PlayerCore : MonoBehaviour
     // 입력
     public PlayerInputManager InputManager { get; private set; }
     // 이동
-    public PlayerLocomotionManager LocomotionM { get; private set; }
+    public PlayerLocomotionManager LocomotionManager { get; private set; }
     // 전투
-    public PlayerCombatManager Combat { get; private set; }
+    public PlayerCombatManager CombatManager { get; private set; }
     // 상태 관리
-    public PlayerStateMachineManager StateMachineM { get; private set; }
+    public PlayerStateMachineManager StateMachineManager { get; private set; }
     // 애니메이션
     public PlayerAnimationManager AniManager { get; private set; }
     // 인벤토리
     public PlayerEquipManager EquipmentManager { get; private set; }
     // 오디오
-
     public PlayerAudioManager PlayerAudioManager { get; private set; }
 
     public EffectManager EffectManager { get; private set; }
@@ -50,7 +47,7 @@ public class PlayerCore : MonoBehaviour
     public bool IsCombatLock;
     public bool IsLocomotionLock;
 
-    public event Func<bool> OnCanSwap;
+    public event Func<int,bool> OnCanSwapFunc;
 
     private void OnEnable()
     {
@@ -64,14 +61,14 @@ public class PlayerCore : MonoBehaviour
     private void Awake()
     {
         InputManager = new PlayerInputManager();
-        StateMachineM = new PlayerStateMachineManager();
+        StateMachineManager = new PlayerStateMachineManager();
 
         InventoryController = new PlayerInventoryController();
         
         AniManager = GetComponent<PlayerAnimationManager>();
         EquipmentManager = GetComponent<PlayerEquipManager>();
-        LocomotionM = GetComponent<PlayerLocomotionManager>();
-        Combat = GetComponent<PlayerCombatManager>();
+        LocomotionManager = GetComponent<PlayerLocomotionManager>();
+        CombatManager = GetComponent<PlayerCombatManager>();
         GaugeManager = GetComponent<PlayerGaugeManager>();
         
         IKController = GetComponentInChildren<PlayerIKController>();
@@ -85,36 +82,38 @@ public class PlayerCore : MonoBehaviour
     // 이유 : PlayerCore를 통채로 넘기면 불필요한 것까지 받아 너무 큰단위의 메모리 공간 사용 발생
     private void InitializeModule()
     {
-        StateMachineM.InitializeMoudle(this);
-        LocomotionM.InitializeModule(this);
-        Combat.InitializeModule(this);
+        StateMachineManager.InitializeMoudle(this);
+        LocomotionManager.InitializeModule(this);
+        CombatManager.InitializeModule(this);
         GaugeManager.InitializeModule(this);
-        InventoryController.InitializeModule(EquipmentManager, InventoryUI);
+        EquipmentManager.InitializeModule(this);
+
+        //InventoryController.InitializeModule(EquipmentManager, InventoryUI);
     }
 
     private void Start()
     {
         SwitchLocomotionState(LocomotionStateType.Idle);
         SwitchCombatState(CombatStateType.NonCombat);
-        InventoryController.Start();
+        InventoryController.OnStart();
     }
 
     private void Update()
     {
-        StateMachineM.OnUpdate();
-        LocomotionM.OnUpdate();
-        RealTimeUIM.CurrentLocomotionState(StateMachineM.CurrentLocomotion.ToString());
-        RealTimeUIM.CurrentCombatState(StateMachineM.CurrentCombat.ToString());
-        //CheckInputAction?.Invoke();
+        StateMachineManager.OnUpdate();
+        LocomotionManager.OnUpdate();
+        RealTimeUIM.CurrentLocomotionState(StateMachineManager.CurrentLocomotion.ToString());
+        RealTimeUIM.CurrentCombatState(StateMachineManager.CurrentCombat.ToString());
     }
     
+    // 상태 관리
     public void SwitchLocomotionState(LocomotionStateType newState)
     {
-        StateMachineM.SwitchLocomotionState(newState);
+        StateMachineManager.SwitchLocomotionState(newState);
     }
     public void SwitchCombatState(CombatStateType newState)
     {
-        StateMachineM.SwitchCombatState(newState);
+        StateMachineManager.SwitchCombatState(newState);
     }
 
     // Locomotion과 Combat간의 Lock 동기화 처리
@@ -124,6 +123,18 @@ public class PlayerCore : MonoBehaviour
         IsLocomotionLock = isLocomotionLock;
     }
 
+    // 인벤토리 관리
+    public bool CanSwap(int num)
+    {
+        foreach (Func<int, bool> func in OnCanSwapFunc.GetInvocationList())
+        {
+            if (!func.Invoke(num))
+                return false;
+        }
+        return true;
+    }
+
+    // 데이터 관리
     // TODO : Save / Load 기능 구현 필요
     public void SaveGameDataToCurrentCharacterData(ref CharacterSaveData currentCharacterData)
     {

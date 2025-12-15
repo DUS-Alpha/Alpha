@@ -13,7 +13,7 @@ public class LPDemoHumanoid : MonoBehaviour
     }
     
     public void Locomotion(float newValue){
-        animator.SetFloat ("LocomotionM", newValue);
+        animator.SetFloat ("LocomotionManager", newValue);
     }
 
     public void PlayAudio()

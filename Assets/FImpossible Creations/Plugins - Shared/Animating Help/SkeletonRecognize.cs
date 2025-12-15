@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace FIMSpace.AnimationTools
@@ -413,7 +413,7 @@ namespace FIMSpace.AnimationTools
                             Transform swap = ProbablyChest;
                             ProbablyChest = ProbablyHips;
                             ProbablyHips = swap;
-                            UnityEngine.Debug.Log("Hips - Chest - Reversed Detection Swap!");
+                            UnityEngine.Debug.Log("Hips - Chest - Reversed Detection TrySwapAndGetItem!");
                         }
                     }
 

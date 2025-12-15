@@ -1,9 +1,24 @@
 using alpha;
 using UnityEngine;
 
-public class PlayerDashState : PlayerCombatManager
+public class PlayerDashState : PlayerCombatStateBase
 {
     public PlayerDashState(PlayerCore playerCore) : base(playerCore){}
+
+    public override void Enter()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void Exit()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void Update()
+    {
+        throw new System.NotImplementedException();
+    }
 
 
     /*protected override InputLocoLockType m_LockOnEnter => InputCombatLockType.All;

@@ -14,8 +14,8 @@ public abstract class PlayerStateBase
     public PlayerStateBase(PlayerCore playerCore)
     {
         m_Core = playerCore;
-        m_Locomotion = playerCore.LocomotionM;
-        m_Combat = playerCore.Combat;
+        m_Locomotion = playerCore.LocomotionManager;
+        m_Combat = playerCore.CombatManager;
         m_InputM = playerCore.InputManager;
         m_AniM = playerCore.AniManager;
         m_Audio = playerCore.PlayerAudioManager;

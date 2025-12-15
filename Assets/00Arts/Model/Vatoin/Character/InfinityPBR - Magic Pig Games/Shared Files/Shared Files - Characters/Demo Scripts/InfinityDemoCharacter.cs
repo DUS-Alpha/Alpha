@@ -39,7 +39,7 @@ namespace InfinityPBR.Demo
         public Collider playArea;
         
         // Privates
-        private static readonly int Locomotion = Animator.StringToHash("LocomotionM");
+        private static readonly int Locomotion = Animator.StringToHash("LocomotionManager");
         private int _animationTriggerIndex;
         
         private float _randomValue;
