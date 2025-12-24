@@ -8,6 +8,7 @@ namespace alpha
     {
         [SerializeField] private InventoryManager m_inventoryManager;
         [SerializeField] private InventoryUIManager m_inventoryUI;
+        [SerializeField] private PlayerEquipManager m_equipMnager;
 
         private IInventoryService m_inventoryModel;
         private IInventoryUIService m_inventoryUIView;
@@ -24,8 +25,10 @@ namespace alpha
             m_inventoryUIView.OnClickAddInventory += HandleExpandInventory;
 
             m_inventoryModel.OnUpdateSlotUI += HandleOnAddItem;
-
             m_inventoryUIView.OnDragDrop += HandleDragDrop;
+
+            m_inventoryModel.OnEquipItem += HandleEquipItem;
+            m_inventoryModel.OnUnEquipItem += HandleUnEquipItem;
         }
 
         private void Start()
@@ -60,6 +63,15 @@ namespace alpha
             EItemTypes _toType = dropUI.SlotItemType;
             int _toIndex = dropUI.SlotIndex;
             return m_inventoryModel.ExecuteDragDrop(_fromType, _fromIndex, _toType, _toIndex);
+        }
+
+        private void HandleEquipItem(ItemDataSO itemData)
+        {
+            m_equipMnager.TryEquip(itemData);
+        }
+        private void HandleUnEquipItem(ItemDataSO itemData)
+        {
+            m_equipMnager.TryUnEquip(itemData);
         }
     }
 }

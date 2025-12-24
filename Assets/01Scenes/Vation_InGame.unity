@@ -534,16 +534,20 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5172943564960302440, guid: b85d51c7f69c65144b1ce83beec836ed, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5172943564960302440, guid: b85d51c7f69c65144b1ce83beec836ed, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 2005893964}
+      objectReference: {fileID: 450881174}
     - target: {fileID: 5172943564960302440, guid: b85d51c7f69c65144b1ce83beec836ed, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: CloseOption
+      value: CloseUI
       objectReference: {fileID: 0}
     - target: {fileID: 5172943564960302440, guid: b85d51c7f69c65144b1ce83beec836ed, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: alpha.WindowUIManager, Assembly-CSharp
+      value: alpha.BaseUI, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5172943564960302440, guid: b85d51c7f69c65144b1ce83beec836ed, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -2404,6 +2408,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_inventoryManager: {fileID: 1917136555}
   m_inventoryUI: {fileID: 1202656961}
+  m_equipMnager: {fileID: 2074050650}
 --- !u!114 &583854751 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 48174734871036783, guid: 19a4c8a44602e474f99a20b3b0288801, type: 3}
@@ -3726,9 +3731,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2005893964}
-        m_TargetAssemblyTypeName: alpha.WindowUIManager, Assembly-CSharp
-        m_MethodName: CloseInventory
+      - m_Target: {fileID: 1202656961}
+        m_TargetAssemblyTypeName: alpha.InventoryUIManager, Assembly-CSharp
+        m_MethodName: CloseUI
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4634,38 +4639,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5940536672436407279, guid: e4558b2f7e111f440bbc8f56c516daa5, type: 3}
   m_PrefabInstance: {fileID: 1296791692}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1777318997
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1777318998}
-  m_Layer: 0
-  m_Name: "\uC778\uBCA4\uD1A0\uB9AC \uB4DC\uB798\uADF8\uB4DC\uB78D \uC544\uC774\uD15C\uAC1C\uC218
-    \uBCC0\uACBD\uCC98\uB9AC"
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1777318998
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1777318997}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1605.9562, y: 529.0859, z: 52.085983}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1785758736
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5169,6 +5142,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2074050650 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8807838083378427057, guid: 8d1d3eebfd16a4c41adbc85d4122326d, type: 3}
+  m_PrefabInstance: {fileID: 1917136550}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 403ac5b947bf66148a9c281ff10b35d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2090902440
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5755,4 +5739,3 @@ SceneRoots:
   - {fileID: 1376092439}
   - {fileID: 1692682560}
   - {fileID: 1830437600}
-  - {fileID: 1777318998}

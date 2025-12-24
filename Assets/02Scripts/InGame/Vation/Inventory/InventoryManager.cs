@@ -21,6 +21,9 @@ namespace alpha
 
         public event Action<ISlotModel> OnUpdateSlotUI;
 
+        // 장비
+        public event Action<ItemDataSO> OnEquipItem;
+        public event Action<ItemDataSO> OnUnEquipItem;
         private void Awake()
         {
             // 슬롯 생성 및 초기화
@@ -71,7 +74,7 @@ namespace alpha
             return false;
         }
 
-        // 그외 타슬롯으로 드래그 & 드롭
+        // View에서 이벤트 발생 (타슬롯으로 드래그 & 드롭)
         public bool ExecuteDragDrop(EItemTypes fromType, int fromIndex, EItemTypes toType, int toIndex)
         {
             if(fromType == toType && fromIndex == toIndex) return true;
@@ -80,12 +83,12 @@ namespace alpha
             SlotBase _dropSlot = GetSlot(toType, toIndex);
 
             //드래그한 슬롯에 현재 드랍한 슬롯이 허용되는지
-
+            
             bool _isInventorySlot = fromType == EItemTypes.None && toType == EItemTypes.None;
 
             if (_isInventorySlot || _dropSlot.CanAccept(_dragSlot.CurrentItemData))
             {
-                SwapSlot(_dragSlot, _dropSlot);
+                DragDropSlot(_dragSlot, _dropSlot);
                 return true;
             }
 
@@ -102,7 +105,8 @@ namespace alpha
                 EItemTypes.Useable => UseableQuickSlotList[index],
             };
         }
-        public SlotInfo GetCopySlotInfo(SlotBase slot)
+
+        private SlotInfo GetCopySlotInfo(SlotBase slot)
         {
             SlotInfo copySlotInfo = new SlotInfo()
             {
@@ -112,7 +116,7 @@ namespace alpha
             return copySlotInfo;
         }
 
-        private void SwapSlot(SlotBase dragSlot, SlotBase dropSlot)
+        private void DragDropSlot(SlotBase dragSlot, SlotBase dropSlot)
         {
             bool _isDragClear = dropSlot.IsEmpty;
 
@@ -123,13 +127,24 @@ namespace alpha
             }
             else
             {
+
                 SlotInfo _dragSlotCopyInfo = GetCopySlotInfo(dragSlot);
                 SlotInfo _dropSlotCopyInfo = GetCopySlotInfo(dropSlot);
 
                 dropSlot.SwapSlot(_dragSlotCopyInfo);
 
+                if (dragSlot.SlotItemType != EItemTypes.None)
+                {
+                    OnUnEquipItem?.Invoke(dragSlot.CurrentItemData);
+                }
                 if (_isDragClear) dragSlot.ClearSlot();
                 else dragSlot.SwapSlot(_dropSlotCopyInfo);
+
+                if (dropSlot.SlotItemType != EItemTypes.None)
+                {
+                    // 실제 장비 착용 처리
+                    OnEquipItem?.Invoke(dropSlot.CurrentItemData);
+                }
             }
 
             UpdateDragDrop(dragSlot, dropSlot);

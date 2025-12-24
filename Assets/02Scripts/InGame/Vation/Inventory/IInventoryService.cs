@@ -18,5 +18,8 @@ namespace alpha
 
         public void DestoryItem(ItemDataSO itemData);
 
+        // Equip
+        public event Action<ItemDataSO> OnEquipItem;
+        public event Action<ItemDataSO> OnUnEquipItem;
     }
 }

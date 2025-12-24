@@ -21,6 +21,10 @@ namespace alpha
             {
                 m_inventoryUIManager.gameObject.SetActive(!m_inventoryUIManager.gameObject.activeSelf);
             }
+            if(m_uiInputManager.IsOptionMenu)
+            {
+                m_optionMenu.gameObject.SetActive(!m_optionMenu.gameObject.activeSelf);
+            }
         }
     }
 }

@@ -172,7 +172,6 @@ namespace alpha
                     Debug.LogWarning("알 수 없는 아이템 타입");
                     break;
             }
-            
         }
         private void UnEquipWeapon(WeaponItemDataSO data)
         {
@@ -184,9 +183,14 @@ namespace alpha
                 CurrentWeaponItems[_weaponData.WeaponType] = null;
             }
         }
-        private void UnEquipQuick_Potion(ItemDataSO data)
+        private void UnEquipQuick_Potion(PotionItemDataSO data)
         {
-
+            PotionItemDataSO _potionData = data;
+            if (CurrentCountableItems[_potionData.CountableType] != null)
+            {
+                Destroy(CurrentCountableItems[_potionData.CountableType].gameObject);
+                CurrentCountableItems[_potionData.CountableType] = null;
+            }
         }
 
         #endregion ======================================== / UnEquip
