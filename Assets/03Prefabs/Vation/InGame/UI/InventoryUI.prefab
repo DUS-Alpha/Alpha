@@ -321,15 +321,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 086296f75b7214c43b7fcee77fdf8c79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UIOpenAnim: {fileID: 0}
-  UIType: 2
-  m_verticalSlotCount: 4
   m_contentRt: {fileID: 2736902579880529691}
-  m_slotPrefab: {fileID: 6148200885903576427, guid: 4c3cbeda96597954c8d68f25f463657f, type: 3}
-  InventorySlotList: []
-  ArmorSlotList: []
-  WeaponSlotList: []
-  QuickSlotList: []
+  m_inventorySlotPrefab: {fileID: 6148200885903576427, guid: 4c3cbeda96597954c8d68f25f463657f, type: 3}
+  m_inventorySlotUIs: []
+  m_armorSlotUIs: []
+  m_weaponQuickSlotUIs: []
+  m_useableQuickSlotUIs: []
   m_dragSlot: {fileID: 5241978820167990821}
   m_popUITr: {fileID: 0}
   m_confirmUI: {fileID: 0}
@@ -420,7 +417,7 @@ GameObject:
   - component: {fileID: 6230782389897197156}
   - component: {fileID: 8918221789964982153}
   m_Layer: 5
-  m_Name: SwapSlotGroup
+  m_Name: QuickSlotGroup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1040,9 +1037,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9113937570156379829, guid: faf063a4f4cc0f34f9d4beba20008727, type: 3}
       propertyPath: m_Name
-      value: QuickSlot
+      value: UseableQuickSlot
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7977221229611508102, guid: faf063a4f4cc0f34f9d4beba20008727, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

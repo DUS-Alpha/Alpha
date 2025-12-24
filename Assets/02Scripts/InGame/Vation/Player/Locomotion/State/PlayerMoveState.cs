@@ -27,6 +27,7 @@ public class PlayerMoveState : PlayerLocomotionStateBase
 
         // 오디오
 
+
         // 상태 전환
         if (_isJump)
             m_Core.SwitchLocomotionState(LocomotionStateType.Jump);

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEditor;
 using System;
 using System.Collections.Generic;
@@ -100,13 +100,13 @@ namespace InfinityPBR
                 preset.showValues = !preset.showValues;
             }
 
-            EditorGUILayout.LabelField("Preset Name", GUILayout.Width(150));
+            EditorGUILayout.LabelField("Preset ItemName", GUILayout.Width(150));
             var tempName = preset.name;
             preset.name = EditorGUILayout.DelayedTextField(preset.name);
             if (tempName != preset.name)
             {
                 EditorUtility.SetDirty(Manager);
-                Debug.Log("Name was updated");
+                Debug.Log("ItemName was updated");
             }
             if (GUILayout.Button("Activate", GUILayout.Width(150)))
             {

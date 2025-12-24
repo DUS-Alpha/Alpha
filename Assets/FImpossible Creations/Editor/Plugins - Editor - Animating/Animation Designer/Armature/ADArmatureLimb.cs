@@ -1,4 +1,4 @@
-﻿using FIMSpace.FEditor;
+using FIMSpace.FEditor;
 using FIMSpace.Generating;
 using System;
 using System.Collections.Generic;
@@ -179,7 +179,7 @@ namespace FIMSpace.AnimationTools
 
             EditorGUIUtility.labelWidth = 150;
             EditorGUILayout.BeginHorizontal();
-            LimbName = EditorGUILayout.TextField(new GUIContent("Limb Name:", "This name is just for you, to easier identify limb when focusing on animating different parts of the character body."), LimbName);
+            LimbName = EditorGUILayout.TextField(new GUIContent("Limb ItemName:", "This name is just for you, to easier identify limb when focusing on animating different parts of the character body."), LimbName);
 
             //if (GUILayout.Button(new GUIContent(FGUI_Resources.Tex_ArrowLeft, "Change Limbs execution order"), GUILayout.Width(24)) ) { save.ChangeLimbsOrder(this, false); EditorUtility.SetDirty(save); AnimationDesignerWindow.Get.CheckComponentsInitialization(true); }
             //if (GUILayout.Button(new GUIContent(FGUI_Resources.Tex_ArrowRight, "Change Limbs execution order"), GUILayout.Width(24)) ) { save.ChangeLimbsOrder(this, true); EditorUtility.SetDirty(save); AnimationDesignerWindow.Get.CheckComponentsInitialization(true); }

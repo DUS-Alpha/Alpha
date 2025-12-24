@@ -6,7 +6,7 @@ namespace alpha
     [System.Serializable]
     public class CharacterSaveData
     {
-        [Header("[ Character Name ]")]
+        [Header("[ Character ItemName ]")]
         public string CharacterName;
 
         [Header("Time Played")]

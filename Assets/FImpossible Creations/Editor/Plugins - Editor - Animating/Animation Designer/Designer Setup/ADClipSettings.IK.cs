@@ -1231,11 +1231,11 @@ namespace FIMSpace.AnimationTools
 
                             if (displayProcessingGroundingCurve == false)
                             {
-                                if (GUILayout.Button("^ Quick View for Grounding Curve ^", EditorStyles.centeredGreyMiniLabel)) displayProcessingGroundingCurve = !displayProcessingGroundingCurve;
+                                if (GUILayout.Button("^ Quick_Useable View for Grounding Curve ^", EditorStyles.centeredGreyMiniLabel)) displayProcessingGroundingCurve = !displayProcessingGroundingCurve;
                             }
                             else
                             {
-                                if (GUILayout.Button(" Quick View for Grounding Curve ", EditorStyles.centeredGreyMiniLabel)) displayProcessingGroundingCurve = !displayProcessingGroundingCurve;
+                                if (GUILayout.Button(" Quick_Useable View for Grounding Curve ", EditorStyles.centeredGreyMiniLabel)) displayProcessingGroundingCurve = !displayProcessingGroundingCurve;
                                 AnimationDesignerWindow.DrawCurve(ref FootDataAnalyze.GroundingCurve, "");
                                 AnimationDesignerWindow.DrawCurveProgress(animProgr, 2, 60);
 

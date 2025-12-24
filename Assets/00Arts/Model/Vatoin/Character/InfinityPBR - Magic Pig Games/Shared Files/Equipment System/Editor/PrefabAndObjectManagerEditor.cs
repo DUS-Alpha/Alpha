@@ -420,7 +420,7 @@ namespace InfinityPBR
         private void DisplayVariableHeader()
         {
             StartRow();
-            Label("Variable Name", 150, true);
+            Label("Variable ItemName", 150, true);
             Label("Bool", 50, true);
             Label("Float", 50, true);
             Label("String", 150, true);
@@ -1648,7 +1648,7 @@ namespace InfinityPBR
             var fieldWidth = 180;
             if (header)
             { 
-                EditorGUILayout.LabelField(new GUIContent($"Group Name {symbolInfo}", $"The name of the group must " +
+                EditorGUILayout.LabelField(new GUIContent($"Group ItemName {symbolInfo}", $"The name of the group must " +
                                                                                       $"be unique, and can be used to activate and " +
                                                                                       $"deactivate the group at runtime."), GUILayout.Width(fieldWidth));
                 return;
@@ -1732,7 +1732,7 @@ namespace InfinityPBR
                 EditorGUILayout.Toggle(new GUIContent($"Unpack Prefabs when Instantiated {symbolInfo}", "If true, prefabs that are instantiated will be unpacked."), 
                     Manager.unpackPrefabs);
 
-            EquipObject.rootBoneName = TextField($"Root Bone Name {symbolInfo}","This should be the root bone in your bone hierarchy.rootBoneName", EquipObject.rootBoneName);
+            EquipObject.rootBoneName = TextField($"Root Bone ItemName {symbolInfo}","This should be the root bone in your bone hierarchy.rootBoneName", EquipObject.rootBoneName);
             
             EditorGUILayout.Space();
             HelpBoxMessage("Use the option below to set all InGameObject values to null. This is useful " +

@@ -1,4 +1,4 @@
-﻿using FIMSpace.FEditor;
+using FIMSpace.FEditor;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
@@ -730,7 +730,7 @@ namespace FIMSpace.AnimationTools
                 filename = Path.Combine(lastPath, clipName + ".anim");
             }
             else
-                filename = EditorUtility.SaveFilePanelInProject("Choose path to save animation clip file", clipName, "anim", "New Animation Clip Name", lastPath);
+                filename = EditorUtility.SaveFilePanelInProject("Choose path to save animation clip file", clipName, "anim", "New Animation Clip ItemName", lastPath);
 
             //AnimationClip nClip = null;
 

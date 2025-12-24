@@ -790,7 +790,7 @@ namespace FIMSpace.AnimationTools
                         draftsMenu.AddItem(new GUIContent("Rename current selected clip version"), false, () =>
                         {
                             string newName = _anim_MainSet.AlternativeName;
-                            if (string.IsNullOrEmpty(newName)) newName = "Clip Name";
+                            if (string.IsNullOrEmpty(newName)) newName = "Clip ItemName";
                             newName = FGenerators.RenamePopup(null, newName);
                             if (!string.IsNullOrEmpty(newName)) { _anim_MainSet.AlternativeName = newName; _anim_MainSet.AlternativeUsePrefix = true; }
                         });
@@ -798,7 +798,7 @@ namespace FIMSpace.AnimationTools
                         draftsMenu.AddItem(new GUIContent("Rename current selected clip version (No Prefix)"), false, () =>
                         {
                             string newName = _anim_MainSet.AlternativeName;
-                            if (string.IsNullOrEmpty(newName)) newName = "Clip Name";
+                            if (string.IsNullOrEmpty(newName)) newName = "Clip ItemName";
                             newName = FGenerators.RenamePopup(null, newName);
                             if (!string.IsNullOrEmpty(newName)) { _anim_MainSet.AlternativeName = newName; _anim_MainSet.AlternativeUsePrefix = false; }
                         });

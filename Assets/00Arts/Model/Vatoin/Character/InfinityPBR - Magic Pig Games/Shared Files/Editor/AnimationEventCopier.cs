@@ -52,7 +52,7 @@ public class AnimationEventCopier : EditorWindow
 
 		// Show a title box and object fields
 		EditorGUILayout.HelpBox ("ALL CLIP COPY\n\nChoose a source GameObject and a target GameObject.  For all clips where the names" +
-			" match, the Events & Clip Settings will be copied.\n\nNOTE:  \"Name\" of the clip is taken from the Animator Controller component, " +
+			" match, the Events & Clip Settings will be copied.\n\nNOTE:  \"ItemName\" of the clip is taken from the Animator Controller component, " +
 			"as is the Animation Clip.  Because of this, each GameObject should have a *different* Animator Component attached.", MessageType.Info);
 		EditorGUILayout.BeginHorizontal();
 		sourceGameObject = EditorGUILayout.ObjectField("Source", sourceGameObject, typeof(GameObject), true) as GameObject;

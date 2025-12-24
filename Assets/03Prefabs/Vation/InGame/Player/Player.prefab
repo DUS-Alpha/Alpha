@@ -1269,15 +1269,14 @@ GameObject:
   - component: {fileID: 6242632061427808748}
   - component: {fileID: 6637529040941777247}
   - component: {fileID: 5125475080194614651}
-  - component: {fileID: 6797074778866440085}
+  - component: {fileID: 8652837559477405220}
+  - component: {fileID: 5360045586001176187}
   - component: {fileID: 587818568328244339}
   - component: {fileID: 2763090024261597597}
-  - component: {fileID: 8652837559477405220}
   - component: {fileID: 8384058729499424320}
   - component: {fileID: 1540155835052336377}
   - component: {fileID: 1264148686281107399}
   - component: {fileID: 1176732535342665030}
-  - component: {fileID: 5761512341243985462}
   - component: {fileID: 6386163676348662903}
   - component: {fileID: 8295855337185595320}
   - component: {fileID: 4571831763106746308}
@@ -1357,63 +1356,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &6797074778866440085
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7144277684283177295}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea95c4d30d0897348b749c0f818fe601, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_isSwap: 0
---- !u!114 &587818568328244339
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7144277684283177295}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2d790ccf400ffe438d6e6e013801bc0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AudioM: {fileID: 0}
---- !u!114 &2763090024261597597
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7144277684283177295}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 620d992d61d242e48acf49f865e5f1db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_playerAudioController: {fileID: 1264148686281107399}
-  m_effectManager: {fileID: 6155670601452383034}
-  m_baseSpeed: 5
-  m_baseBackMovingSpeed: 2
-  m_jumpSpeed: 2
-  m_flySpeed: 5
-  m_combatSpeed: 1
-  m_flightCombatSpeed: 1.5
-  m_groundMask:
-    serializedVersion: 2
-    m_Bits: 64
-  m_groundDistance: 0.25
-  m_jumpHeight: 2
-  m_flyingGravity: -1.5
-  m_antiGravity: 1.5
-  m_targetFlyHeight: 10
-  m_initialFlySpeed: 15
-  m_flyDecel: 6
-  IsDie: 0
 --- !u!114 &8652837559477405220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1426,10 +1368,61 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 935582c7cccd5a74c807ac4d3d750b28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CameraM: {fileID: 0}
-  AudioManager: {fileID: 0}
+  RealTimeUIM: {fileID: 0}
+  InventoryUI: {fileID: 0}
   IsPerformingAction: 0
   IsCombatLock: 0
+  IsLocomotionLock: 0
+--- !u!114 &5360045586001176187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7144277684283177295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12eb6d01468e350428ad7635c19c00fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_verticalSlotCount: 4
+--- !u!114 &587818568328244339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7144277684283177295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2d790ccf400ffe438d6e6e013801bc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2763090024261597597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7144277684283177295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 620d992d61d242e48acf49f865e5f1db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_baseSpeed: 5
+  m_combatSpeed: 1
+  m_turnSmoothTime: 0.1
+  m_baseGravity: -15
+  m_flyingGravity: -0.5
+  m_antiGravity: 5
+  m_groundMask:
+    serializedVersion: 2
+    m_Bits: 64
+  m_jumpHeight: 2.5
+  m_targetFlyHeight: 10
+  m_flyDecel: 6
+  m_initialFlySpeed: 15
 --- !u!114 &8384058729499424320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1530,22 +1523,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7523c25fa4718d94baa29ba36cc5a7e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_realTimeUIM: {fileID: 0}
   m_maxAcionGauge: 100
-  m_actionGaugeRegenarationAmount: 1
+  m_actionGaugeRegenarationAmount: 0.5
   m_actionGaugeRegenarationDelay: 1
---- !u!114 &5761512341243985462
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7144277684283177295}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f25edea811eed9439d730e97cc2ee4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  InventoryUI: {fileID: 0}
+  m_maxRangeWeaonGauge: 100
+  m_rangeWeaonGaugeRegenarationAmount: 0.05
+  m_rangeWeaonGaugeRegenarationDelay: 1
 --- !u!114 &6386163676348662903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1571,7 +1555,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58401859befbd164c9304406db8f2117, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_animator: {fileID: 5125475080194614651}
 --- !u!114 &4571831763106746308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8763,6 +8746,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 32900000, guid: b8ec6b027bb85454390fcea66a6fb8f2, type: 3}
     - target: {fileID: 577530023044801732, guid: 823d27bf6d423214680bba3f294d5443, type: 3}
+      propertyPath: m_TargetTexture
+      value: 
+      objectReference: {fileID: 8400000, guid: 3f70c75c73652e54b96acecc648248f7, type: 2}
+    - target: {fileID: 577530023044801732, guid: 823d27bf6d423214680bba3f294d5443, type: 3}
+      propertyPath: m_TargetMaterialRenderer
+      value: 
+      objectReference: {fileID: 277479008122144395}
+    - target: {fileID: 577530023044801732, guid: 823d27bf6d423214680bba3f294d5443, type: 3}
       propertyPath: 'm_DirectAudioVolumes.Array.data[0]'
       value: 0
       objectReference: {fileID: 0}
@@ -8802,6 +8793,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: c2f1d47057e83c9408f2c76699061dd3, type: 2}
+    - target: {fileID: 5085873027986219096, guid: 823d27bf6d423214680bba3f294d5443, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 5766d3797373c594db89fe26be73e48a, type: 2}
     - target: {fileID: 5239168367908047321, guid: 823d27bf6d423214680bba3f294d5443, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 

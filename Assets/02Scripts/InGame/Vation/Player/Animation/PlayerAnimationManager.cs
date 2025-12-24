@@ -134,7 +134,6 @@ namespace alpha
                     m_animator.CrossFade("Landing2", 0.25f);
                     break;
             }
-            
         }
 
         // ========== Fly

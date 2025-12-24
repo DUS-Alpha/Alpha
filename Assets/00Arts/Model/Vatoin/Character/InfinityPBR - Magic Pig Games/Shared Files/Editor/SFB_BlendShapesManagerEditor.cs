@@ -78,8 +78,8 @@ public class SFB_BlendShapesManagerEditor : Editor  {
 			}
 
 			EditorGUILayout.BeginHorizontal ();
-			Undo.RecordObject (myScript, "Change Preset Name");
-			myScript.presetName = EditorGUILayout.TextField("Preset File Name: ", myScript.presetName);
+			Undo.RecordObject (myScript, "Change Preset ItemName");
+			myScript.presetName = EditorGUILayout.TextField("Preset File ItemName: ", myScript.presetName);
 			EditorGUILayout.EndHorizontal ();
 			EditorGUILayout.BeginHorizontal ();
 			GUI.color 			= Color.green;

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -47,11 +47,11 @@ namespace FIMSpace.FEditor
             }
         }
 
-        [MenuItem("Assets/Utilities/Name iterative selected assets", true)]
+        [MenuItem("Assets/Utilities/ItemName iterative selected assets", true)]
         static bool SetFilenamesCheck(MenuCommand menuCommand)
         { return Selection.gameObjects.Length > 0; }
 
-        [MenuItem("Assets/Utilities/Name iterative selected assets", false)]
+        [MenuItem("Assets/Utilities/ItemName iterative selected assets", false)]
         private static void SetFilenames(MenuCommand menuCommand)
         {
             if (Selection.gameObjects.Length == 0) return;

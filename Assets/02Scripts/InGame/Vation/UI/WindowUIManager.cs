@@ -139,13 +139,5 @@ namespace alpha
         {
             ToggleWindowUI(EWindowUITypes.Inventory);
         }
-
-        /*public void OpenOptionUI() => OpenWindowUI(EWindowUITypes.Option);
-        public void CloseOptionUI() => CloseWindowUI(EWindowUITypes.Option);
-        public void ToggleOptionUI() => ToggleWindowUI(EWindowUITypes.Option);
-
-        public void OpenInventoryUI() => OpenWindowUI(EWindowUITypes.Inventory);
-        public void CloseInventoryUI() => CloseWindowUI(EWindowUITypes.Inventory);
-        public void ToggleInventoryUI() => ToggleWindowUI(EWindowUITypes.Inventory);*/
     }
 }

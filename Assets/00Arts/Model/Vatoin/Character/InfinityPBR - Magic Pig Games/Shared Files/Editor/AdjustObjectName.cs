@@ -22,9 +22,9 @@ using UnityEngine;
 
          void OnGUI()
          {
-             GUILayout.Label("Name Adjustment Settings", EditorStyles.boldLabel);
-             _namePrefix = EditorGUILayout.TextField("Name Prefix", _namePrefix);
-             _nameSuffix = EditorGUILayout.TextField("Name Suffix", _nameSuffix);
+             GUILayout.Label("ItemName Adjustment Settings", EditorStyles.boldLabel);
+             _namePrefix = EditorGUILayout.TextField("ItemName Prefix", _namePrefix);
+             _nameSuffix = EditorGUILayout.TextField("ItemName Suffix", _nameSuffix);
              _addSpacesBeforeCamelCase = EditorGUILayout.Toggle("Add Spaces Between Camel Case", _addSpacesBeforeCamelCase);
              _replaceUnderscoresWithSpaces = EditorGUILayout.Toggle("Replace Underscores With Spaces", _replaceUnderscoresWithSpaces);
              if (!GUILayout.Button("Apply Changes")) return;
@@ -71,7 +71,7 @@ using UnityEngine;
              string newName = FormatName(oldName);
              obj.name = newName;  // Directly change the name of the in-scene GameObject
              EditorSceneManager.MarkSceneDirty(obj.scene);  // Mark the scene as dirty for changes
-             Debug.Log($"Old Name: {oldName}, New Name: {newName}");
+             Debug.Log($"Old ItemName: {oldName}, New ItemName: {newName}");
          }
          
          private void UpdateName(GameObject obj)
@@ -92,7 +92,7 @@ using UnityEngine;
                  AssetDatabase.RenameAsset(path, newName);
              }
 
-             Debug.Log($"Old Name: {oldName}, New Name: {newName}");
+             Debug.Log($"Old ItemName: {oldName}, New ItemName: {newName}");
          }
 
          private void UpdateName(ScriptableObject obj)
@@ -104,7 +104,7 @@ using UnityEngine;
              string path = AssetDatabase.GetAssetPath(obj);
              AssetDatabase.RenameAsset(path, newName);
 
-             Debug.Log($"Old Name: {oldName}, New Name: {newName}");
+             Debug.Log($"Old ItemName: {oldName}, New ItemName: {newName}");
          }
 
          private string FormatName(string originalName)

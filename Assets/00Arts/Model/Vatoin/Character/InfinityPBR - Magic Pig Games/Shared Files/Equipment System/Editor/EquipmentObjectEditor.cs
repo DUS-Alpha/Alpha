@@ -276,7 +276,7 @@ namespace InfinityPBR
                                     $"view), turn off \"Auto Save\", and manually save after adding the script, or the settings won't " +
                                     $"actually be saved!");
             StartRow();
-            Label($"Rootbone Name ⓘ", "Set the name of the root bone used for your character(s). The " +
+            Label($"Rootbone ItemName ⓘ", "Set the name of the root bone used for your character(s). The " +
                                                                           "\"Populate\" button will attempt to set the two required values.", 120);
             SetString("Infinity PBR Armor Object Root Bone", TextField(EditorPrefs.GetString("Infinity PBR Armor Object Root Bone"), 100));
             Colors(Color.yellow);

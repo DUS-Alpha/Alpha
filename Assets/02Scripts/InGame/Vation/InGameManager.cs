@@ -15,9 +15,15 @@ namespace alpha
             WorldCameraManager.Instance.SetCursor(false);
         }
 
+        public void HandleInvenotryUI()
+        {
+
+        }
+
         public void LeaveInGame()
         {
             SceneLoaderManager.Instance.SaveNextSceneAndLoadBootScene(ESceneTypes.Title);
         }
+
     }
 }

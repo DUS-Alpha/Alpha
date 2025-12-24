@@ -170,7 +170,7 @@ namespace InfinityPBR
                 BlendShapePresetFile range = Manager.rangeFiles[i];
                 EditorGUILayout.BeginHorizontal();
 
-                range.name = EditorGUILayout.TextField("Name", range.name);
+                range.name = EditorGUILayout.TextField("ItemName", range.name);
                 EditorGUILayout.ObjectField(range.textAsset, typeof(TextAsset), false);
                 if (GUILayout.Button("Load"))
                 {
@@ -199,7 +199,7 @@ namespace InfinityPBR
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.BeginHorizontal();
             if (Manager.exportPath != "")
-                presetFileName = EditorGUILayout.TextField("Export Name", rangeFileName);
+                presetFileName = EditorGUILayout.TextField("Export ItemName", rangeFileName);
             else
                 EditorGUILayout.LabelField("You must select an export path before exporting.");
             if (GUILayout.Button("Export MainRange File"))

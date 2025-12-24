@@ -13,8 +13,14 @@ public class PickUpItem : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            PlayerCore _playerCore = other.GetComponent<PlayerCore>();
-            _playerCore.InventoryUI.AddItem(m_itemData);
+            InventoryManager _inventoryCore = other.GetComponent<InventoryManager>();
+
+            if (!_inventoryCore.AddItemToInventory(m_itemData))
+            {
+                Debug.Log("인벤토리 공간 부족으로 아이템 획득 실패");
+                return;
+            }
+
             Destroy(gameObject); // 월드에서 제거
         }
     }

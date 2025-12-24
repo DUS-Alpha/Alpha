@@ -323,7 +323,7 @@ namespace InfinityPBR
                 $"for equipping wardrobe, as an example."), Manager.autoRigWhenActivated);
             if (BlendShapesManager)
                 Manager.handleBlendShapes = EditorGUILayout.Toggle(new GUIContent($"Handle blend shapes {symbolInfo}", 
-                    $"If true, the Blend Shapes Manager will handle blend shapes, which means that armor or wardrobe that " +
+                    $"If true, the Blend Shapes Manager will handle blend shapes, which means that armorSlotCount or wardrobe that " +
                     $"is instantiated onto a character with customized blend shape values will have it's own blend shape values set, so " +
                     $"the wardrobe looks correct."), Manager.handleBlendShapes);
             EditorGUI.indentLevel--;

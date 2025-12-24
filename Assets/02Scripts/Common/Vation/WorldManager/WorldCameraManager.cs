@@ -17,7 +17,7 @@ namespace alpha
 
         public void SetCursor(bool isCursor)
         {
-            if (isCursor)
+            /*if (isCursor)
             {
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
@@ -29,7 +29,7 @@ namespace alpha
                 Cursor.visible = false;
             }
 
-            IsCursor = isCursor;
+            IsCursor = isCursor;*/
         }
     }
 }

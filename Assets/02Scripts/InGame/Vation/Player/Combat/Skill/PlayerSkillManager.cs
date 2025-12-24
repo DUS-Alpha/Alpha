@@ -4,6 +4,6 @@ namespace alpha
 {
     public class PlayerSkillManager : MonoBehaviour
     {
-        
+
     }
 }
