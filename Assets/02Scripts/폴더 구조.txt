@@ -1,0 +1,5 @@
+Domain (Core / Business Logic)
+Application (Use Cases)
+Ports (Interfaces / Boundaries)
+Adapters (Input / Output)
+Frameworks / Infrastructure (Engine )

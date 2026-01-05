@@ -13,13 +13,15 @@ public class PickUpItem : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            InventoryManager _inventoryCore = other.GetComponent<InventoryManager>();
+            // 플레이어로부터 Pickup이 이루어졌다고 아이템 정보 전달
+
+            /*InventoryController _inventoryCore = other.GetComponent<InventoryController>();
 
             if (!_inventoryCore.AddItemToInventory(m_itemData))
             {
                 Debug.Log("인벤토리 공간 부족으로 아이템 획득 실패");
                 return;
-            }
+            }*/
 
             Destroy(gameObject); // 월드에서 제거
         }

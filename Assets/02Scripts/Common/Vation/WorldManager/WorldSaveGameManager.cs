@@ -102,7 +102,7 @@ namespace alpha
             m_saveDataWriter.SaveFileName = m_saveFileName;
 
             // 게임에서 플레이어의 저장 파일로 정보를 전달합니다.
-            m_playerCore.SaveGameDataToCurrentCharacterData(ref CurrentCharacterData);
+            //m_playerCore.SaveGameDataToCurrentCharacterData(ref CurrentCharacterData);
 
             // 현재 캐릭터데이터의 파일 저장
             m_saveDataWriter.CreateNewCharacterSaveFile(CurrentCharacterData);

@@ -78,7 +78,7 @@ namespace alpha
 
         public void InitializeModule(PlayerCore core)
         {
-            core.OnCanSwapFunc += CanSwap;
+            //core.OnCanSwapFunc += CanSwap;
         }
 
         private void Start()
