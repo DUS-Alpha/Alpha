@@ -9,7 +9,7 @@ namespace alpha
             return true;
         }
 
-        public bool CanSwap(Item weapon)
+        public bool CanSwap(ItemModuleBase weapon)
         {
             return weapon != null;
         }

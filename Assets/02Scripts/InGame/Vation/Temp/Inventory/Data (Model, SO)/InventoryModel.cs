@@ -22,7 +22,7 @@ namespace alpha
             m_horizontalInventorySlotCount = m;
         }
 
-        public InventorySlot TryAddItem(ItemDataSO itemData)
+        public InventorySlot TryAddItem(ItemSO itemData)
         {
             foreach (InventorySlot slot in InventorySlotList)
             {

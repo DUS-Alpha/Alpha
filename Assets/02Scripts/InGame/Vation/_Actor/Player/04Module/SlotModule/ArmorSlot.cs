@@ -14,11 +14,11 @@ namespace alpha
             ArmorType = armorType;
         }
 
-        public override bool CanAccept(ItemDataSO itemData)
+        public override bool CanAccept(ItemSO itemData)
         {
             if(itemData.ItemType == SlotItemType)
             {
-                ArmorItemDataSO _armorData = itemData as ArmorItemDataSO;
+                ArmorSO _armorData = itemData as ArmorSO;
                 if(ArmorType == _armorData.ArmorType)
                     return true;
             }

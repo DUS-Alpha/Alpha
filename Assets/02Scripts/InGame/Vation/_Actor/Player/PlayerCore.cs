@@ -5,11 +5,13 @@ using UnityEngine;
 
 namespace alpha
 {
+
     [RequireComponent(typeof(PlayerEffectViewManager))]
     [RequireComponent(typeof(PlayerAnimationViewManager))]
     [RequireComponent(typeof(PlayerInputManager))]
-    [RequireComponent(typeof(CombatModule))]
+    [RequireComponent(typeof(InventoryModule))]
     [RequireComponent(typeof(LocomotionModule))]
+    [RequireComponent(typeof(CombatModule))]
     // InputAdapter어댑터 역할
     public class PlayerCore : MonoBehaviour, IInputActionPort // InputEvent 전달 Port
     {
@@ -20,6 +22,7 @@ namespace alpha
         // 내부 OutputAdapter (행위)
         public LocomotionModule LocomotionM;
         public CombatModule CombatM;
+        public InventoryModule InventoryM;
 
         // State
         public PlayerStateMachine StateMachine { get; private set; }
@@ -61,6 +64,15 @@ namespace alpha
                 OnInputAction?.Invoke(m_inputManager);
             
             StateMachine.OnUpdate();
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if(other.CompareTag("FieldItem"))
+            {
+                IItemPort _itemPickup = other.GetComponent<IItemPort>();
+                InventoryM.AddItem(_itemPickup.Item);
+            }
         }
     }
 }

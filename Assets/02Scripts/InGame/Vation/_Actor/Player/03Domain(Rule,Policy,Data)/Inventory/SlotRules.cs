@@ -2,7 +2,7 @@ namespace alpha
 {
     public class SlotRules
     {
-        public bool CanAddItem(ISlotModel slotModel, Item item)
+        public bool CanAddItem(ISlotModel slotModel, ItemModuleBase item)
         {
             if (slotModel.SlotItemType != item.Data.ItemType)
                 return false;

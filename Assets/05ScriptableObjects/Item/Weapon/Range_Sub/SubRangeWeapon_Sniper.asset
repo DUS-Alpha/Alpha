@@ -9,21 +9,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bff9eabd18ea82d41b50874d5a92d024, type: 3}
+  m_Script: {fileID: 11500000, guid: 2fb8db624fdc12b4f9b3c9b15f17a951, type: 3}
   m_Name: SubRangeWeapon_Sniper
   m_EditorClassIdentifier: 
-  ItemType: 1
+  ItemType: 2
   m_id: 
-  m_name: Sniper
+  m_name: 
   m_itemPrefab: {fileID: 800313994641094846, guid: ad3f17eb691df864f90334ce4b22fa3f, type: 3}
-  m_icon: {fileID: 21300000, guid: d0317cf1a1c0adb49b2c5ecd3ca2aad0, type: 3}
-  m_escription: 
-  EquipmentType: 1
-  Durability: 0
+  m_icon: {fileID: 0}
+  m_isStatckable: 1
+  m_description: 
   WeaponType: 2
-  Damage: 80
-  AttackCost: 15
-  AudioClip: {fileID: 8300000, guid: adc171bd21d9a954a82a2b4d22233891, type: 3}
-  RangeType: 1
+  Damage: 0
+  AttackCost: 0
+  AudioClip: {fileID: 0}
+  RangeType: 0
   Distance: 0
-  FireRate: 2
+  FireRate: 0

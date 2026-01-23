@@ -1,7 +1,12 @@
+using UnityEngine;
+
 namespace alpha
 {
     public class MeleeWeaponModule : ItemModuleBase
     {
-        public MeleeWeaponItemDataSO MeleeWeaponData => Data as MeleeWeaponItemDataSO;
+        public MeleeWeaponSO MeleeWeaponData => Data as MeleeWeaponSO;
+
+        public Transform LeftHandTr;
+        public Transform RightHandTr;
     }
 }

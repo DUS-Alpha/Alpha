@@ -5,9 +5,9 @@ namespace alpha
 {
     public interface IEquipService
     {
-        public void TryEquip(ItemDataSO data);
-        public void TryUnEquip(ItemDataSO data);
+        public void TryEquip(ItemSO data);
+        public void TryUnEquip(ItemSO data);
         public bool CanSwap(int swapNum);
-        public Item TrySwap(int swapNum);
+        public ItemModuleBase TrySwap(int swapNum);
     }
 }

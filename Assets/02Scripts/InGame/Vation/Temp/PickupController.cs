@@ -11,7 +11,7 @@ namespace alpha
             m_inventoryService = inventoryService;
         }
 
-        public void Pickup(ItemDataSO itemData)
+        public void Pickup(ItemSO itemData)
         {
             m_inventoryService.AddItem(itemData);
         }

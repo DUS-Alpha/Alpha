@@ -7,7 +7,7 @@ namespace alpha
     {
         public InventorySlot(int slotIndex) : base(slotIndex){}
 
-        public override bool CanAccept(ItemDataSO itemData)
+        public override bool CanAccept(ItemSO itemData)
         {
             if (!IsEmpty)
             {

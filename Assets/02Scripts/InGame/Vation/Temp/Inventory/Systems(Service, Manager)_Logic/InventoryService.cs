@@ -11,7 +11,7 @@ namespace alpha
             m_inventoryModel = inventoryModel;
         }
 
-        public bool AddItem(ItemDataSO itemData)
+        public bool AddItem(ItemSO itemData)
         {
            var _resultSlot =  m_inventoryModel.TryAddItem(itemData);
 
@@ -24,7 +24,7 @@ namespace alpha
             throw new System.NotImplementedException();
         }
 
-        public void RemoveItem(ItemDataSO itemData)
+        public void RemoveItem(ItemSO itemData)
         {
             throw new System.NotImplementedException();
         }

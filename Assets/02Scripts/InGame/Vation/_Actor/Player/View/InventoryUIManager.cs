@@ -7,16 +7,16 @@ using UnityEngine.UI;
 namespace alpha
 {
     // View
-    public class InventoryUIManager : MonoBehaviour, IInventoryUIService, IPointerDownHandler, IPointerUpHandler,IBeginDragHandler, IDragHandler, IEndDragHandler
+    public class InventoryUIManager : MonoBehaviour, IInventoryViewPort, IPointerDownHandler, IPointerUpHandler,IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         public event Action OnClickAddInventory;
 
         [SerializeField] private Button m_addInventoryBtn;
 
-        public event Action<ItemDataSO> OnEquipRequest;
-        public event Action<ItemDataSO> OnUnEquipRequest;
-        public event Action<ItemDataSO> OnUseRequest;
-        public event Action<ItemDataSO> OnDropRequest;
+        public event Action<ItemSO> OnEquipRequest;
+        public event Action<ItemSO> OnUnEquipRequest;
+        public event Action<ItemSO> OnUseRequest;
+        public event Action<ItemSO> OnDropRequest;
 
         [Header("[ Connected Objects ]")]
         
@@ -180,7 +180,7 @@ namespace alpha
         }
 
         // TODO : 판단된 정보를 받는곳에서 다시 판단할 필요 없이 바로 사용할 수 있게 하는 방법 적용
-        private void EquipItem(SlotUIBase targetSlot, ItemDataSO itemData)
+        private void EquipItem(SlotUIBase targetSlot, ItemSO itemData)
         {
             // 슬롯 타입에 따라 이벤트 호출
             if (targetSlot is WeaponQuickSlotUI || targetSlot is ArmorSlotUI || targetSlot is UseableQuickSlotUI)
@@ -189,7 +189,7 @@ namespace alpha
             }
         }
 
-        private void UnEquipItem(SlotUIBase targetSlot, ItemDataSO itemDataSO)
+        private void UnEquipItem(SlotUIBase targetSlot, ItemSO itemDataSO)
         {
             // 슬롯 타입에 따라 이벤트 호출
             if (targetSlot is WeaponQuickSlotUI || targetSlot is ArmorSlotUI || targetSlot is UseableQuickSlotUI)

@@ -7,7 +7,7 @@ namespace alpha
     {
         public event Action<InventorySlot> OnChanged;
 
-        InventorySlot TryAddItem(ItemDataSO itemData);
+        InventorySlot TryAddItem(ItemSO itemData);
         InventorySlot ExpandSlot();
         bool ExecuteDragDrop(EItemTypes fromType, int fromIndex, EItemTypes toType, int toIndex);
     }

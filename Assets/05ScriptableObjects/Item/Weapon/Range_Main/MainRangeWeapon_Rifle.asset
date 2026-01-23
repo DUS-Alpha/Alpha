@@ -9,21 +9,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bff9eabd18ea82d41b50874d5a92d024, type: 3}
+  m_Script: {fileID: 11500000, guid: e64266e9b0403624aa7640ed3987d97f, type: 3}
   m_Name: MainRangeWeapon_Rifle
   m_EditorClassIdentifier: 
-  ItemType: 1
+  ItemType: 2
   m_id: 
-  m_name: Rifle
+  m_name: 
   m_itemPrefab: {fileID: 7031792402905727236, guid: 1c0322298ee488c4d82e0223cc02bbe8, type: 3}
-  m_icon: {fileID: 21300000, guid: c4dd4dde34a4abb40b6cb0d96d540253, type: 3}
-  m_escription: 
-  EquipmentType: 1
-  Durability: 0
+  m_icon: {fileID: 0}
+  m_isStatckable: 1
+  m_description: 
   WeaponType: 1
-  Damage: 15
-  AttackCost: 2
-  AudioClip: {fileID: 8300000, guid: 7a6dabd79ef7ceb45aa223100d2443a9, type: 3}
+  Damage: 0
+  AttackCost: 0
+  AudioClip: {fileID: 0}
   RangeType: 0
   Distance: 0
-  FireRate: 0.1
+  FireRate: 0

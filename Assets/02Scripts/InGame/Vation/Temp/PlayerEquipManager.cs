@@ -34,7 +34,7 @@ namespace alpha
         public Dictionary<ECountableTypes, UsetableItem> CurrentCountableItems { get; private set; }
 
         // PlayerInventoryController에서 Combat으로 스왑 가능한지 전달 및 스왑(현재 무기 데이터도 전달)
-        private Item m_currentIntem;
+        private ItemModuleBase m_currentIntem;
         
         private void Awake()
         {
@@ -94,15 +94,15 @@ namespace alpha
             }
         }
         #region ======================================== Equip
-        public void TryEquip(ItemDataSO data)
+        public void TryEquip(ItemSO data)
         {
             // 장비 장착
             switch (data)
             {
-                case WeaponItemDataSO weaponData:
+                case WeaponSO weaponData:
                     EquipWeapon(weaponData);
                     break;
-                case ArmorItemDataSO armorData:
+                case ArmorSO armorData:
                     EquipArmor(armorData);
                     break;
                 case PotionItemDataSO potionData:
@@ -115,7 +115,7 @@ namespace alpha
             // 스탯 반영
         }
 
-        private void EquipWeapon(WeaponItemDataSO weaponData)
+        private void EquipWeapon(WeaponSO weaponData)
         {
             if (!EquipWeaponHolderDic.ContainsKey(weaponData.WeaponType)) return;
 
@@ -132,7 +132,7 @@ namespace alpha
             if (CurrentWeaponItems[weaponData.WeaponType] == null) 
                 Debug.LogWarning($"{CurrentWeaponItems[weaponData.WeaponType]} == null");
         }
-        private void EquipArmor(ArmorItemDataSO armorData)
+        private void EquipArmor(ArmorSO armorData)
         {
 
         }
@@ -155,14 +155,14 @@ namespace alpha
         #endregion ======================================== / Equip
 
         #region ======================================== UnEquip
-        public void TryUnEquip(ItemDataSO data)
+        public void TryUnEquip(ItemSO data)
         {
             switch (data)
             {
-                case WeaponItemDataSO weapon:
+                case WeaponSO weapon:
                     UnEquipWeapon(weapon);
                     break;
-                case ArmorItemDataSO armor:
+                case ArmorSO armor:
                     //UnEquipArmor(armor);
                     break;
                 case PotionItemDataSO potion:
@@ -173,9 +173,9 @@ namespace alpha
                     break;
             }
         }
-        private void UnEquipWeapon(WeaponItemDataSO data)
+        private void UnEquipWeapon(WeaponSO data)
         {
-            WeaponItemDataSO _weaponData = data;
+            WeaponSO _weaponData = data;
             
             if (CurrentWeaponItems[_weaponData.WeaponType] != null)
             {
@@ -194,14 +194,14 @@ namespace alpha
         }
 
         #endregion ======================================== / UnEquip
-        private Item GetItemBySwapNum(int swapNum)
+        private ItemModuleBase GetItemBySwapNum(int swapNum)
         {
             return swapNum switch
             {
-                1 => CurrentWeaponItems[EWeaponTypes.Melee],
+                /*1 => CurrentWeaponItems[EWeaponTypes.Melee],
                 2 => CurrentWeaponItems[EWeaponTypes.MainRange],
                 3 => CurrentWeaponItems[EWeaponTypes.SubRange],
-                4 => CurrentCountableItems[ECountableTypes.Potion],
+                4 => CurrentCountableItems[ECountableTypes.Potion],*/
                 _ => null
             };
         }
@@ -225,7 +225,7 @@ namespace alpha
             return true;
         }
 
-        public Item TrySwapAndGetItem(int swapNum)
+        public ItemModuleBase TrySwapAndGetItem(int swapNum)
         {
             int _swapNum = swapNum;
 
@@ -254,7 +254,7 @@ namespace alpha
             return m_currentIntem;
         }
 
-        public Item TrySwap(int swapNum)
+        public ItemModuleBase TrySwap(int swapNum)
         {
             throw new NotImplementedException();
         }

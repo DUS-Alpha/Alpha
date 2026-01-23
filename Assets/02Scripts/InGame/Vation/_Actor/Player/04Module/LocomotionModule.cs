@@ -51,12 +51,13 @@ namespace alpha
         public bool IsRotLock { get; set; }
         public bool IsJump { get; set; }
         public bool IsDash { get; set; }
-        public bool IsFlyUp { get; set; }
+        public bool IsFly { get; set; }
 
         // StateData
         public LocomotionStateData StateData = new LocomotionStateData(); // TODO : 추후 필요한 변수들(넘겨줘야할) 저장
         public bool IsFlyUping { get; private set; }
         private bool m_isFlying;
+        public EFallType m_currentFallType;
 
         public LocomotionRuntimeData RuntimeData = new LocomotionRuntimeData(); // TODO : 추후 필요한 변수들(넘겨줘야할) 저장
         // 이동
@@ -108,7 +109,7 @@ namespace alpha
             IsRotLock = input.IsRotLock;
             IsJump = input.IsJump;
             IsDash = input.IsDash;
-            IsFlyUp = input.IsFlyUp;
+            IsFly = input.IsFlyUp;
         }
         #endregion ================= 입력 저장 ===================
 
@@ -193,16 +194,19 @@ namespace alpha
         #endregion ================== 점프 이동 ===================
 
         #region ================== 낙하 이동 ===================
-        public void SettingsFallMovement(EFallType fallType)
+        public void SettingsFallMovement()
         {
             // 낙하 방향으로 강제 회전
+            m_currentVelocity.x = 0;
+            m_currentVelocity.z = 0;
+
             ForceRotate(m_currentVelocity);
 
             // 속력 변경
             m_currentSpeed = m_fallSpeed;
 
             // 애니메이션
-            m_aniViewPort.FallAni(fallType);
+            m_aniViewPort.FallAni(m_currentFallType);
 
             // 부가 설정
             m_isFlying = false;
@@ -210,11 +214,13 @@ namespace alpha
         #endregion ================== 낙하 이동 ===================
 
         #region ================== 착지 ==================
-        public void SettingsLand(EFallType fallType)
+        public void SettingsLand()
         {
             // 착지 애니메이션
-            m_aniViewPort.LandAni(fallType);
+            m_aniViewPort.LandAni(m_currentFallType);
 
+            m_currentFallType = EFallType.NormalFall;
+            
             InitializeMove();
         }
 
@@ -245,6 +251,8 @@ namespace alpha
         #region ================== 수직 이동 ===================
         public void SettingsFlyUp()
         {
+            m_currentFallType = EFallType.FlyFall;
+
             // 애니메이션
             m_aniViewPort.FlyUpAni();
 

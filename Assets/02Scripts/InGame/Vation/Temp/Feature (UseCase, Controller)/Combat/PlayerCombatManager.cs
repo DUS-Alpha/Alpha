@@ -20,8 +20,8 @@ namespace alpha
 
         // Combat이 동작되는지만 체크하는
         // ==================== Swap
-        public Item CurrentItem => m_currentItem;
-        private Item m_currentItem;
+        public ItemModuleBase CurrentItem => m_currentItem;
+        private ItemModuleBase m_currentItem;
 
         // ==================== Attack
         // Melee Attack
@@ -68,7 +68,7 @@ namespace alpha
             return !m_isCombatLock;
         }
 
-        public void SetCurrentSwapItem(Item item)
+        public void SetCurrentSwapItem(ItemModuleBase item)
         {
             m_currentItem = item;
         }

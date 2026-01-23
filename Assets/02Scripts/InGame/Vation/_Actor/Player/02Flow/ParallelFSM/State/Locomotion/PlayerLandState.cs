@@ -8,7 +8,7 @@ namespace alpha
         public override void Enter()
         {
             base.Enter();
-            m_LocomotionM.SettingsLand(EFallType.NormalFall);
+            m_LocomotionM.SettingsLand();
         }
 
         public override void Update()

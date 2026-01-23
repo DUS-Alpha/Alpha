@@ -2,7 +2,7 @@ namespace alpha
 {
     public struct SlotInfo
     {
-        public ItemDataSO ItemData;
+        public ItemSO ItemData;
         public int ItemCount;
     }
 
@@ -12,7 +12,7 @@ namespace alpha
         public virtual EItemTypes SlotItemType { get; private set; }
         public int CurrentSlotIndex { get; private set; }
 
-        public ItemDataSO CurrentItemData { get; private set; }
+        public ItemSO CurrentItemData { get; private set; }
 
         public int CurrentItemCount { get; private set; }
 
@@ -24,9 +24,9 @@ namespace alpha
         }
 
         // 해당 슬롯에 아이템 넣기
-        public abstract bool CanAccept(ItemDataSO CurrentItemData);
+        public abstract bool CanAccept(ItemSO CurrentItemData);
 
-        public void AddItem(ItemDataSO itemData)
+        public void AddItem(ItemSO itemData)
         {
             if(CurrentItemData == null)
                 CurrentItemData = itemData;

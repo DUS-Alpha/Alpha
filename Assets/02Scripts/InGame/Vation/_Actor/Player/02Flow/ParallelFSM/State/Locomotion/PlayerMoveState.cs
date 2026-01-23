@@ -48,7 +48,7 @@ namespace alpha
             // 비행 상승
             if (m_Core.ActionPolicy.CanFlyUp(m_CombatM.CombatStateData))
             {
-                if (m_LocomotionM.IsFlyUp)
+                if (m_LocomotionM.IsFly)
                 {
                     m_StateMachine.SwitchLocomotionState(LocomotionStateType.FlyUp);
                     return;

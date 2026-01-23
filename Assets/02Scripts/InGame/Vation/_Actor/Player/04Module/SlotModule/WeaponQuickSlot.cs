@@ -12,11 +12,11 @@ namespace alpha
             WeaponTypes = weaponTypes;
         }
 
-        public override bool CanAccept(ItemDataSO itemData)
+        public override bool CanAccept(ItemSO itemData)
         {
             if(itemData.ItemType == SlotItemType)
             {
-                WeaponItemDataSO _weapon = (WeaponItemDataSO)itemData;
+                WeaponSO _weapon = (WeaponSO)itemData;
                 if(_weapon.WeaponType == WeaponTypes) return true;
             }
             return false;

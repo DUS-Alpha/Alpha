@@ -9,13 +9,13 @@ namespace alpha
     {
         InventoryRule m_rule;
 
-        private List<Item> itemList;
+        private List<ItemModuleBase> itemList;
         public void Bind(InventoryRule rule)
         {
             m_rule = rule;
         }
 
-        public void TryAdd(Item item)
+        public void TryAdd(ItemModuleBase item)
         {
             if (!m_rule.CanAdd()) return;
 

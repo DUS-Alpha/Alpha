@@ -1,8 +1,12 @@
+using UnityEngine;
+
 namespace alpha
 {
     public class MainRangeWeaponModule : ItemModuleBase
     {
-        public RangeWeaponItemDataSO MainRangeWeaponData => Data as RangeWeaponItemDataSO;
+        public MainRangeWeaponSO MainRangeWeaponData => Data as MainRangeWeaponSO;
 
+        public Transform LeftHandTr;
+        public Transform RightHandTr;
     }
 }

@@ -11,9 +11,9 @@ namespace alpha
         [SerializeField] private InventoryController m_inventoryController;
 
         private IInventoryController m_inventoryModel;
-        private IInventoryUIService m_inventoryUIView;
+        private IInventoryViewPort m_inventoryUIView;
 
-        public InventoryPresenter(IInventoryUIService inventoryUI)
+        public InventoryPresenter(IInventoryViewPort inventoryUI)
         {
             m_inventoryUIView = inventoryUI;
         }
