@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51ea1170cfb077d4dbe92db70bb7bd67, type: 3}
+  m_Name: MeleeWeapon
+  m_EditorClassIdentifier: 
+  ItemType: 1
+  m_id: 
+  m_name: FFSword
+  m_itemPrefab: {fileID: 9211763813921939388, guid: 89fa1a62c125f7d47b87842dde677ca0, type: 3}
+  m_icon: {fileID: 21300000, guid: f40e8989899948041b0c1136b2ca60ff, type: 3}
+  m_escription: 
+  EquipmentType: 1
+  Durability: 0
+  WeaponType: 0
+  Damage: 50
+  AttackCost: 0
+  AudioClip: {fileID: 0}
