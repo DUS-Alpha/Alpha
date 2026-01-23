@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -198,7 +198,7 @@ namespace InfinityPBR
         
         public void ActivateNextOfType(string type)
         {
-            Debug.Log($"Activate next of type {type}");
+            Debug.Log($"Activate next of AttackType {type}");
 
             var groups = GetGroupsOfType(type, false);
 
@@ -425,7 +425,7 @@ namespace InfinityPBR
 
             if (checkForDefault && !String.IsNullOrWhiteSpace(group.groupType))
             {
-                Debug.Log($"Check for default is true and group type is {group.groupType}");
+                Debug.Log($"Check for default is true and group AttackType is {group.groupType}");
                 CheckForDefaultGroup(group.groupType);
             }
         }

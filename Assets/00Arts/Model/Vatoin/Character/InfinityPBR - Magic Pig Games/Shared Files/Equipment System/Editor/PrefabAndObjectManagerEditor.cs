@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEditor;
 using System;
 using System.Collections.Generic;
@@ -42,7 +42,7 @@ namespace InfinityPBR
             _equipmentObjects = EquipmentObjectObjects();
             Manager.equipmentObjects = _equipmentObjects;
             _cachedEquipmentObjects = true;
-            Debug.Log($"<color=#00ff00>Cache Successful!</color> {_equipmentObjects.Count} Equipment Objects found.");
+            Debug.Log($"<color=#00ff00>Cache Successful!</color> {_equipmentObjects.Count} Armor Objects found.");
         }
 
         private PrefabAndObjectManager GetManager()
@@ -75,7 +75,7 @@ namespace InfinityPBR
         {
             _cachedEquipmentObjects = false;
             
-            if (GetBool("Auto Find Equipment Objects On Enable"))
+            if (GetBool("Auto Find Armor Objects On Enable"))
                 CacheEquipmentObjects();
 
             RemoveMissingObjects();
@@ -84,7 +84,7 @@ namespace InfinityPBR
             InfinityStatic.GetAllLabels(true); // cache this
 
             Undo.undoRedoPerformed += UndoCallback;
-            SetBool("Reset Since Load Equipment Object", false);
+            SetBool("Reset Since Load Armor Object", false);
         }
 
         private void RemoveMissingObjects()
@@ -132,7 +132,7 @@ namespace InfinityPBR
             
             foreach (var group in Manager.prefabGroups)
             {
-                Debug.Log("Caching Equipment Objects. If this is slowing things down, toggle off the option to cache " +
+                Debug.Log("Caching Armor Objects. If this is slowing things down, toggle off the option to cache " +
                           "on enable.");
                 // July 10, 2022 -  Only do this for groups that are open.
                 if (!group.showPrefabs) continue;
@@ -420,7 +420,7 @@ namespace InfinityPBR
         private void DisplayVariableHeader()
         {
             StartRow();
-            Label("Variable Name", 150, true);
+            Label("Variable ItemName", 150, true);
             Label("Bool", 50, true);
             Label("Float", 50, true);
             Label("String", 150, true);
@@ -444,12 +444,12 @@ namespace InfinityPBR
             if (!EditorPrefs.GetBool("Prefab Manager Show Group Types")) return;
 
             HelpBoxMessage("Organize your groups into types, often used to ensure that only one group " +
-                           "of each type is active at a time. An example would be \"Hair\" for characters, or " +
-                           "perhaps \"Table Items\" for props on the top of a table. You can update the name of a type" +
+                           "of each AttackType is active at a time. An example would be \"Hair\" for characters, or " +
+                           "perhaps \"Table Items\" for props on the top of a table. You can update the name of a AttackType" +
                            "here.\n\n" +
-                           "To add a new type, simply write it into the \"Type\" field when viewing your prefab groups. " +
-                           "Each group starts without a type.\n\n" +
-                           "To delete a type, remove all groups of that type, or change all groups to a different type.", MessageType.Info);
+                           "To add a new AttackType, simply write it into the \"AttackType\" field when viewing your prefab groups. " +
+                           "Each group starts without a AttackType.\n\n" +
+                           "To delete a AttackType, remove all groups of that AttackType, or change all groups to a different AttackType.", MessageType.Info);
 
             foreach (var typeName in GroupTypeNames)
                 DisplayGroupType(typeName);
@@ -466,7 +466,7 @@ namespace InfinityPBR
             if (!UpdateGroupTypeName(oldName, newName))
                 return;
 
-            EditorPrefs.SetBool($"Prefab Manager Show Type {newName}", true);
+            EditorPrefs.SetBool($"Prefab Manager Show AttackType {newName}", true);
         }
 
         /*
@@ -519,7 +519,7 @@ namespace InfinityPBR
             
             StartRow();
             BackgroundColor(Color.yellow);
-            if (Button("Create New Group (with no type)", 200))
+            if (Button("Create New Group (with no AttackType)", 200))
             {
                 Manager.CreateNewPrefabGroup();
                 DoCache();
@@ -546,7 +546,7 @@ namespace InfinityPBR
         {
             foreach (var typeName in GroupTypeNames)
             {
-                var prefsString = $"Prefab Manager Show Type {typeName}";
+                var prefsString = $"Prefab Manager Show AttackType {typeName}";
                 SetBool(prefsString, false);
             }
         }
@@ -557,7 +557,7 @@ namespace InfinityPBR
         {
             var groupsOfType = GroupsOfType(typeName);
             var typeDetails = $"{groupsOfType.Count} groups";
-            var prefsString = $"Prefab Manager Show Type {typeName}";
+            var prefsString = $"Prefab Manager Show AttackType {typeName}";
             
             
             StartRow();
@@ -568,7 +568,7 @@ namespace InfinityPBR
                 ToggleBool(prefsString);
             }
             ContentColor(Color.white);
-            LabelBig($"{(!String.IsNullOrWhiteSpace(typeName) ? $"{typeName}" : "[No type]")} ({typeDetails})", 200, 14,true);
+            LabelBig($"{(!String.IsNullOrWhiteSpace(typeName) ? $"{typeName}" : "[No AttackType]")} ({typeDetails})", 200, 14,true);
             ContentColorIf(Manager.CanRandomize(typeName), Color.white, Color.grey);
             if (Button("Random", 60) && Manager.CanRandomize(typeName))
             {
@@ -692,11 +692,11 @@ namespace InfinityPBR
                 Space();
             }
             
-            LeftCheckSetBool("Auto Find Equipment Objects On Enable", 
+            LeftCheckSetBool("Auto Find Armor Objects On Enable", 
                 $"Cache EquipmentObjects on Enable {symbolInfo}", 
                 "When on, the system will cache all objects with EquipmentObject components on them whenever " +
                 "an object with a Wardrobe Prefab Manager is viewed in the Inspector. This should be run before adding " +
-                "Equipment Objects, but can be done manually via a button push, if this is toggled off.");
+                "Armor Objects, but can be done manually via a button push, if this is toggled off.");
             EndVerticalBox();
         }
         
@@ -981,7 +981,7 @@ namespace InfinityPBR
                 StartRow();
                 ShowSelectionPopup(prefabGroup); // The list of found objects available to be added
                 Label($"Add {symbolInfo}: ", $"\"Add\" will add only the selected object. \"Add All\" will prompt for confirmation before " +
-                                             $"adding all objects in the list.\n\n\"Add each to new group\" will create a new group of this type " +
+                                             $"adding all objects in the list.\n\n\"Add each to new group\" will create a new group of this AttackType " +
                                              $"for each object.", 50);
             
                 BackgroundColor(Color.yellow);
@@ -1589,9 +1589,9 @@ namespace InfinityPBR
             { 
                 EditorGUILayout.LabelField(new GUIContent($"{symbolStarClosed} {symbolInfo}", $"Optional. Toggle one group to " +
                                                                                    $"be the default group. When a group of this " +
-                                                                                   $"type is deactivated, the default group will " +
+                                                                                   $"AttackType is deactivated, the default group will " +
                                                                                    $"automatically be activated.\n\nThis option is " +
-                                                                                   $"only available for groups with a \"Type\"."), GUILayout.Width(fieldWidth));
+                                                                                   $"only available for groups with a \"AttackType\"."), GUILayout.Width(fieldWidth));
                 return;
             }
 
@@ -1627,7 +1627,7 @@ namespace InfinityPBR
             var fieldWidth = 100;
             if (header)
             { 
-                EditorGUILayout.LabelField(new GUIContent($"Type {symbolInfo}", $"You can group Prefab Groups by type, making " +
+                EditorGUILayout.LabelField(new GUIContent($"AttackType {symbolInfo}", $"You can group Prefab Groups by AttackType, making " +
                                                                    $"it easier to have only one active at a time, or simply for " +
                                                                    $"organization purposes."), GUILayout.Width(fieldWidth));
                 return;
@@ -1639,7 +1639,7 @@ namespace InfinityPBR
             {
                 EnsureTypeNames();
                 DoCache();
-                EditorPrefs.SetBool($"Prefab Manager Show Type {group.groupType}", true);
+                EditorPrefs.SetBool($"Prefab Manager Show AttackType {group.groupType}", true);
             }
         }
 
@@ -1648,7 +1648,7 @@ namespace InfinityPBR
             var fieldWidth = 180;
             if (header)
             { 
-                EditorGUILayout.LabelField(new GUIContent($"Group Name {symbolInfo}", $"The name of the group must " +
+                EditorGUILayout.LabelField(new GUIContent($"Group ItemName {symbolInfo}", $"The name of the group must " +
                                                                                       $"be unique, and can be used to activate and " +
                                                                                       $"deactivate the group at runtime."), GUILayout.Width(fieldWidth));
                 return;
@@ -1718,13 +1718,13 @@ namespace InfinityPBR
                     EditorPrefs.GetBool("Prefab Manager Show Help Boxes")));
             EditorPrefs.SetBool("Prefab Manager Show Full Inspector", 
                 EditorGUILayout.Toggle(new GUIContent($"Show Full Inspector {symbolInfo}", "If true, will show the full default inspector at the bottom" +
-                                                                               "of the window. Use for debugging, not for editing data!"), 
+                                                                               "of the window. Use for debugging, not for editing Data!"), 
                     EditorPrefs.GetBool("Prefab Manager Show Full Inspector")));
             Manager.instantiatePrefabsAsAdded =  
                 EditorGUILayout.Toggle(new GUIContent($"Instantiate Prefabs when Added to Group {symbolInfo}", "If true, prefabs that are added to a group " +
                     "will be instantiated into the scene."), Manager.instantiatePrefabsAsAdded);
             Manager.onlyOneGroupActivePerType =  
-                EditorGUILayout.Toggle(new GUIContent($"Only one group active per type {symbolInfo}", "If true, only one group per named \"type\" can be active " +
+                EditorGUILayout.Toggle(new GUIContent($"Only one group active per AttackType {symbolInfo}", "If true, only one group per named \"AttackType\" can be active " +
                           "at a time, and any active group will be deactivated when a new one is " +
                           "activated. This means you only have to call the \"Activate\" method, and " +
                           "the rest is handled for you."), Manager.onlyOneGroupActivePerType);
@@ -1732,7 +1732,7 @@ namespace InfinityPBR
                 EditorGUILayout.Toggle(new GUIContent($"Unpack Prefabs when Instantiated {symbolInfo}", "If true, prefabs that are instantiated will be unpacked."), 
                     Manager.unpackPrefabs);
 
-            EquipObject.rootBoneName = TextField($"Root Bone Name {symbolInfo}","This should be the root bone in your bone hierarchy.rootBoneName", EquipObject.rootBoneName);
+            EquipObject.rootBoneName = TextField($"Root Bone ItemName {symbolInfo}","This should be the root bone in your bone hierarchy.rootBoneName", EquipObject.rootBoneName);
             
             EditorGUILayout.Space();
             HelpBoxMessage("Use the option below to set all InGameObject values to null. This is useful " +
@@ -1742,7 +1742,7 @@ namespace InfinityPBR
                 RemoveInGameObjectLinks();
             }
             
-            HelpBoxMessage("If you've copied another objects data or added the component from another object " +
+            HelpBoxMessage("If you've copied another objects Data or added the component from another object " +
                            "as new to this object, use this option to relink all the available objects to the new object.\n\n " +
                            "HINT: If you hold shift while you replace the transform in the list, all transforms will be updated to " +
                            "the new selection.");
@@ -1766,7 +1766,7 @@ namespace InfinityPBR
             DefaultEditorBool("Prefab Manager Show Help Boxes", true);
             DefaultEditorBool("Prefab Manager Show Full Inspector", false);
             DefaultEditorBool("Prefab Manager Instantiate When Added", true);
-            DefaultEditorBool("Prefab Manager One Active Group Per Type", true);
+            DefaultEditorBool("Prefab Manager One Active Group Per AttackType", true);
             DefaultEditorBool("Prefab Manager Unpack Prefabs", true);
         }
 

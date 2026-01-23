@@ -1,4 +1,4 @@
-﻿using UnityEditor;
+using UnityEditor;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Reflection;
@@ -52,7 +52,7 @@ public class AnimationEventCopier : EditorWindow
 
 		// Show a title box and object fields
 		EditorGUILayout.HelpBox ("ALL CLIP COPY\n\nChoose a source GameObject and a target GameObject.  For all clips where the names" +
-			" match, the Events & Clip Settings will be copied.\n\nNOTE:  \"Name\" of the clip is taken from the Animator Controller component, " +
+			" match, the Events & Clip Settings will be copied.\n\nNOTE:  \"ItemName\" of the clip is taken from the Animator Controller component, " +
 			"as is the Animation Clip.  Because of this, each GameObject should have a *different* Animator Component attached.", MessageType.Info);
 		EditorGUILayout.BeginHorizontal();
 		sourceGameObject = EditorGUILayout.ObjectField("Source", sourceGameObject, typeof(GameObject), true) as GameObject;
@@ -162,7 +162,7 @@ public class AnimationEventCopier : EditorWindow
 	void CopyAllData(GameObject source, GameObject target){
 		AnimationClip[] animationClipsSource = AnimationUtility.GetAnimationClips (source);									// Get all source clips
 		AnimationClip[] animationClipsTarget = AnimationUtility.GetAnimationClips (target);									// Get all target Clips
-		Debug.Log ("Copying data from " + animationClipsSource.Length + " clips in " + source.name + " to " + animationClipsTarget.Length + " clips in " + target.name);
+		Debug.Log ("Copying Data from " + animationClipsSource.Length + " clips in " + source.name + " to " + animationClipsTarget.Length + " clips in " + target.name);
 		for (int i = 0; i < animationClipsSource.Length; i++) {																// For each source Clip...
 			bool foundMatch = false;																						// Check to make sure we found a match
 			for (int n = 0; n < animationClipsTarget.Length; n++) {															// ... & For each target clip...

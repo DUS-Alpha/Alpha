@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEditor;
 using System;
 using System.Collections.Generic;
@@ -72,7 +72,7 @@ namespace InfinityPBR
             //ShowOptionalFields(); // May 15, 2023 -- removing this as we are now caching these in a different method
 
             Space();
-            DrawDefaultInspectorToggle("Equipment Object Draw Default Inspector");
+            DrawDefaultInspectorToggle("Armor Object Draw Default Inspector");
             
             if (EditorGUI.EndChangeCheck())
                 EditorUtility.SetDirty(EquipmentObject);
@@ -115,7 +115,7 @@ namespace InfinityPBR
             StartVerticalBox();
             StartRow();
             StartVertical();
-            Label($"Wardrobe Prefab Managers ⓘ", "Add the objects which have a Wardrobe Prefab component on them, which this Equipment Object is intended " +
+            Label($"Wardrobe Prefab Managers ⓘ", "Add the objects which have a Wardrobe Prefab component on them, which this Armor Object is intended " +
                                          "to work directly with. Generally this is due to a matched Bone structure.", 200);
 
             AddWardrobePrefabManagers();
@@ -276,9 +276,9 @@ namespace InfinityPBR
                                     $"view), turn off \"Auto Save\", and manually save after adding the script, or the settings won't " +
                                     $"actually be saved!");
             StartRow();
-            Label($"Rootbone Name ⓘ", "Set the name of the root bone used for your character(s). The " +
+            Label($"Rootbone ItemName ⓘ", "Set the name of the root bone used for your character(s). The " +
                                                                           "\"Populate\" button will attempt to set the two required values.", 120);
-            SetString("Infinity PBR Equipment Object Root Bone", TextField(EditorPrefs.GetString("Infinity PBR Equipment Object Root Bone"), 100));
+            SetString("Infinity PBR Armor Object Root Bone", TextField(EditorPrefs.GetString("Infinity PBR Armor Object Root Bone"), 100));
             Colors(Color.yellow);
             if (Button("Populate", 100))
             {
@@ -290,10 +290,10 @@ namespace InfinityPBR
 
         private void CheckRootBoneName()
         {
-            if (EditorPrefs.HasKey("Infinity PBR Equipment Object Root Bone") 
-                && !String.IsNullOrWhiteSpace(EditorPrefs.GetString("Infinity PBR Equipment Object Root Bone"))) return;
+            if (EditorPrefs.HasKey("Infinity PBR Armor Object Root Bone") 
+                && !String.IsNullOrWhiteSpace(EditorPrefs.GetString("Infinity PBR Armor Object Root Bone"))) return;
 
-            EditorPrefs.SetString("Infinity PBR Equipment Object Root Bone", "BoneRoot");
+            EditorPrefs.SetString("Infinity PBR Armor Object Root Bone", "BoneRoot");
         }
 
         private void AutoPopulate()
@@ -317,7 +317,7 @@ namespace InfinityPBR
 
         private void PopulateRootBone()
         {
-            EquipmentObject.PopulateRootBone(EditorPrefs.GetString("Infinity PBR Equipment Object Root Bone"));
+            EquipmentObject.PopulateRootBone(EditorPrefs.GetString("Infinity PBR Armor Object Root Bone"));
             /*
             foreach (Transform child in EquipmentObject.gameObject.transform)
             {
@@ -340,7 +340,7 @@ namespace InfinityPBR
                         "parent object animations.\n\n" +
                         "1. [Edit time only] Add this object as a child of the target object (which will be " +
                         "\"equipping\" this), and run the menu option Window/Infinity PBR/Equip Objects. This can " +
-                        "be done with any number of Equipment Objects at once.\n\n" +
+                        "be done with any number of Armor Objects at once.\n\n" +
                         "2. [Runtime or Edit time] Use the \"Prefab and Object Manager\" script to manage your equipment " +
                         "objects which makes it much easier to manage large " +
                         "groups of equipment, including objects like this one, objects which do not have a " +

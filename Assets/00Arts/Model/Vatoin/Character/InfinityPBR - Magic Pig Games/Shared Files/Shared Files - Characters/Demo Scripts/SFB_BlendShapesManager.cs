@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -511,7 +511,7 @@ public class SFB_BlendShapesManager : MonoBehaviour {
 			savedData = savedData + "" + blendShapeObjects[inspectorObjects[i].objectID].blendShapes[inspectorObjects[i].blendShapeID].maxValue;
 		}
 		string presetPath = "Assets/InfinityPBR/Blendshape Preset Files/";
-		string fileName = this.name + " Range " + SFB_BS_GetNewFileNumber(presetPath, this.name + " Range ") + ".txt";
+		string fileName = this.name + " MainRange " + SFB_BS_GetNewFileNumber(presetPath, this.name + " MainRange ") + ".txt";
 		if (!Directory.Exists(presetPath))
 			System.IO.Directory.CreateDirectory(presetPath);
 

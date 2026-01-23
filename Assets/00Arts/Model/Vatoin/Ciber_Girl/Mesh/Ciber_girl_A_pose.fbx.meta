@@ -1,12 +1,5 @@
 fileFormatVersion: 2
 guid: 45f879a606d93e546b7dedb0197735ce
-AssetOrigin:
-  serializedVersion: 1
-  productId: 214658
-  packageName: Ciber girl
-  packageVersion: 1.0
-  assetPath: Assets/Ciber_Girl/Mesh/Ciber_girl_A_pose.fbx
-  uploadId: 483442
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -15,7 +8,7 @@ ModelImporter:
     materialImportMode: 2
     materialName: 0
     materialSearch: 1
-    materialLocation: 0
+    materialLocation: 1
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -50,7 +43,7 @@ ModelImporter:
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
-    nodeNameCollisionStrategy: 0
+    nodeNameCollisionStrategy: 1
     fileIdsGeneration: 2
     swapUVChannels: 0
     generateSecondaryUV: 0
@@ -98,19 +91,19 @@ ModelImporter:
     - boneName: thigh_stretch.l
       humanName: LeftUpperLeg
       limit:
-        min: {x: -60, y: -75, z: -90}
-        max: {x: 60, y: 45, z: 50}
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
         value: {x: 0, y: 0, z: 0}
         length: 0
-        modified: 1
+        modified: 0
     - boneName: thigh_stretch.r
       humanName: RightUpperLeg
       limit:
-        min: {x: -60, y: -75, z: -90}
-        max: {x: 60, y: 45, z: 50}
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
         value: {x: 0, y: 0, z: 0}
         length: 0
-        modified: 1
+        modified: 0
     - boneName: leg_stretch.l
       humanName: LeftLowerLeg
       limit:
@@ -782,7 +775,7 @@ ModelImporter:
     - name: thigh_stretch.l
       parentName: root.x
       position: {x: -0.11237428, y: 0.00000007554919, z: 0.0000018579665}
-      rotation: {x: 0.7077878, y: -0.050317932, z: -0.70290214, w: 0.04932617}
+      rotation: {x: 0.71316874, y: -0.05067646, z: -0.6973998, w: 0.049555946}
       scale: {x: 0.9999985, y: 1.0000029, z: 0.9999972}
     - name: leg_stretch.l
       parentName: thigh_stretch.l
@@ -812,7 +805,7 @@ ModelImporter:
     - name: thigh_stretch.r
       parentName: root.x
       position: {x: 0.11237427, y: 0.000000075101546, z: -0.0000018800199}
-      rotation: {x: 0.7098745, y: 0.06323563, z: 0.7004156, w: 0.03869644}
+      rotation: {x: 0.7131567, y: 0.050675604, z: 0.69741213, w: 0.04955682}
       scale: {x: 0.9999977, y: 1.0000027, z: 0.9999964}
     - name: leg_stretch.r
       parentName: thigh_stretch.r
@@ -844,7 +837,7 @@ ModelImporter:
     upperLegTwist: 0.5
     legTwist: 0.5
     armStretch: 0.05
-    legStretch: 0.04
+    legStretch: 0.05
     feetSpacing: 0
     globalScale: 1
     rootMotionBoneName: 
@@ -857,8 +850,8 @@ ModelImporter:
   humanoidOversampling: 1
   avatarSetup: 1
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
-  importBlendShapeDeformPercent: 0
-  remapMaterialsIfMaterialImportModeIsNone: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
   additionalBone: 0
   userData: 
   assetBundleName: 

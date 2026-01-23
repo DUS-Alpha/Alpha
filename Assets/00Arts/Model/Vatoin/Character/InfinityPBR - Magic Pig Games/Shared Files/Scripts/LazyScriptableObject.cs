@@ -25,7 +25,7 @@ namespace MagicPigGames
         {
             if (_instance != null && _instance != this)
             {
-                Debug.LogError($"Multiple instances of {typeof(T).Name} are not allowed. Using only the first instance.");
+                Debug.LogError($"Multiple instances of {typeof(T).Name} are not allowed. Using only the first Instance.");
                 DestroyImmediate(this);
             }
 

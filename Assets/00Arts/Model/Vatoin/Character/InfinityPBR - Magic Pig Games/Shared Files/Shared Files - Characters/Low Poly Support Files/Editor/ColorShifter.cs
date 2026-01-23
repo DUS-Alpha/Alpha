@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEditor;
 using UnityEngine;
 using InfinityPBR;
@@ -147,12 +147,12 @@ namespace InfinityPBR
             {
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.BeginVertical();
-                colorShifterObject.material.SetFloat("_ColorIDRange", EditorGUILayout.FloatField("Range",colorShifterObject.material.GetFloat("_ColorIDRange")));
+                colorShifterObject.material.SetFloat("_ColorIDRange", EditorGUILayout.FloatField("MainRange",colorShifterObject.material.GetFloat("_ColorIDRange")));
                 colorShifterObject.material.SetFloat("_ColorIDFuzziness",EditorGUILayout.FloatField("Fuzziness",colorShifterObject.material.GetFloat("_ColorIDFuzziness")));
 
                 EditorGUILayout.EndVertical();
                 EditorGUILayout.HelpBox(
-                    "In most cases Range and Fuzziness values should be set to 0.01.",
+                    "In most cases MainRange and Fuzziness values should be set to 0.01.",
                     MessageType.Warning);
                 EditorGUILayout.EndHorizontal();
             }
@@ -255,7 +255,7 @@ namespace InfinityPBR
                     "Each of the active colors are displayed below the name of this color set. Each color requires a Color value for the Color ID, and a Hue, Saturation, and Value for the output color.",
                     MessageType.None);
             }
-            Undo.RecordObject(colorShifterObject, "Change Color Set Name");
+            Undo.RecordObject(colorShifterObject, "Change Color Set ItemName");
             ActiveColorSet().name = EditorGUILayout.TextField("Color set name", ActiveColorSet().name);
             if (ActiveColorSet().name == "")
             {
@@ -606,8 +606,8 @@ namespace InfinityPBR
 
             EditorGUILayout.BeginHorizontal();
             var tempName = colorShifterColorItem.name;
-            Undo.RecordObject(colorShifterObject, "Change Name");
-            colorShifterColorItem.name = EditorGUILayout.TextField("Name", colorShifterColorItem.name);
+            Undo.RecordObject(colorShifterObject, "Change ItemName");
+            colorShifterColorItem.name = EditorGUILayout.TextField("ItemName", colorShifterColorItem.name);
             if (tempName != colorShifterColorItem.name)
                 colorShifterColorItem.UpdateChildrenNames();
             EditorGUILayout.EndHorizontal();
@@ -618,7 +618,7 @@ namespace InfinityPBR
             colorShifterColorItem.color = EditorGUILayout.ColorField(new GUIContent($"ColorID color {symbolInfo}", "This is the lookup color on the Color ID texture. Generally do not change this!!"), colorShifterColorItem.color);
             colorShifterColorItem.color.r = (EditorGUILayout.Slider("R",  255 * colorShifterColorItem.color.r, 0,255) / 255);
             colorShifterColorItem.color.g = (EditorGUILayout.Slider("G",  255 * colorShifterColorItem.color.g, 0,255) / 255);
-            colorShifterColorItem.color.b = (EditorGUILayout.Slider("B",  255 * colorShifterColorItem.color.b, 0,255) / 255);
+            colorShifterColorItem.color.b = (EditorGUILayout.Slider("CombatManager",  255 * colorShifterColorItem.color.b, 0,255) / 255);
             EditorGUILayout.EndVertical();
             EditorGUILayout.BeginVertical();
             //EditorGUILayout.LabelField("FINAL COLOR VALUE");
@@ -662,8 +662,8 @@ namespace InfinityPBR
 
                 EditorGUILayout.LabelField("Full Details from Scriptable Object", EditorStyles.boldLabel);
 
-                Undo.RecordObject(colorShifterObject, "Change Name");
-                colorShifterColorItem.name = EditorGUILayout.TextField("Name", colorShifterColorItem.name);
+                Undo.RecordObject(colorShifterObject, "Change ItemName");
+                colorShifterColorItem.name = EditorGUILayout.TextField("ItemName", colorShifterColorItem.name);
                 colorShifterColorItem.shaderIndex = EditorGUILayout.IntField("Shader Index", colorShifterColorItem.shaderIndex);
                 colorShifterColorItem.orderIndex = EditorGUILayout.IntField("Order Index", colorShifterColorItem.orderIndex);
                 colorShifterColorItem.color = EditorGUILayout.ColorField("Color ID color", colorShifterColorItem.color);
@@ -724,8 +724,8 @@ namespace InfinityPBR
             EditorGUI.indentLevel++;
 
             EditorGUILayout.BeginHorizontal();
-            Undo.RecordObject(colorShifterObject, "Change Name");
-            colorShifterColorItem.name = EditorGUILayout.TextField("Name", colorShifterColorItem.name);
+            Undo.RecordObject(colorShifterObject, "Change ItemName");
+            colorShifterColorItem.name = EditorGUILayout.TextField("ItemName", colorShifterColorItem.name);
             EditorGUILayout.EndHorizontal();
 
             EditorGUILayout.BeginHorizontal();

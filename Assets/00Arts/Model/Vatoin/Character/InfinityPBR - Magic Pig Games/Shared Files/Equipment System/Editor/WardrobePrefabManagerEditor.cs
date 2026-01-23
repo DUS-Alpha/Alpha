@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEditor;
 using System;
 using System.Collections.Generic;
@@ -59,8 +59,8 @@ namespace InfinityPBR
             if (EditorPrefs.GetBool("Wardrobe Prefab Manager Show Help Boxes"))
             {
                 HelpBoxMessage("WARDROBE PREFAB MANAGER\n\n" +
-                               "While this script holds data which you can see if you toggle on \"Show full inspector\", the " +
-                               "data is managed by the Prefab And Object Manager. New options will be visible when this component " +
+                               "While this script holds Data which you can see if you toggle on \"Show full inspector\", the " +
+                               "Data is managed by the Prefab And Object Manager. New options will be visible when this component " +
                                "is also attached.\n\n" +
                                "-- Required Component: Prefab And Object Manager\n" +
                                "-- Required Component: Blend Shapes Manager\n\n" +
@@ -111,7 +111,7 @@ namespace InfinityPBR
 
         private void ReloadButton()
         {
-            if (GUILayout.Button("Manually Update Group List & Blend Shapes"))
+            if (GUILayout.Button("Manually OnUpdate Group List & Blend Shapes"))
                 Manager.UpdateGroupList();
         }
 
@@ -185,8 +185,8 @@ namespace InfinityPBR
             
             var typeDetails = $"{groupsOfType.Count}";
 
-            EditorPrefs.SetBool($"Prefab Manager Show Type {typeName}", EditorGUILayout.Foldout(EditorPrefs.GetBool($"Prefab Manager Show Type {typeName}"), $"{(!String.IsNullOrWhiteSpace(typeName) ? $"{typeName}" : "[No type]")} ({typeDetails})"));
-            if (!EditorPrefs.GetBool($"Prefab Manager Show Type {typeName}")) return;
+            EditorPrefs.SetBool($"Prefab Manager Show AttackType {typeName}", EditorGUILayout.Foldout(EditorPrefs.GetBool($"Prefab Manager Show AttackType {typeName}"), $"{(!String.IsNullOrWhiteSpace(typeName) ? $"{typeName}" : "[No AttackType]")} ({typeDetails})"));
+            if (!EditorPrefs.GetBool($"Prefab Manager Show AttackType {typeName}")) return;
             
             for (int g = 0; g < Manager.blendShapeGroups.Count; g++)
             {
@@ -323,7 +323,7 @@ namespace InfinityPBR
                 $"for equipping wardrobe, as an example."), Manager.autoRigWhenActivated);
             if (BlendShapesManager)
                 Manager.handleBlendShapes = EditorGUILayout.Toggle(new GUIContent($"Handle blend shapes {symbolInfo}", 
-                    $"If true, the Blend Shapes Manager will handle blend shapes, which means that armor or wardrobe that " +
+                    $"If true, the Blend Shapes Manager will handle blend shapes, which means that armorSlotCount or wardrobe that " +
                     $"is instantiated onto a character with customized blend shape values will have it's own blend shape values set, so " +
                     $"the wardrobe looks correct."), Manager.handleBlendShapes);
             EditorGUI.indentLevel--;

@@ -10,7 +10,7 @@ namespace MagicPigGames
         [Header("Options")]
         [Tooltip("The grid cell height will be a percentage of the screen height.")]
         public float percentOfHeight = 0.25f;
-        [Tooltip("When true, the grid cell height will be updated every frame. Otherwise, just at Start().")]
+        [Tooltip("When true, the grid cell height will be updated every frame. Otherwise, just at OnStart().")]
         public bool updateEveryFrame = false;
         public bool scaleXSpacing = true;
         [Tooltip("Min and Max spacing on the X axis between cells, based on the Screen height (0 = x, full height = y).")]

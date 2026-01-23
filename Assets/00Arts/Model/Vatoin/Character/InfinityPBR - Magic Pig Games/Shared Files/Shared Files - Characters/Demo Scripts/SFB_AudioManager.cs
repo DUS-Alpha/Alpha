@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -144,7 +144,7 @@ public class SFB_AudioManager : MonoBehaviour {
 				return i;																// Return index
 			}
 		}
-		Debug.LogError ("Did not find an audioClips[] entry named \"" + name + "\".");	// Send error to console
+		Debug.LogError ("Did not find an AudioClips[] entry named \"" + name + "\".");	// Send error to console
 		return 0;																		// return 0
 	}
 

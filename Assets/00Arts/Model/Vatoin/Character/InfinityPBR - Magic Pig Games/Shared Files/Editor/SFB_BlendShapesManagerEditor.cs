@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -78,8 +78,8 @@ public class SFB_BlendShapesManagerEditor : Editor  {
 			}
 
 			EditorGUILayout.BeginHorizontal ();
-			Undo.RecordObject (myScript, "Change Preset Name");
-			myScript.presetName = EditorGUILayout.TextField("Preset File Name: ", myScript.presetName);
+			Undo.RecordObject (myScript, "Change Preset ItemName");
+			myScript.presetName = EditorGUILayout.TextField("Preset File ItemName: ", myScript.presetName);
 			EditorGUILayout.EndHorizontal ();
 			EditorGUILayout.BeginHorizontal ();
 			GUI.color 			= Color.green;
@@ -119,23 +119,23 @@ public class SFB_BlendShapesManagerEditor : Editor  {
 			EditorGUILayout.EndHorizontal ();
 			
 			EditorGUILayout.BeginHorizontal ();
-			GUILayout.Label("Global Range Modifier (Set to 0.5 to fix a bug introduced in Unity 2018.3)");
+			GUILayout.Label("Global MainRange Modifier (Set to 0.5 to fix a bug introduced in Unity 2018.3)");
 			myScript.globalRangeModifier =
 				EditorGUILayout.FloatField(myScript.globalRangeModifier,
 					GUILayout.Width(40));
 			EditorGUILayout.EndHorizontal ();
 			
 			EditorGUILayout.BeginHorizontal ();
-			GUILayout.Label("Random Range:");
+			GUILayout.Label("Random MainRange:");
 			if(GUILayout.Button("Randomize All", GUILayout.Width(100)))
 			{
 				myScript.RandomizeAll();
 			}
-			if(GUILayout.Button("Set Max Range", GUILayout.Width(100)))
+			if(GUILayout.Button("Set Max MainRange", GUILayout.Width(100)))
 			{
 				myScript.SFB_BS_ToggleRange(100);
 			}
-			if(GUILayout.Button("Set Range 0", GUILayout.Width(100)))
+			if(GUILayout.Button("Set MainRange 0", GUILayout.Width(100)))
 			{
 				myScript.SFB_BS_ToggleRange(0);
 			}
@@ -221,9 +221,9 @@ public class SFB_BlendShapesManagerEditor : Editor  {
 										}
 									}
 
-									if (GUILayout.Button("Set Max Range", GUILayout.Width(100)))
+									if (GUILayout.Button("Set Max MainRange", GUILayout.Width(100)))
 									{
-										Undo.RecordObject(myScript, "Set Max Range");
+										Undo.RecordObject(myScript, "Set Max MainRange");
 										for (int r2 = 0; r2 < blendShapeObject.blendShapes.Count; r2++)
 										{
 											blendShapeDataReset = blendShapeObject.blendShapes[r2];
@@ -243,9 +243,9 @@ public class SFB_BlendShapesManagerEditor : Editor  {
 										}
 									}
 
-									if (GUILayout.Button("Set Range 0", GUILayout.Width(100)))
+									if (GUILayout.Button("Set MainRange 0", GUILayout.Width(100)))
 									{
-										Undo.RecordObject(myScript, "Set Range 0");
+										Undo.RecordObject(myScript, "Set MainRange 0");
 										for (int r3 = 0; r3 < blendShapeObject.blendShapes.Count; r3++)
 										{
 											blendShapeDataReset = blendShapeObject.blendShapes[r3];
@@ -333,7 +333,7 @@ public class SFB_BlendShapesManagerEditor : Editor  {
 
 											EditorGUILayout.EndHorizontal();
 											EditorGUILayout.BeginHorizontal();
-											GUILayout.Label("Random Range");
+											GUILayout.Label("Random MainRange");
 											int minLimit = 0;
 											int maxLimit = 100;
 											if (blendShapeData.isPlus)
@@ -355,7 +355,7 @@ public class SFB_BlendShapesManagerEditor : Editor  {
 											EditorGUILayout.EndHorizontal();
 											if (blendShapeData.sliderValue != blendShapeData.value)
 											{
-												Undo.RecordObject(myScript, "Update Blendshape Value");
+												Undo.RecordObject(myScript, "OnUpdate Blendshape Value");
 												myScript.SetValue(o, i, blendShapeData.id, blendShapeData.sliderValue);
 												if (blendShapeData.isPlus &&
 												    myScript.GetMinusShapeObject(blendShapeData.name) != 999999)
@@ -366,7 +366,7 @@ public class SFB_BlendShapesManagerEditor : Editor  {
 													SFB_BlendShapesManager.SFB_BlendShape minusShapeData =
 														myScript.blendShapeObjects[minusShapeObject]
 															.blendShapes[minusShapeID];
-													Undo.RecordObject(myScript, "Update Blendshape Value");
+													Undo.RecordObject(myScript, "OnUpdate Blendshape Value");
 													myScript.SetValue(minusShapeObject, minusShapeID, minusShapeData.id,
 														minusShapeData.sliderValue);
 												}
