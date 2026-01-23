@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/00Arts/Model/Vatoin/Camera.meta
 guid: 0cb62f393c1d3e0429fbde1db6823c0a
+========
+guid: abac0a7e92b0e234a98d1548cf54fa2e
+>>>>>>>> Vation_Feature:Assets/02Scripts/InGame/Vation/Temp/Domain (Entity, State, Rule, Policy,ValueObject)/StateMachine/Locomotion/State.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

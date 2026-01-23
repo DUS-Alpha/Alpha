@@ -51,7 +51,9 @@ public class Boss2EventController : MonoBehaviour
                     {
                         //HitNormal = hit.normal,
                         //HitPoint = hit.point,
-                        damage = breathDamge
+
+                        Damage = breathDamge
+
                     };
                     // 데미지 적용은 0.5초마다만 실행
                     print($"데미지 피격 : {breathDamge}");
