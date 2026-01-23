@@ -63,7 +63,9 @@ public class PaticleController : MonoBehaviour
             if (other.TryGetComponent(out _damageableTarget))
             {
                 DamageMassage _damageMassage = new DamageMassage();
+
                 _damageMassage.Damage = 20;
+
                 
                 _damageableTarget.ApplyDamage(_damageMassage);
             }

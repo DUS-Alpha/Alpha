@@ -254,6 +254,7 @@ public class DragonBossActions : MonoBehaviour,IDamageable
         // 0 밑으로 안내려가게 Clamp
         hp = Mathf.Max(hp, 0);
         print($"{damageMassage.Damager}가 {gameObject.name}에게 {damageMassage.Damage}의 데미지 \n 현재 HP : {hp}");
+
         
         // 단순히 피격 여부만 표시
         wasHit = true;

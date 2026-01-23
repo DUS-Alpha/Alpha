@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class AttackTrigger : MonoBehaviour
 {
-    [SerializeField]private float m_damage = 10; //데미지 테스트용
+    [SerializeField]private float damage = 10; //데미지 테스트용
+
     
     
     private void OnTriggerEnter(Collider other)
@@ -16,10 +17,9 @@ public class AttackTrigger : MonoBehaviour
             {
                 DamageMassage _damassage = new DamageMassage
                 {
-                    Damage = m_damage
+                    Damage = damage
                 };
                 print($"데미지 피격 : {m_damage}");
-                _damageableTarget.ApplyDamage(_damassage);
             }
         }
     }

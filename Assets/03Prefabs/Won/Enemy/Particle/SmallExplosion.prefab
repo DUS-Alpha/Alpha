@@ -4833,10 +4833,11 @@ GameObject:
   - component: {fileID: 8775526039282661788}
   - component: {fileID: 5762710754079817988}
   - component: {fileID: 3370264900740457615}
-  - component: {fileID: 6754249402141191416}
+  - component: {fileID: 5629725749367722945}
+  - component: {fileID: 7440928861537460564}
   m_Layer: 0
   m_Name: SmallExplosion
-  m_TagString: Untagged
+  m_TagString: explosion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4869,7 +4870,7 @@ ParticleSystem:
   serializedVersion: 8
   lengthInSec: 2
   simulationSpeed: 1
-  stopAction: 0
+  stopAction: 1
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
@@ -9756,7 +9757,28 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &6754249402141191416
+--- !u!135 &5629725749367722945
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2353662582193484897}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 3.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7440928861537460564
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9765,7 +9787,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2353662582193484897}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3db637ad9f5c8ee4db727b7256e002b8, type: 3}
+  m_Script: {fileID: 11500000, guid: d3f463f8f609b0b4e9fac9dc146fd4f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &3982279742163026052

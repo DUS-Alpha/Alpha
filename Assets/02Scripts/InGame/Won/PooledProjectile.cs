@@ -62,7 +62,9 @@ public class PooledProjectile : MonoBehaviour
             if (other.TryGetComponent<IDamageable>(out _damageableTarget))
             {
                 DamageMassage _damageMassage = new DamageMassage();
+
                 _damageMassage.Damage = 15;
+
 
                 // 데미지 전달
                 _damageableTarget.ApplyDamage(_damageMassage);
