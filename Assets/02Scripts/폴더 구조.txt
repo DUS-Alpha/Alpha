@@ -1,5 +1,17 @@
-Domain (Core / Business Logic)
-Application (Use Cases)
-Ports (Interfaces / Boundaries)
-Adapters (Input / Output)
-Frameworks / Infrastructure (Engine )
+Bootstrap : 프로그램의 시작점, 초기 설정 및 환경 구성 담당
+
+Actor : 최상위 실행 주체
+ㅣ_ Boundary : 외부 → 주체 내부로 들어오는 유일한 입구, 입력, UI, 시스템 이벤트 모두 포함
+ㅣ_ Flow : 주체 내부의 프로세스 흐름 담당
+	ㅣ_Port : Boundary → Flow
+ㅣ_ Domain : Rule, Policy, 데이터만 담당
+	ㅣ_Port : Flow → Domain
+ㅣ_ Module : 실제 행위 실행자
+	ㅣ_Port : Domain(규칙판단) → Module
+ㅣ_ Adapter : Module이 Unity API에 직접 의존하지 않게 완충, 규모 작으면 Module 내부에 포함 가능
+	ㅣ_Port : Module → Adapter
+ㅣ_ Composition : 객체 생성 및 의존성 주입 담당 (Self Binding Installer)
+
+Infrastructure : 외부 서비스 제공 담당
+
+View : 시각적요소 및 사용자 인터페이스 담당
