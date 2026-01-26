@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace alpha
 {
-    [RequireComponent(typeof(GroundAndGravityUitility))]
     [RequireComponent(typeof(CharacterController))]
     public class PlayerLocomotionManager : MonoBehaviour, IDamageable
     {
@@ -13,7 +12,6 @@ namespace alpha
         private PlayerAnimationViewManager m_aniM;
         private PlayerGaugeManager m_playerStatsM;
         public CharacterController CharacterCtrl { get; private set; }
-        private GroundAndGravityUitility m_groundAndGravityUitil;
         private PlayerEffectViewManager m_effectM;
 
         [Header("[ Movement ]")]
@@ -26,7 +24,6 @@ namespace alpha
         [SerializeField] private float m_baseGravity = -15;
         [SerializeField] private float m_flyingGravity = -0.5f;
         [SerializeField] private float m_antiGravity = 5f;
-        private GravityConfig m_gravityConfig;
 
         [Header("[ Ground ]")]
         [SerializeField] private LayerMask m_groundMask;
@@ -61,14 +58,7 @@ namespace alpha
         {
             CharacterCtrl = GetComponent<CharacterController>();
 
-            m_gravityConfig = new GravityConfig()
-            {
-                BaseGravity = m_baseGravity,
-                FlyingGravity = m_flyingGravity,
-                AntiGravity = m_antiGravity
-            };
-
-            m_groundAndGravityUitil = new GroundAndGravityUitility(CharacterCtrl, m_gravityConfig);
+           
 
         }
 
@@ -99,7 +89,7 @@ namespace alpha
             if (m_canCheckedGround)
             {
                 //m_groundAndGravityUitil.CheckedGround(m_groundMask);
-                IsGrounded = m_groundAndGravityUitil.IsGround;
+                
             }
             else IsGrounded = false;
 
@@ -117,11 +107,11 @@ namespace alpha
 
         public void ApplyGravity()
         {
-            float _CurrentGravity = m_groundAndGravityUitil.GetGravity();
-            Vector3 _velocity = m_groundAndGravityUitil.ApplyGravity(_CurrentGravity,CurrentSpeed, LastMoveInputDir,CurrentVelocity);
+            //float _CurrentGravity = m_groundAndGravityUitil.GetGravity();
+            //Vector3 _velocity = m_groundAndGravityUitil.ApplyGravity(_CurrentGravity,CurrentSpeed, LastMoveInputDir,CurrentVelocity);
             
             // 중력에 따른 Y속력 실시간 변환 (Fall에 대한 CurrentVelocity 값으로 전달)
-            SetCurrentVelocity(_velocity);
+            //SetCurrentVelocity(_velocity);
         }
         #endregion ================================================================================ /Ground Gravity
 
@@ -154,9 +144,9 @@ namespace alpha
         /// </summary>
         public void SetForceVerticallMoveValue(float verticalHeight)
         {
-            float _baseGravity = m_groundAndGravityUitil.GetGravity();
+            //float _baseGravity = m_groundAndGravityUitil.GetGravity();
             //등가속도운동 적용
-            m_currentVelocity.y = Mathf.Sqrt(verticalHeight * -2f * _baseGravity);
+           // m_currentVelocity.y = Mathf.Sqrt(verticalHeight * -2f * _baseGravity);
         }
 
         // 강제 이동 (Y속력 포함)

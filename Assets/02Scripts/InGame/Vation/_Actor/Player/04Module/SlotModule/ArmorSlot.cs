@@ -3,7 +3,7 @@ using UnityEngine;
 namespace alpha
 {
     // 방어구 슬롯
-    public class ArmorSlot : SlotBase
+    public class ArmorSlot : SlotModuleBase
     {
         // new는 SlotBase의 SlotType를 숨김
         public override EItemTypes SlotItemType => EItemTypes.Armor;
@@ -14,7 +14,7 @@ namespace alpha
             ArmorType = armorType;
         }
 
-        public override bool CanAccept(ItemSO itemData)
+        /*public override bool CanAccept(ItemSO itemData)
         {
             if(itemData.ItemType == SlotItemType)
             {
@@ -24,6 +24,6 @@ namespace alpha
             }
             
             return false;
-        }
+        }*/
     }
 }

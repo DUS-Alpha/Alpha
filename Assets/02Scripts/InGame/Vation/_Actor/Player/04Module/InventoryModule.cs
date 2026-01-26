@@ -5,12 +5,23 @@ namespace alpha
 {
     public class InventoryModule : MonoBehaviour, IInventoryPort
     {
-        // 슬롯 생성 and View 연결 
-        private IInventoryViewPort m_uiView;
+        // ==================== Ref Component
+        private IInventoryViewPort m_uiViewPort;
+
+        // ==================== Config Data
+
+
+        // ==================== Runtime Data
+        // Slot
+        private List<SlotModuleBase> m_inventorySlotList;
+        private List<ArmorSlot> m_armorSlotList;
+        private List<SlotModuleBase> m_quickSlotList;
+
+        // ==================== State Data
 
         public void Bind(IInventoryViewPort uiView)
         {
-            m_uiView = uiView;
+            m_uiViewPort = uiView;
         }
         public void CreateInventorySlot()
         {

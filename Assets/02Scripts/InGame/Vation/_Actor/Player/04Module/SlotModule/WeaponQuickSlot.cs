@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace alpha
 {
-    public class WeaponQuickSlot : SlotBase
+    public class WeaponQuickSlot : SlotModuleBase
     {
         public override EItemTypes SlotItemType => EItemTypes.Weapon;
         public EWeaponTypes WeaponTypes;
@@ -12,7 +12,7 @@ namespace alpha
             WeaponTypes = weaponTypes;
         }
 
-        public override bool CanAccept(ItemSO itemData)
+        /*public override bool CanAccept(ItemSO itemData)
         {
             if(itemData.ItemType == SlotItemType)
             {
@@ -20,6 +20,6 @@ namespace alpha
                 if(_weapon.WeaponType == WeaponTypes) return true;
             }
             return false;
-        }
+        }*/
     }
 }

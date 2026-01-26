@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace alpha
 {
-    public class InventorySlot : SlotBase
+    public class InventorySlot : SlotModuleBase
     {
         public InventorySlot(int slotIndex) : base(slotIndex){}
 
-        public override bool CanAccept(ItemSO itemData)
+        /*public override bool CanAccept(ItemSO itemData)
         {
             if (!IsEmpty)
             {
@@ -17,6 +17,6 @@ namespace alpha
                 }
             }
             return true;
-        }
+        }*/
     }
 }

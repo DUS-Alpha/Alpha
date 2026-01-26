@@ -45,7 +45,7 @@ namespace alpha
         [SerializeField] private float m_flyUpHeight = 10f;
 
         // ==================== Runtime Data : 변하는 데이터
-
+        // InputData
         public Vector2 MoveInput { get; set; }
         public bool IsMove => MoveInput != Vector2.zero;
         public bool IsRotLock { get; set; }
@@ -53,7 +53,7 @@ namespace alpha
         public bool IsDash { get; set; }
         public bool IsFly { get; set; }
 
-        // StateData
+        // ==================== StateData
         public LocomotionStateData StateData = new LocomotionStateData(); // TODO : 추후 필요한 변수들(넘겨줘야할) 저장
         public bool IsFlyUping { get; private set; }
         private bool m_isFlying;
@@ -81,7 +81,7 @@ namespace alpha
 
         #region ================== 입력 저장 ===================
         // PlayerCore의 Awake에서 바인딩
-        public void BInd(IInputActionPort inputActionPort, ILocomoAniPort aniPort, IEffectPort effectPort)
+        public void Bind(IInputActionPort inputActionPort, ILocomoAniPort aniPort, IEffectPort effectPort)
         {
             m_inputActionPort = inputActionPort;
             m_aniViewPort = aniPort;

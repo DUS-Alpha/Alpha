@@ -12,11 +12,6 @@ namespace alpha
         public float CurrentSpeed => m_currentSpeed;
         private float m_currentSpeed;
 
-        public float GetSpeed(Vector3 moveInput, LocomotionStateType stateType,CombatConstraint combatConstraint)
-        {
-            return 0;
-        }
-
         // 지상확인
         public void SetGround(bool isGrounded)
         {

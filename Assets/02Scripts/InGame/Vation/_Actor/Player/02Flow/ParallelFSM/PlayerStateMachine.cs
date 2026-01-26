@@ -27,7 +27,7 @@ namespace alpha
     }
     // Locomotion FSM, Combat FSM 병렬 처리(패럴상태머신)
     // 병렬 처리 이유 : 상체 공격 + 하체 이동 같은 병행 동작
-    public class PlayerStateMachine : IPlayerHFSM
+    public class PlayerStateMachine
     {
         // Locomotion
         public LocomotionStateType CurrentLocoState { get; private set; }

@@ -5,19 +5,21 @@ using UnityEngine;
 
 namespace alpha
 {
-
+    // 외부 Input
+    [RequireComponent(typeof(PickupManager))]
     [RequireComponent(typeof(PlayerEffectViewManager))]
     [RequireComponent(typeof(PlayerAnimationViewManager))]
     [RequireComponent(typeof(PlayerInputManager))]
+    // Module
     [RequireComponent(typeof(InventoryModule))]
     [RequireComponent(typeof(LocomotionModule))]
     [RequireComponent(typeof(CombatModule))]
-    // InputAdapter어댑터 역할
     public class PlayerCore : MonoBehaviour, IInputActionPort // InputEvent 전달 Port
     {
         // 외부 Input (Self Binding) 객체가 동적 생성이 아닐경우 원래는 Installer에서 주입
         private PlayerInputManager m_inputManager;
         public event Action<PlayerInputManager> OnInputAction;
+        private PickupManager m_pickupManager;
 
         // 내부 OutputAdapter (행위)
         public LocomotionModule LocomotionM;
@@ -33,8 +35,8 @@ namespace alpha
         public ActionPolicy ActionPolicy;
 
         // View
-        private PlayerAnimationViewManager m_aniViewM;
-        private PlayerEffectViewManager m_effectViewM;
+        private PlayerAnimationViewManager m_aniViewManager;
+        private PlayerEffectViewManager m_effectViewManager;
 
         private void Awake()
         {
@@ -46,10 +48,11 @@ namespace alpha
             LocomotionM = GetComponent<LocomotionModule>();
             CombatM = GetComponent<CombatModule>();
             m_inputManager = GetComponent<PlayerInputManager>();
-            m_aniViewM = GetComponent<PlayerAnimationViewManager>();
-            m_effectViewM = GetComponent<PlayerEffectViewManager>();
+            m_aniViewManager = GetComponent<PlayerAnimationViewManager>();
+            m_effectViewManager = GetComponent<PlayerEffectViewManager>();
 
-            LocomotionM.BInd(this, m_aniViewM, m_effectViewM);
+            LocomotionM.Bind(this, m_aniViewManager, m_effectViewManager);
+            m_pickupManager.Bind(InventoryM);
         }
         private void Start()
         {
@@ -64,15 +67,6 @@ namespace alpha
                 OnInputAction?.Invoke(m_inputManager);
             
             StateMachine.OnUpdate();
-        }
-
-        private void OnTriggerEnter(Collider other)
-        {
-            if(other.CompareTag("FieldItem"))
-            {
-                IItemPort _itemPickup = other.GetComponent<IItemPort>();
-                InventoryM.AddItem(_itemPickup.Item);
-            }
         }
     }
 }

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace alpha
 {
-    [CreateAssetMenu(fileName = "PotionItemData", menuName = "Scriptable Objects/CurrentItemData/Potion")]
+    [CreateAssetMenu(fileName = "PotionItemData", menuName = "Scriptable Objects/ItemData/Potion")]
     public class PotionItemDataSO : UseableSO
     {
         // 채움량 (회복량 hp, mp, stemina 등)
