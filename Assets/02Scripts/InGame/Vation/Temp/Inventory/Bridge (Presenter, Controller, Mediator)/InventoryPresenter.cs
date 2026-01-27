@@ -11,11 +11,11 @@ namespace alpha
         [SerializeField] private InventoryController m_inventoryController;
 
         private IInventoryController m_inventoryModel;
-        private IInventoryViewPort m_inventoryUIView;
+        //private IInventoryViewPort m_inventoryUIView;
 
         public InventoryPresenter(IInventoryViewPort inventoryUI)
         {
-            m_inventoryUIView = inventoryUI;
+            //m_inventoryUIView = inventoryUI;
         }
 
         // 원래는 Presenter를 인스톨러 클래스에서 주입해줘야 하지만, 지금은 간단히 인스펙터에서 할당
@@ -42,12 +42,12 @@ namespace alpha
             ISlotModel slot = m_inventoryModel.ExpandInventorySlot();
 
             // i보다는 실제 모델의 인덱스를 주입해주기
-            m_inventoryUIView.AddAndBindInventorySlotUI(slot.CurrentSlotIndex);
+            //m_inventoryUIView.AddAndBindInventorySlotUI(slot.CurrentSlotIndex);
         }
 
         private void HandleOnAddItem(ISlotModel slot)
         {
-            m_inventoryUIView.UpdateSlotUI(slot);
+            //m_inventoryUIView.UpdateSlotUI(slot);
         }
 
         private bool HandleDragDrop(SlotUIBase dragUI, SlotUIBase dropUI)

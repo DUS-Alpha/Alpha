@@ -1,11 +1,14 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace alpha
 {
     public struct SlotInfo
     {
-        public ItemSO ItemData;
-        public int ItemCount;
+        public Sprite IconSprite;
+        public string ItemCountText;
+        public int SlotIndex;
+        public bool IsEmpty;
     }
 
     // 인벤토리의 실제 데이터
@@ -25,7 +28,7 @@ namespace alpha
         // ==================== State Data
         public bool IsEmpty => ItemData == null;
 
-        protected SlotModuleBase(int index)
+        public SlotModuleBase(int index)
         {
             SetIndex(index);
         }
@@ -49,8 +52,7 @@ namespace alpha
 
         public void SwapSlot(SlotInfo slotInfo)
         {
-            ItemData = slotInfo.ItemData;
-            ItemCount = slotInfo.ItemCount;
+            
 
             // View
 

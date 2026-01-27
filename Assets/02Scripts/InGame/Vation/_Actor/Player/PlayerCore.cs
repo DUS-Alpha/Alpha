@@ -45,14 +45,25 @@ namespace alpha
             ActionPolicy = new ActionPolicy(m_locomotionRule, m_combatRule);
             StateMachine = new PlayerStateMachine();
 
+            // 외부
+            m_inputManager = GetComponent<PlayerInputManager>();
+            m_pickupManager = GetComponent<PickupManager>();
+            
+            // 내부
             LocomotionM = GetComponent<LocomotionModule>();
             CombatM = GetComponent<CombatModule>();
-            m_inputManager = GetComponent<PlayerInputManager>();
+            InventoryM = GetComponent<InventoryModule>();
+            
+            // View
             m_aniViewManager = GetComponent<PlayerAnimationViewManager>();
             m_effectViewManager = GetComponent<PlayerEffectViewManager>();
 
             LocomotionM.Bind(this, m_aniViewManager, m_effectViewManager);
             m_pickupManager.Bind(InventoryM);
+        }
+        public void Bind(IInventoryViewPort inventoryViewPort)
+        {
+            InventoryM.Bind(inventoryViewPort);
         }
         private void Start()
         {

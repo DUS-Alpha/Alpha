@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class PickupManager : MonoBehaviour
 {
-    public IInventoryPort m_inventoryPort;
+    public IInventoryPickupPort m_inventoryPort;
 
-    public void Bind(IInventoryPort inventoryPort)
+    public void Bind(IInventoryPickupPort inventoryPort)
     {
         m_inventoryPort = inventoryPort;
     }

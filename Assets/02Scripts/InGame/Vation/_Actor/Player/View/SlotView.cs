@@ -15,47 +15,52 @@ namespace alpha
         private EItemTypes m_slotItemType;
 
         // ==================== Runtime Data
-        private int m_slotIndex;
+        public SlotInfo SlotInfo { get; private set; }
 
-        public event Action<EItemTypes, int> OnConnectedSlot;
+        // ==================== State Data
+        public bool IsEmpty { get; private set; }
+
         public event Action<SlotInfo> OnSetSlot;
-        public event Action<int> OnSetItemCount;
+        public event Action<string> OnSetItemCount;
 
+        private void Awake()
+        {
+            m_slotIcon.gameObject.SetActive(false);
+        }
         private void OnEnable()
         {
-            OnConnectedSlot += ConnectedSlot;
             OnSetSlot += SetSlotView;
             OnSetItemCount += SetItemCount;
         }
 
         private void OnDisable()
         {
-            OnConnectedSlot -= ConnectedSlot;
             OnSetSlot -= SetSlotView;
             OnSetItemCount -= SetItemCount;
         }
 
-        public void ConnectedSlot(EItemTypes itemType, int slotIndex)
-        {
-            m_slotItemType = itemType;
-            m_slotIndex = slotIndex;
-        }
-
+        // 슬롯뷰 셋팅
         public void SetSlotView(SlotInfo slotInfo)
         {
-            m_slotIcon.sprite = slotInfo.ItemData.IconSprite;
-            SetItemCount(slotInfo.ItemCount);
-
+            SlotInfo = slotInfo;
+            if (slotInfo.IsEmpty) return;
+            m_slotIcon.sprite = slotInfo.IconSprite;
+            SetItemCount(slotInfo.ItemCountText);
+            m_slotIcon.gameObject.SetActive(true);
         }
-        public void SetItemCount(int count)
+
+        public void SetItemCount(string countText)
         {
-            m_countTMP.text = count.ToString();
+            m_countTMP.text = countText;
         }
 
         public void ClearSlot()
         {
             m_slotIcon.sprite = null;
             m_countTMP.text = "";
+            IsEmpty = false;
+
+            m_slotIcon.gameObject.SetActive(false);
         }
 
         #region ========== ICON DRAG AREA ==========

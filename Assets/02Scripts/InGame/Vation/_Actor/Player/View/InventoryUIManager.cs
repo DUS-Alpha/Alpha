@@ -7,7 +7,7 @@ using UnityEngine.UI;
 namespace alpha
 {
     // View
-    public class InventoryUIManager : MonoBehaviour, IInventoryViewPort, IPointerDownHandler, IPointerUpHandler,IBeginDragHandler, IDragHandler, IEndDragHandler
+    public class InventoryUIManager : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         public event Action OnClickAddInventory;
 
@@ -31,7 +31,7 @@ namespace alpha
         [SerializeField] private UseableQuickSlotUI[] m_useableQuickSlotUIs;
         [Space(10)]
 
-        [SerializeField] private DragSlotUI m_dragSlot;
+        [SerializeField] private DragSlotView m_dragSlot;
 
         [Space(10)]
 
@@ -133,27 +133,27 @@ namespace alpha
             if (_clickSlot.IsEmpty) return;
 
             m_dragSlot.transform.position = eventData.position;
-            m_dragSlot.DragUI(_clickSlot);
+            //m_dragSlot.DragUI(_clickSlot);
         }
 
         public void OnBeginDrag(PointerEventData eventData)
         {
-            if (m_dragSlot.SlotUIBase == null) return;
+            //if (m_dragSlot.SlotUIBase == null) return;
             m_dragSlot.transform.position = eventData.position;
         }
         public void OnDrag(PointerEventData eventData)
         {
-            if (m_dragSlot.SlotUIBase == null) return;
+            //if (m_dragSlot.SlotUIBase == null) return;
             m_dragSlot.transform.position = eventData.position;
         }
 
         public void OnPointerUp(PointerEventData eventData)
         {
             SlotUIBase _dropSlotUI = GetUnderPointerSlot(eventData.position);
-            if (_dropSlotUI == null)
+            /*if (_dropSlotUI == null)
             {
                 m_dragSlot.Clear();
-            }
+            }*/
             /*SlotUIBase _clickSlot = GetUnderPointerSlot(eventData.position);
             if (_clickSlot == m_dragSlot && _clickSlot.SlotIndex == m_dragSlot.SlotUIBase.SlotIndex) m_dragSlot.Clear();*/
         }
@@ -162,19 +162,19 @@ namespace alpha
         public void OnEndDrag(PointerEventData eventData)
         {
             SlotUIBase _dropSlotUI = GetUnderPointerSlot(eventData.position);
-            if (m_dragSlot.SlotUIBase == null || _dropSlotUI == null)
+            /*if (m_dragSlot.SlotUIBase == null || _dropSlotUI == null)
             {
                 m_dragSlot.Clear();
                 return;
-            }
+            }*/
 
             // 아이템이 타슬롯과의 매칭이 맞는지 확인 및 변경
-            bool _isDragDrop = OnDragDrop.Invoke(m_dragSlot.SlotUIBase, _dropSlotUI);
+            /*bool _isDragDrop = OnDragDrop.Invoke(m_dragSlot.SlotUIBase, _dropSlotUI);
 
             if (!_isDragDrop)
             {
                 Debug.Log("슬롯이 맞지 않습니다.");
-            }
+            }*/
 
             m_dragSlot.Clear();
         }

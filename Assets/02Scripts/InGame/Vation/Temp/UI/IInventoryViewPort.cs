@@ -5,7 +5,9 @@ namespace alpha
 {
     public interface IInventoryViewPort
     {
-        public event Action OnClickAddInventory;
+        public void CreateInventorySlotView(int count);
+
+        /*public event Action OnClickAddInventory;
         
         public void AddAndBindInventorySlotUI(int i);
         public void UpdateSlotUI(ISlotModel slotView);
@@ -15,6 +17,6 @@ namespace alpha
         public event Action<ItemSO> OnEquipRequest;
         public event Action<ItemSO> OnUnEquipRequest;
         public event Action<ItemSO> OnUseRequest;
-        public event Action<ItemSO> OnDropRequest;
+        public event Action<ItemSO> OnDropRequest;*/
     }
 }
