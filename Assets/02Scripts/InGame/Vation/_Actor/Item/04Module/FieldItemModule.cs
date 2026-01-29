@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace alpha
 {
-    public class FieldItemModule : MonoBehaviour, IPickupItemPort
+    public class FieldItemModule : MonoBehaviour, IItemPort
     {
         [SerializeField]
         private ItemModuleBase m_item;

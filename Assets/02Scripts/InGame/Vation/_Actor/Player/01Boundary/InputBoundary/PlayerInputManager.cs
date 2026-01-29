@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace alpha
 {
-    public class PlayerInputManager : MonoBehaviour, IInventory
+    public class PlayerInputManager : MonoBehaviour, ILocoInput, IInventory
     {
         private PlayerControls m_playerControl;         // InputSystem
 

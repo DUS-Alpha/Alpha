@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace alpha
 {
-    public interface IPickupItemPort
+    public interface IItemPort
     {
         public ItemModuleBase Item {  get; }
     }

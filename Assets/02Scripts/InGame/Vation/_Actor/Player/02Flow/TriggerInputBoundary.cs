@@ -14,10 +14,8 @@ public class TriggerInputBoundary : MonoBehaviour
     {
         if (other.CompareTag("FieldItem"))
         {
-            if (!other.TryGetComponent<IPickupItemPort>(out var pickupItemPort)) return;
-
-            m_inventoryPort.AddItem(pickupItemPort.Item);
-            Destroy(other.gameObject);
+            IItemPort _itemPickup = other.GetComponent<IItemPort>();
+            m_inventoryPort.AddItem(_itemPickup.Item);
         }
     }
 }
