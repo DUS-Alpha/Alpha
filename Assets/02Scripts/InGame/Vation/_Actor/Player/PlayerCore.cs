@@ -6,7 +6,7 @@ using UnityEngine;
 namespace alpha
 {
     // 외부 Input
-    [RequireComponent(typeof(PickupManager))]
+    [RequireComponent(typeof(TriggerInputBoundary))]
     [RequireComponent(typeof(PlayerEffectViewManager))]
     [RequireComponent(typeof(PlayerAnimationViewManager))]
     [RequireComponent(typeof(PlayerInputManager))]
@@ -19,7 +19,7 @@ namespace alpha
         // 외부 Input (Self Binding) 객체가 동적 생성이 아닐경우 원래는 Installer에서 주입
         private PlayerInputManager m_inputManager;
         public event Action<PlayerInputManager> OnInputAction;
-        private PickupManager m_pickupManager;
+        private TriggerInputBoundary m_triggerInput;
 
         // 내부 OutputAdapter (행위)
         public LocomotionModule LocomotionM;
@@ -47,7 +47,7 @@ namespace alpha
 
             // 외부
             m_inputManager = GetComponent<PlayerInputManager>();
-            m_pickupManager = GetComponent<PickupManager>();
+            m_triggerInput = GetComponent<TriggerInputBoundary>();
             
             // 내부
             LocomotionM = GetComponent<LocomotionModule>();
@@ -59,7 +59,7 @@ namespace alpha
             m_effectViewManager = GetComponent<PlayerEffectViewManager>();
 
             LocomotionM.Bind(this, m_aniViewManager, m_effectViewManager);
-            m_pickupManager.Bind(InventoryM);
+            m_triggerInput.Bind(InventoryM);
         }
         public void Bind(IInventoryViewPort inventoryViewPort)
         {

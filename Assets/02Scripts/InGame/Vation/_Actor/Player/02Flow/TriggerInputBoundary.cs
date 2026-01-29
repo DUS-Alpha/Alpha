@@ -1,7 +1,7 @@
 using alpha;
 using UnityEngine;
 
-public class PickupManager : MonoBehaviour
+public class TriggerInputBoundary : MonoBehaviour
 {
     public IInventoryPickupPort m_inventoryPort;
 

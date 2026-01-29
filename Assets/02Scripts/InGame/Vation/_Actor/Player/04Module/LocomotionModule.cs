@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
-using Unity.Android.Gradle.Manifest;
 using UnityEngine;
-using UnityEngine.Windows;
 
 // Module : 실제 게임 행위를 실행하는 유일한 객체
 namespace alpha
