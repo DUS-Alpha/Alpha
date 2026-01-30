@@ -18,7 +18,6 @@ namespace alpha
     {
         // 외부 Input (Self Binding) 객체가 동적 생성이 아닐경우 원래는 Installer에서 주입
         private PlayerInputManager m_inputManager;
-        public event Action<PlayerInputManager> OnInputAction;
         private TriggerInputBoundary m_triggerInput;
 
         // 내부 OutputAdapter (행위)
@@ -38,6 +37,7 @@ namespace alpha
         private PlayerAnimationViewManager m_aniViewManager;
         private PlayerEffectViewManager m_effectViewManager;
 
+        public event Action<PlayerInputManager> OnInputAction;
         private void Awake()
         {
             m_locomotionRule = new LocomotionRules();

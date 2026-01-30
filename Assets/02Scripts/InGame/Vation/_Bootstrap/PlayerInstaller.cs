@@ -1,5 +1,4 @@
 using UnityEngine;
-using static UnityEngine.InputManagerEntry;
 
 namespace alpha
 {
@@ -8,7 +7,7 @@ namespace alpha
         [SerializeField] private PlayerCore m_playerCore;
         [SerializeField] private InventoryView m_inventoryView;
         
-        private void Awake()
+        private void Start()
         {
             m_playerCore.Bind(m_inventoryView);
             m_inventoryView.Bind(m_playerCore.InventoryM);

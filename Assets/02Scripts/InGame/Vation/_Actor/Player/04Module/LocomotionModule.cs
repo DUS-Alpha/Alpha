@@ -84,13 +84,11 @@ namespace alpha
             m_inputActionPort = inputActionPort;
             m_aniViewPort = aniPort;
             m_effectPort = effectPort;
-        }
 
-        private void OnEnable()
-        {
-            // 구독 설정
             if (m_inputActionPort != null)
+            {
                 m_inputActionPort.OnInputAction += OnInput;
+            }
         }
 
         private void OnDisable()
@@ -103,6 +101,7 @@ namespace alpha
         // TODO : StateData로 갱신?
         public void OnInput(PlayerInputManager input)
         {
+            Debug.Log("bbbb");
             MoveInput = input.MoveDirInput;
             IsRotLock = input.IsRotLock;
             IsJump = input.IsJump;
@@ -154,7 +153,7 @@ namespace alpha
                 InitializeMove();
                 return;
             }
-
+            
             Vector3 _moveDir = transform.right * moveInput.x + transform.forward * moveInput.y;
             
             if(_moveDir.magnitude > 1) _moveDir.Normalize();
