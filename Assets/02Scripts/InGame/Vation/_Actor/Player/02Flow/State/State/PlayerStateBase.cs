@@ -17,8 +17,8 @@ namespace alpha
         {
             m_Core = playerCore;
             m_StateMachine = m_Core.StateMachine;
-            m_LocomotionM = m_Core.LocomotionM;
-            m_CombatM = m_Core.CombatM;
+            m_LocomotionM = m_Core.LocomotionModule;
+            m_CombatM = m_Core.CombatModule;
             m_ActionPolicy = m_Core.ActionPolicy;
         }
 

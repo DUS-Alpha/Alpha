@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
+// 상태 흐름 관리 클래스
 namespace alpha
 {
     public enum LocomotionStateType
@@ -27,17 +29,17 @@ namespace alpha
     }
     // Locomotion FSM, Combat FSM 병렬 처리(패럴상태머신)
     // 병렬 처리 이유 : 상체 공격 + 하체 이동 같은 병행 동작
-    public class PlayerStateMachine
+    public class PlayerStateMachine : MonoBehaviour
     {
         // Locomotion
-        public LocomotionStateType CurrentLocoState { get; private set; }
         private PlayerStateBase m_locoState;
         private Dictionary<LocomotionStateType, Func<PlayerStateBase>> m_locomotionStateCreateDic;
+        public LocomotionStateType CurrentLocoState { get; private set; }
 
         // Combat
-        public CombatStateType CurrentCombatState{ get; private set; }
         private PlayerStateBase m_combatState;
         private Dictionary<CombatStateType, Func<PlayerStateBase>> m_combatStateCreateDic;
+        public CombatStateType CurrentCombatState{ get; private set; }
 
         public void OnStart(PlayerCore core)
         {
@@ -76,6 +78,7 @@ namespace alpha
             m_combatState.Update();
         }
 
+        // 상태 변경 관리
         public void SwitchLocomotionState(LocomotionStateType newState)
         {
             if (newState == CurrentLocoState) return;

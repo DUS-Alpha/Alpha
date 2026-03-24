@@ -2,47 +2,54 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-// Module : 실제 게임 행위를 실행하는 유일한 객체
+// 이동에 대한 기능 실행 클래스
 namespace alpha
 {
     
     [RequireComponent(typeof(CharacterController))]
     public class LocomotionModule : MonoBehaviour
     {
-        // ==================== Ref Component
+        // ==================== Component
         [SerializeField] private CharacterController m_characterCtrl;
         private ILocomoAniPort m_aniViewPort;
         private IEffectPort m_effectPort;
 
-        // ==================== Config Data : 고정적 데이터
-        [Header("[ Speed Config ]")]
-        [SerializeField] private float m_baseSpeed = 8f;
+        #region =============== Config Data : 고정적 수치
+        [Header(" ===== Ground Movement =====")]
+        // Move
+        [SerializeField] private float m_baseMoveSpeed = 8f;
         [SerializeField] private float m_backMoveSpeed = 4f;
-        [SerializeField] private float m_combatSpeed = 5f;
+        [SerializeField] private float m_combatMoveSpeed = 5f;
+        [Space(10)]
 
-        // State Speed
-        [SerializeField] private float m_dashSpeed = 15f;
-        [SerializeField] private float m_jumpSpeed = 5f;
-        [SerializeField] private float m_fallSpeed = 4f;
-        [SerializeField] private float m_flyUpSpeed = 6f;
+        // Rotate
+        [SerializeField] private float m_turnSmoothTime = 0.1f;
+        [Space(10)]
 
-        [Header("[ Jump Config ]")]
-        [SerializeField] private float m_jumpHeight = 5f;
-
-        [Header("[ Rotate Config ]")]
-        private float m_turnSmoothTime = 0.1f;
-
-        [Header("[ Ground Config ]")]
         [SerializeField] private LayerMask m_groundMask;
         [SerializeField] private float m_groundDistance = 0.25f;
 
-        [Header("[ Ground Config ]")]
+        [Header("[ Gravity ]")]
         [SerializeField] private float m_gravity = -9.8f;
 
-        [Header("[ FlyUp Config ]")]
-        [SerializeField] private float m_flyUpHeight = 10f;
+        [Header("[ Jump ]")]
+        [SerializeField] private float m_jumpHeight = 5f;
+        [SerializeField] private float m_jumpSpeed = 5f;
 
-        // ==================== Runtime Data : 변하는 데이터
+        [Header("[ Fall ]")]
+        [SerializeField] private float m_fallSpeed = 4f;
+
+        [Header("[ Dash ]")]
+        [SerializeField] private float m_dashMoveSpeed = 15f;
+
+        [Header("===== Fly Movement =====")]
+        [SerializeField] private float m_flyUpHeight = 10f;
+        [SerializeField] private float m_flyUpSpeed = 6f;
+
+        #endregion =============== /Config Data
+
+
+        #region =============== Runtime Data : 변하는 데이터
         // InputData
         public Vector2 MoveInput { get; set; }
         public bool IsMove => MoveInput != Vector2.zero;
@@ -50,6 +57,7 @@ namespace alpha
         public bool IsJump { get; set; }
         public bool IsDash { get; set; }
         public bool IsFly { get; set; }
+        #endregion =============== /Runtime Data
 
         // ==================== StateData
         public LocomotionStateData StateData = new LocomotionStateData(); // TODO : 추후 필요한 변수들(넘겨줘야할) 저장
@@ -66,6 +74,7 @@ namespace alpha
         private float m_currentSmoothVelocityX;
         private float m_currentSmoothVelocityY;
         private float m_currentSmoothVelocityZ;
+
         // 지상 체크
         public bool IsGrounded { get; private set; }
         private float m_lastGroundTime = 0;
@@ -101,7 +110,6 @@ namespace alpha
         // TODO : StateData로 갱신?
         public void OnInput(PlayerInputManager input)
         {
-            Debug.Log("bbbb");
             MoveInput = input.MoveDirInput;
             IsRotLock = input.IsRotLock;
             IsJump = input.IsJump;
@@ -158,8 +166,8 @@ namespace alpha
             
             if(_moveDir.magnitude > 1) _moveDir.Normalize();
 
-            m_currentSpeed = moveInput.y > 0 ? m_baseSpeed : m_backMoveSpeed;
-            m_currentSpeed = isAttacking ? m_combatSpeed : m_currentSpeed;
+            m_currentSpeed = moveInput.y > 0 ? m_baseMoveSpeed : m_backMoveSpeed;
+            m_currentSpeed = isAttacking ? m_combatMoveSpeed : m_currentSpeed;
 
             // 세부 이동 데이터 저장
             m_currentVelocity.x = _moveDir.x;
@@ -232,7 +240,7 @@ namespace alpha
         {
             ForceRotate(m_currentVelocity);
 
-            m_currentSpeed = m_dashSpeed;
+            m_currentSpeed = m_dashMoveSpeed;
             
             m_aniViewPort.DashAni();
 
@@ -300,8 +308,8 @@ namespace alpha
 
             if (_moveDir.magnitude > 1) _moveDir.Normalize();
 
-            m_currentSpeed = moveInput.y > 0 ? m_baseSpeed : m_backMoveSpeed;
-            m_currentSpeed = isCombat ? m_combatSpeed : m_currentSpeed;
+            m_currentSpeed = moveInput.y > 0 ? m_baseMoveSpeed : m_backMoveSpeed;
+            m_currentSpeed = isCombat ? m_combatMoveSpeed : m_currentSpeed;
 
             // 세부 이동 데이터 저장
             m_currentVelocity.x = _moveDir.x;

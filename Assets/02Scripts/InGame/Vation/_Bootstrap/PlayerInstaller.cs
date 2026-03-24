@@ -10,7 +10,7 @@ namespace alpha
         private void Start()
         {
             m_playerCore.Bind(m_inventoryView);
-            m_inventoryView.Bind(m_playerCore.InventoryM);
+            m_inventoryView.Bind(m_playerCore.InventoryModule);
         }
     }
 }

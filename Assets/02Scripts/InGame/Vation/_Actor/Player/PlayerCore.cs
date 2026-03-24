@@ -5,35 +5,46 @@ using UnityEngine;
 
 namespace alpha
 {
-    // 외부 Input
+    // Boundary
     [RequireComponent(typeof(TriggerInputBoundary))]
     [RequireComponent(typeof(PlayerEffectViewManager))]
     [RequireComponent(typeof(PlayerAnimationViewManager))]
     [RequireComponent(typeof(PlayerInputManager))]
+    // Flow
+    [RequireComponent(typeof(PlayerStateMachine))]
     // Module
     [RequireComponent(typeof(InventoryModule))]
     [RequireComponent(typeof(LocomotionModule))]
     [RequireComponent(typeof(CombatModule))]
     public class PlayerCore : MonoBehaviour, IInputActionPort // InputEvent 전달 Port
     {
-        // 외부 Input (Self Binding) 객체가 동적 생성이 아닐경우 원래는 Installer에서 주입
-        private PlayerInputManager m_inputManager;
-        private TriggerInputBoundary m_triggerInput;
+        //외부로부터의 이벤트(객체로의 접근) 관리
+        [Header("[ Boundary ]")]
+        // 입력 이벤트
+        [SerializeField] private PlayerInputManager m_inputManager;
+        [SerializeField] private TriggerInputBoundary m_triggerInput;
 
-        // 내부 OutputAdapter (행위)
-        public LocomotionModule LocomotionM;
-        public CombatModule CombatM;
-        public InventoryModule InventoryM;
+        //흐름 제어 관리
+        [Header("[ Flow ]")]
+        public PlayerStateMachine StateMachine;
 
-        // State
-        public PlayerStateMachine StateMachine { get; private set; }
+        //기능 및 실행 관리
+        [Header("[ Module ]")]
+        // 이동
+        public LocomotionModule LocomotionModule;
+        // 전투
+        public CombatModule CombatModule;
+        // 인벤토리
+        public InventoryModule InventoryModule;
 
-        // Rules
+        // 규칙, 정책
+        [Header("[ Rule & Policy ]")]
         private LocomotionRules m_locomotionRule;
         private CombatRules m_combatRule;
         public ActionPolicy ActionPolicy;
 
         // View
+        [Header("[ View ]")]
         private PlayerAnimationViewManager m_aniViewManager;
         private PlayerEffectViewManager m_effectViewManager;
 
@@ -43,32 +54,32 @@ namespace alpha
             m_locomotionRule = new LocomotionRules();
             m_combatRule = new CombatRules();
             ActionPolicy = new ActionPolicy(m_locomotionRule, m_combatRule);
-            StateMachine = new PlayerStateMachine();
 
-            // 외부
+            // Boundary
             m_inputManager = GetComponent<PlayerInputManager>();
             m_triggerInput = GetComponent<TriggerInputBoundary>();
             
-            // 내부
-            LocomotionM = GetComponent<LocomotionModule>();
-            CombatM = GetComponent<CombatModule>();
-            InventoryM = GetComponent<InventoryModule>();
+            // Flow
+            StateMachine = GetComponent<PlayerStateMachine>();
+
+            // Module
+            LocomotionModule = GetComponent<LocomotionModule>();
+            CombatModule = GetComponent<CombatModule>();
+            InventoryModule = GetComponent<InventoryModule>();
             
             // View
             m_aniViewManager = GetComponent<PlayerAnimationViewManager>();
             m_effectViewManager = GetComponent<PlayerEffectViewManager>();
 
-            LocomotionM.Bind(this, m_aniViewManager, m_effectViewManager);
-            m_triggerInput.Bind(InventoryM);
+            LocomotionModule.Bind(this, m_aniViewManager, m_effectViewManager);
+            m_triggerInput.Bind(InventoryModule);
         }
         public void Bind(IInventoryViewPort inventoryViewPort)
         {
-            InventoryM.Bind(inventoryViewPort);
+            InventoryModule.Bind(inventoryViewPort);
         }
         private void Start()
         {
-            // 생성자에서 바로 this 넘기면 Awake 전에 호출되어 null 참조 발생
-            // 즉 상태는 만들어졌는데 this는 아직 안넘어가져 있어서 코드상 에러 발생되기에 Start에서 호출
             StateMachine.OnStart(this);
         }
 
